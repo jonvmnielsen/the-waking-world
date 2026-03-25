@@ -1,7 +1,8 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/core/hero_controller.gd" id="1_hero"]
-[ext_resource type="PackedScene" path="res://scenes/ui/hp_bar.tscn" id="2_hpbar"]
+[ext_resource type="Script" path="res://scripts/utils/orc_visuelt.gd" id="2_visuelt"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hp_bar.tscn" id="3_hpbar"]
 
 [sub_resource type="CapsuleShape2D" id="1_capsule"]
 radius = 14.0
@@ -13,16 +14,7 @@ collision_layer = 1
 collision_mask = 2
 
 [node name="Visuelt" type="Node2D" parent="."]
-y_sort_enabled = false
-
-[node name="Krop" type="Polygon2D" parent="Visuelt"]
-polygon = PackedVector2Array(0, -28, 18, -8, 18, 8, 0, 22, -18, 8, -18, -8)
-color = Color(0.2, 0.55, 0.2, 1.0)
-
-[node name="Hoved" type="Polygon2D" parent="Visuelt"]
-position = Vector2(0, -36)
-polygon = PackedVector2Array(0, -10, 8, 0, 0, 8, -8, 0)
-color = Color(0.25, 0.45, 0.15, 1.0)
+script = ExtResource("2_visuelt")
 
 [node name="Kollision" type="CollisionShape2D" parent="."]
 shape = SubResource("1_capsule")
@@ -34,6 +26,6 @@ target_desired_distance = 8.0
 avoidance_enabled = true
 
 [node name="HPBarPosition" type="Node2D" parent="."]
-position = Vector2(0, -50)
+position = Vector2(0, -96)
 
-[node name="HPBar" parent="HPBarPosition" instance=ExtResource("2_hpbar")]
+[node name="HPBar" parent="HPBarPosition" instance=ExtResource("3_hpbar")]
