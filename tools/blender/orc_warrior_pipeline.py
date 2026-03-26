@@ -81,28 +81,49 @@ def ops_render(output_dir):
     sc.render.filepath = output_dir + "/"
 
 def setup_lys():
-    # Nøglelys (fra kamera-siden — varmt lys)
+    # Ambient world lighting — løfter alle skygger så detaljer ikke drukner
+    world = bpy.context.scene.world
+    if world is None:
+        world = bpy.data.worlds.new("World")
+        bpy.context.scene.world = world
+    world.use_nodes = True
+    bg = world.node_tree.nodes.get("Background")
+    if bg:
+        bg.inputs["Color"].default_value   = (0.18, 0.22, 0.20, 1.0)  # kølig grøn-grå
+        bg.inputs["Strength"].default_value = 1.8   # lys nok til at løfte skygger
+
+    # Nøglelys — øget fra 3.5 → 6.0, stadig varmt fra kamerasiden
     bpy.ops.object.light_add(type="SUN", location=(8, -8, 12))
     sol = bpy.context.active_object
     sol.name = "LysSol"
-    sol.data.energy = 3.5
-    sol.data.color  = (1.0, 0.95, 0.85)
-    sol.data.angle  = math.radians(5)
-    # Fyldelys (blåligt fra modsat side)
-    bpy.ops.object.light_add(type="AREA", location=(-6, 6, 4))
+    sol.data.energy = 6.0
+    sol.data.color  = (1.0, 0.95, 0.82)
+    sol.data.angle  = math.radians(8)
+
+    # Grønt fill-light — fremhæver orcens hudtoner (#3D5C2E)
+    bpy.ops.object.light_add(type="AREA", location=(-5, 3, 5))
     fill = bpy.context.active_object
-    fill.name = "LysFyld"
-    fill.data.energy = 80
-    fill.data.color  = (0.7, 0.85, 1.0)
-    fill.data.size   = 4.0
-    # Bagkantlys (outline-effekt)
-    bpy.ops.object.light_add(type="SPOT", location=(0, 10, 6))
+    fill.name = "LysFyldGroen"
+    fill.data.energy = 180
+    fill.data.color  = (0.55, 0.85, 0.45)   # grønt lys matcher hudfarven
+    fill.data.size   = 5.0
+
+    # Blåt kontra-fill fra modsat side
+    bpy.ops.object.light_add(type="AREA", location=(5, 5, 3))
+    fill2 = bpy.context.active_object
+    fill2.name = "LysFyldBlaa"
+    fill2.data.energy = 60
+    fill2.data.color  = (0.65, 0.80, 1.0)
+    fill2.data.size   = 4.0
+
+    # Bagkantlys — outline-effekt, lysere end før
+    bpy.ops.object.light_add(type="SPOT", location=(0, 10, 7))
     rim = bpy.context.active_object
     rim.name = "LysKant"
-    rim.data.energy     = 200
-    rim.data.color      = (0.9, 1.0, 0.8)
-    rim.data.spot_size  = math.radians(40)
-    rim.data.spot_blend = 0.5
+    rim.data.energy     = 350
+    rim.data.color      = (0.85, 1.0, 0.75)
+    rim.data.spot_size  = math.radians(35)
+    rim.data.spot_blend = 0.4
 
 def setup_kamera():
     bpy.ops.object.camera_add()
