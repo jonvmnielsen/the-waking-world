@@ -14,9 +14,9 @@ import sys
 # ---------------------------------------------------------------------------
 # Konfiguration
 # ---------------------------------------------------------------------------
-FRAME_W       = 128
-FRAME_H       = 160
-ORTHO_SCALE   = 1.60    # Ortho-zoom — justér hvis figuren skæres af
+FRAME_W       = 256
+FRAME_H       = 320
+ORTHO_SCALE   = 1.75    # Ortho-zoom — lidt større for at give plads til øksehoved
 CAM_ELEV_DEG  = 30.0    # Elevationsvinkel (grader)
 CAM_AZIM_DEG  = 225.0   # Azimut (225° = camera sydvest for figuren)
 CAM_DIST      = 12.0    # Afstand fra figur til kamera
@@ -199,53 +199,61 @@ def byg_orc():
         obj.parent = root
         return obj
 
-    # --- BEN ---
-    ben_v = p("Ben_V","BOX", (-0.15, 0, 0.24), (0,0,0), (0.11,0.11,0.22),"hude")
-    ben_h = p("Ben_H","BOX", ( 0.15, 0, 0.24), (0,0,0), (0.11,0.11,0.22),"hude")
-    stv_v = p("Stv_V","BOX", (-0.15, 0, 0.06), (0,0,0), (0.13,0.14,0.09),"metal_m")
-    stv_h = p("Stv_H","BOX", ( 0.15, 0, 0.06), (0,0,0), (0.13,0.14,0.09),"metal_m")
+    # --- BEN (stubbe, korte — karikeret orc-bygning) ---
+    ben_v = p("Ben_V","BOX", (-0.16, 0, 0.22), (0,0,0), (0.13,0.12,0.20),"hude")
+    ben_h = p("Ben_H","BOX", ( 0.16, 0, 0.22), (0,0,0), (0.13,0.12,0.20),"hude")
+    stv_v = p("Stv_V","BOX", (-0.16, 0, 0.06), (0,0,0), (0.15,0.15,0.10),"metal_m")
+    stv_h = p("Stv_H","BOX", ( 0.16, 0, 0.06), (0,0,0), (0.15,0.15,0.10),"metal_m")
 
-    # --- KROP ---
-    krop  = p("Krop", "BOX", (0, 0, 0.60), (0,0,0), (0.29,0.22,0.26),"hude")
-    bplade= p("Bryst","BOX", (0,-0.21,0.62),(0,0,0),(0.22,0.02,0.22),"oliven")
-    baelt = p("Baelt","BOX", (0,-0.21,0.44),(0,0,0),(0.26,0.03,0.06),"metal")
-    # Orange midterstripe
-    stripe= p("Stripe","BOX",(0,-0.22,0.62),(0,0,0),(0.05,0.02,0.20),"orange")
+    # --- KROP (bred og massiv — overdrevent WC3-orc) ---
+    krop  = p("Krop", "BOX", (0, 0, 0.62), (0,0,0), (0.34,0.24,0.28),"hude")
+    bplade= p("Bryst","BOX", (0,-0.23,0.64),(0,0,0),(0.26,0.02,0.24),"oliven")
+    baelt = p("Baelt","BOX", (0,-0.23,0.45),(0,0,0),(0.30,0.03,0.07),"metal")
+    stripe= p("Stripe","BOX",(0,-0.24,0.64),(0,0,0),(0.06,0.02,0.22),"orange")
 
-    # --- SKULDRE (overdrevne WC3-epauletter) ---
-    sk_v  = p("Sk_V","BOX",(-0.42,0,0.78),(0, 15,0),(0.16,0.14,0.15),"metal")
-    sk_h  = p("Sk_H","BOX",( 0.42,0,0.78),(0,-15,0),(0.16,0.14,0.15),"metal")
-    spk_v = p("Spk_V","CONE",(-0.42,0,0.96),(0,0,0),(0.07,0.07,0.14),"orange")
-    spk_h = p("Spk_H","CONE",( 0.42,0,0.96),(0,0,0),(0.07,0.07,0.14),"orange")
+    # --- SKULDRE (massivt overdrevne WC3-epauletter) ---
+    sk_v  = p("Sk_V","BOX",(-0.50,0,0.82),(0, 18,0),(0.20,0.17,0.18),"metal")
+    sk_h  = p("Sk_H","BOX",( 0.50,0,0.82),(0,-18,0),(0.20,0.17,0.18),"metal")
+    spk_v = p("Spk_V","CONE",(-0.50,0,1.04),(0,0,0),(0.10,0.10,0.20),"orange")
+    spk_h = p("Spk_H","CONE",( 0.50,0,1.04),(0,0,0),(0.10,0.10,0.20),"orange")
+    # Ekstra skulder-spikes for WC3-look
+    spk2_v= p("Spk2_V","CONE",(-0.44,0.08,1.00),(10,0,-15),(0.06,0.06,0.14),"metal_m")
+    spk2_h= p("Spk2_H","CONE",( 0.44,0.08,1.00),(10,0, 15),(0.06,0.06,0.14),"metal_m")
 
-    # --- ARME (som separate root-children for animation) ---
-    arm_v = p("Arm_V","CYL",(-0.40,0,0.56),(0,0,0),(0.09,0.09,0.24),"hude")
-    arm_h = p("Arm_H","CYL",( 0.40,0,0.56),(0,0,0),(0.09,0.09,0.24),"hude")
-    nav_v = p("Nav_V","SPH",(-0.40,0,0.33),(0,0,0),(0.12,0.12,0.11),"hude_l")
-    nav_h = p("Nav_H","SPH",( 0.40,0,0.33),(0,0,0),(0.12,0.12,0.11),"hude_l")
-    manc_v= p("Mnc_V","BOX",(-0.40,0,0.46),(0,0,0),(0.12,0.12,0.07),"metal")
-    manc_h= p("Mnc_H","BOX",( 0.40,0,0.46),(0,0,0),(0.12,0.12,0.07),"metal")
+    # --- ARME (tykke og muskuløse) ---
+    arm_v = p("Arm_V","CYL",(-0.48,0,0.58),(0,0,0),(0.11,0.11,0.26),"hude")
+    arm_h = p("Arm_H","CYL",( 0.48,0,0.58),(0,0,0),(0.11,0.11,0.26),"hude")
+    nav_v = p("Nav_V","SPH",(-0.48,0,0.32),(0,0,0),(0.14,0.14,0.13),"hude_l")
+    nav_h = p("Nav_H","SPH",( 0.48,0,0.32),(0,0,0),(0.14,0.14,0.13),"hude_l")
+    manc_v= p("Mnc_V","BOX",(-0.48,0,0.46),(0,0,0),(0.14,0.14,0.08),"metal")
+    manc_h= p("Mnc_H","BOX",( 0.48,0,0.46),(0,0,0),(0.14,0.14,0.08),"metal")
 
-    # --- HOVED ---
-    hals  = p("Hals", "CYL", (0,0,0.86),(0,0,0),(0.08,0.08,0.08),"hude")
-    hoved = p("Hoved","BOX", (0,-0.02,1.02),(0,0,0),(0.22,0.18,0.20),"hude_l")
-    kaebe = p("Kaebe","BOX", (0,-0.03,0.87),(0,0,0),(0.20,0.16,0.10),"hude")
-    tan_v = p("Tan_V","CONE",(-0.10,-0.18,0.86),(18,0,0),(0.04,0.04,0.10),"tand")
-    tan_h = p("Tan_H","CONE",( 0.10,-0.18,0.86),(18,0,0),(0.04,0.04,0.10),"tand")
-    oj_v  = p("Oj_V", "SPH",(-0.08,-0.17,1.04),(0,0,0),(0.055,0.045,0.04),"oje")
-    oj_h  = p("Oj_H", "SPH",( 0.08,-0.17,1.04),(0,0,0),(0.055,0.045,0.04),"oje")
+    # --- HOVED (stort og karikeret — WC3-stil) ---
+    hals  = p("Hals", "CYL", (0,0,0.92),(0,0,0),(0.10,0.10,0.09),"hude")
+    hoved = p("Hoved","BOX", (0,-0.02,1.10),(0,0,0),(0.27,0.22,0.24),"hude_l")
+    kaebe = p("Kaebe","BOX", (0,-0.04,0.93),(0,0,0),(0.24,0.19,0.11),"hude")
+    # Store prominente stødtænder
+    tan_v = p("Tan_V","CONE",(-0.11,-0.20,0.90),(20,0,0),(0.06,0.06,0.16),"tand")
+    tan_h = p("Tan_H","CONE",( 0.11,-0.20,0.90),(20,0,0),(0.06,0.06,0.16),"tand")
+    oj_v  = p("Oj_V", "SPH",(-0.09,-0.20,1.10),(0,0,0),(0.07,0.06,0.05),"oje")
+    oj_h  = p("Oj_H", "SPH",( 0.09,-0.20,1.10),(0,0,0),(0.07,0.06,0.05),"oje")
 
-    # --- HJELM ---
-    hjelm = p("Hjelm","BOX",(0,0,1.18),(0,0,0),(0.23,0.20,0.13),"metal_m")
-    hjkant= p("Hjkant","BOX",(0,0,1.08),(0,0,0),(0.25,0.22,0.04),"metal")
-    horn_v= p("Horn_V","CONE",(-0.14,0,1.36),(0,-18,0),(0.05,0.05,0.20),"metal")
-    horn_h= p("Horn_H","CONE",( 0.14,0,1.36),(0, 18,0),(0.05,0.05,0.20),"metal")
-    ribbe = p("Ribbe","BOX",(0,-0.18,1.16),(0,0,0),(0.03,0.02,0.14),"orange")
+    # --- HJELM (tung og imponerende) ---
+    hjelm = p("Hjelm","BOX",(0,0,1.28),(0,0,0),(0.28,0.24,0.16),"metal_m")
+    hjkant= p("Hjkant","BOX",(0,0,1.16),(0,0,0),(0.30,0.26,0.05),"metal")
+    horn_v= p("Horn_V","CONE",(-0.17,0,1.50),(0,-20,0),(0.07,0.07,0.28),"metal")
+    horn_h= p("Horn_H","CONE",( 0.17,0,1.50),(0, 20,0),(0.07,0.07,0.28),"metal")
+    ribbe = p("Ribbe","BOX",(0,-0.20,1.24),(0,0,0),(0.04,0.02,0.18),"orange")
 
-    # --- VÅBEN (øskse, parent: arm_h) ---
-    skaft = p("Skaft","CYL",(0.42,0,0.14),(0,0,0),(0.03,0.03,0.38),"metal_m")
-    oksh  = p("Oksh", "BOX",(0.54,0,0.60),(0,0,15),(0.20,0.06,0.22),"metal")
-    skaer = p("Skaer","BOX",(0.66,0,0.60),(0,0,15),(0.08,0.04,0.18),"orange")
+    # --- VÅBEN (massiv WC3-øksevåben) ---
+    # Langt skaft
+    skaft = p("Skaft","CYL",(0.50,0,0.20),(0,0,0),(0.04,0.04,0.48),"metal_m")
+    # Stort øksehoved
+    oksh  = p("Oksh", "BOX",(0.66,0,0.72),(0,0,18),(0.30,0.08,0.36),"metal")
+    # Skarpt skær — orange accent, stikker ud
+    skaer = p("Skaer","BOX",(0.84,0,0.72),(0,0,18),(0.12,0.05,0.28),"orange")
+    # Spids øverst på øksehoved
+    okst  = p("Okst","CONE",(0.60,0,1.00),(0,0,0),(0.06,0.06,0.16),"metal_m")
 
     animerbare = {
         "root":  root,
@@ -253,7 +261,7 @@ def byg_orc():
         "nav_v": nav_v, "nav_h": nav_h,
         "ben_v": ben_v, "ben_h": ben_h,
         "krop":  krop,
-        "oksh":  oksh,  "skaer": skaer, "skaft": skaft,
+        "oksh":  oksh,  "skaer": skaer, "skaft": skaft, "okst": okst,
     }
     return animerbare
 
@@ -271,18 +279,19 @@ def nulstil(P):
     P["nav_h"].rotation_euler = (0, 0, 0)
     P["ben_v"].location.y = 0
     P["ben_h"].location.y = 0
-    P["ben_v"].location.z = 0.24
-    P["ben_h"].location.z = 0.24
-    P["krop"].location.z  = 0.60
-    P["oksh"].rotation_euler  = (0, 0, math.radians(15))
-    P["skaer"].rotation_euler = (0, 0, math.radians(15))
+    P["ben_v"].location.z = 0.22
+    P["ben_h"].location.z = 0.22
+    P["krop"].location.z  = 0.62
+    P["oksh"].rotation_euler  = (0, 0, math.radians(18))
+    P["skaer"].rotation_euler = (0, 0, math.radians(18))
+    P["okst"].rotation_euler  = (0, 0, 0)
 
 def pose_idle(P, frame):
     """Rolig vejrtrækning — 4 frames."""
     nulstil(P)
     t = frame / IDLE_FRAMES
     aande = math.sin(t * math.pi * 2) * 0.015
-    P["krop"].scale = (0.29, 0.22, 0.26 + aande)
+    P["krop"].scale = (0.34, 0.24, 0.28 + aande)
     # Let arm-gyngen
     P["arm_v"].rotation_euler[0] = math.radians(-5 + aande * 200)
     P["arm_h"].rotation_euler[0] = math.radians( 5 - aande * 200)
@@ -304,7 +313,7 @@ def pose_walk(P, frame):
     P["nav_v"].location.y        = P["arm_v"].location.y + math.sin(t + math.pi) * 0.08
     P["nav_h"].location.y        = P["arm_h"].location.y + math.sin(t)           * 0.08
     # Let kropsgunken
-    P["krop"].location.z = 0.60 + abs(math.sin(t * 2)) * 0.015
+    P["krop"].location.z = 0.62 + abs(math.sin(t * 2)) * 0.015
 
 def pose_attack(P, frame):
     """Øksesving — 6 frames."""

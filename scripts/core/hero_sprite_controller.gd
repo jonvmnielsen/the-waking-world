@@ -1,15 +1,33 @@
-# Styrer hero AnimatedSprite2D — animation, retning og sprite-indlæsning
-# Fallback: aktiverer orc_visuelt.gd hvis sprites ikke er importeret endnu
+# Styrer AnimatedSprite2D for hero — animation, retning, sprite-indlæsning
+# Ingen dynamisk fallback — procedural grafik (orc_visuelt.gd) bruges IKKE her
 extends AnimatedSprite2D
 
-const SPRITE_PATH := "res://assets/sprites/orc_warrior_spritesheet.png"
-const FRAME_W     := 128
-const FRAME_H     := 160
+const SPRITE_PATH    := "res://assets/sprites/orc_warrior_spritesheet.png"
+const FRAME_W        := 256
+const FRAME_H        := 320
 
-var _sprites_klar: bool   = false
-var _aktiv_anim: String   = ""
+# Fødder sidder ca. ved pixel y=300 i den 320px høje frame (20px bund-padding)
+# Med centered=false og dette offset: fødder lander ved scene (0,0)
+const SPRITE_OFFSET  := Vector2(-128.0, -300.0)
+
+var _sprites_klar: bool = false
+var _aktiv_anim:  String = ""
 
 func _ready() -> void:
+	# Grundlæggende sprite-indstillinger
+	centered = false
+	offset   = SPRITE_OFFSET
+
+	# Deaktiver øjeblikkeligt evt. Visuelt-node (procedural fallback fra ældre scene-version)
+	# visible=false stopper _draw() samme frame — queue_free() alene er udskudt
+	var par := get_parent()
+	if par.has_node("Visuelt"):
+		var v := par.get_node("Visuelt")
+		v.visible = false
+		v.set_process(false)
+		v.set_physics_process(false)
+		v.queue_free()
+
 	_forsøg_indlaes_sprites()
 
 # ---------------------------------------------------------------------------
@@ -17,27 +35,32 @@ func _ready() -> void:
 # ---------------------------------------------------------------------------
 func _forsøg_indlaes_sprites() -> void:
 	if not ResourceLoader.exists(SPRITE_PATH):
-		_aktiver_procedural_fallback()
+		push_warning("[HeroSprite] Sprite sheet ikke fundet: " + SPRITE_PATH)
+		push_warning("[HeroSprite] Kør: py tools/run_pipeline.py  (og genåbn Godot)")
+		visible = false
 		return
+
 	var tex := load(SPRITE_PATH) as Texture2D
 	if not tex:
-		_aktiver_procedural_fallback()
+		push_warning("[HeroSprite] Kunne ikke indlæse sprite sheet.")
+		visible = false
 		return
 
 	var sf := SpriteFrames.new()
-	_tilfoej(sf, tex, "idle",    4, 0,  8.0, false)
-	_tilfoej(sf, tex, "walk_s",  8, 1, 12.0, false)
-	_tilfoej(sf, tex, "walk_sw", 8, 2, 12.0, false)
-	_tilfoej(sf, tex, "walk_w",  8, 3, 12.0, false)
-	_tilfoej(sf, tex, "walk_nw", 8, 4, 12.0, false)
-	_tilfoej(sf, tex, "attack",  6, 5, 14.0, false)
-	sprite_frames  = sf
-	_sprites_klar  = true
+	_tilfoej(sf, tex, "idle",    4, 0,  8.0)
+	_tilfoej(sf, tex, "walk_s",  8, 1, 12.0)
+	_tilfoej(sf, tex, "walk_sw", 8, 2, 12.0)
+	_tilfoej(sf, tex, "walk_w",  8, 3, 12.0)
+	_tilfoej(sf, tex, "walk_nw", 8, 4, 12.0)
+	_tilfoej(sf, tex, "attack",  6, 5, 14.0)
+	sprite_frames = sf
+	visible       = true
+	_sprites_klar = true
 	_skift_anim("idle")
-	print("[HeroSprite] Sprites indlæst OK.")
+	print("[HeroSprite] OK — sprites indlæst fra " + SPRITE_PATH)
 
-func _tilfoej(sf: SpriteFrames, tex: Texture2D, navn: String,
-		antal: int, raekke: int, fps: float, _loop: bool) -> void:
+func _tilfoej(sf: SpriteFrames, tex: Texture2D,
+		navn: String, antal: int, raekke: int, fps: float) -> void:
 	sf.add_animation(navn)
 	sf.set_animation_speed(navn, fps)
 	sf.set_animation_loop(navn, true)
@@ -47,82 +70,53 @@ func _tilfoej(sf: SpriteFrames, tex: Texture2D, navn: String,
 		a.region = Rect2(i * FRAME_W, raekke * FRAME_H, FRAME_W, FRAME_H)
 		sf.add_frame(navn, a)
 
-func _aktiver_procedural_fallback() -> void:
-	var par := get_parent()
-	if par.has_node("Visuelt"):
-		return
-	var scr := load("res://scripts/utils/orc_visuelt.gd")
-	if not scr:
-		return
-	var node := Node2D.new()
-	node.set_script(scr)
-	node.name = "Visuelt"
-	par.add_child(node)
-	visible = false
-	print("[HeroSprite] Procedural fallback aktiv (kør Blender-pipeline for sprites).")
-
 # ---------------------------------------------------------------------------
-# Animations-opdatering — kaldes hvert frame fra hero_controller
+# Animations-opdatering — kaldes hvert frame fra hero_controller._process()
 # ---------------------------------------------------------------------------
 func opdater_animation(bevaeges: bool, angriber: bool, vel: Vector2) -> void:
+	if not _sprites_klar:
+		return
 	if angriber:
 		_skift_anim("attack")
 		return
-
 	if bevaeges and vel.length_squared() > 100.0:
-		var anim := _vel_til_anim(vel)
-		_skift_anim(anim)
+		_skift_anim(_vel_til_anim(vel))
 	else:
 		flip_h = false
 		_skift_anim("idle")
 
 # ---------------------------------------------------------------------------
-# Isometrisk retnings-mapping
+# Retnings-mapping: velocity → animations-navn + flip
 #
-# Kameraet sidder i SW (225°), ser mod NE.
-# Det betyder at verdensrummet mapper til skærmen sådan:
-#   Verden +Y (ned)  → skærm nedad-højre   → "S"  (mod viewer)
-#   Verden -X (v)    → skærm nedad-venstre → "SW"
-#   Verden -Y (op)   → skærm opad-venstre  → "W"
-#   Verden +X (h)    → skærm opad-højre    → "NW"
-#
-# De 4 modsatte retninger (N, SE, E, NE) spejles med flip_h = true.
+# Kamera sidder SW (225° azimut), ser mod NE.
+# Isometrisk mapping fra Godot-verdensretning til sprite-retning:
+#   Sektor (Godot-vinkel)    Visuelt    Sprite    flip_h
+#   0°  Højre (+X)           NE         walk_nw   true
+#   45° Ned-højre (+X+Y)     SE         walk_sw   true
+#   90° Ned (+Y)             S          walk_s    false
+#   135° Ned-venstre (-X+Y)  SW         walk_sw   false
+#   180° Venstre (-X)        W          walk_w    false
+#   225° Op-venstre (-X-Y)   NW         walk_nw   false
+#   270° Op (-Y)             N          walk_w    true
+#   315° Op-højre (+X-Y)     NE→W spejl walk_s    true
 # ---------------------------------------------------------------------------
 func _vel_til_anim(vel: Vector2) -> String:
-	# Vinkel 0° = højre (+X), 90° = ned (+Y), stiger med uret
 	var deg := fmod(rad_to_deg(vel.angle()) + 360.0, 360.0)
+	var sek := int((deg + 22.5) / 45.0) % 8
 	flip_h = false
-
-	# Del cirklen i 8 sektorer à 45°, startende ved 22.5°
-	var sektor := int((deg + 22.5) / 45.0) % 8
-
-	match sektor:
-		0: # Højre (E) → spejl af "S"
-			flip_h = true
-			return "walk_s"
-		1: # Ned-højre (SE) → spejl af "SW"
-			flip_h = true
-			return "walk_sw"
-		2: # Ned (S) → "SW" (venstre-kamera-side)
-			return "walk_sw"
-		3: # Ned-venstre (SW) → "S" (mod kamera)
-			return "walk_s"
-		4: # Venstre (W) → spejl af "S" bagfra → brug "NW"
-			return "walk_nw"
-		5: # Op-venstre (NW) → "W"
-			return "walk_w"
-		6: # Op (N) → spejl af "W"
-			flip_h = true
-			return "walk_w"
-		7: # Op-højre (NE) → spejl af "NW"
-			flip_h = true
-			return "walk_nw"
+	match sek:
+		0: flip_h = true;  return "walk_nw"   # Højre (E)
+		1: flip_h = true;  return "walk_sw"   # Ned-højre (SE)
+		2:                 return "walk_s"    # Ned (S) — mod kamera
+		3:                 return "walk_sw"   # Ned-venstre (SW)
+		4:                 return "walk_w"    # Venstre (W)
+		5:                 return "walk_nw"   # Op-venstre (NW)
+		6: flip_h = true;  return "walk_w"    # Op (N)
+		7: flip_h = true;  return "walk_s"    # Op-højre (NE)
 	return "walk_s"
 
 func _skift_anim(navn: String) -> void:
-	if not _sprites_klar:
-		return
-	if navn == _aktiv_anim:
+	if not _sprites_klar or navn == _aktiv_anim:
 		return
 	if sprite_frames and sprite_frames.has_animation(navn):
 		_aktiv_anim = navn

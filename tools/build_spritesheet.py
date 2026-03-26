@@ -12,8 +12,8 @@ from PIL import Image
 # ---------------------------------------------------------------------------
 # Konfiguration — matcher Blender pipeline
 # ---------------------------------------------------------------------------
-FRAME_W = 128
-FRAME_H = 160
+FRAME_W = 256
+FRAME_H = 320
 SRC_DIR = "assets/sprites/orc_warrior"
 OUT_DIR = "assets/sprites"
 
