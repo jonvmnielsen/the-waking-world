@@ -30,7 +30,6 @@ enum Tilstand { IDLE, AGGRO, ANGRIBER, VENDER_HJEM }
 var _tilstand: Tilstand = Tilstand.IDLE
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var visuelt: Node2D = $Visuelt
 
 func _ready() -> void:
 	nuvaerende_hp = max_hp

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/ai/creep_ai.gd" id="1_creep"]
-[ext_resource type="Script" path="res://scripts/utils/creep_visuelt.gd" id="2_visuelt"]
+[ext_resource type="Script" path="res://scripts/utils/creep_sprite_controller.gd" id="2_sprite"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hp_bar.tscn" id="3_hpbar"]
 
 [sub_resource type="CircleShape2D" id="1_cirkel"]
@@ -12,8 +12,9 @@ script = ExtResource("1_creep")
 collision_layer = 2
 collision_mask = 1
 
-[node name="Visuelt" type="Node2D" parent="."]
-script = ExtResource("2_visuelt")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+script = ExtResource("2_sprite")
+scale = Vector2(0.5, 0.5)
 
 [node name="Kollision" type="CollisionShape2D" parent="."]
 shape = SubResource("1_cirkel")
@@ -25,6 +26,6 @@ target_desired_distance = 8.0
 avoidance_enabled = true
 
 [node name="HPBarPosition" type="Node2D" parent="."]
-position = Vector2(0, -46)
+position = Vector2(0, -75)
 
 [node name="HPBar" parent="HPBarPosition" instance=ExtResource("3_hpbar")]

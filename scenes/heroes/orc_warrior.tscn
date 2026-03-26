@@ -15,6 +15,7 @@ collision_mask = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 script = ExtResource("2_sprite")
+scale = Vector2(0.5, 0.5)
 
 [node name="Kollision" type="CollisionShape2D" parent="."]
 shape = SubResource("1_capsule")
@@ -26,6 +27,6 @@ target_desired_distance = 8.0
 avoidance_enabled = true
 
 [node name="HPBarPosition" type="Node2D" parent="."]
-position = Vector2(0, -160)
+position = Vector2(0, -75)
 
 [node name="HPBar" parent="HPBarPosition" instance=ExtResource("3_hpbar")]
