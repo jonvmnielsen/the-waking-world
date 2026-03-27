@@ -19,6 +19,12 @@ desktop.ini
 # Trash (aldrig synkroniser slettede filer)
 _trash/
 
+# Kenney zip-filer (store binære — kun de udpakkede assets committes)
+assets/sprites/kenney/*.zip
+
+# Duplikat projektmappe (skal ikke i git)
+the-waking-world/
+
 # Miljø
 .env
 *.env.local

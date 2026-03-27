@@ -20,15 +20,15 @@ config/version="0.0.1"
 run/main_scene="res://scenes/world/maps/ashfield.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
-[configuration]
-
-entry_symbol="gdextension_init"
-compatibility_minimum="4.1"
-
 [autoload]
 
 EventBus="*res://scripts/core/event_bus.gd"
 GameManager="*res://scripts/core/game_manager.gd"
+
+[configuration]
+
+entry_symbol="gdextension_init"
+compatibility_minimum="4.1"
 
 [display]
 
