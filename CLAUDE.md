@@ -27,7 +27,7 @@ Målet er ikke en kopi af WC3 — det er en genre-revival der fanger *essensen o
 | Game engine | **Godot 4** | Open source, ingen royalties, GDScript ligner Python, god mobil-eksport |
 | Primært sprog | **GDScript** | Pythonlignende, CC-venligt, native til Godot |
 | 3D assets | **Blender** (Python API) | Programmatisk asset-pipeline, CC kan scripte det direkte |
-| AI modstander | **Claude API** (claude-sonnet-4-20250514) | Dynamisk, tilpasningsdygtig AI inde i selve spillet |
+| AI modstander | **Ollama** (llama3.2, lokalt) | Gratis, offline, ingen API-nøgle — kører på spillerens maskine |
 | Perspektiv | **Isometrisk** | Nærmest WC3-følelsen, god på mobil, lavere kompleksitet end fuld 3D |
 | Versionsstyring | **Git / GitHub** | Modulær udvikling, nem at rulle tilbage |
 
@@ -264,6 +264,7 @@ TWW's svar: specialiserede veterans kan *tilpasses* i stedet for at erstattes. E
 | 2026-03-23 | PC-first til test, mobil-minded fra start | Touch tænkes ind fra dag 1 |
 | 2026-03-23 | Orc/Warrior som første hero | Simpel mekanik, god til at etablere kampfølelse |
 | 2026-03-23 | Claude API til AI-modstander | Dynamisk frem for scripted behaviour trees |
+| 2026-03-27 | Claude API fravalgt — Ollama valgt | Claude API er uacceptabel omkostningsmodel for slutbrugere. Ollama er gratis, kører lokalt, kræver ingen internet under spil. Model: llama3.2. Endpoint: http://localhost:11434/api/generate |
 | 2026-03-23 | 9-agent multiagent arkitektur | Specialisering, parallelitet, skalerbarhed |
 | 2026-03-23 | Hero progression: 2 tiers + Ascension ved level 10 | Level 10 er vendepunkt ikke loft — giver dybde og replay-value |
 | 2026-03-23 | Unit-progression: Veteranstatus + spillerstil-tracking | Løser WC3's counter-problem — specialisering er levedygtig strategi |
@@ -323,4 +324,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-03-23*
+*Sidst opdateret: 2026-03-27*

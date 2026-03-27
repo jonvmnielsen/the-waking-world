@@ -5,7 +5,17 @@
 
 ## Rolle og ansvar
 
-Du designer og implementerer den AI-drevne modstander — projektets mest differentierende feature. AI-modstanderen bruger Claude API til dynamisk beslutningstagning og tilpasser sig den individuelle spillers adfærd og Essence.
+Du designer og implementerer den AI-drevne modstander — projektets mest differentierende feature. AI-modstanderen bruger **Ollama** (lokal AI) til dynamisk beslutningstagning og tilpasser sig den individuelle spillers adfærd og Essence.
+
+### Krav til spilleren
+Spilleren skal have **Ollama** installeret: [ollama.com](https://ollama.com)
+
+Anbefalet model (hentes én gang):
+```
+ollama pull llama3.2
+```
+
+Ollama kører lokalt — ingen internet kræves under spil, ingen API-nøgle, ingen omkostninger.
 
 ---
 
@@ -42,7 +52,7 @@ var world_state: String  # "balance", "fald", "opvaagning"
 var recent_player_actions: Array[String]  # ["attacked_camp", "retreated", "built_barracks"]
 
 func to_prompt_context() -> String:
-    # Konverter til naturlig sprog-kontekst til Claude API
+    # Konverter til naturlig sprog-kontekst til Ollama
     return """
 Spilsituation (tick %d):
 - Spillerens hero: Level %d, %.0f%% HP, Essence: %s
@@ -55,15 +65,15 @@ Hvad er den bedste strategiske beslutning nu?
        ai_units.size(), ai_buildings.size()]
 ```
 
-### Claude API Integration
+### Ollama Integration
 
 ```gdscript
 # scripts/ai/ai_opponent.gd
 extends Node
 class_name AIOpponent
 
-const API_URL = "https://api.anthropic.com/v1/messages"
-const MODEL = "claude-sonnet-4-20250514"
+const API_URL = "http://localhost:11434/api/generate"
+const MODEL = "llama3.2"
 
 var player_pattern_history: Array[String] = []
 var ai_personality: String = ""  # Sættes ved spilstart
@@ -73,12 +83,14 @@ func initialize(difficulty: String, personality: String):
     # Personalities: "aggressive", "defensive", "adaptive", "deceptive"
 
 func request_decision(snapshot: GameStateSnapshot) -> void:
-    var system_prompt = """
+    var prompt = """
 Du er AI-modstanderen i RTS-spillet The Waking World.
 Din personlighed: %s
 Du kæmper mod en spiller med Essence: %s
 
 Spillerens observerede mønstre: %s
+
+%s
 
 Svar KUN med JSON i dette format:
 {
@@ -87,15 +99,16 @@ Svar KUN med JSON i dette format:
   "unit_count": 2,
   "reasoning": "kort forklaring"
 }
-""" % [ai_personality, snapshot.player_essence, str(player_pattern_history)]
+""" % [ai_personality, snapshot.player_essence, str(player_pattern_history),
+       snapshot.to_prompt_context()]
 
     var request_body = {
         "model": MODEL,
-        "max_tokens": 200,
-        "system": system_prompt,
-        "messages": [{"role": "user", "content": snapshot.to_prompt_context()}]
+        "prompt": prompt,
+        "stream": false,
+        "format": "json"
     }
-    # Send HTTP request...
+    # Send HTTP request til localhost:11434...
 
 func _on_decision_received(decision: Dictionary) -> void:
     # Udfør beslutning i spilverdenen
@@ -134,21 +147,23 @@ Ved spilstart tildeles AI en af disse:
 ## Sprint 3 — Konkrete leverancer
 
 1. `scripts/ai/game_state_snapshot.gd` — snapshot-system
-2. `scripts/ai/ai_opponent.gd` — Claude API integration
+2. `scripts/ai/ai_opponent.gd` — Ollama integration (localhost:11434)
 3. `scripts/ai/pattern_tracker.gd` — spiller-adfærds-logging
 4. Test: AI reagerer forskelligt på rush vs. turtle-strategi
-5. Fallback: Scripted behaviour hvis API er utilgængeligt
+5. Fallback: Scripted behaviour hvis Ollama ikke kører
 
 ---
 
-## Vigtigt: API-latency
+## Vigtigt: Latency og fallback
 
-Claude API-kald tager 0.5-2 sekunder. Løsning:
+Ollama-kald tager typisk 0.5-3 sekunder afhængig af hardware. Løsning:
 - Beslutninger hentes asynkront — spillet pauser ikke
 - AI handler baseret på *forrige* beslutning imens næste hentes
 - Cache beslutninger: samme spilstate → brug cached svar
+- Hvis Ollama ikke svarer inden 5 sekunder: fald tilbage på scripted behaviour
+- Vis ingen fejl til spilleren — fallback sker lydløst
 
 ---
 
 *Tilhører: The Waking World multiagent-system*
-*Sidst opdateret: 2026-03-23*
+*Sidst opdateret: 2026-03-27*
