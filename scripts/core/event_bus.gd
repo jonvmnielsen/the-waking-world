@@ -19,3 +19,9 @@ signal creep_aggroed(creep: Node, maal: Node)
 
 ## Udsendes når et creep deaggroverer (vender hjem)
 signal creep_deaggroed(creep: Node)
+
+## Udsendes når hero modtager XP
+signal hero_fik_xp(mængde: int, total: int)
+
+## Udsendes når hero stiger i level
+signal hero_leveled_up(nyt_level: int)

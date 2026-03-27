@@ -26,6 +26,12 @@ extends Resource
 ## HP regeneration per sekund (kun udenfor kamp)
 @export var hp_regen: float = 2.0
 
+## Maksimal mana
+@export var mana_max: int = 200
+
+## Mana regeneration per sekund
+@export var mana_regen: float = 1.0
+
 ## Beregn tilfældig skade inden for min/max
 func beregn_skade() -> int:
 	return randi_range(attack_damage_min, attack_damage_max)

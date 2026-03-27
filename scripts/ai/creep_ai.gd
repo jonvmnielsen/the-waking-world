@@ -25,6 +25,9 @@ var _maal: Node = null
 ## Angrebscooldown
 var _angreb_cooldown: float = 0.0
 
+## Stun-timer (sekunder tilbage)
+var _stun_timer: float = 0.0
+
 ## Tilstande
 enum Tilstand { IDLE, AGGRO, ANGRIBER, VENDER_HJEM }
 var _tilstand: Tilstand = Tilstand.IDLE
@@ -39,6 +42,12 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if not GameManager.spil_aktiv:
+		return
+	# Behandl stun før tilstandsmaskinen
+	if _stun_timer > 0.0:
+		_stun_timer = max(0.0, _stun_timer - delta)
+		velocity = Vector2.ZERO
+		move_and_slide()
 		return
 	_angreb_cooldown = max(0.0, _angreb_cooldown - delta)
 	match _tilstand:
@@ -135,8 +144,13 @@ func tag_skade(skade: int) -> void:
 ## Creep dør
 func _dø() -> void:
 	EventBus.enhed_doed.emit(self)
+	EventBus.hero_fik_xp.emit(xp_beloening, 0)
 	GameManager.fjern_creep(self)
 	queue_free()
+
+## Påfør stun i given varighed
+func stun(varighed: float) -> void:
+	_stun_timer = max(_stun_timer, varighed)
 
 ## Skift tilstand med debug-log
 func _skift_tilstand(ny_tilstand: Tilstand) -> void:

@@ -11,6 +11,9 @@ var aktive_creeps: Array = []
 ## Er spillet i gang?
 var spil_aktiv: bool = true
 
+## Er essens valgt af spilleren?
+var essence_valgt: bool = false
+
 func _ready() -> void:
 	EventBus.hero_doed.connect(_paa_hero_doed)
 

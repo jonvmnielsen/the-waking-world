@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/ashfield.gd" id="1_ashfield"]
 [ext_resource type="Script" path="res://scripts/world/isometric_grid.gd" id="2_grid"]
 [ext_resource type="PackedScene" path="res://scenes/heroes/orc_warrior.tscn" id="3_hero"]
 [ext_resource type="PackedScene" path="res://scenes/units/creep_basic.tscn" id="4_creep"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
 
 [node name="Ashfield" type="Node2D"]
 script = ExtResource("1_ashfield")
@@ -34,3 +35,5 @@ position = Vector2(0, 0)
 zoom = Vector2(2.0, 2.0)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]

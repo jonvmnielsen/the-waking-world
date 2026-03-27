@@ -6,12 +6,15 @@ extends CharacterBody2D
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var _sprite: AnimatedSprite2D    = $AnimatedSprite2D
+@onready var leveling: HeroLeveling       = $HeroLeveling
+@onready var abilities: AbilityManager    = $AbilityManager
 
-var nuvaerende_hp: int    = 0
-var _bevaeges: bool       = false
+var nuvaerende_hp: int     = 0
+var nuvaerende_mana: float = 200.0
+var _bevaeges: bool        = false
 var _angreb_cooldown: float = 0.0
-var _i_kamp: bool         = false
-var _kamp_timer: float    = 0.0
+var _i_kamp: bool          = false
+var _kamp_timer: float     = 0.0
 
 # Sporer om vi er midt i en angrebsanimation (første halvdel af cooldown)
 var _angriber: bool = false
@@ -29,6 +32,19 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			_sæt_bevaegelses_maal(get_global_mouse_position())
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_Q:
+			abilities.brug_evne(0)
+		elif event.keycode == KEY_W:
+			abilities.brug_evne(1)
+		elif event.keycode == KEY_E:
+			abilities.brug_evne(2)
+		elif event.keycode == KEY_1:
+			_vaelg_essence(0)
+		elif event.keycode == KEY_2:
+			_vaelg_essence(1)
+		elif event.keycode == KEY_3:
+			_vaelg_essence(2)
 
 func _physics_process(delta: float) -> void:
 	if not GameManager.spil_aktiv:
@@ -78,13 +94,19 @@ func _opdater_angreb(delta: float) -> void:
 func _udfør_angreb(maal: Node) -> void:
 	if not maal.has_method("tag_skade"):
 		return
-	maal.tag_skade(stats.beregn_skade())
-	_angreb_cooldown = stats.attack_speed
+	var skade := stats.beregn_skade()
+	skade = abilities.anvend_angreb_multiplikator(skade)
+	maal.tag_skade(skade)
+	# Effektiv angrebshastighed inkl. War Cry bonus
+	var effektiv_hastighed: float = stats.attack_speed / (1.0 + abilities.war_cry_bonus())
+	_angreb_cooldown = effektiv_hastighed
 	_angriber        = true
 	_i_kamp          = true
 	_kamp_timer      = 3.0
 
 func tag_skade(raa_skade: int) -> void:
+	if abilities and abilities.er_udødelig():
+		return
 	var skade := stats.beregn_reduceret_skade(raa_skade)
 	nuvaerende_hp = max(0, nuvaerende_hp - skade)
 	_i_kamp   = true
@@ -101,6 +123,12 @@ func _opdater_kamp_timer(delta: float) -> void:
 	elif nuvaerende_hp < stats.max_health:
 		nuvaerende_hp = min(stats.max_health,
 			nuvaerende_hp + int(stats.hp_regen * delta * 10.0) / 10)
+
+func _vaelg_essence(e: int) -> void:
+	abilities.essence = e as AbilityManager.Essence
+	GameManager.essence_valgt = true
+	var navne := ["Vold", "Tålmodighed", "Ofring"]
+	print("[HeroController] Essens valgt: %s" % navne[e])
 
 func _dø() -> void:
 	EventBus.hero_doed.emit()
