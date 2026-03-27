@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/ashfield.gd" id="1_ashfield"]
 [ext_resource type="Script" path="res://scripts/world/isometric_grid.gd" id="2_grid"]
 [ext_resource type="PackedScene" path="res://scenes/heroes/orc_warrior.tscn" id="3_hero"]
 [ext_resource type="PackedScene" path="res://scenes/units/creep_basic.tscn" id="4_creep"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="Script" path="res://scripts/ai/ai_opponent.gd" id="6_ai"]
+[ext_resource type="Script" path="res://scripts/ai/pattern_tracker.gd" id="7_pattern"]
 
 [node name="Ashfield" type="Node2D"]
 script = ExtResource("1_ashfield")
@@ -37,3 +39,9 @@ position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
 [node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="AIOpponent" type="Node" parent="."]
+script = ExtResource("6_ai")
+
+[node name="PatternTracker" type="Node" parent="AIOpponent"]
+script = ExtResource("7_pattern")

@@ -152,6 +152,15 @@ func _dø() -> void:
 func stun(varighed: float) -> void:
 	_stun_timer = max(_stun_timer, varighed)
 
+## AI-kommando: tving creep til at angribe hero med det samme
+func tving_aggro() -> void:
+	if _tilstand == Tilstand.IDLE or _tilstand == Tilstand.VENDER_HJEM:
+		_skift_tilstand(Tilstand.AGGRO)
+
+## AI-kommando: tving creep til at vende hjem
+func tving_hjem() -> void:
+	_skift_tilstand(Tilstand.VENDER_HJEM)
+
 ## Skift tilstand med debug-log
 func _skift_tilstand(ny_tilstand: Tilstand) -> void:
 	_tilstand = ny_tilstand
