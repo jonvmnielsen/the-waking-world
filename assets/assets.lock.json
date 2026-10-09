@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "bfa1c01",
-  "synced": "2026-10-09T18:51:39.875Z",
+  "synced": "2026-10-09T20:22:50.237Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -86,6 +86,84 @@
         "Death_C_Skeletons",
         "Skeletons_Awaken_Standing",
         "Taunt"
+      ]
+    },
+    "units/bandit_slagsbror": {
+      "id": "kaykit-adventurers/characters/rogue",
+      "file": "units/bandit_slagsbror.glb",
+      "bytes": 324880,
+      "sha": "67afc2f85075",
+      "license": "CC0-1.0",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Dualwield_Melee_Attack_Slice"
+      ]
+    },
+    "units/bandit_skytte": {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "file": "units/bandit_skytte.glb",
+      "bytes": 357868,
+      "sha": "cf82c25c294b",
+      "license": "CC0-1.0",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "2H_Ranged_Shoot",
+        "2H_Ranged_Aiming"
+      ]
+    },
+    "units/bandit_lejesoldat": {
+      "id": "kaykit-adventurers/characters/knight",
+      "file": "units/bandit_lejesoldat.glb",
+      "bytes": 375844,
+      "sha": "dbd6b1e4355d",
+      "license": "CC0-1.0",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "1H_Melee_Attack_Slice_Diagonal",
+        "Block"
+      ]
+    },
+    "units/bandit_heks": {
+      "id": "kaykit-adventurers/characters/mage",
+      "file": "units/bandit_heks.glb",
+      "bytes": 315656,
+      "sha": "4362be139f64",
+      "license": "CC0-1.0",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Spellcast_Shoot"
+      ]
+    },
+    "units/bandit_kaptajn": {
+      "id": "kaykit-adventurers/characters/barbarian",
+      "file": "units/bandit_kaptajn.glb",
+      "bytes": 378684,
+      "sha": "642bd011d95f",
+      "license": "CC0-1.0",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Spin"
       ]
     },
     "kaykit-skeletons/skeleton_axe": {
@@ -940,6 +1018,132 @@
       "file": "kaykit-hexagon/buildings/neutral/wall_straight_gate.glb",
       "bytes": 24872,
       "sha": "57dbbd248bcc",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_archeryrange_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_archeryrange_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_archeryrange_yellow.glb",
+      "bytes": 67264,
+      "sha": "1e4f50d59a98",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_barracks_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_barracks_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_barracks_yellow.glb",
+      "bytes": 72396,
+      "sha": "985499e004fb",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_blacksmith_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_blacksmith_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_blacksmith_yellow.glb",
+      "bytes": 46960,
+      "sha": "f45731759958",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_castle_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_castle_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_castle_yellow.glb",
+      "bytes": 94576,
+      "sha": "4d39ae19571a",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_church_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_church_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_church_yellow.glb",
+      "bytes": 33408,
+      "sha": "41f720132505",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_home_a_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_home_a_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_home_a_yellow.glb",
+      "bytes": 24632,
+      "sha": "933d79f8372c",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_home_b_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_home_b_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_home_b_yellow.glb",
+      "bytes": 31524,
+      "sha": "c141f4e8815a",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_lumbermill_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_lumbermill_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_lumbermill_yellow.glb",
+      "bytes": 65096,
+      "sha": "8f2843a223e6",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_market_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_market_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_market_yellow.glb",
+      "bytes": 54604,
+      "sha": "3f313f0eef1e",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_mine_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_mine_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_mine_yellow.glb",
+      "bytes": 28212,
+      "sha": "9bfdf317b2f6",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_tavern_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_tavern_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_tavern_yellow.glb",
+      "bytes": 62588,
+      "sha": "b05499a57cd5",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_tower_a_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_tower_a_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_tower_a_yellow.glb",
+      "bytes": 41480,
+      "sha": "b6e98b50f736",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_tower_b_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_tower_b_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_tower_b_yellow.glb",
+      "bytes": 46720,
+      "sha": "58633917322a",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_tower_base_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_tower_base_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_tower_base_yellow.glb",
+      "bytes": 30164,
+      "sha": "277759f07ee1",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_tower_catapult_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_tower_catapult_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_tower_catapult_yellow.glb",
+      "bytes": 53568,
+      "sha": "509d5542ae66",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_watermill_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_watermill_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_watermill_yellow.glb",
+      "bytes": 41408,
+      "sha": "b0a92ee97d94",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_well_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_well_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_well_yellow.glb",
+      "bytes": 20560,
+      "sha": "cca33ebca491",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/yellow/building_windmill_yellow": {
+      "id": "kaykit-hexagon/buildings/yellow/building_windmill_yellow",
+      "file": "kaykit-hexagon/buildings/yellow/building_windmill_yellow.glb",
+      "bytes": 56772,
+      "sha": "7a0df9b57db4",
       "license": "CC0-1.0"
     },
     "kaykit-halloween/grave_a": {
