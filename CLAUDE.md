@@ -2,6 +2,7 @@
 > Primær kontekst for Arkitekt-agenten og alle subagenter.
 > Læs dette dokument i sin helhed ved starten af hver session.
 > Opdater løbende når arkitektur, beslutninger eller vision ændres.
+> **Den samlede spilbeskrivelse står i `docs/GDD.md`** — læs den før du bygger nye systemer.
 
 ---
 
@@ -58,6 +59,7 @@ the-waking-world/
 ├── tools/
 │   ├── smoke-test.mjs        # Headless test i mobilstørrelse med skærmbilleder
 │   └── byg-artefakt.mjs      # Bygger spillet som privat Claude-side
+├── docs/GDD.md               # Samlet spildesign
 ├── agents/                   # Agent-beskrivelser (skrevet til Godot-versionen — delvist forældede)
 └── docs/                     # Design og balance
 ```
@@ -221,21 +223,8 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Essensvalg og alle 7 evner fra balance v1
 - [x] Død og genoplivning ved lejren
 
-### 📋 Sprint 5 — "Følelsen"
-- Lyd: slag, træffere, evner, ambient
-- Bedre ramt-feedback (hit-stop, blink, støv)
-- Minimap
-- Ægte ork-model (Quaternius eller egen)
-
-### 📋 Sprint 6 — "Armé"
-- Barracks producerer grunts, gruppevalg og kommandoer
-- Veteranstatus og specialiseringsgrene (se `docs/DESIGN_PROGRESSION.md`)
-- Ressourcer (guld og træ)
-
-### 📋 Sprint 7 — "Modstanderen"
-- Regelbaseret AI-modstander med egen base
-- Adfærdsmålere (aggression, overlevelse, kaos)
-- World State: Balance → Fald → Opvågning
+### 📋 Næste: milepæle M1–M7
+Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
 
 ---
 
