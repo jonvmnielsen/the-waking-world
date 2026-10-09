@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#1b1712" />
+  <title>The Waking World</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E🪓%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Nunito+Sans:wght@600;800&display=swap" />
+</head>
+<body>
+  <canvas id="spil"></canvas>
+  <div id="lag"></div>
+
+  <div id="hud">
+    <div id="heltepanel">
+      <div id="level-ring"><span id="level">1</span></div>
+      <div class="bjælker">
+        <div class="navn">Ork-kriger <small>The Tide</small></div>
+        <div class="bar hp"><i id="hp"></i><span id="hp-tal"></span></div>
+        <div class="bar mana"><i id="mana"></i><span id="mana-tal"></span></div>
+        <div class="bar xp"><i id="xp"></i></div>
+      </div>
+    </div>
+
+    <button id="menuknap" aria-label="Menu">☰</button>
+    <div id="menu">
+      <button id="test-level">Level op (test)</button>
+      <button id="genstart">Start forfra</button>
+      <p>Tryk på jorden for at gå. Tryk på et skelet for at angribe. Træk for at se dig omkring, knib for at zoome.</p>
+    </div>
+
+    <button id="centrer" class="skjult" aria-label="Find helten">◎</button>
+
+    <div id="evner">
+      <button id="evne0" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>Q</kbd></button>
+      <button id="evne1" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>W</kbd></button>
+      <button id="evne2" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>E</kbd></button>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+  <div id="banner"></div>
+  <div id="dødsskærm"><b>Din helt er faldet</b><span>Rejser sig igen om <em id="genopliv-tid">6</em> s</span></div>
+
+  <div id="essensvalg">
+    <h2>Vælg din essens</h2>
+    <p>Essensen former heltens evner resten af spillet.</p>
+    <div id="essenser"></div>
+  </div>
+
+  <div id="lader">
+    <h1>The Waking World</h1>
+    <p id="lade-tekst">Askemarken vågner…</p>
+    <div class="lade-spor"><i id="lade-bar"></i></div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

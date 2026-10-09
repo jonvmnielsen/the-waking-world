@@ -24,54 +24,51 @@ Målet er ikke en kopi af WC3 — det er en genre-revival der fanger *essensen o
 
 | Komponent | Valg | Begrundelse |
 |---|---|---|
-| Game engine | **Godot 4** | Open source, ingen royalties, GDScript ligner Python, god mobil-eksport |
-| Primært sprog | **GDScript** | Pythonlignende, CC-venligt, native til Godot |
-| 3D assets | **Blender** (Python API) | Programmatisk asset-pipeline, CC kan scripte det direkte |
-| AI modstander | **Ollama** (llama3.2, lokalt) | Gratis, offline, ingen API-nøgle — kører på spillerens maskine |
-| Perspektiv | **Isometrisk** | Nærmest WC3-følelsen, god på mobil, lavere kompleksitet end fuld 3D |
-| Versionsstyring | **Git / GitHub** | Modulær udvikling, nem at rulle tilbage |
+| Motor | **three.js** (r170) + **Vite** | Kører direkte i mobilbrowseren, små filer, hurtig opstart. Jon udvikler og tester fra telefonen |
+| Sprog | **JavaScript** (ES-moduler) | Ingen byggetrin ud over Vite |
+| 3D-modeller | **KayKit** (+ senere Quaternius) via [jonvmnielsen/game-assets](https://github.com/jonvmnielsen/game-assets) | CC0, ensartet low-poly stil med rigtige animationer. **Aldrig klodsgrafik af grundformer** |
+| Perspektiv | **3D med fast skråt kamera** | Som WC3: ægte 3D-figurer, kameraet drejer ikke |
+| Kort | **Hex-gitter** (KayKit Medieval Hexagon) | Fliser, kyster, bygninger i holdfarver, A*-stifinding |
+| AI-modstander | **Regelbaseret** (kommer i senere sprint) | Ingen sprogmodel / Ollama |
+| App senere | **Capacitor** | Pakker web-spillet som iOS/Android-app |
+| Versionsstyring | **Git / GitHub** | Godot-versionen ligger urørt på grenen `godot-arkiv` |
 
 ---
 
 ## 3. Projektstruktur
 
 ```
-the_waking_world/
-├── CLAUDE.md                        # Dette dokument
-├── agents/
-│   ├── AGENT_ARKITEKT.md
-│   ├── AGENT_KODE.md
-│   ├── AGENT_GRAFIK.md
-│   ├── AGENT_MAP.md
-│   ├── AGENT_LORE.md
-│   ├── AGENT_AI.md
-│   ├── AGENT_LYD.md
-│   ├── AGENT_UI.md
-│   ├── AGENT_BALANCE.md
-│   └── AGENT_TEST.md
-├── project.godot
-├── scenes/
-│   ├── world/
-│   ├── heroes/
-│   ├── units/
-│   ├── buildings/
-│   ├── ui/
-│   └── effects/
-├── scripts/
-│   ├── core/
-│   ├── ai/
-│   ├── combat/
-│   ├── world/
-│   └── utils/
-├── assets/
-│   ├── sprites/
-│   ├── models/
-│   ├── sounds/
-│   └── ui/
-├── lore/
-├── docs/
-└── tests/
+the-waking-world/
+├── CLAUDE.md                 # Dette dokument
+├── index.html                # Spillets side (HUD-markup)
+├── assets.json               # Hvilke modeller spillet henter fra game-assets
+├── public/assets/            # Synkroniserede modeller (.glb) — genereres, rediger ikke
+├── src/
+│   ├── main.js               # Opstart og spil-loop
+│   ├── config.js             # Balance-tal (fra docs/balance)
+│   ├── mapdata.js            # Kortet "Askemarken": ø, lejr, skove, creep-lejre
+│   ├── world.js              # 3D-verden: fliser (instancing), pynt, hav, lys
+│   ├── hexgrid.js            # Hex-koordinater og A*-stifinding
+│   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
+│   ├── hero.js / abilities.js / orkhud.js   # Helten, evner, grøn ork-hud
+│   ├── creeps.js             # Skeletter og lejre (aggro, leash, respawn)
+│   ├── camera.js             # Kamera + touch (tryk, træk, knib)
+│   ├── effects.js / overlay.js / hud.js     # Effekter, livsbjælker, brugerflade
+│   └── style.css
+├── tools/
+│   ├── smoke-test.mjs        # Headless test i mobilstørrelse med skærmbilleder
+│   └── byg-artefakt.mjs      # Bygger spillet som privat Claude-side
+├── agents/                   # Agent-beskrivelser (skrevet til Godot-versionen — delvist forældede)
+└── docs/                     # Design og balance
 ```
+
+## Udvikling
+
+- `npm install` og klon `game-assets` ved siden af dette repo (`../game-assets`).
+- `npm run assets` synkroniserer modellerne i `assets.json` (kun de valgte animationer kommer med).
+- `npm run dev` starter en lokal server. `npm test` bygger og kører røgtesten (skærmbilleder i `test-output/`).
+- `node tools/byg-artefakt.mjs` bygger til `dist-artefakt/`, som publiceres som privat Claude-side, så Jon kan teste på mobilen. Claude-sider kan ikke servere `.glb`, så modellerne pakkes i `modelpakke.json`.
+- Skala: KayKit-hexfliser skaleres ×2 (`VERDEN.hexSkala`). Hexagon-pakkens pynt skaleres med; Halloween- og figurpakker er allerede i figurstørrelse.
 
 ---
 
@@ -87,11 +84,11 @@ Projektet drives af 9 specialiserede agenter organiseret i to lag:
 ### Lag 2 — Specialister
 | Agent | Fil | Ansvar |
 |---|---|---|
-| **Kode** | AGENT_KODE.md | Godot 4, GDScript, alle spilsystemer |
-| **Grafik** | AGENT_GRAFIK.md | Blender pipeline, units, visuel stil, isometrisk sprite-regler |
+| **Kode** | AGENT_KODE.md | three.js, JavaScript, alle spilsystemer |
+| **Grafik** | AGENT_GRAFIK.md | Modeller fra game-assets (KayKit/Quaternius), visuel stil, skala |
 | **Map** | AGENT_MAP.md | Kortdesign, terrain, tilemap, objectives |
 | **Lore** | AGENT_LORE.md | Verdenshistorie, narrativ, racer, dialoger, tone of voice |
-| **AI** | AGENT_AI.md | Claude API integration, AI-modstander, spilstate-format |
+| **AI** | AGENT_AI.md | AI-modstander (regelbaseret), spilstate-format |
 | **Lyd** | AGENT_LYD.md | Lyddesign, musik, ambient, ability-lyde, stemmer |
 | **UI** | AGENT_UI.md | HUD, menus, touch-kontrol, mobiloptimering |
 | **Balance** | AGENT_BALANCE.md | Stats, formler, XP-kurver, unit-costs, spilfølelse |
@@ -122,7 +119,7 @@ I praksis åbnes separate CC-sessioner per agent. Arkitekt-agenten producerer pr
 | **The Dreaming** | Night Elves | Halvt i verden, halvt udenfor | Indirekte påvirkning, høj kompleksitet |
 | **The Unmade** | *(ny)* | Spillerdefineret faction | Saml fragmenter fra faldne — udskydes |
 
-**Sprint 1 fokus:** The Tide (Orc Warrior).
+**Fokus nu:** The Tide (Orc Warrior). Indtil der findes en rigtig orkmodel bruges KayKits barbar med grøn hud og uden hjelm.
 
 ---
 
@@ -210,48 +207,34 @@ TWW's svar: specialiserede veterans kan *tilpasses* i stedet for at erstattes. E
 
 ## 8. Sprint-plan
 
-### ✅ Sprint 0 — Fundament
-- [x] Vision og design dokumenteret
-- [x] Tech stack valgt
-- [x] CLAUDE.md + agent-filer oprettet
-- [ ] Godot 4 installeret
-- [ ] Git + GitHub sat op
+### ✅ Sprint 0–3 (Godot, marts 2026)
+Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Arkiveret på grenen `godot-arkiv`.
 
-### 🔄 Sprint 1 — "Den første helt"
-- [ ] Isometrisk tilemap, lille testområde
-- [ ] Orc Warrior hero med click-to-move
-- [ ] Y-sorting og dybde-illusion
-- [ ] Tre neutrale creeps med basis aggro
-- [ ] Melee attack + damage
-- [ ] HP-bar over hero og creeps
-- [ ] Kamera følger hero
+### ✅ Sprint 4 — "Ny motor" (oktober 2026)
+- [x] Skift til three.js + Vite, spilbart i mobilbrowseren
+- [x] Hex-ø "Askemarken" med kyst, skove, bjerge og The Tides lejr (KayKit-modeller)
+- [x] Ork-helt med tryk-for-at-gå, A*-stifinding og kamera der følger
+- [x] Touch: tryk = gå/angrib, træk = panorer, knib = zoom
+- [x] Fire skeletlejre med aggro, leash og genopstandelse
+- [x] Nærkamp, HP-bjælker, skadetal, XP og level 1–10
+- [x] Essensvalg og alle 7 evner fra balance v1
+- [x] Død og genoplivning ved lejren
 
-**Succeskriterium:** Man kan styre helten, angribe creeps, og det føles som WC3.
-
-### 📋 Sprint 2 — "Kamp og karakter"
-- Orc Warrior abilities (3 stk, Essence-variation)
-- XP og leveling
-- Hero death + respawn
-- Forbedret creep AI
-- Basis HUD
-
-### 📋 Sprint 3 — "AI-modstanderen"
-- Claude API integration
-- GameStateSnapshot system
-- AI observerer spillerens patterns
-- Dynamisk sværhedsgrad
-
-### 📋 Sprint 4 — "Verden lever"
-- World State system
-- Ressourcesystem
-- Neutrale objectives
+### 📋 Sprint 5 — "Følelsen"
+- Lyd: slag, træffere, evner, ambient
+- Bedre ramt-feedback (hit-stop, blink, støv)
 - Minimap
+- Ægte ork-model (Quaternius eller egen)
 
-### 📋 Sprint 5 — "Mobilklar"
-- Touch-kontrol
-- UI-skalering til mobil
-- Performance optimering
-- Android eksport og test
+### 📋 Sprint 6 — "Armé"
+- Barracks producerer grunts, gruppevalg og kommandoer
+- Veteranstatus og specialiseringsgrene (se `docs/DESIGN_PROGRESSION.md`)
+- Ressourcer (guld og træ)
+
+### 📋 Sprint 7 — "Modstanderen"
+- Regelbaseret AI-modstander med egen base
+- Adfærdsmålere (aggression, overlevelse, kaos)
+- World State: Balance → Fald → Opvågning
 
 ---
 
@@ -266,6 +249,9 @@ TWW's svar: specialiserede veterans kan *tilpasses* i stedet for at erstattes. E
 | 2026-03-23 | Claude API til AI-modstander | Dynamisk frem for scripted behaviour trees |
 | 2026-03-27 | Claude API fravalgt — Ollama valgt | Claude API er uacceptabel omkostningsmodel for slutbrugere. Ollama er gratis, kører lokalt, kræver ingen internet under spil. Model: llama3.2. Endpoint: http://localhost:11434/api/generate |
 | 2026-03-23 | 9-agent multiagent arkitektur | Specialisering, parallelitet, skalerbarhed |
+| 2026-10-09 | Godot fravalgt — three.js + Vite valgt | Jon udvikler og tester fra mobilen. Godots styrke er editoren, som ikke bruges. Web-build er få MB mod ~40 MB, og Claude kan selv teste i headless browser |
+| 2026-10-09 | Ollama droppet helt | Kan ikke køre i browseren og skal ikke bruges. AI-modstanderen bliver regelbaseret |
+| 2026-10-09 | 3D low-poly (KayKit) frem for 2D-sprites | Delt assetbibliotek med Tideborn, rigtige animationer. Klodsgrafik af grundformer er udelukket |
 | 2026-03-23 | Hero progression: 2 tiers + Ascension ved level 10 | Level 10 er vendepunkt ikke loft — giver dybde og replay-value |
 | 2026-03-23 | Unit-progression: Veteranstatus + spillerstil-tracking | Løser WC3's counter-problem — specialisering er levedygtig strategi |
 
@@ -273,9 +259,9 @@ TWW's svar: specialiserede veterans kan *tilpasses* i stedet for at erstattes. E
 
 ## 10. Kodestandarder
 
-- Kommentarer på **dansk**
+- Kommentarer og variabelnavne på **dansk**
 - Scripts max 200 linjer — opdel ellers
-- Brug Godot signals fremfor direkte referencer
+- Brug begivenhedsbussen (`src/events.js`) frem for direkte referencer mellem systemer
 - Commit-format: `feat:`, `fix:`, `docs:`, `balance:`, `lore:`
 
 ---
@@ -324,4 +310,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-03-27*
+*Sidst opdateret: 2026-10-09*

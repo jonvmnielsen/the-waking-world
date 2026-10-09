@@ -1,0 +1,122 @@
+/* The Waking World — brugerflade. Mørkt træ og messing, læsbar på en telefon. */
+:root {
+  color-scheme: dark;
+  --træ: rgba(28, 22, 16, 0.86);
+  --træ-lys: rgba(48, 38, 27, 0.92);
+  --messing: #c9a35a;
+  --messing-lys: #f1d796;
+  --tekst: #f4ead6;
+  --dæmpet: #b9a98a;
+  --hp: #4fc94a;
+  --hp-mørk: #1f5e1d;
+  --mana: #3d8cff;
+  --xp: #b77bff;
+  --fjende: #e0473a;
+  --kant: max(12px, env(safe-area-inset-left));
+  --top: max(12px, env(safe-area-inset-top));
+  --bund: max(14px, env(safe-area-inset-bottom));
+  --display: 'Cinzel', Georgia, serif;
+  --ui: 'Nunito Sans', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #1b1712; color: var(--tekst); font-family: var(--ui); user-select: none; -webkit-user-select: none; touch-action: none; }
+canvas#spil { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+/* ---------- Overlay: livsbjælker og tal ---------- */
+#lag { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.bjælke { position: absolute; left: 0; top: 0; width: 46px; height: 6px; background: rgba(10, 8, 6, 0.75); border-radius: 3px; padding: 1px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); }
+.bjælke.helt { width: 64px; height: 8px; }
+.bjælke i { display: block; height: 100%; border-radius: 2px; background: var(--fjende); transition: width 0.15s; }
+.bjælke.helt i { background: linear-gradient(var(--hp), #2f9a2b); }
+.tal { position: absolute; transform: translate(-50%, -50%); font-family: var(--display); font-weight: 800; font-size: 17px; text-shadow: 0 2px 0 #000, 0 0 6px rgba(0, 0, 0, 0.8); animation: stig 1.05s ease-out forwards; white-space: nowrap; }
+.tal.helt { color: #fff3c8; }
+.tal.krit { color: #ffb43b; font-size: 22px; }
+.tal.fjende { color: #ff6a5a; font-size: 15px; }
+.tal.xp { color: #d7b3ff; font-size: 14px; font-family: var(--ui); }
+.tal.level { color: var(--messing-lys); font-size: 24px; }
+.tal.immun { color: #ffe27a; font-size: 14px; }
+@keyframes stig { 0% { opacity: 0; margin-top: 6px; } 12% { opacity: 1; } 100% { opacity: 0; margin-top: -46px; } }
+
+/* ---------- HUD ---------- */
+#hud > * { position: fixed; }
+#hud, #lag { transition: opacity 0.5s; }
+body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: none; }
+#heltepanel { top: var(--top); left: var(--kant); display: flex; gap: 10px; align-items: center; padding: 8px 12px 8px 8px; background: var(--træ); border: 1px solid rgba(201, 163, 90, 0.45); border-radius: 14px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); width: min(300px, calc(100vw - 90px)); }
+#level-ring { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #5b8f3a, #22401a); border: 2px solid var(--messing); font-family: var(--display); font-weight: 800; font-size: 20px; color: var(--messing-lys); text-shadow: 0 1px 0 #000; }
+.bjælker { flex: 1; display: grid; gap: 4px; min-width: 0; }
+.bjælker .navn { font-family: var(--display); font-weight: 600; font-size: 13px; letter-spacing: 0.03em; }
+.bjælker .navn small { font-family: var(--ui); color: var(--dæmpet); font-size: 11px; margin-left: 4px; }
+.bar { position: relative; height: 13px; border-radius: 4px; background: rgba(0, 0, 0, 0.55); overflow: hidden; }
+.bar i { position: absolute; inset: 0 auto 0 0; transition: width 0.2s; }
+.bar span { position: relative; display: block; text-align: center; font-size: 10px; line-height: 13px; font-weight: 800; text-shadow: 0 1px 1px #000; }
+.bar.hp i { background: linear-gradient(#63d95c, #2c8f27); }
+.bar.mana i { background: linear-gradient(#5aa2ff, #2463c9); }
+.bar.xp { height: 4px; }
+.bar.xp i { background: var(--xp); }
+
+#menuknap { top: var(--top); right: var(--kant); width: 44px; height: 44px; border-radius: 12px; background: var(--træ); border: 1px solid rgba(201, 163, 90, 0.45); font-size: 20px; color: var(--messing-lys); }
+#menu { top: calc(var(--top) + 52px); right: var(--kant); width: 230px; padding: 10px; background: var(--træ-lys); border: 1px solid rgba(201, 163, 90, 0.45); border-radius: 12px; display: none; gap: 8px; }
+#menu.åben { display: grid; }
+#menu button { padding: 10px; border-radius: 8px; border: 1px solid rgba(201, 163, 90, 0.35); background: rgba(255, 255, 255, 0.06); text-align: left; font-weight: 800; }
+#menu p { margin: 2px 2px 0; font-size: 12px; line-height: 1.4; color: var(--dæmpet); }
+
+#centrer { left: var(--kant); bottom: var(--bund); width: 52px; height: 52px; border-radius: 50%; background: var(--træ); border: 2px solid var(--messing); font-size: 24px; color: var(--messing-lys); transition: opacity 0.2s, transform 0.2s; }
+#centrer.skjult { opacity: 0; transform: scale(0.7); pointer-events: none; }
+
+#evner { right: var(--kant); bottom: var(--bund); display: flex; gap: 10px; align-items: flex-end; }
+.evne { --cd: 0deg; position: relative; width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--messing); background: radial-gradient(circle at 40% 30%, #4a3a26, #1d160f); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 0 0 2px rgba(0, 0, 0, 0.4); display: grid; place-items: center; padding: 0; }
+.evne:active { transform: scale(0.94); }
+.evne::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(rgba(0, 0, 0, 0.68) var(--cd), transparent 0); pointer-events: none; }
+.evne .ikon { font-size: 28px; line-height: 1; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.6)); }
+.evne .cd { position: absolute; z-index: 1; font-family: var(--display); font-weight: 800; font-size: 20px; text-shadow: 0 2px 2px #000; }
+.evne .navn { position: absolute; top: 100%; margin-top: 3px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 800; white-space: nowrap; color: var(--tekst); text-shadow: 0 1px 2px #000; }
+.evne .lås { position: absolute; z-index: 1; bottom: -2px; font-size: 10px; font-weight: 800; background: #000a; padding: 1px 5px; border-radius: 6px; color: var(--messing-lys); }
+.evne .lås:empty { display: none; }
+.evne.låst { filter: grayscale(1) brightness(0.6); }
+.evne.tom { border-color: #3d6fb8; }
+.evne.tom .ikon { opacity: 0.45; }
+.evne kbd { display: none; position: absolute; top: -4px; right: -4px; font-size: 10px; background: #000c; border-radius: 4px; padding: 0 4px; color: var(--dæmpet); }
+#evne0 { width: 74px; height: 74px; }
+@media (hover: hover) and (pointer: fine) { .evne kbd { display: block; } }
+#evner { padding-bottom: 14px; }
+
+#toast { position: fixed; left: 50%; top: 22%; transform: translateX(-50%); padding: 8px 14px; border-radius: 10px; background: rgba(20, 14, 10, 0.85); font-weight: 800; font-size: 14px; opacity: 0; pointer-events: none; text-align: center; width: max-content; max-width: calc(100vw - 40px); }
+#toast.vis { animation: toast 2.4s ease forwards; }
+@keyframes toast { 0% { opacity: 0; } 10% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+
+#banner { position: fixed; left: 50%; top: 20%; transform: translateX(-50%); text-align: center; pointer-events: none; opacity: 0; }
+#banner b { display: block; font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--messing-lys); text-shadow: 0 3px 0 #000, 0 0 18px rgba(255, 200, 90, 0.5); }
+#banner span { font-weight: 800; font-size: 14px; text-shadow: 0 1px 2px #000; }
+#banner.vis { animation: banner 2.4s ease forwards; }
+@keyframes banner { 0% { opacity: 0; margin-top: 10px; } 12% { opacity: 1; margin-top: 0; } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+#dødsskærm { position: fixed; inset: 0; display: grid; place-content: center; text-align: center; gap: 6px; background: radial-gradient(transparent 30%, rgba(60, 0, 0, 0.55)); pointer-events: none; opacity: 0; transition: opacity 0.5s; }
+#dødsskærm.vis { opacity: 1; }
+#dødsskærm b { font-family: var(--display); font-size: 28px; text-shadow: 0 2px 0 #000; }
+#dødsskærm em { font-style: normal; color: var(--messing-lys); }
+
+/* ---------- Essensvalg ---------- */
+#essensvalg { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: flex-end; padding: var(--top) var(--kant) calc(var(--bund) + 10px); background: linear-gradient(rgba(10, 8, 5, 0) 25%, rgba(10, 8, 5, 0.88) 70%); text-align: center; }
+#essensvalg::before { content: 'The Waking World'; position: absolute; top: calc(var(--top) + 18px); left: 0; right: 0; font-family: var(--display); font-weight: 800; font-size: clamp(28px, 8vw, 50px); color: var(--messing-lys); text-shadow: 0 3px 0 #000, 0 0 24px rgba(0, 0, 0, 0.6); }
+#essensvalg.vis { display: flex; }
+#essensvalg h2 { margin: 0; font-family: var(--display); font-size: 30px; color: var(--messing-lys); text-shadow: 0 2px 0 #000; }
+#essensvalg p { margin: 6px 0 18px; color: var(--dæmpet); font-size: 14px; }
+#essenser { display: grid; grid-template-columns: repeat(3, minmax(0, 200px)); gap: 12px; width: 100%; justify-content: center; }
+.essens { display: grid; gap: 6px; padding: 18px 14px; border-radius: 14px; border: 1px solid rgba(201, 163, 90, 0.5); background: var(--træ-lys); text-align: left; transition: transform 0.15s, border-color 0.15s; }
+.essens:active, .essens:hover { transform: translateY(-2px); border-color: var(--messing-lys); }
+.essens b { font-family: var(--display); font-size: 20px; }
+.essens span { font-size: 13px; line-height: 1.4; color: var(--dæmpet); }
+.essens.vold b { color: #ff7a5c; }
+.essens.tålmodighed b { color: #7fc2ff; }
+.essens.ofring b { color: #e05a8c; }
+@media (max-width: 640px) { #essenser { grid-template-columns: 1fr; max-width: 340px; } .essens { padding: 14px; } }
+
+/* ---------- Indlæsning ---------- */
+#lader { position: fixed; inset: 0; display: grid; place-content: center; text-align: center; gap: 10px; background: radial-gradient(ellipse at 50% 40%, #33281b, #120e09); transition: opacity 0.6s; z-index: 10; }
+#lader.færdig { opacity: 0; pointer-events: none; }
+#lader h1 { margin: 0; font-family: var(--display); font-weight: 800; font-size: clamp(30px, 8vw, 54px); color: var(--messing-lys); letter-spacing: 0.04em; text-shadow: 0 3px 0 #000; }
+#lader p { margin: 0; color: var(--dæmpet); }
+.lade-spor { width: min(280px, 70vw); height: 6px; margin: 8px auto 0; border-radius: 3px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.lade-spor i { display: block; height: 100%; width: 0; background: var(--messing); transition: width 0.2s; }

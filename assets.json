@@ -1,0 +1,105 @@
+{
+  "_comment": "Hvilke modeller spillet bruger fra jonvmnielsen/game-assets. Kør 'npm run assets' (kræver game-assets klonet ved siden af dette repo).",
+  "out": "public/assets",
+  "assets": [
+    {
+      "id": "kaykit-adventurers/characters/barbarian",
+      "as": "units/hero_tide",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Block"
+      ]
+    },
+    {
+      "id": "kaykit-skeletons/characters/skeleton_minion",
+      "as": "units/skeleton_minion",
+      "animations": [
+        "Idle",
+        "Running_C",
+        "1H_Melee_Attack_Chop",
+        "Hit_A",
+        "Death_C_Skeletons",
+        "Skeletons_Awaken_Standing",
+        "Taunt"
+      ]
+    },
+    {
+      "id": "kaykit-skeletons/characters/skeleton_warrior",
+      "as": "units/skeleton_warrior",
+      "animations": [
+        "Idle",
+        "Running_C",
+        "1H_Melee_Attack_Chop",
+        "Hit_A",
+        "Death_C_Skeletons",
+        "Skeletons_Awaken_Standing",
+        "Taunt"
+      ]
+    },
+    {
+      "id": "kaykit-skeletons/characters/skeleton_rogue",
+      "as": "units/skeleton_rogue",
+      "animations": [
+        "Idle",
+        "Running_C",
+        "1H_Melee_Attack_Stab",
+        "Hit_A",
+        "Death_C_Skeletons",
+        "Skeletons_Awaken_Standing",
+        "Taunt"
+      ]
+    },
+    {
+      "id": "kaykit-skeletons/characters/skeleton_mage",
+      "as": "units/skeleton_mage",
+      "animations": [
+        "Idle",
+        "Running_C",
+        "1H_Melee_Attack_Chop",
+        "Spellcast_Shoot",
+        "Hit_A",
+        "Death_C_Skeletons",
+        "Skeletons_Awaken_Standing",
+        "Taunt"
+      ]
+    },
+    "kaykit-skeletons/skeleton_axe",
+    "kaykit-skeletons/skeleton_blade",
+    "kaykit-skeletons/skeleton_staff",
+    "kaykit-skeletons/skeleton_shield_small_a",
+    "kaykit-skeletons/skeleton_shield_large_a",
+    "kaykit-hexagon/tiles/base/*",
+    "kaykit-hexagon/tiles/coast/hex_coast_*",
+    "kaykit-hexagon/decoration/nature/*",
+    "kaykit-hexagon/decoration/props/*",
+    "kaykit-hexagon/buildings/green/*",
+    "kaykit-hexagon/buildings/neutral/*",
+    "kaykit-halloween/grave_a",
+    "kaykit-halloween/grave_b",
+    "kaykit-halloween/gravestone",
+    "kaykit-halloween/gravemarker_a",
+    "kaykit-halloween/gravemarker_b",
+    "kaykit-halloween/tree_dead_large",
+    "kaykit-halloween/tree_dead_medium",
+    "kaykit-halloween/tree_dead_small",
+    "kaykit-halloween/skull",
+    "kaykit-halloween/bone_a",
+    "kaykit-halloween/bone_b",
+    "kaykit-halloween/ribcage",
+    "kaykit-halloween/post_skull",
+    "kaykit-halloween/lantern_standing",
+    "kaykit-halloween/crypt",
+    "kaykit-halloween/shrine_candles",
+    "kaykit-halloween/floor_dirt_grave",
+    "kaykit-dungeon/chest_gold"
+  ]
+}
