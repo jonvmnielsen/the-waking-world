@@ -233,7 +233,7 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 ### 🔄 M1 — "Stor verden" (oktober 2026)
 - [x] Verden skaleret op omkring helten (bygninger 2,5–6×, træer ~1,7×)
 - [x] Procedurelt kort 48×48 hex med 5 regioner, søer, kyst, skove og bjerge
-- [x] 28 creep-lejre: skeletter og plyndrere i 5 sværhedsgrader inkl. 2 bosser, ingen genopstandelse
+- [x] 26 creep-lejre (73 creeps): skeletter og plyndrere i 5 sværhedsgrader inkl. 2 bosser, ingen genopstandelse
 - [x] Krigens tåge, minimap med lejre i farver, tryk på minimap flytter kameraet
 - [x] Neutrale steder: livskilder (heler), udkigstårne (viser omegnen), kro, købmand, guldminer, ruiner
 - [ ] Jons feedback på skala og kort
