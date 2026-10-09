@@ -67,7 +67,8 @@ the-waking-world/
 - `npm install` og klon `game-assets` ved siden af dette repo (`../game-assets`).
 - `npm run assets` synkroniserer modellerne i `assets.json` (kun de valgte animationer kommer med).
 - `npm run dev` starter en lokal server. `npm test` bygger og kører røgtesten (skærmbilleder i `test-output/`).
-- `node tools/byg-artefakt.mjs` bygger til `dist-artefakt/`, som publiceres som privat Claude-side, så Jon kan teste på mobilen. Claude-sider kan ikke servere `.glb`, så modellerne pakkes i `modelpakke.json`.
+- **Jon tester på https://jonvmnielsen.github.io/the-waking-world/** (GitHub Pages fra grenen `gh-pages`, repoet er offentligt). Efter hver ændring: `npx vite build`, læg `dist/` + en tom `.nojekyll` på `gh-pages` og push. Claude-sider (artefakter) virker ikke i Jons app, så brug Pages.
+- `node tools/byg-artefakt.mjs` bygger stadig en Claude-side-version (modeller pakket i `modelpakke.json`), men den bruges ikke lige nu.
 - Skala: KayKit-hexfliser skaleres ×2 (`VERDEN.hexSkala`). Hexagon-pakkens pynt skaleres med; Halloween- og figurpakker er allerede i figurstørrelse.
 
 ---
