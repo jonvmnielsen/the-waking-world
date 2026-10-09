@@ -10,6 +10,7 @@ const BASE = import.meta.env.BASE_URL + 'assets/';
 
 // Hvis spillet er bygget som Claude-side, ligger alle modeller i én datafil (modelpakke.json)
 async function hentPakke() {
+  if (!import.meta.env.VITE_MODELPAKKE) return null;
   try {
     const svar = await fetch(`${BASE}modelpakke.json`);
     return svar.ok ? await svar.json() : null;
@@ -55,7 +56,7 @@ export function kopi(sti, { skygge = false } = {}) {
 }
 
 // Samler mange kopier af samme model i InstancedMesh'er (én tegning per delmesh)
-export function instanser(sti, matricer, { skygge = false, modtag = true } = {}) {
+export function instanser(sti, matricer, { skygge = false, modtag = true, farver = null } = {}) {
   const gruppe = new THREE.Group();
   if (!matricer.length) return gruppe;
   const g = gltf(sti);
@@ -65,6 +66,11 @@ export function instanser(sti, matricer, { skygge = false, modtag = true } = {})
     const im = new THREE.InstancedMesh(o.geometry, o.material, matricer.length);
     const tmp = new THREE.Matrix4();
     matricer.forEach((m, i) => im.setMatrixAt(i, tmp.multiplyMatrices(m, o.matrixWorld)));
+    // Farvetone pr. instans (fx regionens græsfarve)
+    if (farver?.some(Boolean)) {
+      const c = new THREE.Color();
+      farver.forEach((f, i) => im.setColorAt(i, f ? c.setRGB(...f) : c.setRGB(1, 1, 1)));
+    }
     im.castShadow = skygge;
     im.receiveShadow = modtag;
     im.computeBoundingSphere();

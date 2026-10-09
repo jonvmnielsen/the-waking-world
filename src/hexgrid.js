@@ -57,7 +57,7 @@ export class HexKort {
   // Fri sigtelinje mellem to punkter (kun gåbare felter)
   friLinje(ax, az, bx, bz) {
     const dist = Math.hypot(bx - ax, bz - az);
-    const trin = Math.max(1, Math.ceil(dist / 0.6));
+    const trin = Math.max(1, Math.ceil(dist / 0.8));
     for (let i = 1; i <= trin; i++) {
       const t = i / trin;
       if (!this.erGåbar(ax + (bx - ax) * t, az + (bz - az) * t)) return false;
@@ -74,26 +74,27 @@ export class HexKort {
     if (!mål || !mål.gåbar) mål = this.nærmesteGåbare(til.x, til.z);
     if (!mål) return [];
 
-    const åben = [start];
+    // A* med en binær hob, så lange ruter på det store kort er hurtige
+    const hob = new Hob();
     const kom = new Map();
     const g = new Map([[start, 0]]);
-    const f = new Map([[start, hexAfstand(start, mål)]]);
     const lukket = new Set();
+    hob.læg(start, hexAfstand(start, mål));
     let fundet = false;
-    while (åben.length) {
-      åben.sort((a, b) => f.get(a) - f.get(b));
-      const nu = åben.shift();
+    while (hob.størrelse) {
+      const nu = hob.tag();
       if (nu === mål) { fundet = true; break; }
+      if (lukket.has(nu)) continue;
       lukket.add(nu);
       for (const n of this.naboer(nu)) {
         if (!n.gåbar || lukket.has(n)) continue;
         const ng = g.get(nu) + 1;
         if (ng < (g.get(n) ?? Infinity)) {
-          kom.set(n, nu); g.set(n, ng); f.set(n, ng + hexAfstand(n, mål));
-          if (!åben.includes(n)) åben.push(n);
+          kom.set(n, nu); g.set(n, ng);
+          hob.læg(n, ng + hexAfstand(n, mål) * 1.001);
         }
       }
-      if (lukket.size > 800) break;
+      if (lukket.size > 6000) break;
     }
     if (!fundet) return [];
 
@@ -129,5 +130,32 @@ export class HexKort {
       if (d < bd) { bd = d; bedst = f; }
     }
     return bedst;
+  }
+}
+
+// Lille min-hob til A*
+class Hob {
+  constructor() { this.a = []; }
+  get størrelse() { return this.a.length; }
+  læg(v, p) {
+    const a = this.a; a.push([p, v]);
+    let i = a.length - 1;
+    while (i > 0) { const f = (i - 1) >> 1; if (a[f][0] <= a[i][0]) break; [a[f], a[i]] = [a[i], a[f]]; i = f; }
+  }
+  tag() {
+    const a = this.a, top = a[0][1], sidst = a.pop();
+    if (a.length) {
+      a[0] = sidst;
+      let i = 0;
+      for (;;) {
+        const l = 2 * i + 1, r = l + 1;
+        let m = i;
+        if (l < a.length && a[l][0] < a[m][0]) m = l;
+        if (r < a.length && a[r][0] < a[m][0]) m = r;
+        if (m === i) break;
+        [a[m], a[i]] = [a[i], a[m]]; i = m;
+      }
+    }
+    return top;
   }
 }

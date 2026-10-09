@@ -72,8 +72,8 @@ export class Effekter {
     else if (e.type === 'blodslag') this.bølge(e.helt.x, e.helt.z, 2.2, 0xff1010, 0.45);
   }
 
-  projektil({ fra, mål, skade }) {
-    const kugle = new THREE.Sprite(new THREE.SpriteMaterial({ map: GLØD, color: 0xb36bff, blending: THREE.AdditiveBlending, depthWrite: false }));
+  projektil({ fra, mål, skade, farve = 0xb36bff }) {
+    const kugle = new THREE.Sprite(new THREE.SpriteMaterial({ map: GLØD, color: farve, blending: THREE.AdditiveBlending, depthWrite: false }));
     kugle.scale.setScalar(1.1);
     const start = new THREE.Vector3(fra.x, 1.8, fra.z);
     kugle.position.copy(start);
@@ -84,7 +84,7 @@ export class Effekter {
       kugle.position.y += Math.sin(t * Math.PI) * 1.2;
     }, () => {
       if (!mål.død) mål.tagSkade(skade, fra);
-      this.bølge(mål.x, mål.z, 1.4, 0xb36bff, 0.35);
+      this.bølge(mål.x, mål.z, 1.4, farve, 0.35);
     });
   }
 

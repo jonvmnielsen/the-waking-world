@@ -47,7 +47,13 @@ the-waking-world/
 ├── src/
 │   ├── main.js               # Opstart og spil-loop
 │   ├── config.js             # Balance-tal (fra docs/balance)
-│   ├── mapdata.js            # Kortet "Askemarken": ø, lejr, skove, creep-lejre
+│   ├── mapdata.js            # Samler kortet: terræn + steder + pynt
+│   ├── kortgen.js            # Terræn 48×48 hex: regioner, hav, søer, kyst, skov, bjerge
+│   ├── steder.js / pynt.js   # Base, neutrale steder, creep-lejre / natur pr. region
+│   ├── stoej.js              # Seedet tilfældighed og støj
+│   ├── creepdata.js          # Creep-familier, typer og 5 sværhedsgrader
+│   ├── taage.js / minimap.js # Krigens tåge (shader) og minimap
+│   ├── stedliv.js            # Livskilder og udkigstårne
 │   ├── world.js              # 3D-verden: fliser (instancing), pynt, hav, lys
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
@@ -71,7 +77,8 @@ the-waking-world/
 - `npm run dev` starter en lokal server. `npm test` bygger og kører røgtesten (skærmbilleder i `test-output/`).
 - **Jon tester på https://jonvmnielsen.github.io/the-waking-world/** (GitHub Pages fra grenen `gh-pages`, repoet er offentligt). Efter hver ændring: `npx vite build`, læg `dist/` + en tom `.nojekyll` på `gh-pages` og push. Claude-sider (artefakter) virker ikke i Jons app, så brug Pages.
 - `node tools/byg-artefakt.mjs` bygger stadig en Claude-side-version (modeller pakket i `modelpakke.json`), men den bruges ikke lige nu.
-- Skala: KayKit-hexfliser skaleres ×2 (`VERDEN.hexSkala`). Hexagon-pakkens pynt skaleres med; Halloween- og figurpakker er allerede i figurstørrelse.
+- Skala: KayKit-hexfliser skaleres ×3,5 (`VERDEN.hexSkala`), så bygninger og natur er større end helten (GDD 4.1). Hexagon-pakkens pynt skaleres med (pynt.skala er en ekstra faktor); Halloween-, dungeon- og figurpakker er i figurstørrelse.
+- Test: `spil.visHeleKortet()` fjerner tågen, `spil.simuler(sek)` spoler tiden frem.
 
 ---
 
@@ -223,7 +230,15 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Essensvalg og alle 7 evner fra balance v1
 - [x] Død og genoplivning ved lejren
 
-### 📋 Næste: milepæle M1–M7
+### 🔄 M1 — "Stor verden" (oktober 2026)
+- [x] Verden skaleret op omkring helten (bygninger 2,5–6×, træer ~1,7×)
+- [x] Procedurelt kort 48×48 hex med 5 regioner, søer, kyst, skove og bjerge
+- [x] 28 creep-lejre: skeletter og plyndrere i 5 sværhedsgrader inkl. 2 bosser, ingen genopstandelse
+- [x] Krigens tåge, minimap med lejre i farver, tryk på minimap flytter kameraet
+- [x] Neutrale steder: livskilder (heler), udkigstårne (viser omegnen), kro, købmand, guldminer, ruiner
+- [ ] Jons feedback på skala og kort
+
+### 📋 Næste: milepæle M2–M7
 Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
 
 ---

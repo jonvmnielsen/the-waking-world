@@ -2,15 +2,20 @@
 import * as THREE from 'three';
 import './style.css';
 import { hentAlle } from './assets.js';
-import { lavKort, LEJRE } from './mapdata.js';
+import { lavKort } from './mapdata.js';
 import { bygVerden, kortModeller, lavLys } from './world.js';
 import { Helt } from './hero.js';
 import { Lejr } from './creeps.js';
+import { CREEP_TYPER } from './creepdata.js';
 import { adskil } from './unit.js';
 import { Effekter } from './effects.js';
 import { KameraRig } from './camera.js';
 import { Overlay } from './overlay.js';
 import { Hud, vælgEssens } from './hud.js';
+import { Taage } from './taage.js';
+import { Minimap } from './minimap.js';
+import { StedLiv } from './stedliv.js';
+import { hexTilVerden } from './hexgrid.js';
 import { LEVELS } from './config.js';
 import { bus } from './events.js';
 
@@ -19,35 +24,34 @@ const renderer = new THREE.WebGLRenderer({ canvas: lærred, antialias: true, pow
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const scene = new THREE.Scene();
 
-const ENHEDER = ['units/hero_tide', 'units/skeleton_minion', 'units/skeleton_warrior', 'units/skeleton_rogue', 'units/skeleton_mage',
-  'kaykit-skeletons/skeleton_axe', 'kaykit-skeletons/skeleton_blade', 'kaykit-skeletons/skeleton_staff', 'kaykit-skeletons/skeleton_shield_large_a'];
+// Alle figurer og våben creeps og helten bruger
+const ENHEDER = [...new Set(['units/hero_tide', ...Object.values(CREEP_TYPER).map((t) => `units/${t.model}`),
+  ...Object.values(CREEP_TYPER).flatMap((t) => Object.values(t.våben ?? {}).map((v) => `kaykit-skeletons/${v}`))])];
 
 async function start() {
-  const { kort, heltSpawn } = lavKort();
+  const { kort, heltSpawn, steder, lejre: lejrData, grænser } = lavKort();
   const bar = document.getElementById('lade-bar');
   await hentAlle([...ENHEDER, ...kortModeller(kort)], (p) => { bar.style.width = `${Math.round(p * 100)}%`; });
   document.getElementById('lader').classList.add('færdig');
 
-  const verden = { scene, kort, creeps: [], helt: null };
+  const taage = new Taage(grænser);
+  const verden = { scene, kort, creeps: [], helt: null, taage };
   bygVerden(scene, kort);
   const lys = lavLys(scene, renderer);
 
-  // Kameraet og forhåndsvisningen kører allerede bag essensvalget
+  // Kameraet og forhåndsvisningen kører allerede bag essensvalget (uden tåge)
   let tryk = () => {};
   const rig = new KameraRig(lærred, (sx, sy) => tryk(sx, sy));
-  function størrelse() {
-    const b = window.innerWidth, h = window.innerHeight;
-    renderer.setSize(b, h, false);
-    rig.størrelse(b, h);
-  }
+  rig.grænser = grænser;
+  const størrelse = () => { renderer.setSize(window.innerWidth, window.innerHeight, false); rig.størrelse(window.innerWidth, window.innerHeight); };
   window.addEventListener('resize', størrelse);
   størrelse();
   rig.følger = false;
-  rig.afstand = 40;
+  rig.afstand = 46;
   let vinkel = 0;
   renderer.setAnimationLoop(() => {
-    vinkel += 0.0015;
-    rig.fokus.set(Math.sin(vinkel) * 10, 0, Math.cos(vinkel) * 6);
+    vinkel += 0.0012;
+    rig.fokus.set(heltSpawn.x + 20 + Math.sin(vinkel) * 24, 0, heltSpawn.z - 20 + Math.cos(vinkel) * 14);
     rig.opdater(0.016, null);
     lys.følg(rig.fokus.x, rig.fokus.z);
     renderer.render(scene, rig.kamera);
@@ -57,11 +61,15 @@ async function start() {
   document.body.classList.add('i-spil');
   const helt = new Helt(verden, heltSpawn, essens);
   verden.helt = helt;
-  const lejre = LEJRE.map((d) => new Lejr(verden, d));
+  const lejre = lejrData.map((d) => new Lejr(verden, d));
   const effekter = new Effekter(verden);
+  const stedLiv = new StedLiv(steder, taage, effekter);
+  const base = hexTilVerden(kort.base.q, kort.base.r);
+  taage.tilføjKilde(base.x, base.z, 22);
+  taage.patchScene(scene);
 
   const spil = {
-    helt, verden, rig,
+    helt, verden, rig, lejre, taage, grænser,
     nødvendigXp: () => (LEVELS.xp[helt.level] ?? helt.xp) - helt.xp,
     brugEvne(i) {
       const fejl = helt.evner.brug(i);
@@ -73,10 +81,11 @@ async function start() {
   rig.centrér();
   const overlay = new Overlay(document.getElementById('lag'), verden, rig.kamera);
   const hud = new Hud(spil);
-  setTimeout(() => overlay.toast('Tryk på jorden for at gå — tryk på et skelet for at angribe'), 600);
+  const minimap = new Minimap(document.getElementById('minimap'), spil);
   bus.on('creep_død', ({ xp }) => helt.fåXp(xp));
+  setTimeout(() => overlay.toast('Tryk på jorden for at gå — tryk på en fjende for at angribe'), 600);
 
-  // Tryk på skærmen: fjende = angrib, ellers gå derhen
+  // Tryk på skærmen: synlig fjende = angrib, ellers gå derhen
   const ray = new THREE.Raycaster();
   const jord = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   tryk = (sx, sy) => {
@@ -84,7 +93,7 @@ async function start() {
     const r = lærred.getBoundingClientRect();
     let bedst = null, bd = 52;
     for (const c of verden.creeps) {
-      if (c.død) continue;
+      if (c.død || !c.rod.visible) continue;
       const s = overlay.skærm(c.x, c.højde * 0.5, c.z);
       const d = Math.hypot(s.x - (sx - r.left), s.y - (sy - r.top));
       if (d < bd) { bd = d; bedst = c; }
@@ -98,13 +107,21 @@ async function start() {
   };
 
   // Ét tidstrin i spillet (adskilt fra tegning så tests kan spole frem)
+  const heltSyn = { x: 0, z: 0, radius: 22 };
+  let patchTid = 0;
   function trin(dt) {
     helt.opdater(dt);
+    heltSyn.x = helt.x; heltSyn.z = helt.z;
+    taage.opdater(dt, helt.død ? [] : [heltSyn]);
     for (const c of verden.creeps) c.opdater(dt);
     for (const l of lejre) l.opdater(dt);
-    adskil([helt, ...verden.creeps.filter((c) => !c.død)], kort);
+    adskil([helt, ...verden.creeps.filter((c) => !c.død && c.rod.visible)], kort);
+    stedLiv.opdater(dt, helt);
     effekter.opdater(dt);
     rig.opdater(dt, helt.død ? null : helt);
+    minimap.opdater(dt);
+    patchTid += dt;
+    if (patchTid > 1) { patchTid = 0; taage.patchScene(scene); }
   }
   spil.simuler = (sek) => { for (let t = 0; t < sek; t += 1 / 30) trin(1 / 30); };
 
@@ -117,6 +134,8 @@ async function start() {
     hud.opdater();
   });
 
+  // Til test: vis hele kortet uden tåge
+  spil.visHeleKortet = () => taage.tilføjKilde(0, 0, 999);
   window.spil = spil;   // til test og fejlfinding
   window.klar = true;
 }

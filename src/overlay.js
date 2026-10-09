@@ -17,6 +17,7 @@ export class Overlay {
     });
     bus.on('creep_død', ({ creep, xp }) => this.tal(creep, `+${xp} XP`, 'xp', 0.6));
     bus.on('level_op', ({ helt, level }) => this.tal(helt, `Level ${level}!`, 'level', 1.2));
+    bus.on('besked', (tekst) => this.toast(tekst));
   }
 
   skærm(x, y, z) {
@@ -46,7 +47,7 @@ export class Overlay {
     const enheder = [this.verden.helt, ...this.verden.creeps];
     for (const u of enheder) {
       let el = this.bjælker.get(u);
-      const vis = !u.død && !u.fjernet && (u === this.verden.helt || u.tilstand !== 'vågner');
+      const vis = !u.død && !u.fjernet && u.rod.visible && (u === this.verden.helt || u.tilstand !== 'vågner');
       if (!vis) { if (el) { el.remove(); this.bjælker.delete(u); } continue; }
       if (!el) {
         el = document.createElement('div');

@@ -72,6 +72,69 @@
         "Taunt"
       ]
     },
+    {
+      "id": "kaykit-adventurers/characters/rogue",
+      "as": "units/bandit_slagsbror",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Dualwield_Melee_Attack_Slice"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "as": "units/bandit_skytte",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "2H_Ranged_Shoot",
+        "2H_Ranged_Aiming"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/knight",
+      "as": "units/bandit_lejesoldat",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "1H_Melee_Attack_Slice_Diagonal",
+        "Block"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/mage",
+      "as": "units/bandit_heks",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Spellcast_Shoot"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/barbarian",
+      "as": "units/bandit_kaptajn",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Spin"
+      ]
+    },
     "kaykit-skeletons/skeleton_axe",
     "kaykit-skeletons/skeleton_blade",
     "kaykit-skeletons/skeleton_staff",
@@ -83,6 +146,7 @@
     "kaykit-hexagon/decoration/props/*",
     "kaykit-hexagon/buildings/green/*",
     "kaykit-hexagon/buildings/neutral/*",
+    "kaykit-hexagon/buildings/yellow/*",
     "kaykit-halloween/grave_a",
     "kaykit-halloween/grave_b",
     "kaykit-halloween/gravestone",

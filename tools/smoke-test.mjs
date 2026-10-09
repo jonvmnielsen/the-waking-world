@@ -53,7 +53,7 @@ const mål = await page.evaluate(() => {
   return { navn: c.navn, afstand: helt.afstand(c).toFixed(1) };
 });
 console.log('Angriber', mål);
-await page.evaluate(() => window.spil.simuler(8));
+await page.evaluate(() => window.spil.simuler(22));
 await page.waitForTimeout(800);
 await page.screenshot({ path: path.join(UD, '3-kamp.png') });
 const status = await page.evaluate(() => {
@@ -66,8 +66,8 @@ await page.waitForTimeout(800);
 await page.screenshot({ path: path.join(UD, '4-evne.png') });
 
 // Oversigt over hele øen
-await page.evaluate(() => { const r = window.spil.rig; r.følger = false; r.fokus.set(0, 0, 2); r.afstand = 62; });
-await page.waitForTimeout(1500);
+await page.evaluate(() => { window.spil.visHeleKortet(); window.spil.simuler(0.3); const r = window.spil.rig; r.følger = false; r.fokus.set(0, 0, 10); r.afstand = 260; r.kamera.far = 900; r.kamera.updateProjectionMatrix(); window.spil.verden.scene.fog = null; });
+await page.waitForTimeout(3000);
 await page.screenshot({ path: path.join(UD, '5-oversigt.png') });
 
 console.log(fejl.length ? `FEJL:\n${fejl.join('\n')}` : 'Ingen fejl i konsollen');

@@ -13,7 +13,7 @@ export class KameraRig {
     this.onTryk = onTryk;
     this.pegere = new Map();
     this.lærred = lærred;
-    this.grænse = 40;
+    this.grænser = { minX: -40, maxX: 40, minZ: -40, maxZ: 40 };
 
     lærred.addEventListener('pointerdown', (e) => this.ned(e));
     lærred.addEventListener('pointermove', (e) => this.bevæg(e));
@@ -64,8 +64,9 @@ export class KameraRig {
   zoom(f) { this.afstand = THREE.MathUtils.clamp(this.afstand * f, 12, 44); }
 
   begræns() {
-    this.fokus.x = THREE.MathUtils.clamp(this.fokus.x, -this.grænse, this.grænse);
-    this.fokus.z = THREE.MathUtils.clamp(this.fokus.z, -this.grænse, this.grænse);
+    const g = this.grænser;
+    this.fokus.x = THREE.MathUtils.clamp(this.fokus.x, g.minX, g.maxX);
+    this.fokus.z = THREE.MathUtils.clamp(this.fokus.z, g.minZ, g.maxZ);
   }
 
   centrér() { this.følger = true; }

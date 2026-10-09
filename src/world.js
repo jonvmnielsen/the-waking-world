@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { instanser, kopi } from './assets.js';
 import { hexTilVerden } from './hexgrid.js';
 import { VERDEN } from './config.js';
+import { REGIONER } from './kortgen.js';
 
 const S = VERDEN.hexSkala;
 const FLISE = {
@@ -21,12 +22,17 @@ export function kortModeller(kort) {
   return [...s];
 }
 
+const BID = 12;   // kortet deles i bidder på 12×12 felter, så kun det synlige tegnes
+
 export function bygVerden(scene, kort) {
-  // Grupper fliser og instans-pynt efter model
+  // Grupper fliser og instans-pynt efter model og bid
   const grupper = new Map();
-  const tilføj = (sti, m, skygge) => {
-    if (!grupper.has(sti)) grupper.set(sti, { matricer: [], skygge });
-    grupper.get(sti).matricer.push(m);
+  const tilføj = (sti, m, skygge, f, farve) => {
+    const nøgle = `${sti}|${Math.floor(f.kol / BID)},${Math.floor(f.ræk / BID)}`;
+    if (!grupper.has(nøgle)) grupper.set(nøgle, { sti, matricer: [], farver: [], skygge });
+    const g = grupper.get(nøgle);
+    g.matricer.push(m);
+    g.farver.push(farve);
   };
   const q = new THREE.Quaternion();
   const op = new THREE.Vector3(0, 1, 0);
@@ -35,15 +41,17 @@ export function bygVerden(scene, kort) {
     const p = hexTilVerden(f.q, f.r);
     const rot = f.type === 'kyst' ? -f.rot * Math.PI / 3 : 0;
     const m = new THREE.Matrix4().compose(new THREE.Vector3(p.x, 0, p.z), q.setFromAxisAngle(op, rot), new THREE.Vector3(S, S, S));
-    tilføj(f.type === 'kyst' ? kystSti(f.variant) : FLISE[f.type], m, false);
+    // Græsset får regionens farvetone
+    const tone = f.type === 'vand' ? null : REGIONER[f.region].farve;
+    tilføj(f.type === 'kyst' ? kystSti(f.variant) : FLISE[f.type], m, false, f, tone);
 
     for (const pynt of f.pynt) {
-      const pos = new THREE.Vector3(p.x + (pynt.dx ?? 0), 0, p.z + (pynt.dz ?? 0));
+      const pos = new THREE.Vector3(p.x + (pynt.dx ?? 0), pynt.y ?? 0, p.z + (pynt.dz ?? 0));
       // Hexagon-pakken er bygget til 2-enheds fliser og skaleres med; andre pakker har figurstørrelse
       const skala = (pynt.skala ?? 1) * (pynt.model.includes('kaykit-hexagon') ? S : 1);
       const rotQ = new THREE.Quaternion().setFromAxisAngle(op, THREE.MathUtils.degToRad(pynt.rot ?? 0));
       if (pynt.instans) {
-        tilføj(pynt.model, new THREE.Matrix4().compose(pos, rotQ, new THREE.Vector3(skala, skala, skala)), pynt.skygge);
+        tilføj(pynt.model, new THREE.Matrix4().compose(pos, rotQ, new THREE.Vector3(skala, skala, skala)), pynt.skygge, f, null);
       } else {
         const obj = kopi(pynt.model, { skygge: pynt.skygge });
         obj.position.copy(pos);
@@ -53,11 +61,11 @@ export function bygVerden(scene, kort) {
       }
     }
   }
-  for (const [sti, g] of grupper) scene.add(instanser(sti, g.matricer, { skygge: g.skygge }));
+  for (const g of grupper.values()) scene.add(instanser(g.sti, g.matricer, { skygge: g.skygge, farver: g.farver }));
 
   // Hav ud til horisonten under de yderste vandfliser
   const hav = new THREE.Mesh(
-    new THREE.CircleGeometry(400, 48).rotateX(-Math.PI / 2),
+    new THREE.CircleGeometry(700, 48).rotateX(-Math.PI / 2),
     new THREE.MeshStandardMaterial({ color: 0x3f9ac9, roughness: 0.35, metalness: 0.0 }),
   );
   hav.position.y = -0.62;
@@ -69,14 +77,14 @@ export function bygVerden(scene, kort) {
 
 export function lavLys(scene, renderer) {
   scene.background = new THREE.Color(0x9fd3ea);
-  scene.fog = new THREE.Fog(0x9fd3ea, 55, 110);
+  scene.fog = new THREE.Fog(0x9fd3ea, 70, 150);
   scene.add(new THREE.HemisphereLight(0xdff4ff, 0x5a6b3a, 1.6));
 
   const sol = new THREE.DirectionalLight(0xfff1d6, 2.6);
   sol.castShadow = true;
   sol.shadow.mapSize.set(2048, 2048);
   const c = sol.shadow.camera;
-  c.left = -24; c.right = 24; c.top = 24; c.bottom = -24; c.near = 1; c.far = 120;
+  c.left = -38; c.right = 38; c.top = 38; c.bottom = -38; c.near = 1; c.far = 160;
   sol.shadow.bias = -0.0006;
   sol.shadow.normalBias = 0.04;
   scene.add(sol, sol.target);
@@ -87,7 +95,7 @@ export function lavLys(scene, renderer) {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   // Skyggekameraet følger det sted kameraet kigger på
-  const forskydning = new THREE.Vector3(-22, 40, 18);
+  const forskydning = new THREE.Vector3(-30, 60, 26);
   return {
     følg(x, z) {
       sol.target.position.set(x, 0, z);

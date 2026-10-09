@@ -55,17 +55,18 @@ Angrib fjendens base  ·  Opvågning: en tredje kraft truer begge parter
 
 ### 4.1 Skala — de store forhold
 
-Feedbacken er, at alt er for småt. Det løses med disse mål:
+Helten har den rigtige størrelse på skærmen. Det er **verden omkring helten**, der er for lille: et hus må ikke være lige så stort som helten. Derfor skaleres bygninger, natur og kort op i forhold til figurerne, mens figurerne og kameraets zoom bliver, hvor de er.
 
-| Mål | Nu | Mål |
+| Forhold til heltens højde | Nu | Mål |
 |---|---|---|
-| Helten på skærmen (standard-zoom, telefon) | ca. 1/14 af skærmhøjden | **ca. 1/7–1/8** |
-| Hovedhal i forhold til helten | 3,3× højere | **4–5× højere og 4–5 helte bred** |
-| Almindelig bygning (kaserne) | 2× | **2,5–3×** |
-| Træer | lidt højere end helten | **1,5–2× helten** |
+| Hovedhal (Storlejr) | 3,3× | **5–6× højere og 4–5 helte bred** |
+| Almindelig bygning (kaserne, smedje) | 1,4× | **2,5–3×** |
+| Lille bygning (hytte, brønd) | under 1× | **1,5–2×** |
+| Træer | 1× | **1,5–2×** |
+| Sten, kasser og grave | — | Op til knæ eller hofte, så de ikke dækker figurerne |
 | Tid for helten at krydse kortet | ca. 15 sek. | **60–90 sek.** (skirmish) |
 
-Bygninger, træer og fliser skal altså skaleres op i forhold til figurerne, kameraet skal tættere på, og kortet skal vokse kraftigt.
+Hver bygningsmodel får sin egen skalafaktor, fordi KayKit-modellerne ikke har ens størrelsesforhold indbyrdes.
 
 ### 4.2 Kortstørrelser
 
@@ -351,7 +352,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 
 | # | Milepæl | Indhold |
 |---|---|---|
-| **M1** | **Stor verden** | Ny skala (afsnit 4.1), kort på ca. 48×48 med regioner, krigens tåge, minimap, flere creep-familier og fem sværhedsgrader |
+| **M1** | **Stor verden** | Verden skaleret op omkring helten (afsnit 4.1), kort på ca. 48×48 med regioner, krigens tåge, minimap, flere creep-familier og fem sværhedsgrader |
 | **M2** | **Items** | Drop, opsamling, inventar med 6 pladser, eliksirer, permanente items og kister |
 | **M3** | **Økonomi og base** | Arbejdere, guld og træ, byggesystem på hex, Storlejr, kaserne, forsyning, alter |
 | **M4** | **Hær** | Vælg og styr flere units, grunts og spydkastere, grupper, veteranstatus |

@@ -1,0 +1,100 @@
+// Placerer basen, neutrale steder og creep-lejre på det genererede terræn.
+import { hexAfstand, hexTilVerden } from './hexgrid.js';
+import { tilAksial } from './kortgen.js';
+import { KORT } from './config.js';
+import { FAMILIE_I_REGION, SAMMENSÆTNING } from './creepdata.js';
+import { lejrPynt } from './pynt.js';
+
+const BYG = 'kaykit-hexagon/buildings/';
+
+// The Tides lejr omkring basefeltet (dq, dr, model, rotation i 60°-trin, ekstra skala)
+const BASE = [
+  [0, 0, 'green/building_castle_green', 0, 1],
+  [2, -1, 'green/building_barracks_green', 5, 1.15],
+  [-2, 1, 'green/building_home_a_green', 1, 1.4],
+  [-1, 2, 'green/building_home_b_green', 0, 1.3],
+  [-2, -1, 'green/building_windmill_green', 1, 1.2],
+  [1, -2, 'green/building_blacksmith_green', 2, 1.3],
+  [2, 1, 'green/building_tower_a_green', 0, 1],
+  [-1, -2, 'green/building_lumbermill_green', 3, 1.15],
+];
+
+export function placérSteder(k, tilf) {
+  const H = KORT.størrelse / 2;
+  const optag = (f, pynt, blokér = true) => { f.optaget = true; if (blokér) f.gåbar = false; if (pynt) f.pynt.push(pynt); return f; };
+  const fri = (f) => f && f.type === 'græs' && f.gåbar && !f.optaget && k.naboer(f).filter((n) => n.gåbar).length >= 5;
+  const nærmesteFri = (nx, nz) => {
+    const mål = tilAksial(Math.round(nx * H), Math.round(nz * H));
+    let bedst = null, bd = Infinity;
+    for (const f of k.felter.values()) {
+      if (!fri(f)) continue;
+      const d = hexAfstand(f, mål);
+      if (d < bd) { bd = d; bedst = f; }
+    }
+    return bedst;
+  };
+
+  // 1) Basen
+  const b = k.base;
+  for (const [dq, dr, model, rot, sk] of BASE) {
+    const f = k.hent(b.q + dq, b.r + dr);
+    if (f) optag(f, { model: BYG + model, rot: rot * 60, skala: sk, skygge: true });
+  }
+  const spawnFelt = k.hent(b.q + 1, b.r + 1);
+  spawnFelt.optaget = true;
+  spawnFelt.pynt.push({ model: 'kaykit-hexagon/decoration/props/flag_green', dx: 1.6, dz: 1.2, rot: 0, skala: 1.4 });
+
+  // 2) Neutrale steder (gul = neutral)
+  const steder = [];
+  const sted = (type, nx, nz, model, skala = 1, blokér = true) => {
+    const f = nærmesteFri(nx, nz);
+    if (!f) return;
+    optag(f, { model: BYG + model, rot: Math.floor(tilf() * 6) * 60, skala, skygge: true }, blokér);
+    steder.push({ type, q: f.q, r: f.r, ...hexTilVerden(f.q, f.r) });
+  };
+  sted('kro', 0.0, 0.0, 'yellow/building_tavern_yellow', 1.3);
+  sted('marked', 0.42, 0.22, 'yellow/building_market_yellow', 1.2);
+  for (const [x, z] of [[-0.12, 0.42], [0.32, -0.18], [-0.45, -0.42], [0.62, 0.55]]) sted('kilde', x, z, 'yellow/building_well_yellow', 1.5);
+  for (const [x, z] of [[-0.05, -0.15], [-0.7, -0.7], [0.68, 0.28], [0.15, 0.72]]) sted('udkig', x, z, 'yellow/building_tower_base_yellow', 1.2);
+  sted('mine', -0.32, 0.6, 'yellow/building_mine_yellow', 1.1);
+  for (let i = 0; i < 4; i++) {
+    const ruin = nærmesteFri(-0.3 + tilf() * 0.6, -0.1 + tilf() * 0.5);
+    if (ruin && ruin.region === 'askemarken') optag(ruin, { model: BYG + 'neutral/' + (i % 2 ? 'building_destroyed' : 'building_scaffolding'), rot: tilf() * 360, skala: 1.2, skygge: true });
+  }
+
+  // 3) Creep-lejre spredt over kortet; sværere jo længere fra basen
+  const lejre = [];
+  const boss = (nx, nz, familie) => {
+    const f = nærmesteFri(nx, nz);
+    if (f) lejre.push(lavLejr(f, 5, familie));
+  };
+  const lavLejr = (f, niveau, familie) => {
+    const valg = SAMMENSÆTNING[familie][niveau];
+    optag(f, null, false);
+    lejrPynt(f, familie, tilf, niveau === 5);
+    return { id: `lejr-${f.q}-${f.r}`, q: f.q, r: f.r, niveau, familie, creeps: valg[Math.floor(tilf() * valg.length)] };
+  };
+  boss(0.72, -0.72, 'skeletter');
+  boss(0.82, -0.05, 'plyndrere');
+
+  const maxAfstand = Math.max(...[...k.felter.values()].filter((f) => f.gåbar).map((f) => hexAfstand(f, b)));
+  const kandidater = [...k.felter.values()].filter(fri).sort(() => tilf() - 0.5);
+  for (const f of kandidater) {
+    if (lejre.length >= 26) break;
+    const d = hexAfstand(f, b);
+    if (d < 6) continue;
+    if (lejre.some((l) => hexAfstand(l, f) < 6) || steder.some((s) => hexAfstand(s, f) < 3)) continue;
+    const t = d / maxAfstand;
+    const niveau = t < 0.3 ? 1 : t < 0.48 ? 2 : t < 0.68 ? 3 : 4;
+    lejre.push(lavLejr(f, niveau, FAMILIE_I_REGION[f.region]));
+  }
+
+  // 4) Guldminer ved nogle af de mellemsvære lejre (ekspansioner)
+  for (const l of lejre.filter((l) => l.niveau === 2 || l.niveau === 3).slice(0, 5)) {
+    const n = k.naboer(k.hent(l.q, l.r)).find(fri);
+    if (n) { optag(n, { model: BYG + 'yellow/building_mine_yellow', rot: Math.floor(tilf() * 6) * 60, skala: 1.1, skygge: true }); steder.push({ type: 'mine', q: n.q, r: n.r, ...hexTilVerden(n.q, n.r) }); }
+  }
+
+  const p = hexTilVerden(spawnFelt.q, spawnFelt.r);
+  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre };
+}

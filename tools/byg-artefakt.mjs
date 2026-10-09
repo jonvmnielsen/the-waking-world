@@ -7,7 +7,7 @@ import path from 'node:path';
 
 const ROD = path.resolve(import.meta.dirname, '..');
 const UD = path.join(ROD, 'dist-artefakt');
-execSync(`npx vite build --outDir ${UD} --emptyOutDir`, { cwd: ROD, stdio: 'inherit' });
+execSync(`npx vite build --outDir ${UD} --emptyOutDir`, { cwd: ROD, stdio: 'inherit', env: { ...process.env, VITE_MODELPAKKE: '1' } });
 
 // Saml modellerne og fjern de løse filer
 const pakke = {};
