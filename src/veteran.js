@@ -30,7 +30,7 @@ export class Veteraner {
     if (stille) return;
     bus.emit('effekt', { type: 'veteran', x: s.x, z: s.z });
     bus.emit('flydetekst', { enhed: s, tekst: 'Veteran!', klasse: 'level' });
-    bus.emit('besked', s.type === 'grunt' ? 'En grunt er blevet veteran — vælg den for at specialisere den' : `En ${s.navn.toLowerCase()} er blevet veteran`);
+    bus.emit('besked', s.type === 'grunt' ? 'A grunt has become a veteran — select it to choose its path' : `A ${s.navn} has become a veteran`);
   }
 
   // Grenen er billig, hvis den passer til spillestilen (eller stilen er blandet)
@@ -46,16 +46,16 @@ export class Veteraner {
 
   // Betal og send grunten hen til Krigerlejren, hvor den bliver specialiseret
   specialisér(s, id) {
-    if (!this.kanSpecialiseres(s)) return 'Kun veteran-grunts kan specialiseres';
+    if (!this.kanSpecialiseres(s)) return 'Only veteran grunts can be specialised';
     const lejr = this.spil.base.bygninger.filter((b) => b.type === 'krigerlejr' && b.færdig).sort((a, b) => s.afstand(a) - s.afstand(b))[0];
-    if (!lejr) return 'Byg en Krigerlejr først';
+    if (!lejr) return 'Build a War Camp first';
     const pris = this.pris(id), øko = this.spil.økonomi;
     const mangler = øko.mangler(pris);
     if (mangler) return mangler;
     øko.betal(pris);
     s.vet.påVej = id; s.vet.betalt = pris;
     const ok = s.kommandoHen(lejr.x, lejr.z, lejr.radius + 4, () => this.anvend(s, id));
-    if (!ok) { s.vet.påVej = null; øko.refunder(pris); return 'Grunten kan ikke komme hen til Krigerlejren'; }
+    if (!ok) { s.vet.påVej = null; øko.refunder(pris); return 'The grunt cannot reach the War Camp'; }
     return null;
   }
 
@@ -65,11 +65,11 @@ export class Veteraner {
     s.maxHp += g.hp; s.hp = Math.max(1, Math.min(s.maxHp, s.hp + Math.max(0, g.hp)));
     s.skadeBonus += g.skade; s.rustning += g.rustning; s.fart += g.fart;
     s.model.scale.multiplyScalar(g.skala);
-    s.navn = `${g.navn}-grunt`;
+    s.navn = `${g.navn} Grunt`;
     farv(s, g.farve);
     if (stille) return;
     bus.emit('effekt', { type: 'veteran', x: s.x, z: s.z });
-    bus.emit('besked', `Grunten er blevet ${g.navn}: ${g.evneTekst}`);
+    bus.emit('besked', `Your grunt has become a ${g.navn}! ${g.evne}: ${g.evneTekst}`);
   }
 
   // Hvis grunten blev afbrudt på vej til Krigerlejren, får spilleren pengene tilbage

@@ -22,14 +22,14 @@ export class StedLiv {
         helt.mana = Math.min(helt.manaMax, helt.mana + helt.manaMax * 0.03 * dt);
         s.puls -= dt;
         if (s.puls <= 0) { s.puls = 1.2; this.effekter.bølge(helt.x, helt.z, 1.8, 0x6dff8a, 0.8); }
-        if (!s.aktiv) { s.aktiv = true; bus.emit('besked', 'Livskilden heler dig'); }
+        if (!s.aktiv) { s.aktiv = true; bus.emit('besked', 'The fountain of life heals you'); }
       } else if (s.type === 'kilde') s.aktiv = false;
 
       if (s.type === 'udkig' && !s.aktiv && d < UDKIG_RADIUS) {
         s.aktiv = true;
         this.taage.tilføjKilde(s.x, s.z, 46);
         this.effekter.bølge(s.x, s.z, 10, 0xffe08a, 1.2);
-        bus.emit('besked', 'Udkigstårnet viser dig omegnen');
+        bus.emit('besked', 'The watchtower reveals the land around it');
       }
     }
   }

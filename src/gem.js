@@ -21,7 +21,7 @@ export function gemSpil(spil) {
     localStorage.setItem(NØGLE, JSON.stringify(lavGem(spil)));
     return true;
   } catch (e) {
-    console.warn('Kunne ikke gemme', e);
+    console.warn('Could not save', e);
     return false;
   }
 }
@@ -87,6 +87,6 @@ export function startAutogem(spil, vedGem) {
 export function beskrivGem(g) {
   const min = Math.floor(g.spilTid / 60);
   const siden = Math.round((Date.now() - g.tidspunkt) / 60000);
-  const hvornår = siden < 1 ? 'lige gemt' : siden < 60 ? `gemt for ${siden} min. siden` : siden < 1440 ? `gemt for ${Math.round(siden / 60)} timer siden` : `gemt for ${Math.round(siden / 1440)} dage siden`;
-  return `Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? "soldat" : "soldater"} · ${min} min. spillet · ${hvornår}`;
+  const hvornår = siden < 1 ? 'saved just now' : siden < 60 ? `saved ${siden} min ago` : siden < 1440 ? `saved ${Math.round(siden / 60)} h ago` : `saved ${Math.round(siden / 1440)} days ago`;
+  return `Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? 'soldier' : 'soldiers'} · ${min} min played · ${hvornår}`;
 }

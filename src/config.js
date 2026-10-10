@@ -10,25 +10,27 @@ export const KORT = {
   seed: 11,
 };
 
+// Grundværdier før egenskaberne (heltstats.js) lægges oven i.
+// Ved start (STR 22, AGI 14, INT 12) giver det 500 liv, 200 mana, 45–55 skade og 3 rustning.
 export const HELT = {
-  maxHp: 500,
-  mana: 200,
-  fart: 5,
+  grundHp: 104,         // + 18 pr. Strength
+  mana: 80,             // + 10 pr. Intelligence
+  fart: 6,              // 20 % hurtigere end før (Jons ønske)
   rækkevidde: 2.2,
-  skadeMin: 45,
-  skadeMax: 55,
-  angrebsTid: 1.8,      // sekunder mellem angreb
-  rustning: 3,
-  hpRegen: 2.0,         // kun uden for kamp
-  manaRegen: 1.0,
+  skadeMin: 12,         // + 1,5 pr. Strength
+  skadeMax: 22,
+  angrebsTid: 2.3,      // sekunder mellem angreb, før Agility (+2 % angrebsfart pr. point)
+  rustning: 0.9,        // + 0,15 pr. Agility
+  hpRegen: 0.9,         // + 0,05 pr. Strength, kun uden for kamp
+  manaRegen: 0.4,       // + 0,05 pr. Intelligence
   genopliv: 6,          // sekunder til helten rejser sig igen
 };
 
-// XP for at nå hvert level (index = level-1) + bonusser ved level-op
+// XP for at nå hvert level (index = level-1) + bonusser ved level-op (egenskaberne vokser også, se heltstats.js)
 export const LEVELS = {
   xp:        [0, 200, 500, 900, 1400, 2100, 3000, 4200, 5600, 7500],
-  hpBonus:   [0, 80, 80, 100, 100, 120, 120, 140, 140, 160],
-  skadeBonus:[0, 8, 8, 10, 10, 12, 12, 14, 14, 16],
+  hpBonus:   [0, 25, 25, 30, 30, 40, 40, 50, 50, 60],      // oven i det Strength giver
+  skadeBonus:[0, 4, 4, 5, 5, 6, 6, 7, 7, 8],
   rustBonus: [0, 0, 1, 0, 1, 0, 1, 0, 1, 1],
 };
 

@@ -23,6 +23,7 @@ page.on('pageerror', (e) => console.log('FEJL', e.message));
 await page.goto(`http://127.0.0.1:${server.address().port}/`);
 await page.waitForSelector('#essensvalg.vis', { timeout: 90000 });
 await page.click('.essens.vold');
+await page.click('#essens-start');
 await page.waitForFunction(() => window.klar === true);
 if (process.env.FOER) console.log(await page.evaluate(process.env.FOER));
 const skud = JSON.parse(process.env.SKUD ?? '[]');

@@ -12,7 +12,7 @@ export class Overlay {
     this.toastEl = document.getElementById('toast');
 
     bus.on('skade', ({ mål, mængde, kilde }) => {
-      if (mængde <= 0) return this.tal(mål, 'Immun', 'immun');
+      if (mængde <= 0) return this.tal(mål, 'Immune', 'immun');
       const fraHelt = kilde === this.verden.helt;
       this.tal(mål, mængde, fraHelt ? (mængde > this.verden.helt.stats.skadeMax * 1.2 ? 'krit' : 'helt') : 'fjende');
     });

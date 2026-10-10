@@ -7,6 +7,8 @@ export const MÆNGDE = { mine: 8000 };   // træer og sten: se RESSOURCE i pynt.
 export const BÆR = { guld: 10, træ: 10, sten: 8 };          // pr. tur
 export const HØST_TID = { guld: 1.6, træ: 4.5, sten: 5.5 }; // sekunder pr. tur
 export const MAKS_FORSYNING = 100;
+// Ressourcernes navne på skærmen
+export const RES_NAVN = { guld: 'gold', træ: 'wood', sten: 'stone' };
 
 export class Økonomi {
   constructor() {
@@ -22,11 +24,11 @@ export class Økonomi {
   // Hvad mangler der? Returnerer en tekst til spilleren eller null
   mangler(pris = {}, forsyning = 0) {
     const m = [];
-    if ((pris.guld ?? 0) > this.guld) m.push(`${pris.guld - this.guld} guld`);
-    if ((pris.træ ?? 0) > this.træ) m.push(`${pris.træ - this.træ} træ`);
-    if ((pris.sten ?? 0) > this.sten) m.push(`${pris.sten - this.sten} sten`);
-    if (m.length) return `Mangler ${m.join(', ')}`;
-    if (forsyning && this.forsyning + forsyning > Math.min(this.forsyningMaks, MAKS_FORSYNING)) return 'Byg en forsyningshytte for at få mere forsyning';
+    if ((pris.guld ?? 0) > this.guld) m.push(`${pris.guld - this.guld} gold`);
+    if ((pris.træ ?? 0) > this.træ) m.push(`${pris.træ - this.træ} wood`);
+    if ((pris.sten ?? 0) > this.sten) m.push(`${pris.sten - this.sten} stone`);
+    if (m.length) return `Not enough: ${m.join(', ')}`;
+    if (forsyning && this.forsyning + forsyning > Math.min(this.forsyningMaks, MAKS_FORSYNING)) return 'Build a Supply Hut to get more supply';
     return null;
   }
 

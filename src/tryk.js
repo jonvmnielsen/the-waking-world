@@ -44,7 +44,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     const k = kildeVed(px, py, p);
     if (k) { a.kommandoHøst(k); effekter.markør(k.x, k.z, 0xffd36b); return; }
     if (p && a.kommandoGå(p.x, p.z)) effekter.markør(p.x, p.z);
-    else bus.emit('besked', 'Der kan bæreren ikke gå hen');
+    else bus.emit('besked', 'The worker cannot go there');
   }
 
   // Nærmeste synlige fjende ved trykket
@@ -68,7 +68,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       if (k) { for (const a of gruppe) if (!kanKæmpe(a)) a.kommandoHøst(k); return effekter.markør(k.x, k.z, 0xffd36b); }
     }
     if (p && gruppeGå(gruppe, p.x, p.z, verden.kort)) effekter.markør(p.x, p.z);
-    else bus.emit('besked', 'Der kan de ikke gå hen');
+    else bus.emit('besked', 'They cannot go there');
   }
 
   function heltTryk(px, py) {
@@ -90,12 +90,12 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       if ((s.type !== 'marked' && s.type !== 'kro') || !verden.taage.erUdforsket(s.x, s.z)) continue;
       const q = skærm(s.x, 3, s.z);
       if (Math.hypot(q.x - px, q.y - py) > 70) continue;
-      if (s.type === 'kro') return bus.emit('besked', 'I kroen kan du snart hyre flere helte');
+      if (s.type === 'kro') return bus.emit('besked', 'Soon you will be able to hire more heroes at the tavern');
       return spil.handlVed(s);
     }
     const p = jordpunkt(px, py);
     if (p && helt.kommandoGå(p.x, p.z)) effekter.markør(p.x, p.z);
-    else overlay.toast('Der kan helten ikke gå hen');
+    else overlay.toast('Your hero cannot go there');
   }
 
   const forrige = { s: null, t: 0 };
@@ -136,7 +136,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       // Krigerlejren: tryk på jorden sætter samlingspunktet for nye soldater
       if (b.færdig && b.data.træner?.some((t) => t !== 'arbejder') && p && verden.kort.erGåbar(p.x, p.z)) {
         b.samling = { x: p.x, z: p.z };
-        bus.emit('besked', 'Nye soldater samles her');
+        bus.emit('besked', 'New soldiers will gather here');
         return effekter.markør(p.x, p.z);
       }
       return valg.vælg(null);

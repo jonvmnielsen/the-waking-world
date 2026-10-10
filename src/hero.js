@@ -8,6 +8,7 @@ import { Inventar } from './inventar.js';
 import { levelMetoder } from './heltlevel.js';
 import { interaktionMetoder } from './heltinteraktion.js';
 import { findTrussel } from './trussel.js';
+import { egenskabsMetoder, EGENSKABER } from './heltstats.js';
 
 const SKJUL = ['1H_Axe', '1H_Axe_Offhand', 'Barbarian_Round_Shield', 'Mug', 'Barbarian_Hat'];
 const SVING = [
@@ -21,12 +22,13 @@ export class Helt extends Unit {
     gørOrkGrøn(this.model);
     this.spawn = spawn;
     this.stats = { ...HELT };
+    this.startEgenskaber(essens);
     this.inventar = new Inventar(this);
     this.handling = null;          // gå hen og gør noget: { x, z, radius, udfør }
     this.skjult = 0;               // sekunder hvor creeps ikke ser helten (røgbombe)
-    this.maxHp = this.stats.maxHp;
+    this.maxHp = this.stats.grundHp;
     this.hp = this.maxHp;
-    this.mana = this.stats.mana;
+    this.mana = this.manaMax;
     this.fart = this.stats.fart;
     this.level = 1;
     this.xp = 0;
@@ -59,15 +61,15 @@ export class Helt extends Unit {
   }
 
   // Liv og mana inkl. bonusser fra items
-  get maxHp() { return (this.basisHp ?? 100) + (this.inventar?.bonus.hp ?? 0); }
+  get maxHp() { return (this.basisHp ?? 100) + (this.inventar?.bonus.hp ?? 0) + (this.egenskaber ? this.egenskab('str') * EGENSKABER.pr.hp : 0); }
   set maxHp(v) { this.basisHp = v; }
-  get manaMax() { return this.stats.mana + this.inventar.bonus.mana; }
+  get manaMax() { return this.stats.mana + this.inventar.bonus.mana + this.egenskab('int') * EGENSKABER.pr.mana; }
 
   get iKamp() { return this.tid - this.sidstIKamp < 3; }
 
-  angrebsTid() { return this.stats.angrebsTid / (1 + this.evner.angrebsBonus() + this.inventar.bonus.angrebsfart); }
+  angrebsTid() { return this.stats.angrebsTid / (1 + this.evner.angrebsBonus() + this.angrebsfartBonus()); }
 
-  slagSkade() { return tilfældig(this.stats.skadeMin, this.stats.skadeMax) + this.inventar.bonus.skade; }
+  slagSkade() { return tilfældig(this.stats.skadeMin, this.stats.skadeMax) + this.egenskabsSkade() + this.inventar.bonus.skade; }
 
   opdater(dt) {
     this.tid += dt;
@@ -81,9 +83,8 @@ export class Helt extends Unit {
     this.inventar.opdater(dt);
     this.cooldown -= dt;
     this.skjult = Math.max(0, this.skjult - dt);
-    const b = this.inventar.bonus;
-    if (!this.iKamp) this.hp = Math.min(this.maxHp, this.hp + (this.stats.hpRegen + b.hpRegen) * dt);
-    this.mana = Math.min(this.manaMax, this.mana + (this.stats.manaRegen + b.manaRegen) * dt);
+    if (!this.iKamp) this.hp = Math.min(this.maxHp, this.hp + this.hpRegen() * dt);
+    this.mana = Math.min(this.manaMax, this.mana + this.manaRegen() * dt);
     this.opdaterHandling();
 
     if (this.mål?.død) this.mål = null;
@@ -148,7 +149,7 @@ export class Helt extends Unit {
     this.sidstIKamp = this.tid;
     if (kilde && kilde !== this) this.angribere.set(kilde, this.tid);
     if (mængde > 0) mængde = this.inventar.vedSkade(mængde, kilde);
-    return super.tagSkade(reducérSkade(mængde, this.stats.rustning + this.evner.rustningsBonus() + this.inventar.bonus.rustning), kilde);
+    return super.tagSkade(reducérSkade(mængde, this.rustning() + this.evner.rustningsBonus()), kilde);
   }
 
   dø() {
@@ -171,4 +172,4 @@ export class Helt extends Unit {
 }
 
 // Erfaring og level ligger i heltlevel.js; gå-hen-og-gør-noget i heltinteraktion.js
-Object.assign(Helt.prototype, levelMetoder, interaktionMetoder);
+Object.assign(Helt.prototype, levelMetoder, interaktionMetoder, egenskabsMetoder);

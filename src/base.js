@@ -46,11 +46,11 @@ export class Base {
 
   // Må bygningen stå på feltet? Returnerer en fejltekst eller null
   kanPlacere(type, f) {
-    if (!f) return 'Uden for kortet';
-    if (f.type !== 'græs' || f.blok) return 'Der skal være fladt græs';
-    if (f.optaget || !f.gåbar) return 'Feltet er optaget';
-    if (!this.verden.taage.erUdforsket(...Object.values(hexTilVerden(f.q, f.r)))) return 'Du har ikke udforsket stedet';
-    if (this.verden.lejrFelter?.some((l) => hexAfstand(l, f) < 2)) return 'For tæt på en creep-lejr';
+    if (!f) return 'Outside the map';
+    if (f.type !== 'græs' || f.blok) return 'Needs flat grass';
+    if (f.optaget || !f.gåbar) return 'The spot is taken';
+    if (!this.verden.taage.erUdforsket(...Object.values(hexTilVerden(f.q, f.r)))) return 'You have not explored this place';
+    if (this.verden.lejrFelter?.some((l) => hexAfstand(l, f) < 2)) return 'Too close to a creep camp';
     return null;
   }
 

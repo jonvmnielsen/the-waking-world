@@ -8,11 +8,11 @@ import { KORT } from './config.js';
 const KYST = { 1: ['a', 1], 2: ['b', 1], 3: ['c', 0], 4: ['d', 5] };
 
 export const REGIONER = {
-  askemarken: { navn: 'Askemarken', frø: [[-0.55, 0.55], [0.05, 0.15]], farve: [1.0, 0.97, 0.88] },
-  skoven: { navn: 'Skoven', frø: [[-0.62, -0.25], [-0.18, -0.6]], farve: [0.86, 1.0, 0.86] },
-  gravlandet: { navn: 'Gravlandet', frø: [[0.6, -0.55]], farve: [0.72, 0.74, 0.66] },
-  bjergene: { navn: 'Bjergene', frø: [[0.18, -0.72], [0.78, 0.02]], farve: [0.93, 0.93, 0.86] },
-  sumpen: { navn: 'Sumpen', frø: [[0.52, 0.62]], farve: [0.74, 0.86, 0.7] },
+  askemarken: { navn: 'Ashfields', frø: [[-0.55, 0.55], [0.05, 0.15]], farve: [1.0, 0.97, 0.88] },
+  skoven: { navn: 'Greenwood', frø: [[-0.62, -0.25], [-0.18, -0.6]], farve: [0.86, 1.0, 0.86] },
+  gravlandet: { navn: 'Gravelands', frø: [[0.6, -0.55]], farve: [0.72, 0.74, 0.66] },
+  bjergene: { navn: 'Highlands', frø: [[0.18, -0.72], [0.78, 0.02]], farve: [0.93, 0.93, 0.86] },
+  sumpen: { navn: 'The Marsh', frø: [[0.52, 0.62]], farve: [0.74, 0.86, 0.7] },
 };
 
 // Hvor ofte hver region har skov og bjerge (tærskel for støj; lavere = mere)

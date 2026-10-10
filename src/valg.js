@@ -54,7 +54,7 @@ export class Valg {
     spøgelse.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = 0.6; } });
     spøgelse.visible = false;
     this.spil.verden.scene.add(spøgelse);
-    this.placering = { type, felt: null, spøgelse, fejl: 'Tryk på et felt' };
+    this.placering = { type, felt: null, spøgelse, fejl: 'Tap a spot' };
     bus.emit('placering', this.placering);
   }
 
@@ -77,13 +77,13 @@ export class Valg {
   // Byg på det valgte felt med den valgte arbejder
   bekræftPlacering() {
     const p = this.placering;
-    if (!p?.felt) return 'Tryk på et felt';
+    if (!p?.felt) return 'Tap a spot';
     const [b, fejl] = this.spil.base.placér(p.type, p.felt);
     if (fejl) return fejl;
     const arbejder = this.erArbejder ? this.valgt : null;
     this.annullérPlacering();
     arbejder?.kommandoByg(b);
-    bus.emit('besked', `${b.data.navn} bygges`);
+    bus.emit('besked', `Building ${b.data.navn}`);
     return null;
   }
 

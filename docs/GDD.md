@@ -190,7 +190,32 @@ Den første AI-modstander er **The Memory**. Vi har allerede skeletmodellerne.
 - Level 1–10 med tre evner (låst op ved level 1, 3 og 6), og ved level 10 kommer **Ascension** (se `DESIGN_PROGRESSION.md`).
 - XP fra creeps stopper ved level 5 (som i WC3). Derefter skal XP komme fra kamp mod fjenden. Det skubber spillet mod konfrontation.
 
-### 6.1 The Tide — helte (Forslag)
+### 6.1 Essens — valget ved start
+
+Spillet er på **engelsk**. Essenserne hedder *Violence* (Vold), *Patience* (Tålmodighed) og *Sacrifice* (Ofring). Ved start trykker man på en essens og ser:
+- hvordan helten kæmper (kort beskrivelse),
+- hvilken egenskab der vokser mest (Violence → Strength, Patience → Agility, Sacrifice → Intelligence),
+- de tre evner og hvornår de låses op,
+- to antydninger af hvad valget kan føre til (hærens veteran-grene og Ascension ved level 10) og "…and more, revealed as you play". Resten afsløres ikke.
+
+Essensen giver også spillestilsmålerne en retning fra start (Violence → aggression, Patience → overlevelse, Sacrifice → kaos), så den matchende veteran-gren er billig i begyndelsen. Derefter er det spillerens faktiske adfærd, der flytter målerne. Heltekortet (tryk på STR/AGI/INT) viser en blød beskrivelse af ens spillestil — aldrig tal.
+
+### 6.2 Egenskaber (Strength, Agility, Intelligence)
+
+| Egenskab | Pr. point | Start (Ork-kriger) | Pr. level |
+|---|---|---|---|
+| **Strength** (hovedegenskab) | +18 liv, +0,05 liv/s, +1,5 skade | 22 | +3 |
+| **Agility** | +0,15 rustning, +2 % angrebsfart | 14 | +1,5 |
+| **Intelligence** | +10 mana, +0,05 mana/s, +1 % evnestyrke | 12 | +1,5 |
+
+Essensens egenskab starter 2 højere og vokser +1 ekstra pr. level. Helten løber 20 % hurtigere end før (fart 6).
+
+**Flere egenskaber ud over levels:**
+- **Bøger** (Tome of Strength/Agility/Intelligence +2, Tome of Power +2 til alle): fra kister og stærke lejre, og købmanden sælger de tre første.
+- **Udstyr** med egenskaber (fx Iron Sword +2 STR, Hunter's Quiver +5 AGI, Mage's Tome +6 INT).
+- **Ofringer ved Spirit Altar** (Ånde-alteret): +1 i en valgfri egenskab for guld og sten; prisen stiger for hver ofring.
+
+### 6.3 The Tide — helte (Forslag)
 
 | Helt | Rolle | Status |
 |---|---|---|

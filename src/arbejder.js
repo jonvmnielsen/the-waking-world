@@ -3,7 +3,7 @@
 import { Unit } from './unit.js';
 import { skaleretKopi } from './assets.js';
 import { gørOrkGrøn } from './orkhud.js';
-import { BÆR, HØST_TID } from './okonomi.js';
+import { BÆR, HØST_TID, RES_NAVN } from './okonomi.js';
 import { bus } from './events.js';
 
 const SKJUL = ['Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Knife', 'Throwable'];
@@ -47,7 +47,7 @@ export class Arbejder extends Unit {
 
   høstNærmeste(type) {
     const k = this.base.kilder.nærmeste(type, this.x, this.z, 200);
-    if (k) this.kommandoHøst(k); else { this.tilstand = 'ledig'; bus.emit('besked', `Der er ikke mere ${type} i nærheden`); }
+    if (k) this.kommandoHøst(k); else { this.tilstand = 'ledig'; bus.emit('besked', `There is no more ${RES_NAVN[type]} nearby`); }
   }
 
   kommandoByg(b) { this.nulstil(); this.bygning = b; this.tilstand = 'tilByg'; this.gåTilKant(b.x, b.z, b.radius + 1); }
@@ -73,7 +73,7 @@ export class Arbejder extends Unit {
 
   gåHjem() {
     const b = this.base.afleveringssted(this.bærer.type, this.x, this.z);
-    if (!b) { this.tilstand = 'ledig'; bus.emit('besked', 'Ingen bygning kan tage imod'); return; }
+    if (!b) { this.tilstand = 'ledig'; bus.emit('besked', 'No building can take it'); return; }
     this.hjem = b;
     this.tilstand = 'tilAflevering';
     this.gåTilKant(b.x, b.z, b.radius + 1);
@@ -151,7 +151,7 @@ export class Arbejder extends Unit {
     this.spil('Death_A', { loop: false, fade: 0.08 });
     this.forsvind = 5;
     this.base.økonomi.forsyning -= 1;
-    bus.emit('besked', 'En bærer er død');
+    bus.emit('besked', 'A worker has died');
   }
 
   opdaterDød(dt) {
@@ -164,7 +164,7 @@ export class Arbejder extends Unit {
   aflever() {
     this.stop();
     this.base.økonomi.aflever(this.bærer.type, this.bærer.mængde);
-    bus.emit('flydetekst', { enhed: this, tekst: `+${this.bærer.mængde} ${this.bærer.type}`, klasse: this.bærer.type === 'guld' ? 'guld' : 'ressource' });
+    bus.emit('flydetekst', { enhed: this, tekst: `+${this.bærer.mængde} ${RES_NAVN[this.bærer.type]}`, klasse: this.bærer.type === 'guld' ? 'guld' : 'ressource' });
     const type = this.bærer.type;
     this.sætByrde(null);
     // Tilbage til samme kilde, eller den nærmeste af samme slags hvis den er tom

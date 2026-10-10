@@ -71,7 +71,7 @@ export class Genstande {
         const [unik, ekstra] = BOSS_DROP[lejr.data.familie];
         this.læg(unik, creep.x, creep.z);
         this.læg(this.tilf() < 0.5 ? ekstra : træk(DROP[4]), creep.x + 1.5, creep.z + 1);
-        bus.emit('besked', 'Bossen er besejret! Kisten er låst op');
+        bus.emit('besked', 'The boss is defeated! The chest is unlocked');
       } else this.læg(træk(DROP[lejr.data.niveau]), creep.x, creep.z);
     });
     bus.on('item_smidt', ({ id, ladninger, x, z }) => this.læg(id, x + 1.2, z + 0.8, ladninger));
@@ -86,7 +86,7 @@ export class Genstande {
   samOp(g) {
     const inv = this.verden.helt.inventar;
     if (!this.liste.includes(g)) return;
-    if (!inv.modtag(g.id, g.ladninger)) { bus.emit('besked', 'Inventaret er fuldt'); return; }
+    if (!inv.modtag(g.id, g.ladninger)) { bus.emit('besked', 'Your inventory is full'); return; }
     g.fjern();
     this.liste.splice(this.liste.indexOf(g), 1);
     bus.emit('effekt', { type: 'samlet', x: g.x, z: g.z, farve: SJÆLDENHED[ITEMS[g.id].sjældenhed].hex });
@@ -95,7 +95,7 @@ export class Genstande {
   åbn(k) {
     if (k.åben) return;
     const lejr = k.lejrId && this.lejre.find((l) => l.data.id === k.lejrId);
-    if (lejr && lejr.creeps.some((c) => !c.død)) { bus.emit('besked', 'Kisten er låst, så længe vogterne lever'); return; }
+    if (lejr && lejr.creeps.some((c) => !c.død)) { bus.emit('besked', 'The chest stays locked while its guardians live'); return; }
     k.åben = true;
     this.verden.helt.inventar.tilføjGuld(k.guld ? 150 : 45 + Math.round(this.tilf() * 30), k);
     const id = træk(DROP[k.niveau ?? 2]);

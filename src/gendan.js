@@ -1,7 +1,6 @@
 // Gendan et gemt spil (se gem.js) oven på et nyt spil bygget med samme frø.
 import { Bygning } from './bygninger.js';
 import { STADIER } from './bygningsdata.js';
-import { LEVELS } from './config.js';
 import { pakUd } from './gem.js';
 
 export function gendanSpil(spil, g) {
@@ -9,14 +8,7 @@ export function gendanSpil(spil, g) {
   const kort = verden.kort;
 
   // Helten: level-bonusser lægges på uden fanfare
-  while (helt.level < g.helt.level) {
-    helt.level += 1;
-    const i = helt.level - 1;
-    helt.basisHp += LEVELS.hpBonus[i];
-    helt.stats.skadeMin += LEVELS.skadeBonus[i];
-    helt.stats.skadeMax += LEVELS.skadeBonus[i];
-    helt.stats.rustning += LEVELS.rustBonus[i];
-  }
+  while (helt.level < g.helt.level) helt.levelOp(true);
   helt.xp = g.helt.xp;
   const inv = helt.inventar;
   inv.pladser = g.helt.pladser.map((p) => (p ? { ...p } : null));

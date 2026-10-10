@@ -3,14 +3,14 @@ import { ITEMS } from './itemdata.js';
 import { bus } from './events.js';
 
 export const PLADSER = 6;
-const TOM = { skade: 0, rustning: 0, hp: 0, mana: 0, angrebsfart: 0, hpRegen: 0, manaRegen: 0, livsstjæl: 0, retur: 0, blok: 0, lynChance: 0 };
+const TOM = { str: 0, agi: 0, int: 0, skade: 0, rustning: 0, hp: 0, mana: 0, angrebsfart: 0, hpRegen: 0, manaRegen: 0, livsstjæl: 0, retur: 0, blok: 0, lynChance: 0 };
 
 export class Inventar {
   constructor(helt) {
     this.helt = helt;
     this.pladser = new Array(PLADSER).fill(null);   // { id, ladninger }
     this.bonus = { ...TOM };
-    this.permanent = { hp: 0, skade: 0 };             // fra skrifter
+    this.permanent = { hp: 0, skade: 0, str: 0, agi: 0, int: 0, ofringer: 0 };   // fra bøger og ofringer ved alteret
     this.cooldown = 0;
     this.helOverTid = null;                           // { pr, tid }
   }
@@ -51,7 +51,7 @@ export class Inventar {
     if (!p) return null;
     const d = ITEMS[p.id];
     if (!d.brug) return 'info';
-    if (this.helt.død) return 'Helten er faldet';
+    if (this.helt.død) return 'Your hero has fallen';
     if (this.cooldown > 0) return null;
     const fejl = this.virkning(d.brug, d);
     if (fejl) return fejl;
@@ -69,10 +69,11 @@ export class Inventar {
     if (b.helOverTid) { this.helOverTid = { pr: b.helOverTid[0], tid: b.helOverTid[1] }; bus.emit('effekt', { type: 'heal', mål: h }); }
     if (b.guld) { this.tilføjGuld(b.guld, h); }
     if (b.xp) { h.fåXp(b.xp); bus.emit('flydetekst', { enhed: h, tekst: `+${b.xp} XP`, klasse: 'xp' }); }
+    if (b.bog) this.øgEgenskaber(b.bog);
     if (b.skrift) {
       this.permanent.hp += b.skrift.hp; this.permanent.skade += b.skrift.skade;
       h.hp += b.skrift.hp;
-      bus.emit('flydetekst', { enhed: h, tekst: `+${b.skrift.hp} liv`, klasse: 'level' });
+      bus.emit('flydetekst', { enhed: h, tekst: `+${b.skrift.hp} health`, klasse: 'level' });
     }
     if (b.røg) {
       h.skjult = b.røg;
@@ -81,12 +82,12 @@ export class Inventar {
     }
     if (b.lyn) {
       const mål = h.verden.creeps.filter((c) => !c.død && c.rod.visible && h.afstand(c) < 16).sort((a, c) => h.afstand(a) - h.afstand(c))[0];
-      if (!mål) return 'Ingen fjende inden for rækkevidde';
+      if (!mål) return 'No enemy in range';
       bus.emit('effekt', { type: 'lyn', mål });
       mål.tagSkade(b.lyn, h);
     }
     if (b.hjem) {
-      if (h.sving) return 'Helten er optaget';
+      if (h.sving) return 'Your hero is busy';
       h.stop(); h.mål = null;
       h.spil('Spellcast_Raise', { loop: false, gentag: true, fart: 0.9 });
       bus.emit('effekt', { type: 'portal', x: h.x, z: h.z });
@@ -95,9 +96,20 @@ export class Inventar {
     return null;
   }
 
+  // Permanente egenskabspoint (bøger og ofringer ved alteret)
+  øgEgenskaber(point) {
+    const h = this.helt, førHp = h.maxHp, førMana = h.manaMax;
+    for (const [n, v] of Object.entries(point)) this.permanent[n] += v;
+    h.hp += h.maxHp - førHp;
+    h.mana += h.manaMax - førMana;
+    const tekst = Object.entries(point).map(([n, v]) => `+${v} ${n.toUpperCase()}`).join(' ');
+    bus.emit('flydetekst', { enhed: h, tekst, klasse: 'level' });
+    bus.emit('inventar_ændret', {});
+  }
+
   tilføjGuld(n, ved) {
     this.guld += n;
-    bus.emit('flydetekst', { enhed: ved ?? this.helt, tekst: `+${n} guld`, klasse: 'guld' });
+    bus.emit('flydetekst', { enhed: ved ?? this.helt, tekst: `+${n} gold`, klasse: 'guld' });
   }
 
   // Samlede bonusser fra udstyr (kun permanent og artefakt tæller)
@@ -138,7 +150,7 @@ export class Inventar {
     const h = this.helt, b = this.bonus;
     if (b.blok && Math.random() < b.blok) {
       mængde = Math.max(0, mængde - 40);
-      bus.emit('flydetekst', { enhed: h, tekst: 'Blokeret', klasse: 'immun' });
+      bus.emit('flydetekst', { enhed: h, tekst: 'Blocked', klasse: 'immun' });
     }
     if (b.retur && kilde && !kilde.død && h.afstand(kilde) < 4) kilde.tagSkade(Math.round(mængde * b.retur), h);
     return mængde;

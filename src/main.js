@@ -33,6 +33,8 @@ import { lavBoksValg } from './haer.js';
 import { SOLDAT_SYN } from './soldat.js';
 import { hentGem, startAutogem } from './gem.js';
 import { gendanSpil } from './gendan.js';
+import { HelteKort } from './heltekort.js';
+import { ESSENSER } from './abilities.js';
 
 const lærred = document.getElementById('spil');
 const renderer = new THREE.WebGLRenderer({ canvas: lærred, antialias: true, powerPreference: 'high-performance' });
@@ -89,6 +91,7 @@ async function start() {
   let egne = [];
   verden.egne = () => egne;
   const stil = new Spillerstil(verden);
+  stil.score[ESSENSER[essens].stil] += 6;   // essensen giver spillestilen en retning fra start
 
   const spil = {
     lærred, stil,
@@ -118,6 +121,7 @@ async function start() {
   spil.invHud = invHud;
   spil.veteraner = new Veteraner(spil, stil);
   const kmdHud = new KommandoHud(spil);
+  const helteKort = new HelteKort(spil);
   rig.onBoks = lavBoksValg(spil, (x, y, z) => overlay.skærm(x, y, z));
   bus.on('creep_død', ({ xp }) => helt.fåXp(xp));
   bus.on('teleport', () => rig.centrér());
@@ -126,8 +130,8 @@ async function start() {
     helt.tid = gemt.spilTid;
     taage.patchScene(scene);
     taage.opdater(1, [{ x: helt.x, z: helt.z, radius: 28 }]);
-    setTimeout(() => overlay.toast('Velkommen tilbage — spillet fortsætter hvor du slap'), 600);
-  } else setTimeout(() => overlay.toast('Tryk på en bærer for at bygge — tryk på jorden for at gå med helten'), 600);
+    setTimeout(() => overlay.toast('Welcome back — your game continues where you left off'), 600);
+  } else setTimeout(() => overlay.toast('Tap a worker to build — tap the ground to move your hero'), 600);
   spil.gem = startAutogem(spil);
 
   tryk = lavTryk({ spil, lærred, overlay, effekter, genstande, steder });
@@ -179,6 +183,7 @@ async function start() {
     hud.opdater();
     invHud.opdater();
     kmdHud.opdater(dt);
+    helteKort.opdater(dt);
   });
 
   // Til test: vis hele kortet uden tåge
@@ -189,5 +194,5 @@ async function start() {
 
 start().catch((e) => {
   console.error(e);
-  document.getElementById('lade-tekst').textContent = `Fejl: ${e.message}`;
+  document.getElementById('lade-tekst').textContent = `Error: ${e.message}`;
 });

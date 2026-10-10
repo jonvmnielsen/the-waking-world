@@ -68,6 +68,7 @@ export class InventarHud {
   // Købmanden: liste over varer med pris
   åbnButik(sted) {
     this.butikSted = sted;
+    $('butik-navn').textContent = sted.data ? sted.data.navn : 'Merchant';
     const liste = $('butik-varer');
     liste.innerHTML = '';
     for (const id of BUTIK) {
@@ -84,8 +85,8 @@ export class InventarHud {
 
   køb(id) {
     const d = ITEMS[id];
-    if (this.inv.guld < d.pris) return bus.emit('besked', 'Du har ikke guld nok');
-    if (this.inv.fuld && d.type !== 'opsamling') return bus.emit('besked', 'Inventaret er fuldt');
+    if (this.inv.guld < d.pris) return bus.emit('besked', 'Not enough gold');
+    if (this.inv.fuld && d.type !== 'opsamling') return bus.emit('besked', 'Your inventory is full');
     this.inv.guld -= d.pris;
     this.inv.modtag(id);
     bus.emit('effekt', { type: 'samlet', x: this.spil.helt.x, z: this.spil.helt.z, farve: 0xffd36b });

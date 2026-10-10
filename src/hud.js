@@ -1,7 +1,6 @@
 // Skærmens faste brugerflade: heltepanel, evneknapper, kamera-knap, menu og essensvalg.
-import { ESSENSER } from './abilities.js';
 import { bus } from './events.js';
-import { gemSpil, beskrivGem } from './gem.js';
+import { gemSpil } from './gem.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -14,7 +13,7 @@ export class Hud {
     $('menuknap').addEventListener('click', () => $('menu').classList.toggle('åben'));
     $('test-level').addEventListener('click', () => { spil.helt.fåXp(Math.max(1, spil.nødvendigXp())); });
     $('genstart').addEventListener('click', () => location.reload());
-    $('gem').addEventListener('click', () => { bus.emit('besked', gemSpil(spil) ? 'Spillet er gemt' : 'Spillet kunne ikke gemmes'); $('menu').classList.remove('åben'); });
+    $('gem').addEventListener('click', () => { bus.emit('besked', gemSpil(spil) ? 'Game saved' : 'The game could not be saved'); $('menu').classList.remove('åben'); });
     window.addEventListener('keydown', (e) => {
       const i = ['q', 'w', 'e'].indexOf(e.key.toLowerCase());
       if (i >= 0) spil.brugEvne(i);
@@ -22,7 +21,7 @@ export class Hud {
     });
     bus.on('helt_død', () => $('dødsskærm').classList.add('vis'));
     bus.on('helt_genoplivet', () => $('dødsskærm').classList.remove('vis'));
-    bus.on('level_op', ({ level }) => this.banner(`Level ${level}`, level === 3 || level === 6 ? 'Ny evne låst op!' : 'Din helt bliver stærkere'));
+    bus.on('level_op', ({ level }) => this.banner(`Level ${level}`, level === 3 || level === 6 ? 'New ability unlocked!' : 'Your hero grows stronger'));
   }
 
   banner(titel, under) {
@@ -56,24 +55,4 @@ export class Hud {
   }
 }
 
-// Essensvalget før spillet starter. Returnerer et Promise med valgt essens.
-// Returnerer den valgte essens, eller 'fortsæt' hvis spilleren fortsætter et gemt spil
-export function vælgEssens(gemt) {
-  return new Promise((løs) => {
-    if (gemt) {
-      $('fortsaet').hidden = false;
-      $('fortsaet-tekst').textContent = beskrivGem(gemt);
-      $('fortsaet').onclick = () => { $('essensvalg').classList.remove('vis'); løs('fortsæt'); };
-    }
-    const boks = $('essenser');
-    boks.innerHTML = '';
-    for (const [id, e] of Object.entries(ESSENSER)) {
-      const kort = document.createElement('button');
-      kort.className = `essens ${id}`;
-      kort.innerHTML = `<b>${e.navn}</b><span>${e.tekst}</span>`;
-      kort.addEventListener('click', () => { $('essensvalg').classList.remove('vis'); løs(id); });
-      boks.appendChild(kort);
-    }
-    $('essensvalg').classList.add('vis');
-  });
-}
+export { vælgEssens } from './essensvalg.js';

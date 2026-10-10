@@ -9,15 +9,18 @@ export const levelMetoder = {
     while (this.level < tabel.length && this.xp >= tabel[this.level]) this.levelOp();
   },
 
-  levelOp() {
+  // stille = uden fanfare (når et gemt spil gendannes)
+  levelOp(stille = false) {
     this.level += 1;
     const i = this.level - 1;
+    const førHp = this.maxHp;
     this.basisHp += LEVELS.hpBonus[i];
-    this.hp = Math.min(this.maxHp, this.hp + LEVELS.hpBonus[i]);
     this.stats.skadeMin += LEVELS.skadeBonus[i];
     this.stats.skadeMax += LEVELS.skadeBonus[i];
     this.stats.rustning += LEVELS.rustBonus[i];
-    bus.emit('level_op', { helt: this, level: this.level });
+    this.vækstEgenskaber();
+    this.hp = Math.min(this.maxHp, this.hp + this.maxHp - førHp);
+    if (!stille) bus.emit('level_op', { helt: this, level: this.level });
   },
 
   // Fremgang mod næste level (0-1)

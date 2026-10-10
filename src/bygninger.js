@@ -57,7 +57,7 @@ export class Bygning {
     if (this.data.alter) this.verden.helt.spawn = { x: this.x + 4, z: this.z + 6 };
     if (!stille) {
       bus.emit('effekt', { type: 'kiste', x: this.x, z: this.z });
-      bus.emit('besked', `${this.data.navn} er færdig`);
+      bus.emit('besked', `${this.data.navn} is complete`);
     }
     bus.emit('bygning_færdig', { bygning: this });
   }
@@ -66,8 +66,8 @@ export class Bygning {
   træn(type) {
     const e = ENHEDER[type], øko = this.base.økonomi;
     if (e.låst) return e.låst;
-    if (!this.færdig) return 'Bygningen er ikke færdig';
-    if (this.kø.length >= 5) return 'Køen er fuld';
+    if (!this.færdig) return 'The building is not finished';
+    if (this.kø.length >= 5) return 'The queue is full';
     const mangler = øko.mangler(e.pris, e.forsyning);
     if (mangler) return mangler;
     øko.betal(e.pris);

@@ -66,7 +66,9 @@ the-waking-world/
 │   ├── gem.js / gendan.js    # Gem spil i localStorage og gendan det
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
-│   ├── hero.js / abilities.js / orkhud.js   # Helten, evner, grøn ork-hud
+│   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud
+│   ├── heltstats.js / heltekort.js # Heltens egenskaber (STR/AGI/INT), ofringer; heltekortet på skærmen
+│   ├── essensvalg.js         # Essensvalget ved start med forklaring og vink
 │   ├── heltlevel.js / heltinteraktion.js    # Heltens level-op og gå-hen-og-gør-noget
 │   ├── itemdata.js           # Alle items, sjældenhed, drop-borde, butikkens varer
 │   ├── inventar.js           # Heltens 6 pladser, bonusser, brug af items, guld
@@ -162,7 +164,8 @@ I praksis åbnes separate CC-sessioner per agent. Arkitekt-agenten producerer pr
 
 - Starter altid level 1, samme base stats — ingen cross-session magt-fordel
 - Cross-session: titler, battle scars, passive traits (kosmetisk + narrativt)
-- Essence-valg ved gamestart: *Vold*, *Tålmodighed* eller *Ofring*
+- Essence-valg ved gamestart: *Violence* (Vold), *Patience* (Tålmodighed) eller *Sacrifice* (Ofring) — se GDD 6.1
+- Egenskaber: Strength, Agility, Intelligence (GDD 6.2)
 
 ### Progression i to tiers
 
@@ -290,6 +293,12 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Veteranstatus, spillestilsmålere og grunt-grenene Ironhide/Ravager/Berserker med evner
 - [x] Gem spil: autogem, "Gem spillet" i menuen, "Fortsæt spillet" ved start
 
+### ✅ Engelsk, egenskaber og essensvalg (oktober 2026)
+- [x] Hele spillet på engelsk (kode og kommentarer forbliver danske)
+- [x] Essensvalg med forklaring: kampstil, egenskab, evner og vink om hvad valget kan føre til
+- [x] Heltens egenskaber Strength/Agility/Intelligence; bøger, udstyr og ofringer ved alteret øger dem
+- [x] Helten løber 20 % hurtigere
+
 ### 📋 Næste: milepæle M5–M7
 Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
 
@@ -311,6 +320,8 @@ Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og 
 | 2026-10-10 | Sten som tredje ressource | Jons ønske: arbejdere samler guld, træ og sten. Sten hugges i bjergene og bruges til tårne og større bygninger |
 | 2026-10-10 | Terrænet tegnes som ét mesh, hex kun i logikken | Jon: hexagonerne så brætspilsagtige ud |
 | 2026-10-10 | Hvert træ og hver sten er en ressource | Jons ønske: alt der ligner træ eller sten skal kunne høstes |
+| 2026-10-10 | Spillet er på engelsk | Jons ønske. Koden, kommentarer og docs forbliver på dansk |
+| 2026-10-10 | Helte har Strength/Agility/Intelligence | Jons ønske; klassisk WC3-model. Kan øges med bøger, udstyr og ofringer ved alteret |
 | 2026-10-10 | Gem spil i browserens localStorage | Virker på telefonen uden server; ét gemt spil ad gangen |
 | 2026-10-09 | 3D low-poly (KayKit) frem for 2D-sprites | Delt assetbibliotek med Tideborn, rigtige animationer. Klodsgrafik af grundformer er udelukket |
 | 2026-03-23 | Hero progression: 2 tiers + Ascension ved level 10 | Level 10 er vendepunkt ikke loft — giver dybde og replay-value |
