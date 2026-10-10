@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "bfa1c01",
-  "synced": "2026-10-10T07:51:23.842Z",
+  "synced": "2026-10-10T12:17:41.403Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -217,76 +217,6 @@
       "file": "kaykit-skeletons/skeleton_shield_large_a.glb",
       "bytes": 22364,
       "sha": "8e7db54c336b",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/base/hex_grass": {
-      "id": "kaykit-hexagon/tiles/base/hex_grass",
-      "file": "kaykit-hexagon/tiles/base/hex_grass.glb",
-      "bytes": 7992,
-      "sha": "b18ce3364bc6",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/base/hex_grass_bottom": {
-      "id": "kaykit-hexagon/tiles/base/hex_grass_bottom",
-      "file": "kaykit-hexagon/tiles/base/hex_grass_bottom.glb",
-      "bytes": 7644,
-      "sha": "35d48dc9d147",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/base/hex_grass_sloped_high": {
-      "id": "kaykit-hexagon/tiles/base/hex_grass_sloped_high",
-      "file": "kaykit-hexagon/tiles/base/hex_grass_sloped_high.glb",
-      "bytes": 7984,
-      "sha": "fe9a3c8c0b79",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/base/hex_grass_sloped_low": {
-      "id": "kaykit-hexagon/tiles/base/hex_grass_sloped_low",
-      "file": "kaykit-hexagon/tiles/base/hex_grass_sloped_low.glb",
-      "bytes": 8028,
-      "sha": "6ca7b90c710d",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/base/hex_water": {
-      "id": "kaykit-hexagon/tiles/base/hex_water",
-      "file": "kaykit-hexagon/tiles/base/hex_water.glb",
-      "bytes": 7632,
-      "sha": "1202ee52d1d9",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/coast/hex_coast_a": {
-      "id": "kaykit-hexagon/tiles/coast/hex_coast_a",
-      "file": "kaykit-hexagon/tiles/coast/hex_coast_a.glb",
-      "bytes": 9036,
-      "sha": "af97e629569e",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/coast/hex_coast_b": {
-      "id": "kaykit-hexagon/tiles/coast/hex_coast_b",
-      "file": "kaykit-hexagon/tiles/coast/hex_coast_b.glb",
-      "bytes": 8988,
-      "sha": "4314f447edea",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/coast/hex_coast_c": {
-      "id": "kaykit-hexagon/tiles/coast/hex_coast_c",
-      "file": "kaykit-hexagon/tiles/coast/hex_coast_c.glb",
-      "bytes": 8976,
-      "sha": "4d7fe78d6265",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/coast/hex_coast_d": {
-      "id": "kaykit-hexagon/tiles/coast/hex_coast_d",
-      "file": "kaykit-hexagon/tiles/coast/hex_coast_d.glb",
-      "bytes": 8860,
-      "sha": "e08c874c72b6",
-      "license": "CC0-1.0"
-    },
-    "kaykit-hexagon/tiles/coast/hex_coast_e": {
-      "id": "kaykit-hexagon/tiles/coast/hex_coast_e",
-      "file": "kaykit-hexagon/tiles/coast/hex_coast_e.glb",
-      "bytes": 8588,
-      "sha": "e6cc1c6bbbc6",
       "license": "CC0-1.0"
     },
     "kaykit-hexagon/decoration/nature/cloud_big": {
@@ -1421,6 +1351,13 @@
       "file": "kaykit-dungeon/coin_stack_small_gltf.glb",
       "bytes": 16588,
       "sha": "12d565bffe07",
+      "license": "CC0-1.0"
+    },
+    "kaykit-dungeon/coin_stack_large_gltf": {
+      "id": "kaykit-dungeon/coin_stack_large_gltf",
+      "file": "kaykit-dungeon/coin_stack_large_gltf.glb",
+      "bytes": 43124,
+      "sha": "949502308f86",
       "license": "CC0-1.0"
     },
     "kaykit-dungeon/chest": {
