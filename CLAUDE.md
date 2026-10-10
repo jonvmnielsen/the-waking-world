@@ -69,7 +69,7 @@ the-waking-world/
 │   ├── dagnat.js             # Dag og nat: lys, himmel, udsyn, ur
 │   ├── verdenstilstand.js / tjener.js # Balance → Fald → Opvågning; Den Unavngivnes tjenere
 │   ├── kro.js                # Kroen hyrer lejesoldater
-│   ├── lyd.js                # Syntetiske lydeffekter og vind (WebAudio)
+│   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud
@@ -95,6 +95,7 @@ the-waking-world/
 │   ├── effects.js / overlay.js / hud.js     # Effekter, livsbjælker, brugerflade
 │   └── style.css
 ├── tools/
+│   ├── lyde.mjs              # Henter lydene i lyde.json fra game-assets til public/audio (OGG → MP3)
 │   ├── smoke-test.mjs        # Headless test i mobilstørrelse med skærmbilleder
 │   ├── visning.mjs           # Skærmbilleder fra bestemte steder på kortet (SKUD='[...]')
 │   └── byg-artefakt.mjs      # Bygger spillet som privat Claude-side
@@ -107,6 +108,7 @@ the-waking-world/
 
 - `npm install` og klon `game-assets` ved siden af dette repo (`../game-assets`).
 - `npm run assets` synkroniserer modellerne i `assets.json` (kun de valgte animationer kommer med).
+- `node tools/lyde.mjs` henter lydene i `lyde.json` fra game-assets til `public/audio/`.
 - `npm run dev` starter en lokal server. `npm test` bygger og kører røgtesten (skærmbilleder i `test-output/`).
 - **Jon tester på https://jonvmnielsen.github.io/the-waking-world/** (GitHub Pages fra grenen `gh-pages`, repoet er offentligt). Efter hver ændring: `npx vite build`, læg `dist/` + en tom `.nojekyll` på `gh-pages` og push. Claude-sider (artefakter) virker ikke i Jons app, så brug Pages.
 - `node tools/byg-artefakt.mjs` bygger stadig en Claude-side-version (modeller pakket i `modelpakke.json`), men den bruges ikke lige nu.
@@ -344,6 +346,7 @@ Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og 
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
 | 2026-10-10 | Dag og nat med | Rytme og taktik (GDD 4.6) |
 | 2026-10-10 | Lyd syntetiseres med WebAudio indtil videre | Ingen lydfiler i asset-biblioteket endnu; virker uden downloads |
+| 2026-10-10 | Rigtige lyde: Sonniss GDC-klip + Kenney (CC0) | Jons lydpakker; Sonniss-licensen tillader brug i spil (ikke salg af lydene som de er, ingen AI-træning). Kun bearbejdede klip ligger i repoerne (game-assets D-011) |
 | 2026-10-10 | Gem spil i browserens localStorage | Virker på telefonen uden server; ét gemt spil ad gangen |
 | 2026-10-09 | 3D low-poly (KayKit) frem for 2D-sprites | Delt assetbibliotek med Tideborn, rigtige animationer. Klodsgrafik af grundformer er udelukket |
 | 2026-03-23 | Hero progression: 2 tiers + Ascension ved level 10 | Level 10 er vendepunkt ikke loft — giver dybde og replay-value |

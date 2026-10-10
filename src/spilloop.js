@@ -12,6 +12,7 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
   return function trin(dt) {
     spil.ur.tid += dt;
     spil.dagNat.opdater(dt);
+    spil.lyd?.opdater(dt, spil.dagNat.nat);
     sætEgne([helt, ...base.arbejdere, ...base.soldater].filter((u) => !u.død && u.rod.visible && !u.skjult));
     helt.opdater(dt);
     // Om natten ser alle kortere (dagnat.js)

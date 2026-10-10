@@ -1,0 +1,214 @@
+{
+ "slag_1.mp3": {
+  "kilde": "jse-melee/axe_flesh_hit_01",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "slag_2.mp3": {
+  "kilde": "jse-melee/axe_flesh_hit_02",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "slag_3.mp3": {
+  "kilde": "jse-melee/axe_flesh_hit_03",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "slag_4.mp3": {
+  "kilde": "jse-melee/axe_flesh_hit_04",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "slag_5.mp3": {
+  "kilde": "jse-melee/axe_flesh_hit_05",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "slag_fjende_1.mp3": {
+  "kilde": "kenney-impact-sounds/impactpunch_heavy_000",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_fjende_2.mp3": {
+  "kilde": "kenney-impact-sounds/impactpunch_heavy_001",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_fjende_3.mp3": {
+  "kilde": "kenney-impact-sounds/impactpunch_heavy_002",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_fjende_4.mp3": {
+  "kilde": "kenney-impact-sounds/impactpunch_heavy_003",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_fjende_5.mp3": {
+  "kilde": "kenney-impact-sounds/impactpunch_heavy_004",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_bygning_1.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_heavy_000",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_bygning_2.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_heavy_001",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_bygning_3.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_heavy_002",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_bygning_4.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_heavy_003",
+  "licens": "CC0 (Kenney)"
+ },
+ "slag_bygning_5.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_heavy_004",
+  "licens": "CC0 (Kenney)"
+ },
+ "blok_1.mp3": {
+  "kilde": "jse-melee/shield_block_01",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "blok_2.mp3": {
+  "kilde": "jse-melee/shield_block_02",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "blok_3.mp3": {
+  "kilde": "jse-melee/shield_block_03",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "blok_4.mp3": {
+  "kilde": "jse-melee/shield_block_04",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "blok_5.mp3": {
+  "kilde": "jse-melee/shield_block_05",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "doed_1.mp3": {
+  "kilde": "kenney-impact-sounds/impactsoft_heavy_000",
+  "licens": "CC0 (Kenney)"
+ },
+ "doed_2.mp3": {
+  "kilde": "kenney-impact-sounds/impactsoft_heavy_001",
+  "licens": "CC0 (Kenney)"
+ },
+ "doed_3.mp3": {
+  "kilde": "kenney-impact-sounds/impactsoft_heavy_002",
+  "licens": "CC0 (Kenney)"
+ },
+ "doed_4.mp3": {
+  "kilde": "kenney-impact-sounds/impactsoft_heavy_003",
+  "licens": "CC0 (Kenney)"
+ },
+ "doed_5.mp3": {
+  "kilde": "kenney-impact-sounds/impactsoft_heavy_004",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_trae_1.mp3": {
+  "kilde": "kenney-rpg-audio/chop",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_trae_2.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_medium_000",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_trae_3.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_medium_001",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_trae_4.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_medium_002",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_trae_5.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_medium_003",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_trae_6.mp3": {
+  "kilde": "kenney-impact-sounds/impactwood_medium_004",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_sten_1.mp3": {
+  "kilde": "kenney-impact-sounds/impactmining_000",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_sten_2.mp3": {
+  "kilde": "kenney-impact-sounds/impactmining_001",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_sten_3.mp3": {
+  "kilde": "kenney-impact-sounds/impactmining_002",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_sten_4.mp3": {
+  "kilde": "kenney-impact-sounds/impactmining_003",
+  "licens": "CC0 (Kenney)"
+ },
+ "hug_sten_5.mp3": {
+  "kilde": "kenney-impact-sounds/impactmining_004",
+  "licens": "CC0 (Kenney)"
+ },
+ "trae_falder_1.mp3": {
+  "kilde": "mw-lumberjack/tree_crack_fall",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "bygning_falder_1.mp3": {
+  "kilde": "pp-warfare/distant_explosion",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "moent_1.mp3": {
+  "kilde": "kenney-rpg-audio/handlecoins",
+  "licens": "CC0 (Kenney)"
+ },
+ "moent_2.mp3": {
+  "kilde": "kenney-rpg-audio/handlecoins2",
+  "licens": "CC0 (Kenney)"
+ },
+ "doer_1.mp3": {
+  "kilde": "rw-door/door_creak_01",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "doer_2.mp3": {
+  "kilde": "rw-door/door_creak_03",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "klik_1.mp3": {
+  "kilde": "kenney-interface-sounds/click_001",
+  "licens": "CC0 (Kenney)"
+ },
+ "klik_2.mp3": {
+  "kilde": "kenney-interface-sounds/click_002",
+  "licens": "CC0 (Kenney)"
+ },
+ "klik_3.mp3": {
+  "kilde": "kenney-interface-sounds/click_003",
+  "licens": "CC0 (Kenney)"
+ },
+ "klik_4.mp3": {
+  "kilde": "kenney-interface-sounds/click_004",
+  "licens": "CC0 (Kenney)"
+ },
+ "klik_5.mp3": {
+  "kilde": "kenney-interface-sounds/click_005",
+  "licens": "CC0 (Kenney)"
+ },
+ "hane_1.mp3": {
+  "kilde": "mw-farm/rooster",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "uhyggelig_1.mp3": {
+  "kilde": "mw-metal/reversed_metal",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "metal_1.mp3": {
+  "kilde": "mw-metal/metal_impact",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "skov_dag_1.mp3": {
+  "kilde": "jse-forest/forest_day",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "skov_nat_1.mp3": {
+  "kilde": "jse-forest/forest_night_owls",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ },
+ "vind_1.mp3": {
+  "kilde": "ksl-countryside/wind_soft",
+  "licens": "Sonniss GDC (se game-assets/licenses)"
+ }
+}

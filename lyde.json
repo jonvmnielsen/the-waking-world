@@ -1,0 +1,24 @@
+{
+  "_comment": "Lyde spillet bruger fra game-assets. 'audio/...' = Sonniss-klip (audio/_meta.json), ellers et lyd-id fra catalog.json (Kenney, CC0). Kør: node tools/lyde.mjs → public/audio/<navn>_<n>.mp3 + public/audio/lyde.json",
+  "out": "public/audio",
+  "lyde": {
+    "slag": ["audio/jse-melee/axe_flesh_hit_*"],
+    "slag_fjende": ["kenney-impact-sounds/impactpunch_heavy_*"],
+    "slag_bygning": ["kenney-impact-sounds/impactwood_heavy_*"],
+    "blok": ["audio/jse-melee/shield_block_*"],
+    "død": ["kenney-impact-sounds/impactsoft_heavy_*"],
+    "hug_træ": ["kenney-rpg-audio/chop", "kenney-impact-sounds/impactwood_medium_*"],
+    "hug_sten": ["kenney-impact-sounds/impactmining_*"],
+    "træ_falder": ["audio/mw-lumberjack/tree_crack_fall"],
+    "bygning_falder": ["audio/pp-warfare/distant_explosion"],
+    "mønt": ["kenney-rpg-audio/handlecoins", "kenney-rpg-audio/handlecoins2"],
+    "dør": ["audio/rw-door/door_creak_01", "audio/rw-door/door_creak_03"],
+    "klik": ["kenney-interface-sounds/click_00*"],
+    "hane": ["audio/mw-farm/rooster"],
+    "uhyggelig": ["audio/mw-metal/reversed_metal"],
+    "metal": ["audio/mw-metal/metal_impact"],
+    "skov_dag": ["audio/jse-forest/forest_day"],
+    "skov_nat": ["audio/jse-forest/forest_night_owls"],
+    "vind": ["audio/ksl-countryside/wind_soft"]
+  }
+}

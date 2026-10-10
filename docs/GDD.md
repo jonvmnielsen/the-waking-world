@@ -368,7 +368,7 @@ Det forhindrer, at spillet går i stå, og giver et klimaks.
 
 **Kroen (M6):** Helten kan gå til kroen og hyre lejesoldater for guld: *Brawler* (nærkamp), *Crossbowman* (afstand) og *Sellsword* (tung). De kræver forsyning og kæmper som spillerens egne soldater.
 
-**Lyd (M6):** Syntetiske lydeffekter (slag, kast, død, hug i træ og sten, mønter, level op, bygning færdig, evner, fjendens horn, natklokke, sejr/nederlag) og svag vind. Lyde dæmpes efter afstand til kameraet og kan slås fra i menuen. Rigtige lydfiler og musik kommer senere.
+**Lyd (M6):** Rigtige lydfiler fra game-assets: Sonniss GDC-optagelser (økseslag, skjoldblok, træ der falder, sammenstyrtning, hanegal ved daggry, uhyggelig metal ved Opvågning, skovstemning om dagen, ugler om natten og vind) og Kenney-lyde (CC0: slag, hug i træ og sten, mønter, klik). Stemningslydene blandes efter døgnet. Kast, level op, evner, horn, natklokke og sejr/nederlag er stadig syntetiske (WebAudio), og de syntetiske lyde bruges også, mens filerne hentes. Lyde dæmpes efter afstand til kameraet og kan slås fra i menuen. `lyde.json` bestemmer hvilke lyde spillet bruger; `node tools/lyde.mjs` henter dem fra game-assets til `public/audio/`. Musik mangler stadig.
 
 ---
 

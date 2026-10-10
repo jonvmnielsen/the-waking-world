@@ -82,6 +82,7 @@ export class InventarHud {
     }
     this.opdaterButik();
     $('butik').classList.add('vis');
+    bus.emit('butik_åben', { sted });
   }
 
   itemVare(id) {
