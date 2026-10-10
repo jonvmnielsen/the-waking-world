@@ -164,6 +164,26 @@
     "kaykit-halloween/crypt",
     "kaykit-halloween/shrine_candles",
     "kaykit-halloween/floor_dirt_grave",
-    "kaykit-dungeon/chest_gold"
+    "kaykit-dungeon/chest_gold",
+    "kaykit-adventurers/dagger",
+    "kaykit-adventurers/shield_round",
+    "kaykit-adventurers/sword_1handed",
+    "kaykit-adventurers/shield_badge_color",
+    "kaykit-adventurers/quiver",
+    "kaykit-adventurers/spellbook_open",
+    "kaykit-adventurers/spellbook_closed",
+    "kaykit-adventurers/axe_2handed",
+    "kaykit-adventurers/shield_spikes_color",
+    "kaykit-adventurers/staff",
+    "kaykit-adventurers/axe_1handed",
+    "kaykit-adventurers/sword_2handed_color",
+    "kaykit-adventurers/wand",
+    "kaykit-adventurers/smokebomb",
+    "kaykit-adventurers/mug_full",
+    "kaykit-dungeon/bottle_a_labeled_green_gltf",
+    "kaykit-dungeon/bottle_c_green_gltf",
+    "kaykit-dungeon/bottle_b_green_gltf",
+    "kaykit-dungeon/coin_stack_small_gltf",
+    "kaykit-dungeon/chest"
   ]
 }

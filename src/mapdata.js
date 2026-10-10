@@ -9,12 +9,12 @@ import { KORT } from './config.js';
 export function lavKort(seed = KORT.seed) {
   const tilf = rng(seed);
   const kort = lavTerræn(seed);
-  const { heltSpawn, steder, lejre } = placérSteder(kort, tilf);
+  const { heltSpawn, steder, lejre, kister } = placérSteder(kort, tilf);
 
   for (const f of kort.felter.values()) {
     if (f.type === 'vand') vandPynt(f, tilf);
     else if (f.blok) blokPynt(f, tilf);
     else if (f.type === 'græs' && !f.optaget) friPynt(f, tilf);
   }
-  return { kort, heltSpawn, steder, lejre, grænser: kortGrænser() };
+  return { kort, heltSpawn, steder, lejre, kister, tilf, grænser: kortGrænser() };
 }

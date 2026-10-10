@@ -58,6 +58,13 @@ the-waking-world/
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, evner, grøn ork-hud
+│   ├── heltlevel.js / heltinteraktion.js    # Heltens level-op og gå-hen-og-gør-noget
+│   ├── itemdata.js           # Alle items, sjældenhed, drop-borde, butikkens varer
+│   ├── inventar.js           # Heltens 6 pladser, bonusser, brug af items, guld
+│   ├── genstande.js          # Items på jorden, kister, guld og drop fra creeps
+│   ├── ikoner.js             # Tegner item-ikoner ud fra 3D-modellerne
+│   ├── inventarhud.js        # Inventar, info-kort og købmandens butik på skærmen
+│   ├── tryk.js               # Hvad et tryk betyder (angrib, saml op, åbn, handl, gå)
 │   ├── creeps.js             # Skeletter og lejre (aggro, leash, respawn)
 │   ├── camera.js             # Kamera + touch (tryk, træk, knib)
 │   ├── effects.js / overlay.js / hud.js     # Effekter, livsbjælker, brugerflade
@@ -77,7 +84,7 @@ the-waking-world/
 - `npm run dev` starter en lokal server. `npm test` bygger og kører røgtesten (skærmbilleder i `test-output/`).
 - **Jon tester på https://jonvmnielsen.github.io/the-waking-world/** (GitHub Pages fra grenen `gh-pages`, repoet er offentligt). Efter hver ændring: `npx vite build`, læg `dist/` + en tom `.nojekyll` på `gh-pages` og push. Claude-sider (artefakter) virker ikke i Jons app, så brug Pages.
 - `node tools/byg-artefakt.mjs` bygger stadig en Claude-side-version (modeller pakket i `modelpakke.json`), men den bruges ikke lige nu.
-- Skala: KayKit-hexfliser skaleres ×3,5 (`VERDEN.hexSkala`), så bygninger og natur er større end helten (GDD 4.1). Hexagon-pakkens pynt skaleres med (pynt.skala er en ekstra faktor); Halloween-, dungeon- og figurpakker er i figurstørrelse.
+- Skala: KayKit-hexfliser skaleres ×5 (`VERDEN.hexSkala`), så bygninger og natur er meget større end helten, og dørene er højere end helten (GDD 4.1). Storlejren fylder 3 felter. Hexagon-pakkens pynt skaleres med (pynt.skala er en ekstra faktor); Halloween-, dungeon- og figurpakker er i figurstørrelse.
 - Test: `spil.visHeleKortet()` fjerner tågen, `spil.simuler(sek)` spoler tiden frem.
 
 ---
@@ -230,15 +237,24 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Essensvalg og alle 7 evner fra balance v1
 - [x] Død og genoplivning ved lejren
 
-### 🔄 M1 — "Stor verden" (oktober 2026)
-- [x] Verden skaleret op omkring helten (bygninger 2,5–6×, træer ~1,7×)
+### ✅ M1 — "Stor verden" (oktober 2026)
+- [x] Verden skaleret op omkring helten (hexSkala 5, Storlejr på 3 felter, træer ~2×)
 - [x] Procedurelt kort 48×48 hex med 5 regioner, søer, kyst, skove og bjerge
 - [x] 26 creep-lejre (73 creeps): skeletter og plyndrere i 5 sværhedsgrader inkl. 2 bosser, ingen genopstandelse
 - [x] Krigens tåge, minimap med lejre i farver, tryk på minimap flytter kameraet
 - [x] Neutrale steder: livskilder (heler), udkigstårne (viser omegnen), kro, købmand, guldminer, ruiner
-- [ ] Jons feedback på skala og kort
+- [x] Jons feedback: større bygninger (døre højere end helten), kameraet bliver hvor man kigger, uudforsket land helt sort, automatisk angreb
 
-### 📋 Næste: milepæle M2–M7
+### ✅ M2 — "Items" (oktober 2026)
+- [x] 22 items i fem typer (forbrug, opladning, udstyr, artefakt, opsamling) og fire sjældenheder
+- [x] Inventar med 6 pladser og ikoner tegnet fra modellerne; tryk = brug, hold = info-kort med "Smid"
+- [x] Guld fra alle creeps; lejrens sidste creep taber et item efter sværhedsgrad; bosser taber legendariske items
+- [x] Items på jorden med lysstribe i sjældenhedens farve; guldposer og skrifter samles op automatisk
+- [x] 10 kister (ved ruiner, i vildmarken og ved bosserne — låst til bossen er død)
+- [x] Købmanden sælger eliksirer, røgbombe, hjemkald og simpelt udstyr
+- [x] Artefakter: lyn (Tordenøksen), blok (Gravkongens skjold), livsstjæl (Kaptajnens klinge), pigskjold
+
+### 📋 Næste: milepæle M3–M7
 Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
 
 ---

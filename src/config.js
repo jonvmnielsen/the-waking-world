@@ -2,7 +2,7 @@
 // omregnet fra Godot-pixels til verdensenheder (40 px = 1 enhed).
 
 export const VERDEN = {
-  hexSkala: 3.5,        // KayKit hex-fliser er 2 enheder brede — skaleres så bygninger og natur er større end helten
+  hexSkala: 5,          // KayKit hex-fliser er 2 enheder brede — skaleres så bygninger og natur er meget større end helten
 };
 
 export const KORT = {
@@ -13,7 +13,7 @@ export const KORT = {
 export const HELT = {
   maxHp: 500,
   mana: 200,
-  fart: 4.5,
+  fart: 5,
   rækkevidde: 2.2,
   skadeMin: 45,
   skadeMax: 55,
@@ -33,8 +33,8 @@ export const LEVELS = {
 };
 
 export const CREEP_AI = {
-  aggro: 7,         // afstand hvor creeps opdager helten
-  leash: 16,        // max afstand fra lejren før de vender hjem
+  aggro: 9,         // afstand hvor creeps opdager helten
+  leash: 22,        // max afstand fra lejren før de vender hjem
   respawn: null,    // creeps genopstår ikke i skirmish (GDD 7.3)
 };
 

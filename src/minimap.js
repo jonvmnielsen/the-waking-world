@@ -61,7 +61,7 @@ export class Minimap {
     // Tåge: mørk hvor man ikke har været, halvmørk hvor man har været
     if (this.tåge.width !== t.b) { this.tåge.width = t.b; this.tåge.height = t.h; this.tågeData = this.tåge.getContext('2d').createImageData(t.b, t.h); }
     const d = this.tågeData.data;
-    for (let i = 0; i < t.data.length; i++) { d[i * 4 + 3] = t.synlig[i] ? 0 : t.udforsket[i] ? 110 : 235; }
+    for (let i = 0; i < t.data.length; i++) { d[i * 4 + 3] = t.synlig[i] ? 0 : t.udforsket[i] ? 120 : 255; }
     this.tåge.getContext('2d').putImageData(this.tågeData, 0, 0);
     ctx.imageSmoothingEnabled = true;
     ctx.drawImage(this.tåge, 0, 0, t.b * 2 * this.skala, t.h * 2 * this.skala);

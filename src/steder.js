@@ -7,16 +7,17 @@ import { lejrPynt } from './pynt.js';
 
 const BYG = 'kaykit-hexagon/buildings/';
 
-// The Tides lejr omkring basefeltet (dq, dr, model, rotation i 60°-trin, ekstra skala)
+// The Tides lejr omkring basefeltet (dq, dr, model, rotation i 60°-trin, ekstra skala, ekstra felter)
+// Storlejren fylder tre felter i en trekant (GDD 5.2), så porten er højere end helten.
 const BASE = [
-  [0, 0, 'green/building_castle_green', 0, 1],
-  [2, -1, 'green/building_barracks_green', 5, 1.15],
-  [-2, 1, 'green/building_home_a_green', 1, 1.4],
-  [-1, 2, 'green/building_home_b_green', 0, 1.3],
-  [-2, -1, 'green/building_windmill_green', 1, 1.2],
+  [0, 0, 'green/building_castle_green', 0, 1.45, [[1, -1], [0, -1]]],
+  [2, -1, 'green/building_barracks_green', 5, 1.2],
+  [-2, 1, 'green/building_home_a_green', 1, 2.15],
+  [-1, 2, 'green/building_home_b_green', 0, 1.95],
+  [-2, -1, 'green/building_windmill_green', 1, 1.4],
   [1, -2, 'green/building_blacksmith_green', 2, 1.3],
-  [2, 1, 'green/building_tower_a_green', 0, 1],
-  [-1, -2, 'green/building_lumbermill_green', 3, 1.15],
+  [2, 1, 'green/building_tower_a_green', 0, 1.2],
+  [-1, -2, 'green/building_lumbermill_green', 3, 1.3],
 ];
 
 export function placérSteder(k, tilf) {
@@ -36,9 +37,16 @@ export function placérSteder(k, tilf) {
 
   // 1) Basen
   const b = k.base;
-  for (const [dq, dr, model, rot, sk] of BASE) {
+  for (const [dq, dr, model, rot, sk, ekstra = []] of BASE) {
     const f = k.hent(b.q + dq, b.r + dr);
-    if (f) optag(f, { model: BYG + model, rot: rot * 60, skala: sk, skygge: true });
+    if (!f) continue;
+    // Store bygninger står i midten af deres felter
+    const felter = [f, ...ekstra.map(([eq, er]) => k.hent(b.q + eq, b.r + er)).filter(Boolean)];
+    const c = hexTilVerden(f.q, f.r);
+    const mx = felter.reduce((s, x) => s + hexTilVerden(x.q, x.r).x, 0) / felter.length;
+    const mz = felter.reduce((s, x) => s + hexTilVerden(x.q, x.r).z, 0) / felter.length;
+    optag(f, { model: BYG + model, rot: rot * 60, skala: sk, skygge: true, dx: mx - c.x, dz: mz - c.z });
+    for (const x of felter.slice(1)) optag(x, null);
   }
   const spawnFelt = k.hent(b.q + 1, b.r + 1);
   spawnFelt.optaget = true;
@@ -52,21 +60,39 @@ export function placérSteder(k, tilf) {
     optag(f, { model: BYG + model, rot: Math.floor(tilf() * 6) * 60, skala, skygge: true }, blokér);
     steder.push({ type, q: f.q, r: f.r, ...hexTilVerden(f.q, f.r) });
   };
-  sted('kro', 0.0, 0.0, 'yellow/building_tavern_yellow', 1.3);
-  sted('marked', 0.42, 0.22, 'yellow/building_market_yellow', 1.2);
+  sted('kro', 0.0, 0.0, 'yellow/building_tavern_yellow', 1.5);
+  sted('marked', 0.42, 0.22, 'yellow/building_market_yellow', 1.15);
   for (const [x, z] of [[-0.12, 0.42], [0.32, -0.18], [-0.45, -0.42], [0.62, 0.55]]) sted('kilde', x, z, 'yellow/building_well_yellow', 1.5);
-  for (const [x, z] of [[-0.05, -0.15], [-0.7, -0.7], [0.68, 0.28], [0.15, 0.72]]) sted('udkig', x, z, 'yellow/building_tower_base_yellow', 1.2);
+  for (const [x, z] of [[-0.05, -0.15], [-0.7, -0.7], [0.68, 0.28], [0.15, 0.72]]) sted('udkig', x, z, 'yellow/building_tower_base_yellow', 1.4);
   sted('mine', -0.32, 0.6, 'yellow/building_mine_yellow', 1.1);
+  // Kister (GDD 8.4): ved ruiner og spredt i de vilde regioner; sværere jo længere væk
+  const kister = [];
+  const kiste = (f, niveau, ekstra = {}) => {
+    const p = hexTilVerden(f.q, f.r);
+    kister.push({ x: p.x + (tilf() - 0.5) * 3, z: p.z + (tilf() - 0.5) * 3, rot: tilf() * Math.PI * 2, niveau, ...ekstra });
+    f.optaget = true;
+  };
   for (let i = 0; i < 4; i++) {
     const ruin = nærmesteFri(-0.3 + tilf() * 0.6, -0.1 + tilf() * 0.5);
-    if (ruin && ruin.region === 'askemarken') optag(ruin, { model: BYG + 'neutral/' + (i % 2 ? 'building_destroyed' : 'building_scaffolding'), rot: tilf() * 360, skala: 1.2, skygge: true });
+    if (!ruin || ruin.region !== 'askemarken') continue;
+    optag(ruin, { model: BYG + 'neutral/' + (i % 2 ? 'building_destroyed' : 'building_scaffolding'), rot: tilf() * 360, skala: 1.2, skygge: true });
+    const ved = k.naboer(ruin).find(fri);
+    if (ved) kiste(ved, 2);
+  }
+  for (const [x, z, niv] of [[-0.75, -0.1, 2], [0.1, -0.45, 3], [0.45, 0.78, 3], [0.88, -0.38, 4]]) {
+    const f = nærmesteFri(x, z);
+    if (f) kiste(f, niv);
   }
 
   // 3) Creep-lejre spredt over kortet; sværere jo længere fra basen
   const lejre = [];
   const boss = (nx, nz, familie) => {
     const f = nærmesteFri(nx, nz);
-    if (f) lejre.push(lavLejr(f, 5, familie));
+    if (!f) return;
+    const l = lavLejr(f, 5, familie);
+    lejre.push(l);
+    const p = hexTilVerden(f.q, f.r);
+    kister.push({ x: p.x + 3.2, z: p.z - 2.6, rot: -0.5, niveau: 4, guld: true, lejrId: l.id });
   };
   const lavLejr = (f, niveau, familie) => {
     const valg = SAMMENSÆTNING[familie][niveau];
@@ -96,5 +122,5 @@ export function placérSteder(k, tilf) {
   }
 
   const p = hexTilVerden(spawnFelt.q, spawnFelt.r);
-  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre };
+  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre, kister };
 }

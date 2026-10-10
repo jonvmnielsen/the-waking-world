@@ -77,14 +77,14 @@ export function bygVerden(scene, kort) {
 
 export function lavLys(scene, renderer) {
   scene.background = new THREE.Color(0x9fd3ea);
-  scene.fog = new THREE.Fog(0x9fd3ea, 70, 150);
+  scene.fog = new THREE.Fog(0x9fd3ea, 85, 190);
   scene.add(new THREE.HemisphereLight(0xdff4ff, 0x5a6b3a, 1.6));
 
   const sol = new THREE.DirectionalLight(0xfff1d6, 2.6);
   sol.castShadow = true;
   sol.shadow.mapSize.set(2048, 2048);
   const c = sol.shadow.camera;
-  c.left = -38; c.right = 38; c.top = 38; c.bottom = -38; c.near = 1; c.far = 160;
+  c.left = -46; c.right = 46; c.top = 46; c.bottom = -46; c.near = 1; c.far = 180;
   sol.shadow.bias = -0.0006;
   sol.shadow.normalBias = 0.04;
   scene.add(sol, sol.target);

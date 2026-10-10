@@ -1,4 +1,4 @@
-// Neutrale creeps i lejre: vågner, jager helten, giver op ved leash-grænsen.
+// Neutrale creeps i lejre: vågner, jager helten, giver op ved leash-grænsen. Guld og drop: genstande.js.
 // Typer, familier og sværhedsgrader står i creepdata.js.
 import { Unit } from './unit.js';
 import { CREEP_AI, tilfældig } from './config.js';
@@ -41,7 +41,7 @@ export class Creep extends Unit {
     this.cooldown -= dt;
 
     const vækAfstand = Math.hypot(helt.x - this.lejr.x, helt.z - this.lejr.z);
-    if (this.tilstand === 'hvile' && !helt.død && (this.afstand(helt) < CREEP_AI.aggro || vækAfstand < CREEP_AI.aggro * 0.7)) {
+    if (this.tilstand === 'hvile' && !helt.død && !helt.skjult && (this.afstand(helt) < CREEP_AI.aggro || vækAfstand < CREEP_AI.aggro * 0.7)) {
       this.vækLejr(helt);
       this.spil(this.anim.råb, { loop: false, gentag: true });
       this.sving = { tid: 0, varighed: 0.6, slagTid: 99, ramt: true };
@@ -134,7 +134,7 @@ export class Lejr {
     const n = this.data.creeps.length;
     this.creeps = this.data.creeps.map((type, i) => {
       const v = (i / n) * Math.PI * 2 + 0.6;
-      const hjem = { x: this.x + Math.cos(v) * 1.8 * (n > 1), z: this.z + Math.sin(v) * 1.8 * (n > 1) };
+      const hjem = { x: this.x + Math.cos(v) * 2.6 * (n > 1), z: this.z + Math.sin(v) * 2.6 * (n > 1) };
       return new Creep(this.verden, type, this.level, this, hjem);
     });
     this.verden.creeps.push(...this.creeps);

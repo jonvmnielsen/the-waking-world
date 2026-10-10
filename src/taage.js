@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 
 const OPL = 2;                 // verdensenheder pr. tågecelle
-const UDFORSKET = 105, SYNLIG = 255;
+const UDFORSKET = 110, SYNLIG = 255;
 
 export class Taage {
   constructor(grænser) {
@@ -87,7 +87,7 @@ export class Taage {
       shader.fragmentShader = 'varying vec2 vTaageXZ;\nuniform sampler2D uTaage;\nuniform vec2 uTaageMin;\nuniform vec2 uTaageStr;\n'
         + shader.fragmentShader.replace('#include <dithering_fragment>', `#include <dithering_fragment>
         float taage = texture2D( uTaage, ( vTaageXZ - uTaageMin ) / uTaageStr ).r;
-        gl_FragColor.rgb *= mix( 0.1, 1.0, taage );`);
+        gl_FragColor.rgb *= taage;`);
     };
     m.customProgramCacheKey = () => 'taage';
     m.needsUpdate = true;

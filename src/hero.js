@@ -1,9 +1,12 @@
 // Helten (The Tide — Orc Warrior): bevægelse, angreb, level og genoplivning.
 import { Unit } from './unit.js';
-import { HELT, LEVELS, reducérSkade, tilfældig } from './config.js';
+import { HELT, reducérSkade, tilfældig } from './config.js';
 import { Evner } from './abilities.js';
 import { bus } from './events.js';
 import { gørOrkGrøn } from './orkhud.js';
+import { Inventar } from './inventar.js';
+import { levelMetoder } from './heltlevel.js';
+import { interaktionMetoder } from './heltinteraktion.js';
 
 const SKJUL = ['1H_Axe', '1H_Axe_Offhand', 'Barbarian_Round_Shield', 'Mug', 'Barbarian_Hat'];
 const SVING = [
@@ -17,6 +20,9 @@ export class Helt extends Unit {
     gørOrkGrøn(this.model);
     this.spawn = spawn;
     this.stats = { ...HELT };
+    this.inventar = new Inventar(this);
+    this.handling = null;          // gå hen og gør noget: { x, z, radius, udfør }
+    this.skjult = 0;               // sekunder hvor creeps ikke ser helten (røgbombe)
     this.maxHp = this.stats.maxHp;
     this.hp = this.maxHp;
     this.mana = this.stats.mana;
@@ -30,6 +36,8 @@ export class Helt extends Unit {
     this.sidstIKamp = -99;
     this.tid = 0;
     this.genopliv = 0;
+    this.angribere = new Map();   // fjende -> tidspunkt den sidst ramte helten
+    this.gåOrdre = false;         // spilleren har sendt helten et sted hen (ingen auto-angreb undervejs)
     this.rod.position.set(spawn.x, 0, spawn.z);
     this.spil('Idle');
   }
@@ -37,20 +45,28 @@ export class Helt extends Unit {
   // Spillerens kommandoer
   kommandoGå(x, z) {
     if (this.død) return false;
-    this.mål = null; this.sving = null;
-    return this.gåTil(x, z);
+    this.mål = null; this.sving = null; this.handling = null;
+    this.gåOrdre = this.gåTil(x, z);
+    return this.gåOrdre;
   }
 
   kommandoAngrib(creep) {
     if (this.død || creep.død) return;
     this.mål = creep;
+    this.gåOrdre = false;
+    this.handling = null;
   }
+
+  // Liv og mana inkl. bonusser fra items
+  get maxHp() { return (this.basisHp ?? 100) + (this.inventar?.bonus.hp ?? 0); }
+  set maxHp(v) { this.basisHp = v; }
+  get manaMax() { return this.stats.mana + this.inventar.bonus.mana; }
 
   get iKamp() { return this.tid - this.sidstIKamp < 3; }
 
-  angrebsTid() { return this.stats.angrebsTid / (1 + this.evner.angrebsBonus()); }
+  angrebsTid() { return this.stats.angrebsTid / (1 + this.evner.angrebsBonus() + this.inventar.bonus.angrebsfart); }
 
-  slagSkade() { return tilfældig(this.stats.skadeMin, this.stats.skadeMax); }
+  slagSkade() { return tilfældig(this.stats.skadeMin, this.stats.skadeMax) + this.inventar.bonus.skade; }
 
   opdater(dt) {
     this.tid += dt;
@@ -61,12 +77,18 @@ export class Helt extends Unit {
       return;
     }
     this.evner.opdater(dt);
+    this.inventar.opdater(dt);
     this.cooldown -= dt;
-    if (!this.iKamp) this.hp = Math.min(this.maxHp, this.hp + this.stats.hpRegen * dt);
-    this.mana = Math.min(this.stats.mana, this.mana + this.stats.manaRegen * dt);
+    this.skjult = Math.max(0, this.skjult - dt);
+    const b = this.inventar.bonus;
+    if (!this.iKamp) this.hp = Math.min(this.maxHp, this.hp + (this.stats.hpRegen + b.hpRegen) * dt);
+    this.mana = Math.min(this.manaMax, this.mana + (this.stats.manaRegen + b.manaRegen) * dt);
+    this.opdaterHandling();
 
     if (this.mål?.død) this.mål = null;
-    if (!this.mål && !this.bevæger && !this.sving) this.mål = this.findAngriber();
+    if (this.gåOrdre && !this.bevæger) this.gåOrdre = false;
+    // Auto-angreb: står helten frit, går den efter den nærmeste fjende der angriber den
+    if (!this.mål && !this.gåOrdre && !this.sving) this.mål = this.findTrussel();
     if (this.sving) this.opdaterSving(dt);
     else if (this.mål) this.forfølg(dt);
     else this.opdaterBevægelse(dt);
@@ -108,19 +130,23 @@ export class Helt extends Unit {
     if (!s.ramt && s.tid >= s.slagTid) {
       s.ramt = true;
       if (s.mål && !s.mål.død && this.afstand(s.mål) - s.mål.radius <= this.stats.rækkevidde * 1.5) {
-        const skade = this.evner.slagMultiplikator(this.slagSkade());
-        s.mål.tagSkade(reducérSkade(skade, s.mål.rustning ?? 0), this);
+        const skade = reducérSkade(this.evner.slagMultiplikator(this.slagSkade()), s.mål.rustning ?? 0);
+        s.mål.tagSkade(skade, this);
+        this.inventar.vedSlag(s.mål, skade);
         bus.emit('slag', { kilde: this, mål: s.mål });
       }
     }
-    if (s.tid >= s.varighed) this.sving = null;
+    if (s.tid >= s.varighed) { this.sving = null; s.vedSlut?.(); }
   }
 
-  // Creeps der angriber helten bliver automatisk mål, når helten står stille
-  findAngriber() {
-    let bedst = null, bd = 6;
+  // Nærmeste fjende der jagter helten eller har ramt den inden for 4 sek. (også afstandsangribere).
+  // Samme regel skal gælde for egne units, når de kommer (M4).
+  findTrussel() {
+    let bedst = null, bd = 18;
     for (const c of this.verden.creeps) {
-      if (c.død || c.mål !== this) continue;
+      if (c.død || c.tilstand === 'hjem') continue;
+      const truer = (c.tilstand === 'jagt' && c.mål === this) || this.tid - (this.angribere.get(c) ?? -99) < 4;
+      if (!truer) continue;
       const d = this.afstand(c);
       if (d < bd) { bd = d; bedst = c; }
     }
@@ -130,12 +156,14 @@ export class Helt extends Unit {
   tagSkade(mængde, kilde) {
     if (this.evner.erUdødelig()) mængde = 0;
     this.sidstIKamp = this.tid;
-    return super.tagSkade(reducérSkade(mængde, this.stats.rustning + this.evner.rustningsBonus()), kilde);
+    if (kilde && kilde !== this) this.angribere.set(kilde, this.tid);
+    if (mængde > 0) mængde = this.inventar.vedSkade(mængde, kilde);
+    return super.tagSkade(reducérSkade(mængde, this.stats.rustning + this.evner.rustningsBonus() + this.inventar.bonus.rustning), kilde);
   }
 
   dø() {
     super.dø();
-    this.mål = null; this.sving = null;
+    this.mål = null; this.sving = null; this.gåOrdre = false; this.handling = null; this.angribere.clear();
     this.spil('Death_A', { loop: false, fade: 0.1 });
     this.genopliv = this.stats.genopliv;
     bus.emit('helt_død', { helt: this });
@@ -144,34 +172,13 @@ export class Helt extends Unit {
   rejsDig() {
     this.død = false;
     this.hp = this.maxHp;
-    this.mana = this.stats.mana;
+    this.mana = this.manaMax;
     this.rod.position.set(this.spawn.x, 0, this.spawn.z);
     this.spil('Cheer', { loop: false, gentag: true });
     this.sving = { tid: 0, varighed: 1.4, slagTid: 99, ramt: true };
     bus.emit('helt_genoplivet', { helt: this });
   }
-
-  fåXp(mængde) {
-    const tabel = LEVELS.xp;
-    this.xp += mængde;
-    while (this.level < tabel.length && this.xp >= tabel[this.level]) this.levelOp();
-  }
-
-  levelOp() {
-    this.level += 1;
-    const i = this.level - 1;
-    this.maxHp += LEVELS.hpBonus[i];
-    this.hp = Math.min(this.maxHp, this.hp + LEVELS.hpBonus[i]);
-    this.stats.skadeMin += LEVELS.skadeBonus[i];
-    this.stats.skadeMax += LEVELS.skadeBonus[i];
-    this.stats.rustning += LEVELS.rustBonus[i];
-    bus.emit('level_op', { helt: this, level: this.level });
-  }
-
-  // Fremgang mod næste level (0-1)
-  xpProcent() {
-    const t = LEVELS.xp;
-    if (this.level >= t.length) return 1;
-    return Math.min(1, (this.xp - t[this.level - 1]) / (t[this.level] - t[this.level - 1]));
-  }
 }
+
+// Erfaring og level ligger i heltlevel.js; gå-hen-og-gør-noget i heltinteraktion.js
+Object.assign(Helt.prototype, levelMetoder, interaktionMetoder);

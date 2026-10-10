@@ -59,9 +59,9 @@ Helten har den rigtige størrelse på skærmen. Det er **verden omkring helten**
 
 | Forhold til heltens højde | Nu | Mål |
 |---|---|---|
-| Hovedhal (Storlejr) | 3,3× | **5–6× højere og 4–5 helte bred** |
-| Almindelig bygning (kaserne, smedje) | 1,4× | **2,5–3×** |
-| Lille bygning (hytte, brønd) | under 1× | **1,5–2×** |
+| Hovedhal (Storlejr) | 3,3× | **10–12× højere og fylder 3 hex-felter**, så porten er højere end helten |
+| Almindelig bygning (kaserne, smedje) | 1,4× | **3–4×**, dørene højere end helten |
+| Lille bygning (hytte, brønd) | under 1× | **3×**, dørene højere end helten |
 | Træer | 1× | **1,5–2×** |
 | Sten, kasser og grave | — | Op til knæ eller hofte, så de ikke dækker figurerne |
 | Tid for helten at krydse kortet | ca. 15 sek. | **60–90 sek.** (skirmish) |
@@ -105,7 +105,7 @@ Hvert kort sættes sammen af regioner med hver sit udseende og egne creeps:
 
 ### 4.5 Krigens tåge og minimap
 
-- **Tåge:** Uudforsket land er sort. Udforsket land uden dine units er gråt, og der ser du bygninger men ikke fjender.
+- **Tåge:** Uudforsket land er helt sort, så man ikke kan se, hvad der gemmer sig. Udforsket land uden dine units er dæmpet, og der ser du terræn og bygninger men ikke fjender eller items.
 - **Minimap** i et hjørne. Tryk på det for at flytte kameraet. Det viser creep-lejre efter sværhedsgrad som farvede prikker.
 
 ### 4.6 Dag og nat (Forslag)
@@ -250,10 +250,14 @@ Farverne vises på minimap og over lejren:
 **Almindelig** (hvid) · **Sjælden** (blå) · **Episk** (lilla) · **Legendarisk** (orange). Farven vises som en lysstribe over item'et på jorden.
 
 ### 8.4 Drop
+- Alle creeps giver **guld**, når de dør (mere for højere level og 5× for bosser).
 - Hver lejr har et **drop-bord** efter sit niveau (se 7.1). Den sidste creep, der dør, taber lejrens item.
+- Guldposer og skrifter samles op, når helten går hen over dem.
 - Bosser taber altid et item fra et særligt legendarisk bord.
-- Kister og ruiner har deres egne borde.
-- **Butikker:** Markedspladsen (egen) og Købmanden (neutral) sælger forbrug og simple permanente items.
+- Kister og ruiner har deres egne borde. Kisten ved en boss er låst, så længe bossens lejr lever.
+- **Butikker:** Markedspladsen (egen, M3) og Købmanden (neutral) sælger forbrug og simple permanente items. Tryk på købmanden, så går helten derhen, og butikken åbner.
+
+Alle items i spillet står i `src/itemdata.js` (22 items fordelt på fem typer og fire sjældenheder).
 
 ### 8.5 Modeller
 KayKit har våben, skjolde, flasker, kister, mønter og bøger, der kan ligge på jorden. Ikonerne i inventaret tegnes ud fra de samme modeller.
@@ -276,7 +280,7 @@ Erfaringen fra dit tidligere RTS-forsøg er, at tryk-gestus skal holdes helt ads
 |---|---|
 | **Tryk** på egen unit eller bygning | Vælg |
 | **Dobbelttryk** på en unit | Vælg alle af den type på skærmen |
-| **Tryk** på jorden, fjende eller ressource (med noget valgt) | Kommando: gå, angrib, høst |
+| **Tryk** på jorden, fjende, item, kiste eller ressource (med noget valgt) | Kommando: gå, angrib, saml op, åbn, høst |
 | **Hold og træk** | Markér et område (vælg flere) |
 | **To fingre træk** | Flyt kameraet |
 | **Knib** | Zoom |
@@ -285,7 +289,11 @@ Erfaringen fra dit tidligere RTS-forsøg er, at tryk-gestus skal holdes helt ads
 | **Gruppeknapper 1–3** | Gem og vælg grupper |
 | **Kommandopanel** (nederst til højre) | Evner, byg, træn, opgrader for det valgte |
 
-En grøn markering viser, hvor units skal gå hen. Rød markerer et angrebsmål, og gul markerer høst.
+En grøn markering viser, hvor units skal gå hen. Rød markerer et angrebsmål, og gul markerer høst, items og kister.
+
+**Kameraet** bliver, hvor spilleren har kigget hen. Kommandoer flytter det ikke. Det følger kun helten, indtil spilleren selv trækker i kortet, og ◎-knappen sætter det til at følge igen. Kun hjemkald flytter kameraet automatisk.
+
+**Automatisk angreb:** En helt eller unit, der ikke har fået en gå-ordre, angriber selv den nærmeste fjende, der angriber den, også fjender der skyder på afstand. Når målet dør, går den videre til den næste trussel. Under en gå-ordre går den færdig først, som i WC3.
 
 ---
 
@@ -352,8 +360,8 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 
 | # | Milepæl | Indhold |
 |---|---|---|
-| **M1** | **Stor verden** | Verden skaleret op omkring helten (afsnit 4.1), kort på ca. 48×48 med regioner, krigens tåge, minimap, flere creep-familier og fem sværhedsgrader |
-| **M2** | **Items** | Drop, opsamling, inventar med 6 pladser, eliksirer, permanente items og kister |
+| **M1 ✅** | **Stor verden** | Verden skaleret op omkring helten (afsnit 4.1), kort på ca. 48×48 med regioner, krigens tåge, minimap, flere creep-familier og fem sværhedsgrader |
+| **M2 ✅** | **Items** | Drop, opsamling, inventar med 6 pladser, eliksirer, permanente items og kister |
 | **M3** | **Økonomi og base** | Arbejdere, guld og træ, byggesystem på hex, Storlejr, kaserne, forsyning, alter |
 | **M4** | **Hær** | Vælg og styr flere units, grunts og spydkastere, grupper, veteranstatus |
 | **M5** | **Modstander** | The Memory som regelbaseret AI med base, sejr og nederlag |

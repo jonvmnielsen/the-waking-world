@@ -65,6 +65,36 @@ await page.evaluate(() => { window.spil.simuler(1); window.spil.brugEvne(0); win
 await page.waitForTimeout(800);
 await page.screenshot({ path: path.join(UD, '4-evne.png') });
 
+// Items: læg nogle i inventaret og på jorden, vis info-kort og butik
+const items = await page.evaluate(() => {
+  const s = window.spil, inv = s.helt.inventar;
+  ['livseliksir', 'jernsværd', 'lynstav', 'tordenøksen', 'magerensBog'].forEach((id) => inv.modtag(id));
+  s.genstande.læg('kaptajnensKlinge', s.helt.x + 3, s.helt.z + 1);
+  s.genstande.læg('guldpose', s.helt.x + 1, s.helt.z);
+  s.rig.centrér(); s.simuler(0.5);
+  return { guld: inv.guld, skade: inv.bonus.skade, pladser: inv.pladser.map((p) => p?.id ?? '-').join(',') };
+});
+console.log('Items', items);
+await page.waitForTimeout(800);
+await page.screenshot({ path: path.join(UD, '7-items.png') });
+await page.evaluate(() => window.spil.invHud.visInfo(3));
+await page.waitForTimeout(400);
+await page.screenshot({ path: path.join(UD, '8-info.png') });
+await page.evaluate(() => { const s = window.spil; s.invHud.lukInfo(); s.helt.inventar.guld = 400; s.invHud.åbnButik(s.steder.find((x) => x.type === 'marked') ?? { x: s.helt.x, z: s.helt.z }); });
+await page.evaluate(() => { const s = window.spil; s.invHud.butikSted = { x: s.helt.x, z: s.helt.z }; });
+await page.waitForTimeout(400);
+await page.screenshot({ path: path.join(UD, '9-butik.png') });
+await page.evaluate(() => window.spil.invHud.lukButik());
+
+// Nærbillede: helten ved basens huse (tjek af størrelsesforhold)
+await page.evaluate(() => {
+  const s = window.spil, b = s.verden.kort.base, p = s.hexTilVerden(b.q - 2, b.r + 1);
+  s.helt.rod.position.set(p.x + 4.2, 0, p.z + 3.2); s.helt.stop(); s.helt.mål = null;
+  s.rig.følger = false; s.rig.fokus.set(p.x + 1, 0, p.z + 2); s.rig.afstand = 15;
+});
+await page.waitForTimeout(1500);
+await page.screenshot({ path: path.join(UD, '6-hus.png') });
+
 // Oversigt over hele øen
 await page.evaluate(() => { window.spil.visHeleKortet(); window.spil.simuler(0.3); const r = window.spil.rig; r.følger = false; r.fokus.set(0, 0, 10); r.afstand = 260; r.kamera.far = 900; r.kamera.updateProjectionMatrix(); window.spil.verden.scene.fog = null; });
 await page.waitForTimeout(3000);

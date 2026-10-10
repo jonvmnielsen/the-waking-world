@@ -61,7 +61,7 @@ export class KameraRig {
     return Math.hypot(a.x - b.x, a.y - b.y);
   }
 
-  zoom(f) { this.afstand = THREE.MathUtils.clamp(this.afstand * f, 12, 44); }
+  zoom(f) { this.afstand = THREE.MathUtils.clamp(this.afstand * f, 12, 56); }
 
   begræns() {
     const g = this.grænser;

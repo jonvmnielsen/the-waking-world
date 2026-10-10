@@ -30,7 +30,7 @@ export function blokPynt(f, tilf) {
     skoven: ['trees_a_large', 'trees_b_large', 'trees_a_large', 'trees_b_medium'],
     sumpen: ['trees_b_small', 'trees_b_medium', 'trees_a_small'],
   }[f.region] ?? ['trees_a_medium', 'trees_b_medium', 'trees_a_small'];
-  f.pynt.push({ model: NAT + vælg(tilf, liste), rot, instans: true, skygge: true, skala: 1.4 });
+  f.pynt.push({ model: NAT + vælg(tilf, liste), rot, instans: true, skygge: true, skala: 1.15 });
 }
 
 // Frie græsfelter: lidt natur man kan gå forbi
@@ -39,8 +39,8 @@ export function friPynt(f, tilf) {
   const p = (model, skala = 1, skygge = true) => f.pynt.push({ model, ...spred(tilf), rot: tilf() * 360, skala, instans: true, skygge });
   switch (f.region) {
     case 'skoven':
-      if (x < 0.45) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 1.1);
-      if (x > 0.3 && x < 0.6) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 0.95);
+      if (x < 0.45) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 0.85);
+      if (x > 0.3 && x < 0.6) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 0.75);
       else if (x > 0.85) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'b', 'c']), 0.7, false);
       break;
     case 'gravlandet':
@@ -51,7 +51,7 @@ export function friPynt(f, tilf) {
     case 'bjergene':
       if (x < 0.25) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'b', 'c', 'd', 'e']), 0.9, false);
       else if (x < 0.36) p(NAT + vælg(tilf, ['hill_single_a', 'hill_single_b', 'hill_single_c']), 0.9);
-      else if (x < 0.44) p(NAT + 'tree_single_a', 1.0);
+      else if (x < 0.44) p(NAT + 'tree_single_a', 0.8);
       break;
     case 'sumpen':
       if (x < 0.2) p(NAT + vælg(tilf, ['trees_b_small', 'tree_single_b']), 0.8);
@@ -59,7 +59,7 @@ export function friPynt(f, tilf) {
       else if (x < 0.42) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'b']), 0.7, false);
       break;
     default:
-      if (x < 0.2) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 1.05);
+      if (x < 0.2) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 0.8);
       else if (x < 0.4) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'b', 'c', 'd', 'e']), 0.75, false);
       if (tilf() < 0.25) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'c', 'e']), 0.5, false);
   }
@@ -94,5 +94,4 @@ export function lejrPynt(f, familie, tilf, boss) {
     }
     f.pynt.push({ model: PROP + 'weaponrack', dx: -RI * 0.3, dz: RI * 0.75, rot: 20, skala: 2.2, skygge: true });
   }
-  if (boss) f.pynt.push({ model: 'kaykit-dungeon/chest_gold', dx: RI * 0.35, dz: -RI * 0.35, rot: -25, skala: 0.7, skygge: true });
 }

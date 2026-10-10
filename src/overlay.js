@@ -18,6 +18,7 @@ export class Overlay {
     bus.on('creep_død', ({ creep, xp }) => this.tal(creep, `+${xp} XP`, 'xp', 0.6));
     bus.on('level_op', ({ helt, level }) => this.tal(helt, `Level ${level}!`, 'level', 1.2));
     bus.on('besked', (tekst) => this.toast(tekst));
+    bus.on('flydetekst', ({ enhed, tekst, klasse }) => this.tal(enhed, tekst, klasse, 0.4));
   }
 
   skærm(x, y, z) {
@@ -26,7 +27,7 @@ export class Overlay {
   }
 
   tal(enhed, tekst, klasse, ekstraHøjde = 0) {
-    const s = this.skærm(enhed.x, enhed.højde + 0.6 + ekstraHøjde, enhed.z);
+    const s = this.skærm(enhed.x, (enhed.højde ?? 1.4) + 0.6 + ekstraHøjde, enhed.z);
     const el = document.createElement('div');
     el.className = `tal ${klasse}`;
     el.textContent = tekst;
