@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "bfa1c01",
-  "synced": "2026-10-10T07:37:23.888Z",
+  "synced": "2026-10-10T07:51:23.842Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -21,6 +21,24 @@
         "Hit_A",
         "Spellcast_Raise",
         "Block"
+      ]
+    },
+    "units/arbejder": {
+      "id": "kaykit-adventurers/characters/rogue",
+      "file": "units/arbejder.glb",
+      "bytes": 414188,
+      "sha": "1c8b9cc01e12",
+      "license": "CC0-1.0",
+      "animations": [
+        "Idle",
+        "Walking_A",
+        "Running_A",
+        "1H_Melee_Attack_Chop",
+        "Interact",
+        "PickUp",
+        "Hit_A",
+        "Death_A",
+        "Cheer"
       ]
     },
     "units/skeleton_minion": {
