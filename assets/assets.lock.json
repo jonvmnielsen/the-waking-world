@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "bfa1c01",
-  "synced": "2026-10-09T20:22:50.237Z",
+  "synced": "2026-10-10T07:37:23.888Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -1270,6 +1270,146 @@
       "file": "kaykit-dungeon/chest_gold.glb",
       "bytes": 40984,
       "sha": "4bddf43c1fc8",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/dagger": {
+      "id": "kaykit-adventurers/dagger",
+      "file": "kaykit-adventurers/dagger.glb",
+      "bytes": 12280,
+      "sha": "93968b6a78ca",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/shield_round": {
+      "id": "kaykit-adventurers/shield_round",
+      "file": "kaykit-adventurers/shield_round.glb",
+      "bytes": 12736,
+      "sha": "627edccbfbb7",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/sword_1handed": {
+      "id": "kaykit-adventurers/sword_1handed",
+      "file": "kaykit-adventurers/sword_1handed.glb",
+      "bytes": 12948,
+      "sha": "936616d8a68d",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/shield_badge_color": {
+      "id": "kaykit-adventurers/shield_badge_color",
+      "file": "kaykit-adventurers/shield_badge_color.glb",
+      "bytes": 12100,
+      "sha": "9e25aea2eaa1",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/quiver": {
+      "id": "kaykit-adventurers/quiver",
+      "file": "kaykit-adventurers/quiver.glb",
+      "bytes": 14976,
+      "sha": "d300943deae1",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/spellbook_open": {
+      "id": "kaykit-adventurers/spellbook_open",
+      "file": "kaykit-adventurers/spellbook_open.glb",
+      "bytes": 14372,
+      "sha": "3434fd2397f5",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/spellbook_closed": {
+      "id": "kaykit-adventurers/spellbook_closed",
+      "file": "kaykit-adventurers/spellbook_closed.glb",
+      "bytes": 13924,
+      "sha": "daf1d9e3d606",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/axe_2handed": {
+      "id": "kaykit-adventurers/axe_2handed",
+      "file": "kaykit-adventurers/axe_2handed.glb",
+      "bytes": 16964,
+      "sha": "cd3d1759ad76",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/shield_spikes_color": {
+      "id": "kaykit-adventurers/shield_spikes_color",
+      "file": "kaykit-adventurers/shield_spikes_color.glb",
+      "bytes": 16472,
+      "sha": "4437e432258e",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/staff": {
+      "id": "kaykit-adventurers/staff",
+      "file": "kaykit-adventurers/staff.glb",
+      "bytes": 15800,
+      "sha": "f7eb8bf6bb9c",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/axe_1handed": {
+      "id": "kaykit-adventurers/axe_1handed",
+      "file": "kaykit-adventurers/axe_1handed.glb",
+      "bytes": 13056,
+      "sha": "e9edff0dcf3a",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/sword_2handed_color": {
+      "id": "kaykit-adventurers/sword_2handed_color",
+      "file": "kaykit-adventurers/sword_2handed_color.glb",
+      "bytes": 15296,
+      "sha": "44f0d38b8d0d",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/wand": {
+      "id": "kaykit-adventurers/wand",
+      "file": "kaykit-adventurers/wand.glb",
+      "bytes": 11148,
+      "sha": "a0ff88bee4de",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/smokebomb": {
+      "id": "kaykit-adventurers/smokebomb",
+      "file": "kaykit-adventurers/smokebomb.glb",
+      "bytes": 13832,
+      "sha": "3a4de521de20",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/mug_full": {
+      "id": "kaykit-adventurers/mug_full",
+      "file": "kaykit-adventurers/mug_full.glb",
+      "bytes": 14044,
+      "sha": "d975e4dcf355",
+      "license": "CC0-1.0"
+    },
+    "kaykit-dungeon/bottle_a_labeled_green_gltf": {
+      "id": "kaykit-dungeon/bottle_a_labeled_green_gltf",
+      "file": "kaykit-dungeon/bottle_a_labeled_green_gltf.glb",
+      "bytes": 11336,
+      "sha": "f50838ce9a3a",
+      "license": "CC0-1.0"
+    },
+    "kaykit-dungeon/bottle_c_green_gltf": {
+      "id": "kaykit-dungeon/bottle_c_green_gltf",
+      "file": "kaykit-dungeon/bottle_c_green_gltf.glb",
+      "bytes": 11236,
+      "sha": "1c2b2ef3387f",
+      "license": "CC0-1.0"
+    },
+    "kaykit-dungeon/bottle_b_green_gltf": {
+      "id": "kaykit-dungeon/bottle_b_green_gltf",
+      "file": "kaykit-dungeon/bottle_b_green_gltf.glb",
+      "bytes": 11276,
+      "sha": "3b8cd7d91c7c",
+      "license": "CC0-1.0"
+    },
+    "kaykit-dungeon/coin_stack_small_gltf": {
+      "id": "kaykit-dungeon/coin_stack_small_gltf",
+      "file": "kaykit-dungeon/coin_stack_small_gltf.glb",
+      "bytes": 16588,
+      "sha": "12d565bffe07",
+      "license": "CC0-1.0"
+    },
+    "kaykit-dungeon/chest": {
+      "id": "kaykit-dungeon/chest",
+      "file": "kaykit-dungeon/chest.glb",
+      "bytes": 24092,
+      "sha": "7b374746d0c6",
       "license": "CC0-1.0"
     }
   }

@@ -8,8 +8,8 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E🪓%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Nunito+Sans:wght@600;800&display=swap" />
-  <script type="module" crossorigin src="./assets/index-Dm-CphIn.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-GCB71aUX.css">
+  <script type="module" crossorigin src="./assets/index-BD942ki2.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DXW48x9H.css">
 </head>
 <body>
   <canvas id="spil"></canvas>
@@ -19,7 +19,7 @@
     <div id="heltepanel">
       <div id="level-ring"><span id="level">1</span></div>
       <div class="bjælker">
-        <div class="navn">Ork-kriger <small>The Tide</small></div>
+        <div class="navn">Ork-kriger <small>The Tide</small><span class="guld-tæller" title="Guld"><i class="mønt"></i><span id="guld">0</span></span></div>
         <div class="bar hp"><i id="hp"></i><span id="hp-tal"></span></div>
         <div class="bar mana"><i id="mana"></i><span id="mana-tal"></span></div>
         <div class="bar xp"><i id="xp"></i></div>
@@ -30,17 +30,37 @@
     <div id="menu">
       <button id="test-level">Level op (test)</button>
       <button id="genstart">Start forfra</button>
-      <p>Tryk på jorden for at gå. Tryk på et skelet for at angribe. Træk for at se dig omkring, knib for at zoome.</p>
+      <p>Tryk på jorden for at gå. Tryk på en fjende for at angribe. Tryk på et item eller en kiste for at samle op. Træk for at se dig omkring, knib for at zoome. Tryk på en eliksir i inventaret for at bruge den, hold fingeren på et item for at se det.</p>
     </div>
 
     <canvas id="minimap" aria-label="Kort over verden"></canvas>
     <button id="centrer" class="skjult" aria-label="Find helten">◎</button>
+
+    <div id="inventar" aria-label="Inventar">
+        <button class="plads tom" type="button" aria-label="Plads 1"><img alt="" src="" /><span class="ladning"></span></button>
+        <button class="plads tom" type="button" aria-label="Plads 2"><img alt="" src="" /><span class="ladning"></span></button>
+        <button class="plads tom" type="button" aria-label="Plads 3"><img alt="" src="" /><span class="ladning"></span></button>
+        <button class="plads tom" type="button" aria-label="Plads 4"><img alt="" src="" /><span class="ladning"></span></button>
+        <button class="plads tom" type="button" aria-label="Plads 5"><img alt="" src="" /><span class="ladning"></span></button>
+        <button class="plads tom" type="button" aria-label="Plads 6"><img alt="" src="" /><span class="ladning"></span></button>
+    </div>
 
     <div id="evner">
       <button id="evne0" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>Q</kbd></button>
       <button id="evne1" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>W</kbd></button>
       <button id="evne2" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>E</kbd></button>
     </div>
+  </div>
+
+  <div id="info" role="dialog" aria-label="Item">
+    <div class="info-top"><img id="info-ikon" alt="" src="" /><div><b id="info-navn"></b><small id="info-type"></small></div></div>
+    <ul id="info-tekst"></ul>
+    <div class="info-knapper"><button id="info-brug" type="button">Brug</button><button id="info-smid" type="button">Smid</button><button id="info-luk" type="button">Luk</button></div>
+  </div>
+
+  <div id="butik" role="dialog" aria-label="Købmanden">
+    <div class="butik-top"><b>Købmanden</b><span class="guld-tæller"><i class="mønt"></i><span id="butik-guld">0</span></span><button id="butik-luk" type="button" aria-label="Luk">✕</button></div>
+    <div id="butik-varer"></div>
   </div>
 
   <div id="toast"></div>
