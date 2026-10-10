@@ -1,4 +1,4 @@
-// Hvad spilleren har valgt (helten, en arbejder eller en bygning) og byggepladsens
+// Hvad spilleren har valgt (helten, en arbejder, en bygning eller en gruppe soldater) og byggepladsens
 // forhåndsvisning, når en bygning skal placeres (GDD 10).
 import * as THREE from 'three';
 import { kopi } from './assets.js';
@@ -19,6 +19,8 @@ export class Valg {
       new THREE.MeshBasicMaterial({ map: ringTekstur, color: 0xb8ff7a, transparent: true, depthWrite: false }));
     this.ring.renderOrder = 3;
     spil.verden.scene.add(this.ring);
+    this.ringe = [];   // én ring pr. soldat i en gruppe
+    this.ringMat = this.ring.material;
     // Feltmarkering ved placering
     this.felt = new THREE.Mesh(new THREE.CircleGeometry(HEX_BREDDE / Math.sqrt(3), 6).rotateX(-Math.PI / 2).rotateY(Math.PI / 6),
       new THREE.MeshBasicMaterial({ color: 0x7dff6a, transparent: true, opacity: 0.35, depthWrite: false }));
@@ -26,13 +28,21 @@ export class Valg {
     spil.verden.scene.add(this.felt);
   }
 
+  // ting: helten (null), en arbejder, en bygning eller en liste af soldater (evt. med helten)
   vælg(ting) {
     this.annullérPlacering();
+    if (Array.isArray(ting)) {
+      ting = ting.filter((u) => !u.død);
+      if (ting.length === 1 && ting[0] === this.spil.helt) ting = null;
+      else if (!ting.length) ting = null;
+    }
     this.valgt = ting ?? this.spil.helt;
     bus.emit('valg', this.valgt);
   }
 
   get erHelt() { return this.valgt === this.spil.helt; }
+  get erGruppe() { return Array.isArray(this.valgt); }
+  get gruppe() { return this.erGruppe ? this.valgt : []; }
   get erArbejder() { return this.valgt instanceof Arbejder; }
   get erBygning() { return !!this.valgt?.felter; }
 
@@ -86,7 +96,13 @@ export class Valg {
   }
 
   opdater() {
+    this.opdaterRinge();
     const v = this.valgt;
+    if (this.erGruppe) {
+      this.ring.visible = false;
+      if (v.some((u) => u.død)) this.vælg(v);
+      return;
+    }
     if (v?.død) { this.vælg(null); return; }
     this.ring.visible = !!v && !this.erHelt && (v.rod?.visible ?? true);
     if (!this.ring.visible) return;
@@ -95,6 +111,21 @@ export class Valg {
     this.ring.position.set(v.x, 0.07, v.z);
   }
 }
+
+// Ringe under alle valgte soldater (helten har sin egen ring)
+Valg.prototype.opdaterRinge = function () {
+  const g = this.gruppe.filter((u) => u !== this.spil.helt && !u.død);
+  while (this.ringe.length < g.length) {
+    const r = new THREE.Mesh(this.ring.geometry, this.ringMat);
+    r.renderOrder = 3; r.scale.set(2.2, 1, 2.2);
+    this.spil.verden.scene.add(r);
+    this.ringe.push(r);
+  }
+  this.ringe.forEach((r, i) => {
+    r.visible = i < g.length;
+    if (r.visible) r.position.set(g[i].x, 0.07, g[i].z);
+  });
+};
 
 function lavRing() {
   const c = document.createElement('canvas'); c.width = c.height = 128;

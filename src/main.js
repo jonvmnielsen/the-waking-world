@@ -27,6 +27,12 @@ import { ARBEJDER_SYN } from './arbejder.js';
 import { LEVELS } from './config.js';
 import { bus } from './events.js';
 import { Røntgen } from './rontgen.js';
+import { Spillerstil } from './spillerstil.js';
+import { Veteraner } from './veteran.js';
+import { lavBoksValg } from './haer.js';
+import { SOLDAT_SYN } from './soldat.js';
+import { hentGem, startAutogem } from './gem.js';
+import { gendanSpil } from './gendan.js';
 
 const lærred = document.getElementById('spil');
 const renderer = new THREE.WebGLRenderer({ canvas: lærred, antialias: true, powerPreference: 'high-performance' });
@@ -65,7 +71,10 @@ async function start() {
     renderer.render(scene, rig.kamera);
   });
 
-  const essens = await vælgEssens();
+  const gemt = hentGem();
+  const valgtEssens = await vælgEssens(gemt);
+  const fortsæt = valgtEssens === 'fortsæt';
+  const essens = fortsæt ? gemt.helt.essens : valgtEssens;
   document.body.classList.add('i-spil');
   const helt = new Helt(verden, heltSpawn, essens);
   verden.helt = helt;
@@ -76,7 +85,13 @@ async function start() {
   taage.patchScene(scene);
   taage.opdater(1, [{ x: helt.x, z: helt.z, radius: 28 }]);   // tågen beregnes med det samme, så skærmen ikke starter sort
 
+  // Spillerens figurer som creeps kan se og angribe (beregnes én gang pr. tidstrin)
+  let egne = [];
+  verden.egne = () => egne;
+  const stil = new Spillerstil(verden);
+
   const spil = {
+    lærred, stil,
     helt, verden, rig, lejre, taage, grænser, hexTilVerden, økonomi, base, steder, genstande,
     nødvendigXp: () => (LEVELS.xp[helt.level] ?? helt.xp) - helt.xp,
     brugEvne(i) {
@@ -94,17 +109,26 @@ async function start() {
   rig.fokus.set(heltSpawn.x, 0, heltSpawn.z);
   rig.afstand = 40;   // start lidt ude, så basen og arbejderne er i billedet
   rig.centrér();
-  const overlay = new Overlay(document.getElementById('lag'), verden, rig.kamera, () => [...base.arbejdere, ...base.bygninger.filter((b) => !b.færdig)]);
+  const overlay = new Overlay(document.getElementById('lag'), verden, rig.kamera, () => [...base.arbejdere, ...base.soldater, ...base.bygninger.filter((b) => !b.færdig)]);
   const hud = new Hud(spil);
   const minimap = new Minimap(document.getElementById('minimap'), spil);
   const invHud = new InventarHud(spil);
   const valg = new Valg(spil);
   spil.valg = valg;
   spil.invHud = invHud;
+  spil.veteraner = new Veteraner(spil, stil);
   const kmdHud = new KommandoHud(spil);
+  rig.onBoks = lavBoksValg(spil, (x, y, z) => overlay.skærm(x, y, z));
   bus.on('creep_død', ({ xp }) => helt.fåXp(xp));
   bus.on('teleport', () => rig.centrér());
-  setTimeout(() => overlay.toast('Tryk på en bærer for at bygge — tryk på jorden for at gå med helten'), 600);
+  if (fortsæt) {
+    gendanSpil(spil, gemt);
+    helt.tid = gemt.spilTid;
+    taage.patchScene(scene);
+    taage.opdater(1, [{ x: helt.x, z: helt.z, radius: 28 }]);
+    setTimeout(() => overlay.toast('Velkommen tilbage — spillet fortsætter hvor du slap'), 600);
+  } else setTimeout(() => overlay.toast('Tryk på en bærer for at bygge — tryk på jorden for at gå med helten'), 600);
+  spil.gem = startAutogem(spil);
 
   tryk = lavTryk({ spil, lærred, overlay, effekter, genstande, steder });
 
@@ -112,14 +136,20 @@ async function start() {
   const heltSyn = { x: 0, z: 0, radius: 28 };
   let patchTid = 0;
   function trin(dt) {
+    egne = [helt, ...base.arbejdere, ...base.soldater].filter((u) => !u.død && u.rod.visible && !u.skjult);
     helt.opdater(dt);
     heltSyn.x = helt.x; heltSyn.z = helt.z;
-    const syn = base.arbejdere.filter((a) => !a.død).map((a) => ({ x: a.x, z: a.z, radius: ARBEJDER_SYN }));
+    const syn = [
+      ...base.arbejdere.filter((a) => !a.død).map((a) => ({ x: a.x, z: a.z, radius: ARBEJDER_SYN })),
+      ...base.soldater.filter((s) => !s.død).map((s) => ({ x: s.x, z: s.z, radius: SOLDAT_SYN })),
+    ];
     taage.opdater(dt, helt.død ? syn : [heltSyn, ...syn]);
     for (const c of verden.creeps) c.opdater(dt);
     for (const l of lejre) l.opdater(dt);
     base.opdater(dt);
-    adskil([helt, ...verden.creeps.filter((c) => !c.død && c.rod.visible), ...base.arbejdere.filter((a) => a.rod.visible && !a.død)], kort);
+    adskil([helt, ...verden.creeps.filter((c) => !c.død && c.rod.visible), ...base.arbejdere.filter((a) => a.rod.visible && !a.død), ...base.soldater.filter((s) => !s.død)], kort);
+    stil.opdater(dt, base.soldater);
+    spil.veteraner.opdater();
     stedLiv.opdater(dt, helt);
     genstande.opdater(dt);
     effekter.opdater(dt);
@@ -132,7 +162,7 @@ async function start() {
   }
   // Omrids af figurer og bygninger der står bag en bygning
   const røntgen = new Røntgen(renderer, scene, rig.kamera, {
-    enheder: () => [helt, ...base.arbejdere, ...verden.creeps].filter((e) => !e.død && e.rod.visible).map((e) => ({ rod: e.rod, egen: e === helt || e.side === 'egen' })),
+    enheder: () => [helt, ...base.arbejdere, ...base.soldater, ...verden.creeps].filter((e) => !e.død && e.rod.visible).map((e) => ({ rod: e.rod, egen: e === helt || e.side === 'egen' })),
     bygninger: () => [...base.bygninger.map((b) => ({ rod: b.rod, egen: true })), ...verdensObj.bygninger],
   });
 

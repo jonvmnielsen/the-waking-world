@@ -46,7 +46,7 @@ export function lavNatur(scene, kort) {
       if (pynt.ressource) {
         const d = RESSOURCE[pynt.ressource];
         const type = pynt.ressource.startsWith('træ') ? 'træ' : 'sten';
-        const r = { id: ressourcer.length, type, [type]: d.mængde, x, z, y, r: d.r, h: d.h, f, pynt, blokerer: !!f.blok };
+        const r = { id: ressourcer.length, type, [type]: d.mængde, start: d.mængde, x, z, y, r: d.r, h: d.h, f, pynt, blokerer: !!f.blok };
         ressourcer.push(r);
         (f.ressourcer ??= []).push(r);
       }

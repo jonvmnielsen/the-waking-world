@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "bfa1c01",
-  "synced": "2026-10-10T12:17:41.403Z",
+  "synced": "2026-10-10T12:30:30.044Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -183,6 +183,45 @@
         "2H_Melee_Attack_Chop",
         "2H_Melee_Attack_Spin"
       ]
+    },
+    "units/grunt": {
+      "id": "kaykit-adventurers/characters/barbarian",
+      "file": "units/grunt.glb",
+      "bytes": 383084,
+      "sha": "9e08dc010a9c",
+      "license": "CC0-1.0",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "1H_Melee_Attack_Chop",
+        "1H_Melee_Attack_Slice_Diagonal",
+        "Block"
+      ]
+    },
+    "units/spydkaster": {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "file": "units/spydkaster.glb",
+      "bytes": 325664,
+      "sha": "6552fa273008",
+      "license": "CC0-1.0",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Throw"
+      ]
+    },
+    "kaykit-skeletons/skeleton_arrow": {
+      "id": "kaykit-skeletons/skeleton_arrow",
+      "file": "kaykit-skeletons/skeleton_arrow.glb",
+      "bytes": 9848,
+      "sha": "4af67db9f3d5",
+      "license": "CC0-1.0"
     },
     "kaykit-skeletons/skeleton_axe": {
       "id": "kaykit-skeletons/skeleton_axe",
@@ -1274,6 +1313,13 @@
       "file": "kaykit-adventurers/axe_2handed.glb",
       "bytes": 16964,
       "sha": "cd3d1759ad76",
+      "license": "CC0-1.0"
+    },
+    "kaykit-adventurers/shield_round_barbarian": {
+      "id": "kaykit-adventurers/shield_round_barbarian",
+      "file": "kaykit-adventurers/shield_round_barbarian.glb",
+      "bytes": 12804,
+      "sha": "cfa6587cdf30",
       "license": "CC0-1.0"
     },
     "kaykit-adventurers/shield_spikes_color": {

@@ -7,7 +7,7 @@ const v = new THREE.Vector3();
 export class Overlay {
   constructor(rod, verden, kamera, ekstra = () => []) {
     this.rod = rod; this.verden = verden; this.kamera = kamera;
-    this.ekstra = ekstra;   // egne arbejdere og byggepladser
+    this.ekstra = ekstra;   // egne arbejdere, soldater og byggepladser
     this.bjælker = new Map();   // unit -> element
     this.toastEl = document.getElementById('toast');
 
@@ -62,6 +62,12 @@ export class Overlay {
       el.style.transform = `translate(${s.x}px, ${s.y}px) translate(-50%, -50%)`;
       el.style.display = s.synlig ? '' : 'none';
       el.firstChild.style.width = `${(u.hp / u.maxHp) * 100}%`;
+      // Veteraner får en stjerne i grenens farve
+      if (u.vet && el.dataset.vet !== `${u.vet.veteran}${u.vet.gren?.id}`) {
+        el.dataset.vet = `${u.vet.veteran}${u.vet.gren?.id}`;
+        el.classList.toggle('vet', u.vet.veteran);
+        if (u.vet.gren) el.style.setProperty('--gren', `#${u.vet.gren.farve.toString(16).padStart(6, '0')}`);
+      }
     }
     for (const [u, el] of this.bjælker) if (!enheder.includes(u)) { el.remove(); this.bjælker.delete(u); }
   }

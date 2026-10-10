@@ -3,9 +3,11 @@
 import { CREEP_TYPER } from './creepdata.js';
 import { alleItemModeller } from './itemdata.js';
 import { BYGNINGER, STADIER } from './bygningsdata.js';
+import { SOLDATER, SPYD_MODEL } from './soldatdata.js';
 
 export const MODELLER = [...new Set([
-  'units/hero_tide', 'units/arbejder',
+  'units/hero_tide', 'units/arbejder', ...Object.values(SOLDATER).map((s) => s.model), SPYD_MODEL,
+  'kaykit-adventurers/shield_round_barbarian', 'kaykit-adventurers/axe_2handed',
   ...Object.values(CREEP_TYPER).map((t) => `units/${t.model}`),
   ...Object.values(CREEP_TYPER).flatMap((t) => Object.values(t.våben ?? {}).map((v) => `kaykit-skeletons/${v}`)),
   ...alleItemModeller(), 'kaykit-dungeon/chest', 'kaykit-dungeon/chest_gold',
@@ -20,5 +22,8 @@ export const EKSTRA_IKONER = [
   { id: 'res-sten', sti: 'kaykit-hexagon/decoration/props/resource_stone' },
   { id: 'res-forsyning', sti: 'kaykit-hexagon/buildings/green/building_home_a_green' },
   { id: 'økse', sti: 'kaykit-adventurers/axe_1handed', vinkel: [0.2, -0.6, -0.6] },
+  { id: 'enhed-grunt', sti: 'kaykit-adventurers/shield_round_barbarian' },
+  { id: 'enhed-spydkaster', sti: SPYD_MODEL, vinkel: [0.5, 0, 0.8] },
+  { id: 'hær', sti: 'kaykit-adventurers/axe_2handed', vinkel: [0.2, -0.6, -0.6] },
   ...Object.entries(BYGNINGER).map(([type, b]) => ({ id: 'byg-' + type, sti: b.model })),
 ];

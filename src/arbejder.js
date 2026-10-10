@@ -86,7 +86,7 @@ export class Arbejder extends Unit {
 
   // --- Opdatering ---
   opdater(dt) {
-    if (this.død) return;
+    if (this.død) return this.opdaterDød(dt);
     this.rod.visible = this.tilstand !== 'iMine';
     super.opdater(dt);
     const k = this.kilde;
@@ -143,6 +143,22 @@ export class Arbejder extends Unit {
     this.sætByrde({ type: k.type, mængde: m });
     this.spil('PickUp', { loop: false, gentag: true, fart: 1.6 });
     this.gåHjem();
+  }
+
+  dø(kilde) {
+    super.dø(kilde);
+    this.nulstil(); this.sætByrde(null); this.tilstand = 'død';
+    this.spil('Death_A', { loop: false, fade: 0.08 });
+    this.forsvind = 5;
+    this.base.økonomi.forsyning -= 1;
+    bus.emit('besked', 'En bærer er død');
+  }
+
+  opdaterDød(dt) {
+    super.opdater(dt);
+    this.forsvind -= dt;
+    if (this.forsvind < 1.5) this.rod.position.y -= dt * 0.8;
+    if (this.forsvind <= 0 && !this.fjernet) { this.fjernet = true; this.fjern(); }
   }
 
   aflever() {

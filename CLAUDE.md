@@ -59,6 +59,11 @@ the-waking-world/
 │   ├── natur.js              # Træer, sten og steder som instanser; hvert træ/sten er en ressource
 │   ├── guldaarer.js          # Lysende guldårer og glimt ved guldminerne
 │   ├── rontgen.js            # Omrids af figurer/bygninger der står bag en bygning
+│   ├── soldat.js / soldatdata.js / soldatevner.js  # Grunts og spydkastere, deres tal og grenenes evner
+│   ├── haer.js               # Formation, gruppeordrer, vælg-firkant, dobbelttryk
+│   ├── trussel.js            # Fælles regel for automatisk angreb
+│   ├── veteran.js / spillerstil.js # Veteranstatus, specialisering og spillestilsmålerne (SAS)
+│   ├── gem.js / gendan.js    # Gem spil i localStorage og gendan det
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, evner, grøn ork-hud
@@ -275,7 +280,17 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Valg: tryk på helt/bærer/bygning; kommandopanel skifter; knap til ledige bærere
 - [x] Startbase med guldmine, skov og stenbjerg tæt ved
 
-### 📋 Næste: milepæle M4–M7
+### ✅ M4 — "Hær" + Jons feedback (oktober 2026)
+- [x] Sammenhængende terræn uden synlige hexagoner (hex bruges kun i logikken)
+- [x] Hvert træ og hver sten kan høstes; stenbrud er grå klippeblokke; guldminer har guldårer
+- [x] Omrids gennem bygninger (figurer og egne bygninger bag en bygning)
+- [x] Items: tryk åbner info-kortet, brug derfra
+- [x] Grunts og spydkastere, gruppevalg (firkant, dobbelttryk, Hær-knap), formation, samlingspunkt
+- [x] Creeps angriber alle spillerens figurer; units angriber det der truer dem eller allierede
+- [x] Veteranstatus, spillestilsmålere og grunt-grenene Ironhide/Ravager/Berserker med evner
+- [x] Gem spil: autogem, "Gem spillet" i menuen, "Fortsæt spillet" ved start
+
+### 📋 Næste: milepæle M5–M7
 Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
 
 ---
@@ -294,6 +309,9 @@ Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og 
 | 2026-10-09 | Godot fravalgt — three.js + Vite valgt | Jon udvikler og tester fra mobilen. Godots styrke er editoren, som ikke bruges. Web-build er få MB mod ~40 MB, og Claude kan selv teste i headless browser |
 | 2026-10-09 | Ollama droppet helt | Kan ikke køre i browseren og skal ikke bruges. AI-modstanderen bliver regelbaseret |
 | 2026-10-10 | Sten som tredje ressource | Jons ønske: arbejdere samler guld, træ og sten. Sten hugges i bjergene og bruges til tårne og større bygninger |
+| 2026-10-10 | Terrænet tegnes som ét mesh, hex kun i logikken | Jon: hexagonerne så brætspilsagtige ud |
+| 2026-10-10 | Hvert træ og hver sten er en ressource | Jons ønske: alt der ligner træ eller sten skal kunne høstes |
+| 2026-10-10 | Gem spil i browserens localStorage | Virker på telefonen uden server; ét gemt spil ad gangen |
 | 2026-10-09 | 3D low-poly (KayKit) frem for 2D-sprites | Delt assetbibliotek med Tideborn, rigtige animationer. Klodsgrafik af grundformer er udelukket |
 | 2026-03-23 | Hero progression: 2 tiers + Ascension ved level 10 | Level 10 er vendepunkt ikke loft — giver dybde og replay-value |
 | 2026-03-23 | Unit-progression: Veteranstatus + spillerstil-tracking | Løser WC3's counter-problem — specialisering er levedygtig strategi |
@@ -353,4 +371,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-10-09*
+*Sidst opdateret: 2026-10-10*

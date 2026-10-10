@@ -56,7 +56,8 @@ export class Kilder {
     this.miner = steder.filter((s) => s.type === 'mine').map((s) => ({ ...s, guld: s.start ? MÆNGDE.mine * 1.5 : MÆNGDE.mine }));
   }
 
-  som(o) { return { type: o.type ?? 'guld', kilde: o, x: o.x, z: o.z, r: o.r ?? 5 }; }
+  // (miner har hex-koordinaten r, så deres radius sættes fast)
+  som(o) { const mine = o.type === 'mine'; return { type: mine ? 'guld' : o.type, kilde: o, x: o.x, z: o.z, r: mine ? 5 : o.r }; }
 
   // Nærmeste kilde af en type (når den gamle er brugt op)
   nærmeste(type, x, z, maks = 60) {

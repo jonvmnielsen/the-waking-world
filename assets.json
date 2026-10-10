@@ -150,6 +150,33 @@
         "2H_Melee_Attack_Spin"
       ]
     },
+    {
+      "id": "kaykit-adventurers/characters/barbarian",
+      "as": "units/grunt",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "1H_Melee_Attack_Chop",
+        "1H_Melee_Attack_Slice_Diagonal",
+        "Block"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "as": "units/spydkaster",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Throw"
+      ]
+    },
+    "kaykit-skeletons/skeleton_arrow",
     "kaykit-skeletons/skeleton_axe",
     "kaykit-skeletons/skeleton_blade",
     "kaykit-skeletons/skeleton_staff",
@@ -186,6 +213,7 @@
     "kaykit-adventurers/spellbook_open",
     "kaykit-adventurers/spellbook_closed",
     "kaykit-adventurers/axe_2handed",
+    "kaykit-adventurers/shield_round_barbarian",
     "kaykit-adventurers/shield_spikes_color",
     "kaykit-adventurers/staff",
     "kaykit-adventurers/axe_1handed",

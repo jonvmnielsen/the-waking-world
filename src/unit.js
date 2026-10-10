@@ -4,7 +4,7 @@ import { kopi, animationer } from './assets.js';
 import { bus } from './events.js';
 
 export class Unit {
-  constructor(verden, model, { skala = 1, skjul = [], våben = {}, radius = 0.7 } = {}) {
+  constructor(verden, model, { skala = 1, skjul = [], våben = {}, våbenSkala = 1, radius = 0.7 } = {}) {
     this.verden = verden;
     this.rod = new THREE.Group();
     this.model = kopi(model, { skygge: true });
@@ -19,7 +19,10 @@ export class Unit {
     // Sæt våben i hænderne (KayKit-skeletter har knoglerne handslotr / handslotl)
     for (const [side, sti] of Object.entries(våben)) {
       const knogle = this.model.getObjectByName(side === 'r' ? 'handslotr' : 'handslotl');
-      if (knogle) knogle.add(kopi(sti.includes('/') ? sti : `kaykit-skeletons/${sti}`, { skygge: true }));
+      if (!knogle) continue;
+      const v = kopi(sti.includes('/') ? sti : `kaykit-skeletons/${sti}`, { skygge: true });
+      v.scale.setScalar(våbenSkala);
+      knogle.add(v);
     }
 
     this.mixer = new THREE.AnimationMixer(this.model);

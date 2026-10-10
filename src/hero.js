@@ -7,6 +7,7 @@ import { gørOrkGrøn } from './orkhud.js';
 import { Inventar } from './inventar.js';
 import { levelMetoder } from './heltlevel.js';
 import { interaktionMetoder } from './heltinteraktion.js';
+import { findTrussel } from './trussel.js';
 
 const SKJUL = ['1H_Axe', '1H_Axe_Offhand', 'Barbarian_Round_Shield', 'Mug', 'Barbarian_Hat'];
 const SVING = [
@@ -139,19 +140,8 @@ export class Helt extends Unit {
     if (s.tid >= s.varighed) { this.sving = null; s.vedSlut?.(); }
   }
 
-  // Nærmeste fjende der jagter helten eller har ramt den inden for 4 sek. (også afstandsangribere).
-  // Samme regel skal gælde for egne units, når de kommer (M4).
-  findTrussel() {
-    let bedst = null, bd = 18;
-    for (const c of this.verden.creeps) {
-      if (c.død || c.tilstand === 'hjem') continue;
-      const truer = (c.tilstand === 'jagt' && c.mål === this) || this.tid - (this.angribere.get(c) ?? -99) < 4;
-      if (!truer) continue;
-      const d = this.afstand(c);
-      if (d < bd) { bd = d; bedst = c; }
-    }
-    return bedst;
-  }
+  // Nærmeste fjende der angriber helten eller en allieret (trussel.js)
+  findTrussel() { return findTrussel(this, 18, this.angribere, this.tid); }
 
   tagSkade(mængde, kilde) {
     if (this.evner.erUdødelig()) mængde = 0;

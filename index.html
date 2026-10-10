@@ -31,6 +31,7 @@
       <span class="res" title="Forsyning"><img id="res-forsyning-ikon" alt="Forsyning" src="" /><b id="res-forsyning">0</b></span>
     </div>
     <button id="ledige" class="skjult" type="button" aria-label="Vælg en ledig bærer"><img id="ledige-ikon" alt="" src="" /><b id="ledige-tal">0</b><small>ledige</small></button>
+    <button id="hær" class="skjult" type="button" aria-label="Vælg hele hæren"><img id="hær-ikon" alt="" src="" /><b id="hær-tal">0</b><small>hær</small></button>
 
     <div id="kommando" hidden>
       <div class="kmd-top"><img id="kmd-ikon" alt="" src="" /><div class="kmd-tekst"><b id="kmd-navn"></b><small id="kmd-status"></small></div><button id="kmd-helt" type="button">Helten</button></div>
@@ -40,8 +41,9 @@
     <button id="menuknap" aria-label="Menu">☰</button>
     <div id="menu">
       <button id="test-level">Level op (test)</button>
+      <button id="gem">Gem spillet</button>
       <button id="genstart">Start forfra</button>
-      <p>Tryk på en bærer for at vælge den og bygge eller hente guld, træ og sten. Tryk på en bygning for at træne arbejdere. Tryk på helteportrættet for at vælge helten igen. Med helten valgt: tryk på jorden for at gå, tryk på en fjende for at angribe. Tryk på et item eller en kiste for at samle op. Træk for at se dig omkring, knib for at zoome. Tryk på et item i inventaret for at se det og bruge det.</p>
+      <p>Tryk på en bærer for at vælge den og bygge eller hente guld, træ og sten. Tryk på en bygning for at træne arbejdere. Tryk på helteportrættet for at vælge helten igen. Med helten valgt: tryk på jorden for at gå, tryk på en fjende for at angribe. Tryk på et item eller en kiste for at samle op. Træk for at se dig omkring, knib for at zoome. Tryk på et item i inventaret for at se det og bruge det. Hæren: tryk på en soldat for at vælge den, dobbelttryk for at vælge alle af samme slags, eller hold fingeren stille et øjeblik og træk en firkant om dem. Hær-knappen vælger alle soldater. Med en krigerlejr valgt sætter et tryk på jorden samlingsstedet for nye soldater.</p>
     </div>
 
     <canvas id="minimap" aria-label="Kort over verden"></canvas>
@@ -84,6 +86,7 @@
   <div id="dødsskærm"><b>Din helt er faldet</b><span>Rejser sig igen om <em id="genopliv-tid">6</em> s</span></div>
 
   <div id="essensvalg">
+    <button id="fortsaet" type="button" hidden><b>Fortsæt spillet</b><span id="fortsaet-tekst"></span></button>
     <h2>Vælg din essens</h2>
     <p>Essensen former heltens evner resten af spillet.</p>
     <div id="essenser"></div>

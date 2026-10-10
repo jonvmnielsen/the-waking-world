@@ -1,6 +1,7 @@
 // Skærmens faste brugerflade: heltepanel, evneknapper, kamera-knap, menu og essensvalg.
 import { ESSENSER } from './abilities.js';
 import { bus } from './events.js';
+import { gemSpil, beskrivGem } from './gem.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -13,6 +14,7 @@ export class Hud {
     $('menuknap').addEventListener('click', () => $('menu').classList.toggle('åben'));
     $('test-level').addEventListener('click', () => { spil.helt.fåXp(Math.max(1, spil.nødvendigXp())); });
     $('genstart').addEventListener('click', () => location.reload());
+    $('gem').addEventListener('click', () => { bus.emit('besked', gemSpil(spil) ? 'Spillet er gemt' : 'Spillet kunne ikke gemmes'); $('menu').classList.remove('åben'); });
     window.addEventListener('keydown', (e) => {
       const i = ['q', 'w', 'e'].indexOf(e.key.toLowerCase());
       if (i >= 0) spil.brugEvne(i);
@@ -55,8 +57,14 @@ export class Hud {
 }
 
 // Essensvalget før spillet starter. Returnerer et Promise med valgt essens.
-export function vælgEssens() {
+// Returnerer den valgte essens, eller 'fortsæt' hvis spilleren fortsætter et gemt spil
+export function vælgEssens(gemt) {
   return new Promise((løs) => {
+    if (gemt) {
+      $('fortsaet').hidden = false;
+      $('fortsaet-tekst').textContent = beskrivGem(gemt);
+      $('fortsaet').onclick = () => { $('essensvalg').classList.remove('vis'); løs('fortsæt'); };
+    }
     const boks = $('essenser');
     boks.innerHTML = '';
     for (const [id, e] of Object.entries(ESSENSER)) {

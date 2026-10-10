@@ -121,15 +121,15 @@ Et døgn varer ca. 8 minutter. Om natten falder udsynet, creeps sover (det er le
 | Ressource | Kilde | Bruges til |
 |---|---|---|
 | **Guld** | Guldminer (begrænset mængde, løber tør) | Alt |
-| **Træ** | Skov (træer fældes og bliver til stubbe) | Bygninger, avancerede units |
-| **Sten** | Bjerge (hugges i kanten af bjergfeltet) | Tårne, større bygninger, opgraderinger |
+| **Træ** | Hvert eneste træ på kortet (fældes og bliver til en stub) | Bygninger, avancerede units |
+| **Sten** | Hver eneste sten: små sten i landskabet og store grå klippeblokke i stenbrud | Tårne, større bygninger, opgraderinger |
 | **Forsyning** | Forsyningsbygninger (max 100) | Loft over hærens størrelse |
 
 **Arbejdere** går hen til minen eller skoven, arbejder et øjeblik og bærer ressourcerne hjem til hovedhallen. Det er ikke øjeblikkelig indsamling. Ved større hær stiger "underhold", så du får mindre guld pr. tur. Det belønner en lille hær med mange helte-items.
 
-**Startressourcer:** 300 guld, 150 træ, 80 sten. En tur giver 10 guld, 10 træ eller 8 sten. En guldmine rummer 8.000 guld (startminen 12.000), et skovfelt 250 træ og et bjergfelt 400 sten. Storlejren giver 12 forsyning, en hytte 10, helten koster 5 og en bærer 1.
+**Startressourcer:** 300 guld, 150 træ, 80 sten. En tur giver 10 guld, 10 træ eller 8 sten. En guldmine rummer 8.000 guld (startminen 12.000). Et træ i skoven giver 40 træ, et frit træ 30, en klippeblok i et stenbrud 150 sten og en lille sten 25. Når alle træer i et skovfelt er fældet, kan man gå igennem. Guldminer har lysende guldårer og glimt, så de er lette at kende. Storlejren giver 12 forsyning, en hytte 10, helten koster 5 og en bærer 1.
 
-**Styring af bærere (M3):** Tryk på en bærer for at vælge den. Tryk derefter på en mine, en skov eller et bjerg for at hente, eller på en byggeplads for at bygge videre. Panelet har knapper til at hente den nærmeste ressource og til at bygge. Knappen "ledige" vælger den næste bærer, der ikke laver noget. Nye bærere går selv i guldminen.
+**Styring af bærere (M3):** Tryk på en bærer for at vælge den. Tryk derefter på en mine, et træ eller en sten for at hente, eller på en byggeplads for at bygge videre. Panelet har knapper til at hente den nærmeste ressource og til at bygge. Knappen "ledige" vælger den næste bærer, der ikke laver noget. Nye bærere går selv i guldminen.
 
 ### 5.2 Byggesystem på hex
 
@@ -300,6 +300,12 @@ En grøn markering viser, hvor units skal gå hen. Rød markerer et angrebsmål,
 
 **Automatisk angreb:** En helt eller unit, der ikke har fået en gå-ordre, angriber selv den nærmeste fjende, der angriber den, også fjender der skyder på afstand. Når målet dør, går den videre til den næste trussel. Under en gå-ordre går den færdig først, som i WC3.
 
+**Hæren (M4):** Tryk på en soldat = vælg den. Dobbelttryk = alle af samme slags på skærmen. Hold fingeren stille et øjeblik og træk = vælg alle i firkanten. Hær-knappen vælger alle soldater. Med en gruppe valgt: tryk på en fjende = angrib sammen, tryk på jorden = gå i formation (nærkamp forrest, spydkastere bagerst). Med Krigerlejren valgt sætter et tryk på jorden samlingsstedet for nye soldater.
+
+**Omrids:** Figurer der går bag en bygning, og egne bygninger der står bag en anden bygning, vises med et lysende omrids (grønt for egne, rødt for fjender).
+
+**Gem spil:** Spillet gemmes automatisk hvert minut og når appen lægges væk, og kan gemmes fra menuen. Ved start vises "Fortsæt spillet", hvis der er et gemt spil. Gemmet ligger i telefonens browser (ét gemt spil ad gangen).
+
 ---
 
 ## 11. AI-modstander
@@ -346,7 +352,7 @@ Det forhindrer, at spillet går i stå, og giver et klimaks.
 
 | Behov | Status |
 |---|---|
-| Hex-fliser, kyst, floder, veje, bjerge, skov | ✅ KayKit Hexagon |
+| Terræn (eget sammenhængende mesh), bjerge, skov, sten | ✅ Terræn i kode, natur fra KayKit Hexagon |
 | Bygninger i 4 holdfarver + neutrale + byggestadier | ✅ KayKit Hexagon |
 | Mennesker (plyndrere, Architects-units) | ✅ KayKit Adventurers |
 | Skeletter (The Memory, creeps) | ✅ KayKit Skeletons |
@@ -368,7 +374,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M1 ✅** | **Stor verden** | Verden skaleret op omkring helten (afsnit 4.1), kort på ca. 48×48 med regioner, krigens tåge, minimap, flere creep-familier og fem sværhedsgrader |
 | **M2 ✅** | **Items** | Drop, opsamling, inventar med 6 pladser, eliksirer, permanente items og kister |
 | **M3 ✅** | **Økonomi og base** | Bærere, guld, træ og sten, byggesystem på hex, Storlejr, hytte, savværk, tårn, krigerlejr, marked, alter |
-| **M4** | **Hær** | Vælg og styr flere units, grunts og spydkastere, grupper, veteranstatus |
+| **M4 ✅** | **Hær** | Grunts og spydkastere fra Krigerlejren, vælg flere (firkant, dobbelttryk, Hær-knap), formation, fælles angreb, samlingspunkt, veteranstatus, grunt-grenene Ironhide/Ravager/Berserker og spillestilsmålere. Desuden: sammenhængende terræn uden synlige hexagoner, omrids gennem bygninger og gem spil |
 | **M5** | **Modstander** | The Memory som regelbaseret AI med base, sejr og nederlag |
 | **M6** | **Liv i verden** | Dag og nat, verdenstilstand, neutrale bygninger, lyd |
 | M7+ | Tier 2–3, flere helte, flere racer, udforskning, kampagne | |

@@ -1,5 +1,6 @@
 // Kamera i fast skrå vinkel (som WC3) + touch-styring:
 // tryk = kommando, træk med én finger = panorer, knib = zoom. Mus: klik, træk, scroll.
+// Hold fingeren stille et øjeblik og træk derefter = vælg-firkant (onBoks).
 import * as THREE from 'three';
 
 const HÆLDNING = THREE.MathUtils.degToRad(52);
@@ -33,7 +34,11 @@ export class KameraRig {
     if (!p) return;
     const dx = e.clientX - p.x, dy = e.clientY - p.y;
     p.x = e.clientX; p.y = e.clientY;
-    if (Math.hypot(p.x - p.sx, p.y - p.sy) > 12) p.trukket = true;
+    const flyttet = Math.hypot(p.x - p.sx, p.y - p.sy) > 12;
+    // Holdt stille i 0,3 sek. før fingeren flyttes: vælg-firkant i stedet for at panorere
+    if (flyttet && !p.trukket && this.pegere.size === 1 && this.onBoks && performance.now() - p.t > 300) p.boks = true;
+    if (p.boks) { p.trukket = true; this.onBoks(p.sx, p.sy, p.x, p.y, false); return; }
+    if (flyttet) p.trukket = true;
     if (this.pegere.size === 2) {
       const d = this.knibAfstand();
       if (this.knibStart) this.zoom(this.knibStart / d);
@@ -53,6 +58,7 @@ export class KameraRig {
     const p = this.pegere.get(e.pointerId);
     this.pegere.delete(e.pointerId);
     if (this.pegere.size < 2) this.knibStart = null;
+    if (p?.boks) return this.onBoks(p.sx, p.sy, e.clientX, e.clientY, true);
     if (p && !p.trukket && this.pegere.size === 0 && performance.now() - p.t < 450) this.onTryk(e.clientX, e.clientY);
   }
 

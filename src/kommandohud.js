@@ -1,6 +1,8 @@
 // Ressourcebjælke, "ledige arbejdere"-knap, kommandopanel for arbejdere og bygninger,
 // og bjælken der vises mens en bygning placeres.
 import { BYGNINGER, BYGGEMENU, ENHEDER } from './bygningsdata.js';
+import { GRENE, VETERAN } from './soldatdata.js';
+import { kanKæmpe } from './haer.js';
 import { ikon } from './ikoner.js';
 import { bus } from './events.js';
 
@@ -22,6 +24,8 @@ export class KommandoHud {
     $('res-forsyning-ikon').src = ikon('res-forsyning');
     $('ledige-ikon').src = ikon('økse');
     $('ledige').addEventListener('click', () => this.næsteLedige());
+    $('hær-ikon').src = ikon('hær');
+    $('hær').addEventListener('click', () => this.valg.vælg(spil.base.hær));
     $('kmd-helt').addEventListener('click', () => { this.valg.vælg(null); });
     $('heltepanel').addEventListener('click', () => { this.valg.vælg(null); spil.rig.centrér(); });
     $('plac-byg').addEventListener('click', () => { const f = this.valg.bekræftPlacering(); if (f) bus.emit('besked', f); });
@@ -62,12 +66,14 @@ export class KommandoHud {
           this.valg.startPlacering(type);
         }, `byg-${type}`);
       }
+    } else if (this.valg.erGruppe) {
+      this.bygGruppe(v, knapper);
     } else if (this.valg.erBygning) {
       $('kmd-ikon').src = ikon('byg-' + v.type);
       $('kmd-navn').textContent = v.data.navn;
       for (const type of v.data.træner ?? []) {
         const e = ENHEDER[type];
-        this.knap(knapper, ikon(type === 'arbejder' ? 'økse' : 'jernsværd'), `Træn ${e.navn.toLowerCase()}`, e.låst ? 'M4' : prisHtml(e.pris), () => {
+        this.knap(knapper, ikon(e.ikon ?? 'økse'), `Træn ${e.navn.toLowerCase()}`, prisHtml(e.pris), () => {
           const fejl = v.træn(type);
           if (fejl) bus.emit('besked', fejl);
         }, `træn-${type}`);
@@ -75,6 +81,30 @@ export class KommandoHud {
       if (v.data.butik) this.knap(knapper, ikon('livseliksir'), 'Handl', '', () => this.spil.handlVed(v));
     }
     this.opdater(1);
+  }
+
+  // Panel for en gruppe: stop, høst (arbejdere) og specialisering af en enkelt veteran-grunt
+  bygGruppe(g, knapper) {
+    const en = g.length === 1 ? g[0] : null;
+    $('kmd-ikon').src = ikon(en?.type ? 'enhed-' + en.type : 'hær');
+    $('kmd-navn').textContent = en ? en.navn : `Hær · ${g.length}`;
+    if (g.every((u) => !kanKæmpe(u))) {
+      for (const r of RES) this.knap(knapper, ikon('res-' + r), `Hent ${r}`, '', () => g.forEach((a) => a.høstNærmeste(r)));
+      return;
+    }
+    this.knap(knapper, ikon('hær'), 'Stop', '', () => g.forEach((u) => (u.stopOrdre ? u.stopOrdre() : u.kommandoGå(u.x, u.z))));
+    const vet = this.spil.veteraner;
+    if (en && vet.kanSpecialiseres(en)) {
+      for (const id of Object.keys(GRENE)) {
+        const b = this.knap(knapper, ikon('enhed-grunt'), GRENE[id].navn, prisHtml(vet.pris(id)), () => {
+          const fejl = vet.specialisér(en, id);
+          bus.emit('besked', fejl ?? `Grunten går til Krigerlejren og bliver ${GRENE[id].navn}`);
+          this.byg();
+        }, `gren-${id}`);
+        b.classList.add(vet.passer(id) ? 'passer' : 'dobbelt');
+        b.title = GRENE[id].tekst;
+      }
+    }
   }
 
   knap(rod, billede, navn, pris, vedTryk, id) {
@@ -102,6 +132,9 @@ export class KommandoHud {
     $('res-sten').textContent = øko.sten;
     $('res-forsyning').textContent = `${øko.forsyning}/${Math.min(øko.forsyningMaks, 100)}`;
     $('res-forsyning').parentElement.classList.toggle('fuld', øko.forsyning >= øko.forsyningMaks);
+    const hær = this.spil.base.hær.length;
+    $('hær').classList.toggle('skjult', !hær);
+    $('hær-tal').textContent = hær;
     const ledige = this.spil.base.ledige.length;
     $('ledige').classList.toggle('skjult', !ledige);
     $('ledige-tal').textContent = ledige;
@@ -110,7 +143,8 @@ export class KommandoHud {
     if (this.tid < 0.2) return;
     this.tid = 0;
     const v = this.valg.valgt;
-    if (this.valg.erArbejder) {
+    if (this.valg.erGruppe) $('kmd-status').textContent = gruppeStatus(v);
+    else if (this.valg.erArbejder) {
       $('kmd-status').textContent = STATUS[v.tilstand]?.(v) ?? '';
       for (const b of document.querySelectorAll('#kmd-knapper [data-id^="byg-"]')) b.classList.toggle('dyr', !øko.harRåd(BYGNINGER[b.dataset.id.slice(4)].pris));
     } else if (this.valg.erBygning) {
@@ -129,4 +163,17 @@ export class KommandoHud {
       }
     }
   }
+}
+
+function gruppeStatus(g) {
+  if (g.length === 1 && g[0].vet) {
+    const s = g[0], liv = `${Math.ceil(s.hp)}/${s.maxHp} liv`;
+    if (s.vet.gren) return `${liv} · ${s.vet.gren.evne}: ${s.vet.gren.evneTekst}`;
+    if (s.vet.påVej) return `${liv} · På vej til Krigerlejren for at blive ${GRENE[s.vet.påVej].navn}`;
+    if (s.vet.veteran) return s.type === 'grunt' ? `${liv} · Veteran — vælg en gren (grøn kant = passer til din spillestil)` : `${liv} · Veteran`;
+    return `${liv} · Veteran-XP ${s.vet.xp}/${VETERAN.tærskel} (overlev kampe)`;
+  }
+  const antal = {};
+  for (const u of g) { const n = u.navn ?? (u.stats ? 'Helt' : 'Bærer'); antal[n] = (antal[n] ?? 0) + 1; }
+  return Object.entries(antal).map(([n, k]) => `${k} × ${n}`).join(' · ');
 }

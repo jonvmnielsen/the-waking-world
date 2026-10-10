@@ -1,4 +1,4 @@
-// Neutrale creeps i lejre: vågner, jager helten, giver op ved leash-grænsen. Guld og drop: genstande.js.
+// Neutrale creeps i lejre: vågner, jager spillerens figurer, giver op ved leash-grænsen. Guld og drop: genstande.js.
 // Typer, familier og sværhedsgrader står i creepdata.js.
 import { Unit } from './unit.js';
 import { CREEP_AI, tilfældig } from './config.js';
@@ -23,7 +23,30 @@ export class Creep extends Unit {
 
   lam(sek) { if (!this.død) { this.lammet = Math.max(this.lammet, sek); this.sving = null; this.spil(this.anim.ramt, { loop: false, gentag: true }); } }
 
-  vækLejr(helt) { for (const c of this.lejr.creeps) if (!c.død && c.tilstand === 'hvile') { c.tilstand = 'jagt'; c.mål = helt; } }
+  vækLejr(mål) { for (const c of this.lejr.creeps) if (!c.død && c.tilstand === 'hvile') { c.tilstand = 'jagt'; c.mål = mål; } }
+
+  // Spillerens figurer der kan ses og angribes (helt, arbejdere, soldater)
+  egne() { return this.verden.egne?.() ?? [this.verden.helt].filter((h) => !h.død && !h.skjult); }
+
+  gyldigt(m) { return m && !m.død && m.rod.visible !== false && !m.skjult; }
+
+  // Hold fast i målet; skift til den nærmeste der står og slår, hvis målet er langt væk (spot fra Ironhide låser målet)
+  vælgMål(dt) {
+    this.spot = Math.max(0, (this.spot ?? 0) - dt);
+    this.vælgTid = (this.vælgTid ?? 0) - dt;
+    if (this.spot > 0 && this.gyldigt(this.mål)) return this.mål;
+    if (!this.gyldigt(this.mål) || this.vælgTid <= 0) {
+      this.vælgTid = 1;
+      const nu = this.gyldigt(this.mål) ? this.afstand(this.mål) : Infinity;
+      if (nu > this.data.rækkevidde + 4) {
+        let bedst = null, bd = nu === Infinity ? CREEP_AI.aggro * 1.6 : this.data.rækkevidde + 3;
+        for (const u of this.egne()) { const d = this.afstand(u); if (d < bd) { bd = d; bedst = u; } }
+        if (bedst) this.mål = bedst;
+        else if (nu === Infinity) this.mål = null;
+      }
+    }
+    return this.mål;
+  }
 
   opdater(dt) {
     // Creeps i tågen tegnes og animeres ikke (sparer kræfter på telefonen)
@@ -31,7 +54,6 @@ export class Creep extends Unit {
     this.rod.visible = synlig;
     if (synlig || this.tilstand !== 'hvile') super.opdater(dt);
     if (this.død) return this.opdaterDød(dt);
-    const helt = this.verden.helt;
     if (this.tilstand === 'vågner') {
       this.vågenTid -= dt;
       if (this.vågenTid <= 0) { this.tilstand = 'hvile'; this.spil(this.anim.idle); }
@@ -40,26 +62,30 @@ export class Creep extends Unit {
     if (this.lammet > 0) { this.lammet -= dt; return; }
     this.cooldown -= dt;
 
-    const vækAfstand = Math.hypot(helt.x - this.lejr.x, helt.z - this.lejr.z);
-    if (this.tilstand === 'hvile' && !helt.død && !helt.skjult && (this.afstand(helt) < CREEP_AI.aggro || vækAfstand < CREEP_AI.aggro * 0.7)) {
-      this.vækLejr(helt);
-      this.spil(this.anim.råb, { loop: false, gentag: true });
-      this.sving = { tid: 0, varighed: 0.6, slagTid: 99, ramt: true };
+    // Vågner når en af spillerens figurer kommer for tæt på lejren
+    if (this.tilstand === 'hvile') {
+      const ind = this.egne().find((u) => this.afstand(u) < CREEP_AI.aggro || Math.hypot(u.x - this.lejr.x, u.z - this.lejr.z) < CREEP_AI.aggro * 0.7);
+      if (ind) {
+        this.vækLejr(ind);
+        this.spil(this.anim.råb, { loop: false, gentag: true });
+        this.sving = { tid: 0, varighed: 0.6, slagTid: 99, ramt: true };
+      }
     }
     if (this.sving) return this.opdaterSving(dt);
 
     if (this.tilstand === 'jagt') {
       const forLangt = Math.hypot(this.x - this.lejr.x, this.z - this.lejr.z) > CREEP_AI.leash;
-      if (helt.død || forLangt) return this.gåHjem();
-      const d = this.afstand(helt) - helt.radius;
+      const m = this.vælgMål(dt);
+      if (!m || forLangt) return this.gåHjem();
+      const d = this.afstand(m) - m.radius;
       if (d > this.data.rækkevidde) {
         this.genberegn = (this.genberegn ?? 0) - dt;
-        if (this.genberegn <= 0 || !this.bevæger) { this.gåTil(helt.x, helt.z); this.genberegn = 0.35; }
+        if (this.genberegn <= 0 || !this.bevæger) { this.gåTil(m.x, m.z); this.genberegn = 0.35; }
         this.opdaterBevægelse(dt);
         this.spil(this.anim.løb);
       } else {
-        this.stop(); this.vend(helt.x, helt.z);
-        if (this.cooldown <= 0) this.startSving(helt); else this.spil(this.anim.idle);
+        this.stop(); this.vend(m.x, m.z);
+        if (this.cooldown <= 0) this.startSving(m); else this.spil(this.anim.idle);
       }
     } else if (this.tilstand === 'hjem') {
       this.hp = Math.min(this.maxHp, this.hp + this.maxHp * 0.4 * dt);
@@ -101,6 +127,7 @@ export class Creep extends Unit {
     if (this.tilstand === 'hjem') return false;   // udødelige mens de løber hjem (som i WC3)
     if (this.tilstand === 'hvile' && kilde) this.vækLejr(kilde);
     if (this.tilstand === 'vågner' && kilde) { this.tilstand = 'jagt'; this.mål = kilde; }
+    if (this.tilstand === 'jagt' && kilde && !this.gyldigt(this.mål)) this.mål = kilde;
     return super.tagSkade(mængde, kilde);
   }
 

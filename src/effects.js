@@ -1,6 +1,8 @@
 // Visuelle effekter: markeringsringe, chokbølger, level-op-lys og magiske projektiler.
 import * as THREE from 'three';
 import { bus } from './events.js';
+import { kopi } from './assets.js';
+import { SPYD_MODEL } from './soldatdata.js';
 
 // Blød radial glød-tekstur (genbruges af alle effekter)
 function glødTekstur(ring) {
@@ -99,22 +101,36 @@ export class Effekter {
     else if (e.type === 'portal') this.søjle({ x: e.x, z: e.z }, 0xb46bff, 2.2, 9);
     else if (e.type === 'samlet') this.bølge(e.x, e.z, 1.6, e.farve ?? 0xffe08a, 0.4);
     else if (e.type === 'kiste') { this.bølge(e.x, e.z, 3.5, 0xffd36b, 0.8); this.søjle({ x: e.x, z: e.z }, 0xffd36b, 0.9, 5); }
+    else if (e.type === 'evne') this.bølge(e.x, e.z, 5, e.farve ?? 0xffffff, 0.5);
+    else if (e.type === 'veteran') { this.bølge(e.x, e.z, 3, 0xffd36b, 0.7); this.søjle({ x: e.x, z: e.z }, 0xffd36b, 1.2, 5); }
     else if (e.type === 'røg') { this.bølge(e.x, e.z, 6, 0x9a9a9a, 1.4); this.søjle({ x: e.x, z: e.z }, 0x777777, 1.6, 4); }
   }
 
-  projektil({ fra, mål, skade, farve = 0xb36bff }) {
-    const kugle = new THREE.Sprite(new THREE.SpriteMaterial({ map: GLØD, color: farve, blending: THREE.AdditiveBlending, depthWrite: false }));
-    kugle.scale.setScalar(1.1);
-    const start = new THREE.Vector3(fra.x, 1.8, fra.z);
+  projektil({ fra, mål, skade, farve = 0xb36bff, model }) {
+    let kugle;
+    if (model === 'spyd') {
+      // Et kastespyd der peger i flyveretningen
+      kugle = new THREE.Group();
+      const spyd = kopi(SPYD_MODEL, { skygge: true });
+      spyd.scale.setScalar(3);
+      spyd.rotation.x = Math.PI / 2;
+      kugle.add(spyd);
+    } else {
+      kugle = new THREE.Sprite(new THREE.SpriteMaterial({ map: GLØD, color: farve, blending: THREE.AdditiveBlending, depthWrite: false }));
+      kugle.scale.setScalar(1.1);
+    }
+    // Tårne skyder oppefra; figurer kaster fra skulderhøjde
+    const start = new THREE.Vector3(fra.x, fra.højde > 3 ? fra.højde : 1.8, fra.z);
     kugle.position.copy(start);
     const længde = Math.max(0.3, fra.afstand(mål) / 14);
+    const næste = new THREE.Vector3();
+    const punkt = (t, v) => { v.lerpVectors(start, new THREE.Vector3(mål.x, 1.3, mål.z), t); v.y += Math.sin(t * Math.PI) * 1.2; return v; };
     this.tilføj(kugle, længde, (t) => {
-      const slut = new THREE.Vector3(mål.x, 1.3, mål.z);
-      kugle.position.lerpVectors(start, slut, t);
-      kugle.position.y += Math.sin(t * Math.PI) * 1.2;
+      punkt(t, kugle.position);
+      if (model) kugle.lookAt(punkt(Math.min(1, t + 0.05), næste));
     }, () => {
       if (!mål.død) mål.tagSkade(skade, fra);
-      this.bølge(mål.x, mål.z, 1.4, farve, 0.35);
+      if (!model) this.bølge(mål.x, mål.z, 1.4, farve, 0.35);
     });
   }
 

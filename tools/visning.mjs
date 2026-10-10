@@ -30,15 +30,24 @@ for (const s of skud) {
   const info = await page.evaluate((s) => {
     const spil = window.spil;
     if (s.syn !== false) spil.visHeleKortet();
-    if (s.kode) eval(s.kode);
+    const f = s.kode ? eval(s.kode) : null;   // koden kan returnere { x, z } at kigge på
     spil.rig.følger = false;
     const h = spil.helt;
-    spil.rig.fokus.set(s.x ?? h.x, 0, s.z ?? h.z);
+    spil.rig.fokus.set(f?.x ?? s.x ?? h.x, 0, f?.z ?? s.z ?? h.z);
     spil.rig.afstand = s.afstand ?? 40;
     if (s.sim) spil.simuler(s.sim);
     return s.ud ? eval(s.ud) : null;
   }, s);
   await page.waitForTimeout(1200);
+  // træk: [x0, y0, x1, y1] = hold fingeren stille og træk en vælg-firkant
+  if (s.træk) {
+    const [x0, y0, x1, y1] = s.træk;
+    await page.mouse.move(x0, y0); await page.mouse.down(); await page.waitForTimeout(400);
+    for (let i = 1; i <= 8; i++) await page.mouse.move(x0 + ((x1 - x0) * i) / 8, y0 + ((y1 - y0) * i) / 8);
+    if (s.slip !== false) await page.mouse.up();
+    await page.waitForTimeout(300);
+  }
+  if (s.efter) console.log(s.navn, await page.evaluate(s.efter));
   await page.screenshot({ path: path.join(UD, `${s.navn}.png`) });
   if (info) console.log(s.navn, JSON.stringify(info));
 }
