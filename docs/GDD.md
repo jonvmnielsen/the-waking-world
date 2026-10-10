@@ -32,9 +32,9 @@ Tre ting adskiller spillet fra WC3:
 ## 3. Kerneloop (skirmish)
 
 ```
-Start: Hovedhal + 5 arbejdere + guldmine ved siden af
+Start: Storlejr + 5 bærere (3 på guld, 1 på træ, 1 på sten) + guldmine, skov og stenbjerg tæt ved
   ↓
-Arbejdere samler guld og træ  →  byg Ånde-alter  →  vælg helt
+Bærere samler guld, træ og sten  →  byg hytter, savværk og tårne
   ↓
 Byg kaserne, forsyning og tårne  →  træn de første units
   ↓
@@ -121,15 +121,20 @@ Et døgn varer ca. 8 minutter. Om natten falder udsynet, creeps sover (det er le
 | Ressource | Kilde | Bruges til |
 |---|---|---|
 | **Guld** | Guldminer (begrænset mængde, løber tør) | Alt |
-| **Træ** | Skov (træer fældes og forsvinder) | Bygninger, avancerede units |
+| **Træ** | Skov (træer fældes og bliver til stubbe) | Bygninger, avancerede units |
+| **Sten** | Bjerge (hugges i kanten af bjergfeltet) | Tårne, større bygninger, opgraderinger |
 | **Forsyning** | Forsyningsbygninger (max 100) | Loft over hærens størrelse |
 
 **Arbejdere** går hen til minen eller skoven, arbejder et øjeblik og bærer ressourcerne hjem til hovedhallen. Det er ikke øjeblikkelig indsamling. Ved større hær stiger "underhold", så du får mindre guld pr. tur. Det belønner en lille hær med mange helte-items.
 
+**Startressourcer:** 300 guld, 150 træ, 80 sten. En tur giver 10 guld, 10 træ eller 8 sten. En guldmine rummer 8.000 guld (startminen 12.000), et skovfelt 250 træ og et bjergfelt 400 sten. Storlejren giver 12 forsyning, en hytte 10, helten koster 5 og en bærer 1.
+
+**Styring af bærere (M3):** Tryk på en bærer for at vælge den. Tryk derefter på en mine, en skov eller et bjerg for at hente, eller på en byggeplads for at bygge videre. Panelet har knapper til at hente den nærmeste ressource og til at bygge. Knappen "ledige" vælger den næste bærer, der ikke laver noget. Nye bærere går selv i guldminen.
+
 ### 5.2 Byggesystem på hex
 
 - En bygning fylder **ét hex-felt**. Store bygninger som hovedhallen fylder tre felter i en trekant.
-- **Byg:** Vælg en arbejder → tryk *Byg* → vælg bygning → en grøn eller rød skygge viser, hvor den kan stå → tryk for at placere. Arbejderen går derhen, og bygningen vokser frem med stilladser (KayKit har stillads- og byggestadie-modeller).
+- **Byg:** Vælg en bærer → tryk på en bygning i panelet → tryk på et felt (grøn = muligt, rød = ikke muligt, og bjælken siger hvorfor) → *Byg her*. Bæreren går derhen, og bygningen rejser sig gennem tre byggestadier. Den bygger kun, mens en bærer arbejder på den.
 - Bygninger kan **opgraderes**, **repareres** og **rives ned** (halvdelen af prisen tilbage).
 
 ### 5.3 The Tide — bygninger (tech-træ)
@@ -138,14 +143,14 @@ Navnene er arbejdsnavne. Modellerne er KayKit Hexagon i holdfarve.
 
 | Bygning | Tier | Funktion | Model (nu) |
 |---|---|---|---|
-| **Storlejr** → **Stormhal** → **Tidevandets Hal** | 1 → 2 → 3 | Hovedbygning, arbejdere, afleverer ressourcer, låser tiers op | castle |
-| **Ånde-alter** | 1 | Vælg og genopliv helte | church |
+| **Storlejr** → **Stormhal** → **Tidevandets Hal** | 1 → 2 → 3 | Hovedbygning, bærere, modtager alle ressourcer, låser tiers op | castle |
+| **Ånde-alter** | 1 | Helten genopstår her og heles tæt ved (vælg nye helte kommer senere) | church |
 | **Krigerlejr** | 1 | Grunts, spydkastere | barracks |
 | **Forsyningshytte** | 1 | +10 forsyning | home_a / home_b |
 | **Vagttårn** | 1 | Forsvar | tower_a / tower_catapult |
 | **Smedje** | 1 | Våben- og rustningsopgraderinger | blacksmith |
-| **Savværk** | 1 | Bedre træhugst, flere opgraderinger | lumbermill |
-| **Markedsplads** | 2 | Butik: forbrugsitems og simple artefakter | market |
+| **Savværk** | 1 | Modtager træ og sten (byg det ved skoven), opgraderinger senere | lumbermill |
+| **Markedsplads** | 1 (M3) | Egen butik: forbrugsitems og simpelt udstyr | market |
 | **Ulvekennel** | 2 | Ryttere | stable* |
 | **Åndehytte** | 2 | Stormkaldere (magikere) | tower_b |
 | **Stormværksted** | 3 | Belejringsmaskiner | windmill / watermill |
@@ -362,7 +367,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 |---|---|---|
 | **M1 ✅** | **Stor verden** | Verden skaleret op omkring helten (afsnit 4.1), kort på ca. 48×48 med regioner, krigens tåge, minimap, flere creep-familier og fem sværhedsgrader |
 | **M2 ✅** | **Items** | Drop, opsamling, inventar med 6 pladser, eliksirer, permanente items og kister |
-| **M3** | **Økonomi og base** | Arbejdere, guld og træ, byggesystem på hex, Storlejr, kaserne, forsyning, alter |
+| **M3 ✅** | **Økonomi og base** | Bærere, guld, træ og sten, byggesystem på hex, Storlejr, hytte, savværk, tårn, krigerlejr, marked, alter |
 | **M4** | **Hær** | Vælg og styr flere units, grunts og spydkastere, grupper, veteranstatus |
 | **M5** | **Modstander** | The Memory som regelbaseret AI med base, sejr og nederlag |
 | **M6** | **Liv i verden** | Dag og nat, verdenstilstand, neutrale bygninger, lyd |

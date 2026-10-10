@@ -11,12 +11,15 @@ export class Inventar {
     this.pladser = new Array(PLADSER).fill(null);   // { id, ladninger }
     this.bonus = { ...TOM };
     this.permanent = { hp: 0, skade: 0 };             // fra skrifter
-    this.guld = 0;
     this.cooldown = 0;
     this.helOverTid = null;                           // { pr, tid }
   }
 
   get fuld() { return this.pladser.every(Boolean); }
+
+  // Guld deles med resten af økonomien (basen)
+  get guld() { return this.helt.verden.økonomi.guld; }
+  set guld(v) { this.helt.verden.økonomi.guld = v; }
 
   // Læg et item i inventaret. Opsamlinger bruges straks. Returnerer false hvis der ikke er plads.
   modtag(id, ladninger) {

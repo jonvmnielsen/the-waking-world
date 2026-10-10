@@ -64,7 +64,15 @@ the-waking-world/
 │   ├── genstande.js          # Items på jorden, kister, guld og drop fra creeps
 │   ├── ikoner.js             # Tegner item-ikoner ud fra 3D-modellerne
 │   ├── inventarhud.js        # Inventar, info-kort og købmandens butik på skærmen
-│   ├── tryk.js               # Hvad et tryk betyder (angrib, saml op, åbn, handl, gå)
+│   ├── tryk.js               # Hvad et tryk betyder (vælg, høst, byg, angrib, saml op, handl, gå)
+│   ├── okonomi.js            # Guld/træ/sten/forsyning og ressourcekilder (miner, skov, bjerge)
+│   ├── bygningsdata.js       # The Tides bygninger og enheder (pris, tid, funktion)
+│   ├── bygninger.js / base.js # Byggepladser → færdige bygninger; basen (placering, aflevering, træning)
+│   ├── arbejder.js           # Bæreren: høster, bærer hjem, bygger
+│   ├── basestart.js          # Storlejr + 5 bærere ved start
+│   ├── valg.js               # Hvad er valgt + placering af nye bygninger
+│   ├── kommandohud.js        # Ressourcebjælke, ledige bærere, kommandopanel, placeringsbjælke
+│   ├── modelliste.js         # Modeller der indlæses ved start + ekstra ikoner
 │   ├── creeps.js             # Skeletter og lejre (aggro, leash, respawn)
 │   ├── camera.js             # Kamera + touch (tryk, træk, knib)
 │   ├── effects.js / overlay.js / hud.js     # Effekter, livsbjælker, brugerflade
@@ -254,7 +262,15 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Købmanden sælger eliksirer, røgbombe, hjemkald og simpelt udstyr
 - [x] Artefakter: lyn (Tordenøksen), blok (Gravkongens skjold), livsstjæl (Kaptajnens klinge), pigskjold
 
-### 📋 Næste: milepæle M3–M7
+### ✅ M3 — "Økonomi og base" (oktober 2026)
+- [x] Tre ressourcer: guld (miner), træ (skov, fældes til stubbe) og sten (bjerge) + forsyning
+- [x] Bærere med grøn hud og økse: høster, bærer hjem til Storlejr/Savværk, bygger; 5 ved start, trænes i Storlejren
+- [x] Byggesystem på hex: vælg bærer → bygning → felt (grøn/rød) → Byg her; tre byggestadier
+- [x] Bygninger: Storlejr, Forsyningshytte, Savværk, Vagttårn (skyder), Markedsplads (butik), Ånde-alter (genopstandelse + heling), Krigerlejr (klar til M4)
+- [x] Valg: tryk på helt/bærer/bygning; kommandopanel skifter; knap til ledige bærere
+- [x] Startbase med guldmine, skov og stenbjerg tæt ved
+
+### 📋 Næste: milepæle M4–M7
 Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
 
 ---
@@ -272,6 +288,7 @@ Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og 
 | 2026-03-23 | 9-agent multiagent arkitektur | Specialisering, parallelitet, skalerbarhed |
 | 2026-10-09 | Godot fravalgt — three.js + Vite valgt | Jon udvikler og tester fra mobilen. Godots styrke er editoren, som ikke bruges. Web-build er få MB mod ~40 MB, og Claude kan selv teste i headless browser |
 | 2026-10-09 | Ollama droppet helt | Kan ikke køre i browseren og skal ikke bruges. AI-modstanderen bliver regelbaseret |
+| 2026-10-10 | Sten som tredje ressource | Jons ønske: arbejdere samler guld, træ og sten. Sten hugges i bjergene og bruges til tårne og større bygninger |
 | 2026-10-09 | 3D low-poly (KayKit) frem for 2D-sprites | Delt assetbibliotek med Tideborn, rigtige animationer. Klodsgrafik af grundformer er udelukket |
 | 2026-03-23 | Hero progression: 2 tiers + Ascension ved level 10 | Level 10 er vendepunkt ikke loft — giver dybde og replay-value |
 | 2026-03-23 | Unit-progression: Veteranstatus + spillerstil-tracking | Løser WC3's counter-problem — specialisering er levedygtig strategi |

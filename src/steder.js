@@ -7,18 +7,8 @@ import { lejrPynt } from './pynt.js';
 
 const BYG = 'kaykit-hexagon/buildings/';
 
-// The Tides lejr omkring basefeltet (dq, dr, model, rotation i 60°-trin, ekstra skala, ekstra felter)
-// Storlejren fylder tre felter i en trekant (GDD 5.2), så porten er højere end helten.
-const BASE = [
-  [0, 0, 'green/building_castle_green', 0, 1.45, [[1, -1], [0, -1]]],
-  [2, -1, 'green/building_barracks_green', 5, 1.2],
-  [-2, 1, 'green/building_home_a_green', 1, 2.15],
-  [-1, 2, 'green/building_home_b_green', 0, 1.95],
-  [-2, -1, 'green/building_windmill_green', 1, 1.4],
-  [1, -2, 'green/building_blacksmith_green', 2, 1.3],
-  [2, 1, 'green/building_tower_a_green', 0, 1.2],
-  [-1, -2, 'green/building_lumbermill_green', 3, 1.3],
-];
+// Spilleren starter kun med Storlejren (M3), der fylder tre felter; resten bygger arbejderne.
+const STORLEJR_FELTER = [[0, 0], [1, -1], [0, -1]];
 
 export function placérSteder(k, tilf) {
   const H = KORT.størrelse / 2;
@@ -37,23 +27,29 @@ export function placérSteder(k, tilf) {
 
   // 1) Basen
   const b = k.base;
-  for (const [dq, dr, model, rot, sk, ekstra = []] of BASE) {
-    const f = k.hent(b.q + dq, b.r + dr);
-    if (!f) continue;
-    // Store bygninger står i midten af deres felter
-    const felter = [f, ...ekstra.map(([eq, er]) => k.hent(b.q + eq, b.r + er)).filter(Boolean)];
-    const c = hexTilVerden(f.q, f.r);
-    const mx = felter.reduce((s, x) => s + hexTilVerden(x.q, x.r).x, 0) / felter.length;
-    const mz = felter.reduce((s, x) => s + hexTilVerden(x.q, x.r).z, 0) / felter.length;
-    optag(f, { model: BYG + model, rot: rot * 60, skala: sk, skygge: true, dx: mx - c.x, dz: mz - c.z });
-    for (const x of felter.slice(1)) optag(x, null);
-  }
+  // Storlejren står i midten af sine felter (selve bygningen laves i base.js)
+  const felter = STORLEJR_FELTER.map(([dq, dr]) => k.hent(b.q + dq, b.r + dr)).filter(Boolean);
+  for (const f of felter) optag(f, null);
+  const storlejr = {
+    felter,
+    x: felter.reduce((s, f) => s + hexTilVerden(f.q, f.r).x, 0) / felter.length,
+    z: felter.reduce((s, f) => s + hexTilVerden(f.q, f.r).z, 0) / felter.length,
+  };
   const spawnFelt = k.hent(b.q + 1, b.r + 1);
   spawnFelt.optaget = true;
   spawnFelt.pynt.push({ model: 'kaykit-hexagon/decoration/props/flag_green', dx: 1.6, dz: 1.2, rot: 0, skala: 1.4 });
 
+  // Startminen: et frit felt tre skridt mod øst/sydøst for basen
+  const c0 = hexTilVerden(b.q, b.r);
+  const vinkelTil = (f) => { const p = hexTilVerden(f.q, f.r); return Math.abs(Math.atan2(p.z - c0.z, p.x - c0.x) - 0.3); };
+  const minefelt = [...k.felter.values()].filter((f) => hexAfstand(f, b) === 3 && fri(f)).sort((p, q) => vinkelTil(p) - vinkelTil(q))[0];
+
   // 2) Neutrale steder (gul = neutral)
   const steder = [];
+  if (minefelt) {
+    optag(minefelt, { model: BYG + 'yellow/building_mine_yellow', rot: 240, skala: 1.1, skygge: true });
+    steder.push({ type: 'mine', start: true, q: minefelt.q, r: minefelt.r, ...hexTilVerden(minefelt.q, minefelt.r) });
+  }
   const sted = (type, nx, nz, model, skala = 1, blokér = true) => {
     const f = nærmesteFri(nx, nz);
     if (!f) return;
@@ -122,5 +118,5 @@ export function placérSteder(k, tilf) {
   }
 
   const p = hexTilVerden(spawnFelt.q, spawnFelt.r);
-  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre, kister };
+  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre, kister, storlejr };
 }

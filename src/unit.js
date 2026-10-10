@@ -19,7 +19,7 @@ export class Unit {
     // Sæt våben i hænderne (KayKit-skeletter har knoglerne handslotr / handslotl)
     for (const [side, sti] of Object.entries(våben)) {
       const knogle = this.model.getObjectByName(side === 'r' ? 'handslotr' : 'handslotl');
-      if (knogle) knogle.add(kopi(`kaykit-skeletons/${sti}`, { skygge: true }));
+      if (knogle) knogle.add(kopi(sti.includes('/') ? sti : `kaykit-skeletons/${sti}`, { skygge: true }));
     }
 
     this.mixer = new THREE.AnimationMixer(this.model);

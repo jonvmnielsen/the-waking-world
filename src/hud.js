@@ -36,7 +36,6 @@ export class Hud {
     $('hp-tal').textContent = `${Math.ceil(h.hp)} / ${Math.round(h.maxHp)}`;
     $('mana').style.width = `${(h.mana / h.manaMax) * 100}%`;
     $('mana-tal').textContent = `${Math.floor(h.mana)} / ${h.manaMax}`;
-    $('guld').textContent = h.inventar.guld;
     $('xp').style.width = `${h.xpProcent() * 100}%`;
     $('centrer').classList.toggle('skjult', this.spil.rig.følger);
     if (h.død) $('genopliv-tid').textContent = Math.ceil(h.genopliv);

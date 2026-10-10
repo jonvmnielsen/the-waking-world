@@ -3,13 +3,15 @@
 import * as THREE from 'three';
 import { ITEMS } from './itemdata.js';
 import { itemModel } from './genstande.js';
+import { skaleretKopi } from './assets.js';
 
 const STR = 96;
 const ikoner = {};
 
 export function ikon(id) { return ikoner[id]; }
 
-export function lavIkoner(renderer) {
+// ekstra: [{ id, sti, vinkel }] — fx bygninger og ressourcer til kommandopanelet
+export function lavIkoner(renderer, ekstra = []) {
   const scene = new THREE.Scene();
   scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 2.2));
   const lys = new THREE.DirectionalLight(0xffffff, 2.4);
@@ -32,9 +34,13 @@ export function lavIkoner(renderer) {
   const gammelAlfa = renderer.getClearAlpha();
   renderer.setClearColor(0x000000, 0);
 
-  for (const id of Object.keys(ITEMS)) {
-    const m = itemModel(id, 1.6);
-    m.rotation.set(0.25, -0.7, ITEMS[id].type === 'permanent' || ITEMS[id].type === 'artefakt' ? -0.5 : 0);
+  const opgaver = [
+    ...Object.keys(ITEMS).map((id) => ({ id, lav: () => itemModel(id, 1.6), rot: [0.25, -0.7, ['permanent', 'artefakt'].includes(ITEMS[id].type) ? -0.5 : 0] })),
+    ...ekstra.map((e) => ({ id: e.id, lav: () => skaleretKopi(e.sti, 1.75), rot: e.vinkel ?? [0.45, -0.6, 0] })),
+  ];
+  for (const { id, lav, rot } of opgaver) {
+    const m = lav();
+    m.rotation.set(...rot);
     const boks = new THREE.Box3().setFromObject(m);
     const midt = boks.getCenter(new THREE.Vector3());
     m.position.sub(midt);

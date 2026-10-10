@@ -168,3 +168,53 @@ body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: non
   .plads { width: 42px; height: 42px; }
   #info { bottom: calc(var(--bund) + 104px); right: calc(var(--kant) + 248px); }
 }
+
+/* ---------- M3: ressourcer, ledige bærere, kommandopanel, placering ---------- */
+#heltepanel { cursor: pointer; }
+#ressourcer { top: calc(var(--top) + 76px); left: var(--kant); display: flex; gap: 6px; flex-wrap: wrap; max-width: calc(100vw - 32px); }
+.res { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px 3px 4px; border-radius: 999px; background: var(--træ); border: 1px solid rgba(201, 163, 90, 0.35); font-weight: 800; font-size: 13px; font-variant-numeric: tabular-nums; }
+.res img { width: 22px; height: 22px; }
+.res:first-child b { color: var(--guld); }
+.res.fuld b { color: #ff7a5c; }
+#ledige { top: calc(var(--top) + 112px); left: var(--kant); display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 4px; border-radius: 999px; background: #3f6b2a; border: 1px solid #8fd06a; font-weight: 800; font-size: 13px; transition: opacity 0.2s; }
+#ledige img { width: 24px; height: 24px; }
+#ledige small { font-weight: 600; opacity: 0.85; }
+#ledige.skjult { opacity: 0; pointer-events: none; }
+
+body.valgt-andet #evner, body.valgt-andet #inventar { display: none; }
+#kommando { right: var(--kant); bottom: var(--bund); width: min(380px, calc(100vw - var(--kant) * 2 - min(34vw, 150px) - 10px)); padding: 8px; border-radius: 14px; background: var(--træ-lys); border: 1px solid rgba(201, 163, 90, 0.5); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45); }
+#kommando[hidden] { display: none; }
+.kmd-top { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+.kmd-top > img { width: 38px; height: 38px; flex: none; }
+.kmd-tekst { flex: 1; min-width: 0; }
+.kmd-tekst b { display: block; font-family: var(--display); font-size: 15px; }
+.kmd-tekst small { display: block; font-size: 11px; line-height: 1.3; color: var(--dæmpet); }
+#kmd-helt { flex: none; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(201, 163, 90, 0.45); background: rgba(0, 0, 0, 0.25); font-weight: 800; font-size: 12px; }
+#kmd-knapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); gap: 5px; }
+.kmd { display: grid; justify-items: center; gap: 1px; padding: 4px 2px 5px; border-radius: 9px; border: 1px solid rgba(201, 163, 90, 0.35); background: rgba(0, 0, 0, 0.22); min-width: 0; }
+.kmd img { width: 34px; height: 34px; }
+.kmd b { font-size: 10px; line-height: 1.15; text-align: center; }
+.kmd .pris { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 4px; font-size: 10px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--dæmpet); }
+.kmd .pris span { display: inline-flex; align-items: center; gap: 1px; }
+.kmd .pris img { width: 12px; height: 12px; }
+.kmd.dyr { opacity: 0.45; }
+.kmd:active { transform: scale(0.95); }
+
+#placering { position: fixed; z-index: 4; left: 50%; top: calc(var(--top) + 150px); transform: translateX(-50%); display: grid; gap: 8px; justify-items: center; padding: 10px 14px; border-radius: 12px; background: var(--træ-lys); border: 1px solid rgba(201, 163, 90, 0.55); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45); font-weight: 800; font-size: 14px; text-align: center; max-width: calc(100vw - 32px); }
+#placering[hidden] { display: none; }
+#placering div { display: flex; gap: 8px; }
+#placering button { white-space: nowrap; padding: 8px 14px; border-radius: 9px; border: 1px solid rgba(201, 163, 90, 0.45); background: rgba(255, 255, 255, 0.07); font-weight: 800; }
+#plac-byg { background: #3f6b2a; border-color: #6fae4c; }
+#plac-byg:disabled { opacity: 0.4; }
+
+.bjælke.egen { width: 38px; height: 5px; }
+.bjælke.egen i { background: linear-gradient(#7de06a, #3c9a2e); }
+.tal.ressource { color: #e8dcc0; font-size: 13px; font-family: var(--ui); }
+
+@media (max-height: 500px) and (orientation: landscape) {
+  #ressourcer { top: var(--top); left: calc(var(--kant) + 310px); max-width: calc(100vw - 400px); }
+  #ledige { top: calc(var(--top) + 36px); left: calc(var(--kant) + 310px); }
+  #kommando { width: min(640px, calc(100vw - var(--kant) * 2 - 170px)); }
+  #kmd-knapper { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
+  #placering { top: calc(var(--top) + 70px); }
+}

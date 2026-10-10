@@ -40,6 +40,40 @@ await page.click('.essens.vold');
 await page.waitForFunction(() => window.klar === true);
 await page.waitForTimeout(2500);
 await page.screenshot({ path: path.join(UD, '2-start.png') });
+
+// M3: arbejderne høster; vælg en, byg en hytte, træn en ny arbejder
+const før = await page.evaluate(() => { const ø = window.spil.økonomi; return { guld: ø.guld, træ: ø.træ, sten: ø.sten }; });
+await page.evaluate(() => window.spil.simuler(40));
+const m3 = await page.evaluate(() => {
+  const s = window.spil, ø = s.økonomi, b = s.base;
+  const efter = { guld: ø.guld, træ: ø.træ, sten: ø.sten };
+  const a = b.arbejdere[0];
+  s.valg.vælg(a);
+  // Find et frit felt to skridt fra Storlejren
+  const lejr = b.bygninger[0];
+  const felt = [...s.verden.kort.felter.values()].find((f) => !b.kanPlacere('hytte', f) && Math.hypot(s.hexTilVerden(f.q, f.r).x - lejr.x, s.hexTilVerden(f.q, f.r).z - lejr.z) < 26);
+  s.valg.startPlacering('hytte');
+  s.valg.vælgFelt(felt);
+  const fejl = s.valg.bekræftPlacering();
+  const forsyningFør = ø.forsyningMaks;
+  s.simuler(45);
+  const hytte = b.bygninger[1];
+  const træn = lejr.træn('arbejder');
+  s.simuler(14);
+  return { efter, fejl, hytteFærdig: hytte?.færdig, forsyning: `${forsyningFør} -> ${ø.forsyningMaks}`, træn, arbejdere: b.arbejdere.length, tilstande: b.arbejdere.map((x) => x.tilstand).join(',') };
+});
+console.log('M3 før', før, 'efter', m3);
+await page.evaluate(() => { const s = window.spil; s.valg.vælg(s.base.arbejdere[1]); s.rig.følger = false; const l = s.base.bygninger[0]; s.rig.fokus.set(l.x, 0, l.z + 6); s.rig.afstand = 40; });
+await page.waitForTimeout(1500);
+await page.screenshot({ path: path.join(UD, '2c-base.png') });
+await page.evaluate(() => { const s = window.spil; s.valg.vælg(s.base.bygninger[0]); });
+await page.waitForTimeout(600);
+await page.screenshot({ path: path.join(UD, '2d-storlejr.png') });
+await page.evaluate(() => { const s = window.spil; s.valg.vælg(s.base.arbejdere[2]); s.valg.startPlacering('tårn'); const f = [...s.verden.kort.felter.values()].find((x) => !s.base.kanPlacere('tårn', x) && Math.hypot(s.hexTilVerden(x.q, x.r).x - s.rig.fokus.x, s.hexTilVerden(x.q, x.r).z - s.rig.fokus.z) < 20); s.valg.vælgFelt(f); });
+await page.waitForTimeout(800);
+await page.screenshot({ path: path.join(UD, '2e-placering.png') });
+await page.evaluate(() => { const s = window.spil; s.valg.annullérPlacering(); s.valg.vælg(null); s.rig.centrér(); s.rig.afstand = 30; });
+
 await page.evaluate(() => { window.spil.rig.afstand = 11; });
 await page.waitForTimeout(1500);
 await page.screenshot({ path: path.join(UD, '2b-helt.png') });

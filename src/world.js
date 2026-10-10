@@ -33,6 +33,7 @@ export function bygVerden(scene, kort) {
     const g = grupper.get(nøgle);
     g.matricer.push(m);
     g.farver.push(farve);
+    return { nøgle, i: g.matricer.length - 1 };
   };
   const q = new THREE.Quaternion();
   const op = new THREE.Vector3(0, 1, 0);
@@ -51,7 +52,8 @@ export function bygVerden(scene, kort) {
       const skala = (pynt.skala ?? 1) * (pynt.model.includes('kaykit-hexagon') ? S : 1);
       const rotQ = new THREE.Quaternion().setFromAxisAngle(op, THREE.MathUtils.degToRad(pynt.rot ?? 0));
       if (pynt.instans) {
-        tilføj(pynt.model, new THREE.Matrix4().compose(pos, rotQ, new THREE.Vector3(skala, skala, skala)), pynt.skygge, f, null);
+        const ref = tilføj(pynt.model, new THREE.Matrix4().compose(pos, rotQ, new THREE.Vector3(skala, skala, skala)), pynt.skygge, f, null);
+        (f.instanser ??= []).push(ref);
       } else {
         const obj = kopi(pynt.model, { skygge: pynt.skygge });
         obj.position.copy(pos);
@@ -61,7 +63,12 @@ export function bygVerden(scene, kort) {
       }
     }
   }
-  for (const g of grupper.values()) scene.add(instanser(g.sti, g.matricer, { skygge: g.skygge, farver: g.farver }));
+  const meshGrupper = new Map();
+  for (const [nøgle, g] of grupper) {
+    const grp = instanser(g.sti, g.matricer, { skygge: g.skygge, farver: g.farver });
+    meshGrupper.set(nøgle, grp);
+    scene.add(grp);
+  }
 
   // Hav ud til horisonten under de yderste vandfliser
   const hav = new THREE.Mesh(
@@ -72,7 +79,22 @@ export function bygVerden(scene, kort) {
   hav.receiveShadow = true;
   scene.add(hav);
 
-  return { opdater() {} };
+  // En tømt skov bliver til stubbe, og man kan gå over feltet
+  const nul = new THREE.Matrix4().makeScale(0, 0, 0);
+  function fæld(f) {
+    for (const { nøgle, i } of f.instanser ?? []) {
+      for (const im of meshGrupper.get(nøgle)?.children ?? []) { im.setMatrixAt(i, nul); im.instanceMatrix.needsUpdate = true; }
+    }
+    f.instanser = [];
+    const p = hexTilVerden(f.q, f.r);
+    const stub = kopi(`kaykit-hexagon/decoration/nature/trees_${Math.random() < 0.5 ? 'a' : 'b'}_cut`, { skygge: false });
+    stub.position.set(p.x, 0, p.z);
+    stub.rotation.y = Math.random() * Math.PI * 2;
+    stub.scale.setScalar(S);
+    scene.add(stub);
+    f.blok = undefined; f.gåbar = true;
+  }
+  return { opdater() {}, fæld };
 }
 
 export function lavLys(scene, renderer) {

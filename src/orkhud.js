@@ -3,14 +3,15 @@
 import * as THREE from 'three';
 
 const SRGB = THREE.SRGBColorSpace;
-let grønTekstur = null;
+const grønne = new Map();   // én grøn tekstur pr. original
 
 export function gørOrkGrøn(model) {
   model.traverse((o) => {
     if (!o.isMesh || !o.material?.map) return;
-    if (!grønTekstur) grønTekstur = lavGrøn(o.material.map);
+    const kilde = o.material.map;
+    if (!grønne.has(kilde)) grønne.set(kilde, lavGrøn(kilde));
     o.material = o.material.clone();
-    o.material.map = grønTekstur;
+    o.material.map = grønne.get(kilde);
   });
 }
 

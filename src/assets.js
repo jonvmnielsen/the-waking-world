@@ -79,6 +79,14 @@ export function instanser(sti, matricer, { skygge = false, modtag = true, farver
   return gruppe;
 }
 
+// Kopi skaleret så den største side er "str" enheder (fx byrder på arbejderens ryg)
+export function skaleretKopi(sti, str) {
+  const m = kopi(sti, { skygge: true });
+  const s = new THREE.Box3().setFromObject(m).getSize(new THREE.Vector3());
+  m.scale.setScalar(str / Math.max(s.x, s.y, s.z));
+  return m;
+}
+
 export function animationer(sti) {
   return gltf(sti).animations;
 }

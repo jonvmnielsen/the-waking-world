@@ -1,60 +1,109 @@
-// Hvad et tryk på spillets lærred betyder: angrib en fjende, saml et item op, åbn en kiste,
-// gå til købmanden eller gå et sted hen. Det nærmeste mål på skærmen vinder.
+// Hvad et tryk på spillets lærred betyder (GDD 10):
+// - mens en bygning placeres: vælg feltet
+// - på egen helt, arbejder eller bygning: vælg den
+// - med en arbejder valgt: høst (mine, skov, bjerg), byg videre, aflever eller gå
+// - med helten valgt: angrib, saml op, åbn kiste, handl eller gå
 import * as THREE from 'three';
 import { bus } from './events.js';
+import { hexTilVerden } from './hexgrid.js';
 
-export function lavTryk({ spil, lærred, overlay, effekter, genstande, invHud, steder }) {
-  const { helt, verden, rig } = spil;
+export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder }) {
+  const { helt, verden, rig, valg, base } = spil;
   const ray = new THREE.Raycaster();
   const jord = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   const skærm = (x, y, z) => overlay.skærm(x, y, z);
+  const r = () => lærred.getBoundingClientRect();
 
-  return (sx, sy) => {
+  function jordpunkt(px, py) {
+    const b = r();
+    ray.setFromCamera(new THREE.Vector2((px / b.width) * 2 - 1, -(py / b.height) * 2 + 1), rig.kamera);
+    const p = new THREE.Vector3();
+    return ray.ray.intersectPlane(jord, p) ? p : null;
+  }
+
+  // Ressourcekilde nær trykket: miner efter skærmafstand, ellers skov/bjerg i og omkring feltet
+  function kildeVed(px, py, p) {
+    for (const m of base.kilder.miner) {
+      const s = skærm(m.x, 3, m.z);
+      if (m.guld > 0 && Math.hypot(s.x - px, s.y - py) < 70) return { type: 'guld', kilde: m, x: m.x, z: m.z };
+    }
+    const f = p && verden.kort.felt(p.x, p.z);
+    if (!f) return null;
+    let bedst = null, bd = 75;
+    for (const kand of [f, ...verden.kort.naboer(f)]) {
+      const k = base.kilder.vedFelt(kand);
+      if (!k || k.type === 'guld') continue;
+      const c = hexTilVerden(kand.q, kand.r), s = skærm(c.x, 3, c.z), d = Math.hypot(s.x - px, s.y - py);
+      if (d < bd && verden.taage.erUdforsket(c.x, c.z)) { bd = d; bedst = k; }
+    }
+    return bedst;
+  }
+
+  function arbejderTryk(a, px, py) {
+    const p = jordpunkt(px, py);
+    const k = kildeVed(px, py, p);
+    if (k) { a.kommandoHøst(k); effekter.markør(k.x, k.z, 0xffd36b); return; }
+    if (p && a.kommandoGå(p.x, p.z)) effekter.markør(p.x, p.z);
+    else bus.emit('besked', 'Der kan bæreren ikke gå hen');
+  }
+
+  function heltTryk(px, py) {
     if (helt.død) return;
-    const r = lærred.getBoundingClientRect();
-    const px = sx - r.left, py = sy - r.top;
-
-    // 1) Fjender
     let fjende = null, bd = 52;
     for (const c of verden.creeps) {
       if (c.død || !c.rod.visible) continue;
-      const s = skærm(c.x, c.højde * 0.5, c.z);
-      const d = Math.hypot(s.x - px, s.y - py);
+      const s = skærm(c.x, c.højde * 0.5, c.z), d = Math.hypot(s.x - px, s.y - py);
       if (d < bd) { bd = d; fjende = c; }
     }
-    // 2) Items og kister, hvis de er tættere på trykket end en fjende
     const ting = genstande.find(px, py, skærm, Math.min(bd, 46));
     if (ting?.type === 'item') {
       const g = ting.ting;
       helt.kommandoInteraktion(g.x, g.z, 1.8, () => genstande.samOp(g));
-      effekter.markør(g.x, g.z, 0xffe08a);
-      return;
+      return effekter.markør(g.x, g.z, 0xffe08a);
     }
     if (ting?.type === 'kiste') {
       const k = ting.ting;
       helt.kommandoInteraktion(k.x, k.z, 3, () => genstande.åbn(k));
-      effekter.markør(k.x, k.z, 0xffe08a);
-      return;
+      return effekter.markør(k.x, k.z, 0xffe08a);
     }
-    if (fjende) { helt.kommandoAngrib(fjende); effekter.markør(fjende.x, fjende.z, 0xff5a4a); return; }
-
-    // 3) Købmanden og kroen
+    if (fjende) { helt.kommandoAngrib(fjende); return effekter.markør(fjende.x, fjende.z, 0xff5a4a); }
     for (const s of steder) {
-      if (s.type !== 'marked' && s.type !== 'kro') continue;
-      if (!spil.taage.erUdforsket(s.x, s.z)) continue;
-      const p = skærm(s.x, 3, s.z);
-      if (Math.hypot(p.x - px, p.y - py) > 70) continue;
-      if (s.type === 'kro') { bus.emit('besked', 'I kroen kan du snart hyre flere helte'); return; }
-      helt.kommandoInteraktion(s.x, s.z, 11, () => invHud.åbnButik(s));
-      effekter.markør(s.x, s.z, 0xffe08a);
+      if ((s.type !== 'marked' && s.type !== 'kro') || !verden.taage.erUdforsket(s.x, s.z)) continue;
+      const q = skærm(s.x, 3, s.z);
+      if (Math.hypot(q.x - px, q.y - py) > 70) continue;
+      if (s.type === 'kro') return bus.emit('besked', 'I kroen kan du snart hyre flere helte');
+      return spil.handlVed(s);
+    }
+    const p = jordpunkt(px, py);
+    if (p && helt.kommandoGå(p.x, p.z)) effekter.markør(p.x, p.z);
+    else overlay.toast('Der kan helten ikke gå hen');
+  }
+
+  return (sx, sy) => {
+    const b = r(), px = sx - b.left, py = sy - b.top;
+
+    // Placering af en ny bygning: trykket vælger feltet
+    if (valg.placering) {
+      const p = jordpunkt(px, py);
+      valg.vælgFelt(p && verden.kort.felt(p.x, p.z));
       return;
     }
+    // Egen helt, arbejder eller bygning
+    if (!helt.død && !valg.erHelt) {
+      const s = skærm(helt.x, 1.2, helt.z);
+      if (Math.hypot(s.x - px, s.y - py) < 40) return valg.vælg(null);
+    }
+    const egen = base.find(px, py, skærm);
+    if (egen && valg.erArbejder && egen.type === 'bygning') {
+      const a = valg.valgt, byg = egen.ting;
+      if (!byg.færdig) { a.kommandoByg(byg); return effekter.markør(byg.x, byg.z, 0x7dff6a); }
+      if (a.bærer && byg.data.aflevering?.includes(a.bærer.type)) return a.gåHjem();
+    }
+    if (egen && egen.ting !== valg.valgt) return valg.vælg(egen.ting);
+    if (egen) return;
 
-    // 4) Jorden
-    ray.setFromCamera(new THREE.Vector2((px / r.width) * 2 - 1, -(py / r.height) * 2 + 1), rig.kamera);
-    const p = new THREE.Vector3();
-    if (!ray.ray.intersectPlane(jord, p)) return;
-    if (helt.kommandoGå(p.x, p.z)) effekter.markør(p.x, p.z);
-    else overlay.toast('Der kan helten ikke gå hen');
+    if (valg.erArbejder) return arbejderTryk(valg.valgt, px, py);
+    if (valg.erBygning) return valg.vælg(null);
+    heltTryk(px, py);
   };
 }

@@ -42,9 +42,10 @@ export function lavTerræn(seed) {
       const f = k.sæt(q, r, { kol, ræk, region, type: land ? 'græs' : 'vand', gåbar: land });
       if (!land) continue;
       const tæt = TÆTHED[region];
-      const vedBase = hexAfstand(f, base) <= 5;
+      const dBase = hexAfstand(f, base);
+      const vedBase = dBase <= 6;
       if (!vedBase && støj(kol, ræk, seed + 2, 4) > tæt.sø) { f.type = 'vand'; f.gåbar = false; continue; }
-      if (vedBase) continue;
+      if (vedBase) { baseOmegn(f, base, dBase); continue; }
       if (støj(kol, ræk, seed + 3, 4.5) > tæt.bjerg) blokér(f, 'bjerg');
       else if (støj(kol, ræk, seed + 4, 3.5) > tæt.skov) blokér(f, 'skov');
     }
@@ -52,6 +53,16 @@ export function lavTerræn(seed) {
   lavKyst(k);
   sikrSammenhæng(k);
   return k;
+}
+
+// Omkring basen: frit land til bygninger, en skov mod nordvest og et stenbjerg mod nordøst,
+// så arbejderne har træ og sten tæt på (guldminen sættes i steder.js)
+function baseOmegn(f, base, d) {
+  if (d < 4) return;
+  const p = hexTilVerden(f.q, f.r), b = hexTilVerden(base.q, base.r);
+  const v = (Math.atan2(p.z - b.z, p.x - b.x) * 180) / Math.PI;   // 0 = øst, -90 = nord
+  if (v < -105 || v > 165) blokér(f, 'skov');
+  else if (v > -62 && v < -28 && d <= 5) blokér(f, 'bjerg');
 }
 
 function nærmesteRegion(nx, nz, seed) {

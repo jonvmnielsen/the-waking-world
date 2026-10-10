@@ -20,6 +20,21 @@
       ]
     },
     {
+      "id": "kaykit-adventurers/characters/rogue",
+      "as": "units/arbejder",
+      "animations": [
+        "Idle",
+        "Walking_A",
+        "Running_A",
+        "1H_Melee_Attack_Chop",
+        "Interact",
+        "PickUp",
+        "Hit_A",
+        "Death_A",
+        "Cheer"
+      ]
+    },
+    {
       "id": "kaykit-skeletons/characters/skeleton_minion",
       "as": "units/skeleton_minion",
       "animations": [

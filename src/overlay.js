@@ -5,8 +5,9 @@ import { bus } from './events.js';
 const v = new THREE.Vector3();
 
 export class Overlay {
-  constructor(rod, verden, kamera) {
+  constructor(rod, verden, kamera, ekstra = () => []) {
     this.rod = rod; this.verden = verden; this.kamera = kamera;
+    this.ekstra = ekstra;   // egne arbejdere og byggepladser
     this.bjælker = new Map();   // unit -> element
     this.toastEl = document.getElementById('toast');
 
@@ -45,14 +46,14 @@ export class Overlay {
   }
 
   opdater() {
-    const enheder = [this.verden.helt, ...this.verden.creeps];
+    const enheder = [this.verden.helt, ...this.verden.creeps, ...this.ekstra()];
     for (const u of enheder) {
       let el = this.bjælker.get(u);
       const vis = !u.død && !u.fjernet && u.rod.visible && (u === this.verden.helt || u.tilstand !== 'vågner');
       if (!vis) { if (el) { el.remove(); this.bjælker.delete(u); } continue; }
       if (!el) {
         el = document.createElement('div');
-        el.className = `bjælke ${u === this.verden.helt ? 'helt' : 'fjende'}`;
+        el.className = `bjælke ${u === this.verden.helt ? 'helt' : u.side === 'egen' ? 'egen' : 'fjende'}`;
         el.innerHTML = '<i></i>';
         this.rod.appendChild(el);
         this.bjælker.set(u, el);

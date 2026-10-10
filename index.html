@@ -17,18 +17,31 @@
     <div id="heltepanel">
       <div id="level-ring"><span id="level">1</span></div>
       <div class="bjælker">
-        <div class="navn">Ork-kriger <small>The Tide</small><span class="guld-tæller" title="Guld"><i class="mønt"></i><span id="guld">0</span></span></div>
+        <div class="navn">Ork-kriger <small>The Tide</small></div>
         <div class="bar hp"><i id="hp"></i><span id="hp-tal"></span></div>
         <div class="bar mana"><i id="mana"></i><span id="mana-tal"></span></div>
         <div class="bar xp"><i id="xp"></i></div>
       </div>
     </div>
 
+    <div id="ressourcer">
+      <span class="res" title="Guld"><img id="res-guld-ikon" alt="Guld" src="" /><b id="res-guld">0</b></span>
+      <span class="res" title="Træ"><img id="res-træ-ikon" alt="Træ" src="" /><b id="res-træ">0</b></span>
+      <span class="res" title="Sten"><img id="res-sten-ikon" alt="Sten" src="" /><b id="res-sten">0</b></span>
+      <span class="res" title="Forsyning"><img id="res-forsyning-ikon" alt="Forsyning" src="" /><b id="res-forsyning">0</b></span>
+    </div>
+    <button id="ledige" class="skjult" type="button" aria-label="Vælg en ledig bærer"><img id="ledige-ikon" alt="" src="" /><b id="ledige-tal">0</b><small>ledige</small></button>
+
+    <div id="kommando" hidden>
+      <div class="kmd-top"><img id="kmd-ikon" alt="" src="" /><div class="kmd-tekst"><b id="kmd-navn"></b><small id="kmd-status"></small></div><button id="kmd-helt" type="button">Helten</button></div>
+      <div id="kmd-knapper"></div>
+    </div>
+
     <button id="menuknap" aria-label="Menu">☰</button>
     <div id="menu">
       <button id="test-level">Level op (test)</button>
       <button id="genstart">Start forfra</button>
-      <p>Tryk på jorden for at gå. Tryk på en fjende for at angribe. Tryk på et item eller en kiste for at samle op. Træk for at se dig omkring, knib for at zoome. Tryk på en eliksir i inventaret for at bruge den, hold fingeren på et item for at se det.</p>
+      <p>Tryk på en bærer for at vælge den og bygge eller hente guld, træ og sten. Tryk på en bygning for at træne arbejdere. Tryk på helteportrættet for at vælge helten igen. Med helten valgt: tryk på jorden for at gå, tryk på en fjende for at angribe. Tryk på et item eller en kiste for at samle op. Træk for at se dig omkring, knib for at zoome. Tryk på en eliksir i inventaret for at bruge den, hold fingeren på et item for at se det.</p>
     </div>
 
     <canvas id="minimap" aria-label="Kort over verden"></canvas>
@@ -59,6 +72,11 @@
   <div id="butik" role="dialog" aria-label="Købmanden">
     <div class="butik-top"><b>Købmanden</b><span class="guld-tæller"><i class="mønt"></i><span id="butik-guld">0</span></span><button id="butik-luk" type="button" aria-label="Luk">✕</button></div>
     <div id="butik-varer"></div>
+  </div>
+
+  <div id="placering" hidden>
+    <span id="plac-tekst"></span>
+    <div><button id="plac-byg" type="button">Byg her</button><button id="plac-annuller" type="button">Annullér</button></div>
   </div>
 
   <div id="toast"></div>
