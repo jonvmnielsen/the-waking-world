@@ -112,6 +112,13 @@ body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: non
 #banner b { display: block; font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--messing-lys); text-shadow: 0 3px 0 #000, 0 0 18px rgba(255, 200, 90, 0.5); }
 #banner span { font-weight: 800; font-size: 14px; text-shadow: 0 1px 2px #000; }
 #banner.vis { animation: banner 2.4s ease forwards; }
+#banner { width: min(90vw, 460px); }
+#ur { top: calc(var(--top) + 52px); right: var(--kant); display: flex; align-items: baseline; gap: 5px; padding: 4px 10px; border-radius: 999px; background: rgba(20, 14, 10, 0.7); border: 1px solid rgba(201, 163, 90, 0.4); font-size: 12px; pointer-events: none; }
+#ur i { font-style: normal; color: #ffd36b; font-size: 14px; }
+#ur.nat i { color: #b9c8ff; }
+#ur small { color: var(--dæmpet); font-weight: 700; }
+#banner.lang.vis { animation-duration: 6s; }
+#banner span { display: block; line-height: 1.4; }
 @keyframes banner { 0% { opacity: 0; margin-top: 10px; } 12% { opacity: 1; margin-top: 0; } 80% { opacity: 1; } 100% { opacity: 0; } }
 
 #dødsskærm { position: fixed; inset: 0; display: grid; place-content: center; text-align: center; gap: 6px; background: radial-gradient(transparent 30%, rgba(60, 0, 0, 0.55)); pointer-events: none; opacity: 0; transition: opacity 0.5s; }

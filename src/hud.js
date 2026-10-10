@@ -13,6 +13,9 @@ export class Hud {
     $('menuknap').addEventListener('click', () => $('menu').classList.toggle('åben'));
     $('test-level').addEventListener('click', () => { spil.helt.fåXp(Math.max(1, spil.nødvendigXp())); });
     $('genstart').addEventListener('click', () => location.reload());
+    const lydTekst = () => { $('lyd-knap').textContent = `Sound: ${spil.lyd?.til ? 'On' : 'Off'}`; };
+    $('lyd-knap').addEventListener('click', () => { spil.lyd?.skift(); lydTekst(); });
+    lydTekst();
     $('gem').addEventListener('click', () => { bus.emit('besked', gemSpil(spil) ? 'Game saved' : 'The game could not be saved'); $('menu').classList.remove('åben'); });
     window.addEventListener('keydown', (e) => {
       const i = ['q', 'w', 'e'].indexOf(e.key.toLowerCase());
@@ -21,12 +24,14 @@ export class Hud {
     });
     bus.on('helt_død', () => $('dødsskærm').classList.add('vis'));
     bus.on('helt_genoplivet', () => $('dødsskærm').classList.remove('vis'));
+    bus.on('banner', ({ titel, tekst }) => this.banner(titel, tekst));
     bus.on('level_op', ({ level }) => this.banner(`Level ${level}`, level === 3 || level === 6 ? 'New ability unlocked!' : 'Your hero grows stronger'));
   }
 
   banner(titel, under) {
     const b = $('banner');
     b.innerHTML = `<b>${titel}</b><span>${under}</span>`;
+    b.classList.toggle('lang', under.length > 40);
     b.classList.remove('vis'); void b.offsetWidth; b.classList.add('vis');
   }
 

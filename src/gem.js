@@ -60,6 +60,7 @@ function lavGem(spil) {
     udforsket: pak(taage.udforsket),
     stil: stil.score,
     kamera: { x: r1(rig.fokus.x), z: r1(rig.fokus.z), afstand: rig.afstand },
+    verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem() },
     memory: {
       sværhed: m.sværhed, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
       bygninger: m.bygninger.map((b) => ({ id: b.id, hp: Math.ceil(b.hp), fremskridt: b.fremskridt, død: b.død })),

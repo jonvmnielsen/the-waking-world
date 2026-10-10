@@ -90,7 +90,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       if ((s.type !== 'marked' && s.type !== 'kro') || !verden.taage.erUdforsket(s.x, s.z)) continue;
       const q = skærm(s.x, 3, s.z);
       if (Math.hypot(q.x - px, q.y - py) > 70) continue;
-      if (s.type === 'kro') return bus.emit('besked', 'Soon you will be able to hire more heroes at the tavern');
+      if (s.type === 'kro') return spil.hyrVed(s);
       return spil.handlVed(s);
     }
     const p = jordpunkt(px, py);

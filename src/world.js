@@ -22,7 +22,8 @@ export function bygVerden(scene, kort, grænser, steder, ødeland) {
 export function lavLys(scene, renderer) {
   scene.background = new THREE.Color(0x9fd3ea);
   scene.fog = new THREE.Fog(0x9fd3ea, 85, 190);
-  scene.add(new THREE.HemisphereLight(0xdff4ff, 0x5a6b3a, 1.6));
+  const hemi = new THREE.HemisphereLight(0xdff4ff, 0x5a6b3a, 1.6);
+  scene.add(hemi);
 
   const sol = new THREE.DirectionalLight(0xfff1d6, 2.6);
   sol.castShadow = true;
@@ -41,6 +42,7 @@ export function lavLys(scene, renderer) {
   // Skyggekameraet følger det sted kameraet kigger på
   const forskydning = new THREE.Vector3(-30, 60, 26);
   return {
+    scene, sol, hemi, renderer,
     følg(x, z) {
       sol.target.position.set(x, 0, z);
       sol.position.set(x + forskydning.x, forskydning.y, z + forskydning.z);

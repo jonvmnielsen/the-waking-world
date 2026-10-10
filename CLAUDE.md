@@ -66,6 +66,10 @@ the-waking-world/
 │   ├── gem.js / gendan.js    # Gem spil i localStorage og gendan det
 │   ├── fjendeai.js / fjende.js / fjendebygning.js / fjendedata.js / fjendeplads.js  # The Memory: AI, soldater, bygninger, tal, basens pladser
 │   ├── sejr.js / spilloop.js # Sejr/nederlag + slutskærm; ét tidstrin i spillet og omrids-tegningen
+│   ├── dagnat.js             # Dag og nat: lys, himmel, udsyn, ur
+│   ├── verdenstilstand.js / tjener.js # Balance → Fald → Opvågning; Den Unavngivnes tjenere
+│   ├── kro.js                # Kroen hyrer lejesoldater
+│   ├── lyd.js                # Syntetiske lydeffekter og vind (WebAudio)
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud
@@ -308,7 +312,13 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Spillerens bygninger har liv, kan ødelægges og repareres
 - [x] Sejr/nederlag med slutskærm; The Memory gemmes med i gem spil
 
-### 📋 Næste: milepæle M6–M7
+### ✅ M6 — "Liv i verden" (oktober 2026)
+- [x] Dag og nat (8 min døgn): mørk himmel, lygte om helten, kortere udsyn, creeps sover tungere, The Memory stærkere om natten
+- [x] Verdenstilstand: Fald (mindre guld, creep-plyndringer) og Opvågning (Den Unavngivnes tjenere angriber alle; belønning)
+- [x] Kroen hyrer lejesoldater (Brawler, Crossbowman, Sellsword)
+- [x] Syntetisk lyd og vind, lyd til/fra i menuen; alt gemmes med
+
+### 📋 Næste: M7+
 Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
 
 ---
@@ -332,6 +342,8 @@ Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og 
 | 2026-10-10 | Spillet er på engelsk | Jons ønske. Koden, kommentarer og docs forbliver på dansk |
 | 2026-10-10 | Helte har Strength/Agility/Intelligence | Jons ønske; klassisk WC3-model. Kan øges med bøger, udstyr og ofringer ved alteret |
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
+| 2026-10-10 | Dag og nat med | Rytme og taktik (GDD 4.6) |
+| 2026-10-10 | Lyd syntetiseres med WebAudio indtil videre | Ingen lydfiler i asset-biblioteket endnu; virker uden downloads |
 | 2026-10-10 | Gem spil i browserens localStorage | Virker på telefonen uden server; ét gemt spil ad gangen |
 | 2026-10-09 | 3D low-poly (KayKit) frem for 2D-sprites | Delt assetbibliotek med Tideborn, rigtige animationer. Klodsgrafik af grundformer er udelukket |
 | 2026-03-23 | Hero progression: 2 tiers + Ascension ved level 10 | Level 10 er vendepunkt ikke loft — giver dybde og replay-value |

@@ -56,6 +56,9 @@ export const BYGGEMENU = ['hytte', 'savværk', 'tårn', 'krigerlejr', 'marked', 
 export const ENHEDER = {
   arbejder: { navn: 'Worker', pris: { guld: 50 }, tid: 12, forsyning: 1, tekst: 'Gathers gold, wood and stone and builds your base.' },
   grunt: { navn: 'Grunt', pris: { guld: 120, træ: 20 }, tid: 18, forsyning: 2, ikon: 'enhed-grunt', tekst: 'Melee. The backbone of your army.' },
+  slagsbror: { navn: 'Brawler', pris: { guld: 130 }, tid: 0, forsyning: 2, kro: true, ikon: 'rustenDolk', tekst: 'A tough brawler for hire. Fights up close.' },
+  skytte: { navn: 'Crossbowman', pris: { guld: 150 }, tid: 0, forsyning: 2, kro: true, ikon: 'lynstav', tekst: 'Shoots from range. Fragile up close.' },
+  lejesoldat: { navn: 'Sellsword', pris: { guld: 220 }, tid: 0, forsyning: 3, kro: true, ikon: 'ridderskjold', tekst: 'Heavy armor and a long sword. Holds the line.' },
   spydkaster: { navn: 'Spear Thrower', pris: { guld: 100, træ: 40 }, tid: 18, forsyning: 2, ikon: 'enhed-spydkaster', tekst: 'Throws spears from range.' },
 };
 

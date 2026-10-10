@@ -28,7 +28,17 @@ export class Creep extends Unit {
   // Spillerens figurer der kan ses og angribes (helt, arbejdere, soldater)
   egne() { return this.verden.egne?.() ?? [this.verden.helt].filter((h) => !h.død && !h.skjult); }
 
-  gyldigt(m) { return m && !m.død && m.rod.visible !== false && !m.skjult; }
+  gyldigt(m) { return m && !m.død && (m.felter || (m.rod.visible !== false && !m.skjult)); }
+
+  // Plyndrere går efter spillerens bygninger, når der ikke er figurer i nærheden
+  nærmesteBygning() {
+    let bedst = null, bd = Infinity;
+    for (const b of this.verden.spillerBygninger?.() ?? []) { const d = this.afstand(b); if (d < bd) { bd = d; bedst = b; } }
+    return bedst;
+  }
+
+  // Skade ganges med denne faktor (The Memory slår hårdere om natten, se fjende.js)
+  skadeFaktor() { return 1; }
 
   // Hold fast i målet; skift til den nærmeste der står og slår, hvis målet er langt væk (spot fra Ironhide låser målet)
   vælgMål(dt) {
@@ -41,6 +51,7 @@ export class Creep extends Unit {
       if (nu > this.data.rækkevidde + 4) {
         let bedst = null, bd = nu === Infinity ? CREEP_AI.aggro * 1.6 : this.data.rækkevidde + 3;
         for (const u of this.egne()) { const d = this.afstand(u); if (d < bd) { bd = d; bedst = u; } }
+        if (!bedst && this.plyndrer) bedst = this.nærmesteBygning();
         if (bedst) this.mål = bedst;
         else if (nu === Infinity) this.mål = null;
       }
@@ -64,7 +75,8 @@ export class Creep extends Unit {
 
     // Vågner når en af spillerens figurer kommer for tæt på lejren
     if (this.tilstand === 'hvile') {
-      const ind = this.egne().find((u) => this.afstand(u) < CREEP_AI.aggro || Math.hypot(u.x - this.lejr.x, u.z - this.lejr.z) < CREEP_AI.aggro * 0.7);
+      const aggro = CREEP_AI.aggro * (1 - 0.45 * (this.verden.nat ?? 0));   // om natten sover de tungere
+      const ind = this.egne().find((u) => this.afstand(u) < aggro || Math.hypot(u.x - this.lejr.x, u.z - this.lejr.z) < aggro * 0.7);
       if (ind) {
         this.vækLejr(ind);
         this.spil(this.anim.råb, { loop: false, gentag: true });
@@ -74,7 +86,7 @@ export class Creep extends Unit {
     if (this.sving) return this.opdaterSving(dt);
 
     if (this.tilstand === 'jagt') {
-      const forLangt = Math.hypot(this.x - this.lejr.x, this.z - this.lejr.z) > CREEP_AI.leash;
+      const forLangt = !this.plyndrer && Math.hypot(this.x - this.lejr.x, this.z - this.lejr.z) > CREEP_AI.leash;
       const m = this.vælgMål(dt);
       if (!m || forLangt) return this.gåHjem();
       const d = this.afstand(m) - m.radius;
@@ -115,7 +127,7 @@ export class Creep extends Unit {
       s.ramt = true;
       const m = s.mål;
       if (m && !m.død) {
-        const skade = tilfældig(...this.data.skade);
+        const skade = Math.round(tilfældig(...this.data.skade) * this.skadeFaktor());
         if (this.data.projektil) bus.emit('projektil', { fra: this, mål: m, skade, farve: this.data.projektil });
         else if (this.afstand(m) - m.radius <= this.data.rækkevidde * 1.4) m.tagSkade(skade, this);
       }

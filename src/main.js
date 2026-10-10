@@ -32,6 +32,10 @@ import { gendanSpil } from './gendan.js';
 import { lavTrin, lavRøntgen } from './spilloop.js';
 import { Memory } from './fjendeai.js';
 import { Sejr } from './sejr.js';
+import { kroVarer } from './kro.js';
+import { Lyd, forbindLyd } from './lyd.js';
+import { DagNat } from './dagnat.js';
+import { Verdenstilstand } from './verdenstilstand.js';
 import { HelteKort } from './heltekort.js';
 import { ESSENSER } from './abilities.js';
 
@@ -72,6 +76,7 @@ async function start() {
     renderer.render(scene, rig.kamera);
   });
 
+  const lyd = new Lyd();   // lyden låses op ved første tryk (essensvalget)
   const gemt = hentGem();
   const valgtEssens = await vælgEssens(gemt);
   const fortsæt = valgtEssens === 'fortsæt';
@@ -101,6 +106,13 @@ async function start() {
       const fejl = helt.evner.brug(i);
       if (fejl) overlay.toast(fejl);
     },
+    // Kroen: hyr lejesoldater
+    hyrVed(s) {
+      if (helt.død) return;
+      valg.vælg(null);
+      helt.kommandoInteraktion(s.x, s.z, 13, () => invHud.åbnButik(s, kroVarer(spil, s), 'Tavern — hire mercenaries'));
+      effekter.markør(s.x, s.z, 0xffe08a);
+    },
     // Send helten hen til en butik (købmanden eller egen markedsplads)
     handlVed(s) {
       if (helt.død) return;
@@ -125,12 +137,20 @@ async function start() {
   rig.onBoks = lavBoksValg(spil, (x, y, z) => overlay.skærm(x, y, z));
   spil.memory = new Memory(spil, fjende, sværhed);
   const sejr = new Sejr(spil);
+  spil.ur = { tid: 0 };
+  spil.dagNat = new DagNat(spil, lys);
+  spil.verdenstilstand = new Verdenstilstand(spil, steder.find((s) => s.type === 'kro') ?? { x: 0, z: 0 });
+  verden.spillerBygninger = () => base.bygninger.filter((b) => !b.død);
+  spil.lyd = lyd;
+  forbindLyd(lyd, spil);
   bus.on('spil_slut', ({ vandt }) => { spil.slut = vandt ? 'sejr' : 'nederlag'; });
   bus.on('creep_død', ({ xp }) => helt.fåXp(xp));
   bus.on('teleport', () => rig.centrér());
   if (fortsæt) {
     gendanSpil(spil, gemt);
     helt.tid = gemt.spilTid;
+    spil.ur.tid = gemt.verden?.tid ?? gemt.spilTid;
+    spil.verdenstilstand.gendan(gemt.verden);
     taage.patchScene(scene);
     taage.opdater(1, [{ x: helt.x, z: helt.z, radius: 28 }]);
     setTimeout(() => overlay.toast('Welcome back — your game continues where you left off'), 600);

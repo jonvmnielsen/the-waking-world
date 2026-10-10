@@ -26,7 +26,7 @@ export class Fjende extends Creep {
   // Spillerens figurer og bygninger der kan angribes
   egneBygninger() { return this.fjendeBase.spillerBygninger(); }
 
-  gyldigt(m) { return m && !m.død && (m.felter || (m.rod.visible !== false && !m.skjult)); }
+  gyldigt(m) { return m && !m.død && (m.felter || m.side === 'vågen' || (m.rod.visible !== false && !m.skjult)); }
 
   // Find det nærmeste mål: figurer først, ellers bygninger
   søgMål(rFig, rByg) {
@@ -37,6 +37,8 @@ export class Fjende extends Creep {
     for (const b of this.egneBygninger()) { const d = this.afstand(b) - b.radius; if (d < bd) { bd = d; bedst = b; } }
     return bedst;
   }
+
+  skadeFaktor() { return 1 + 0.2 * (this.verden.nat ?? 0); }   // stærkere om natten (GDD 4.6)
 
   kommandoAngreb(x, z) { this.ordre = 'angreb'; this.marchMål = { x, z }; this.mål = null; this.stop(); }
   kommandoRetur() { this.ordre = 'retur'; this.mål = null; this.gåTil(this.post.x, this.post.z); }

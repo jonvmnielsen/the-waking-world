@@ -102,6 +102,8 @@ export class Arbejder extends Unit {
         break;
       case 'høster':
       case 'iMine':
+        // Et hug i takt med animationen (til lyden)
+        if (this.tilstand === 'høster' && (this.hugTid = (this.hugTid ?? 0) - dt) <= 0) { this.hugTid = 1.05; bus.emit('høst_slag', { x: this.x, z: this.z, type: k.type }); }
         this.timer -= dt;
         if (this.timer <= 0) this.færdigHøst();
         break;
@@ -138,7 +140,8 @@ export class Arbejder extends Unit {
 
   færdigHøst() {
     const k = this.kilde;
-    const m = this.base.kilder.høst(k, k.type, BÆR[k.type]);
+    // I verdenstilstanden Fald giver minerne mindre (GDD 12)
+    const m = this.base.kilder.høst(k, k.type, k.type === 'guld' ? Math.round(BÆR.guld * (this.verden.guldFaktor ?? 1)) : BÆR[k.type]);
     if (m <= 0) { this.høstNærmeste(k.type); return; }
     this.sætByrde({ type: k.type, mængde: m });
     this.spil('PickUp', { loop: false, gentag: true, fart: 1.6 });

@@ -108,9 +108,9 @@ Hvert kort sættes sammen af regioner med hver sit udseende og egne creeps:
 - **Tåge:** Uudforsket land er helt sort, så man ikke kan se, hvad der gemmer sig. Udforsket land uden dine units er dæmpet, og der ser du terræn og bygninger men ikke fjender eller items.
 - **Minimap** i et hjørne. Tryk på det for at flytte kameraet. Det viser creep-lejre efter sværhedsgrad som farvede prikker.
 
-### 4.6 Dag og nat (Forslag)
+### 4.6 Dag og nat (M6)
 
-Et døgn varer ca. 8 minutter. Om natten falder udsynet, creeps sover (det er lettere at snige sig forbi), og The Memory bliver stærkere. Det giver rytme og taktiske valg.
+Et døgn varer 8 minutter: 5 min dag, 3 min nat med skumring og daggry. Om natten bliver himlen mørkeblå, en lygte lyser omkring helten, udsynet falder 25 %, creeps opdager dig først tættere på (de sover tungere), og The Memorys soldater slår 20 % hårdere. Et ur øverst til højre viser dag/nat og tid til næste skift.
 
 ---
 
@@ -364,6 +364,12 @@ Regelbaseret, ingen sprogmodel.
 
 Det forhindrer, at spillet går i stå, og giver et klimaks.
 
+**Sådan er det bygget (M6):** Faserne skifter med et banner og et dybt horn. I *Fald* giver guldminerne 25 % mindre, og hvert ~2. minut sender en vågen creep-lejr nær basen sine creeps ud for at plyndre (de giver ikke op ved leash og går efter bygninger). I *Opvågning* dukker Den Unavngivnes tjenere op ved kroen midt på kortet: en *Herald of the Unnamed*, *Hollow Knights* og *Void Witches* med lilla glød. Halvdelen marcherer mod spilleren, halvdelen mod The Memory, og de angriber alle. Når de alle er faldet, efterlader de en Tome of Power, et stærkt item og et legendarisk artefakt.
+
+**Kroen (M6):** Helten kan gå til kroen og hyre lejesoldater for guld: *Brawler* (nærkamp), *Crossbowman* (afstand) og *Sellsword* (tung). De kræver forsyning og kæmper som spillerens egne soldater.
+
+**Lyd (M6):** Syntetiske lydeffekter (slag, kast, død, hug i træ og sten, mønter, level op, bygning færdig, evner, fjendens horn, natklokke, sejr/nederlag) og svag vind. Lyde dæmpes efter afstand til kameraet og kan slås fra i menuen. Rigtige lydfiler og musik kommer senere.
+
 ---
 
 ## 13. Udforskning og kampagne (senere)
@@ -410,7 +416,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M3 ✅** | **Økonomi og base** | Bærere, guld, træ og sten, byggesystem på hex, Storlejr, hytte, savværk, tårn, krigerlejr, marked, alter |
 | **M4 ✅** | **Hær** | Grunts og spydkastere fra Krigerlejren, vælg flere (firkant, dobbelttryk, Hær-knap), formation, fælles angreb, samlingspunkt, veteranstatus, grunt-grenene Ironhide/Ravager/Berserker og spillestilsmålere. Desuden: sammenhængende terræn uden synlige hexagoner, omrids gennem bygninger og gem spil |
 | **M5 ✅** | **Modstander** | The Memory som regelbaseret AI: base i nordøst med ødeland, krypter der træner skeletter, spir der skyder, bølger mod spillerens base, sejr og nederlag, tre sværhedsgrader. Bygninger har liv og kan repareres |
-| **M6** | **Liv i verden** | Dag og nat, verdenstilstand, neutrale bygninger, lyd |
+| **M6 ✅** | **Liv i verden** | Dag og nat, verdenstilstand (Balance/Fald/Opvågning), kroen hyrer lejesoldater, syntetisk lyd |
 | M7+ | Tier 2–3, flere helte, flere racer, udforskning, kampagne | |
 
 ---
@@ -418,7 +424,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 ## 17. Åbne beslutninger (Jon)
 
 1. **Arbejdsnavnene** på The Tides bygninger, units og helte — beholde, ændre?
-2. **Dag og nat** — med eller uden?
+2. ~~Dag og nat~~ — besluttet: med (M6).
 3. **XP-loft fra creeps ved level 5** som i WC3, eller fri leveling?
 4. **Underhold** (mindre guld ved stor hær) — med eller uden?
 5. ~~Første AI-race~~ — besluttet: The Memory (M5).

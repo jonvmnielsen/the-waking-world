@@ -65,22 +65,32 @@ export class InventarHud {
 
   lukInfo() { this.infoPlads = null; $('info').classList.remove('vis'); }
 
-  // Købmanden: liste over varer med pris
-  åbnButik(sted) {
+  // Butikken: liste over varer med pris. varer = [{ ikon, navn, farve, tekst, pris, kan(), køb() }];
+  // uden varer vises købmandens items (kroen sender sine lejesoldater, se kro.js)
+  åbnButik(sted, varer = null, titel = null) {
     this.butikSted = sted;
-    $('butik-navn').textContent = sted.data ? sted.data.navn : 'Merchant';
+    this.varer = varer ?? BUTIK.map((id) => this.itemVare(id));
+    $('butik-navn').textContent = titel ?? (sted.data ? sted.data.navn : 'Merchant');
     const liste = $('butik-varer');
     liste.innerHTML = '';
-    for (const id of BUTIK) {
-      const d = ITEMS[id];
+    for (const v of this.varer) {
       const r = document.createElement('div');
       r.className = 'vare';
-      r.innerHTML = `<img alt="" src="${ikon(id)}"><div><b style="color:${SJÆLDENHED[d.sjældenhed].farve}">${d.navn}</b><span>${beskriv(id)[0]}</span></div><button type="button"><i class="mønt"></i>${d.pris}</button>`;
-      r.querySelector('button').addEventListener('click', () => this.køb(id));
+      r.innerHTML = `<img alt="" src="${v.ikon}"><div><b style="color:${v.farve}">${v.navn}</b><span>${v.tekst}</span></div><button type="button"><i class="mønt"></i>${v.pris}</button>`;
+      r.querySelector('button').addEventListener('click', () => { v.køb(); this.opdaterButik(); });
       liste.appendChild(r);
     }
     this.opdaterButik();
     $('butik').classList.add('vis');
+  }
+
+  itemVare(id) {
+    const d = ITEMS[id];
+    return {
+      ikon: ikon(id), navn: d.navn, farve: SJÆLDENHED[d.sjældenhed].farve, tekst: beskriv(id)[0], pris: d.pris,
+      kan: () => this.inv.guld >= d.pris && (!this.inv.fuld || d.type === 'opsamling'),
+      køb: () => this.køb(id),
+    };
   }
 
   køb(id) {
@@ -90,13 +100,11 @@ export class InventarHud {
     this.inv.guld -= d.pris;
     this.inv.modtag(id);
     bus.emit('effekt', { type: 'samlet', x: this.spil.helt.x, z: this.spil.helt.z, farve: 0xffd36b });
-    this.opdaterButik();
   }
 
   opdaterButik() {
     [...document.querySelectorAll('#butik-varer .vare')].forEach((r, i) => {
-      const d = ITEMS[BUTIK[i]];
-      r.querySelector('button').disabled = this.inv.guld < d.pris || this.inv.fuld;
+      r.querySelector('button').disabled = !this.varer[i]?.kan();
     });
     $('butik-guld').textContent = this.inv.guld;
   }

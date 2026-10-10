@@ -7,14 +7,19 @@ import { Røntgen } from './rontgen.js';
 export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, sætEgne }) {
   const { helt, base, taage, verden, lejre, stil, valg, rig, memory } = spil;
   const heltSyn = { x: 0, z: 0, radius: 28 };
+  const SYN_HELT = 28;
   let patchTid = 0;
   return function trin(dt) {
+    spil.ur.tid += dt;
+    spil.dagNat.opdater(dt);
     sætEgne([helt, ...base.arbejdere, ...base.soldater].filter((u) => !u.død && u.rod.visible && !u.skjult));
     helt.opdater(dt);
-    heltSyn.x = helt.x; heltSyn.z = helt.z;
+    // Om natten ser alle kortere (dagnat.js)
+    const f = spil.dagNat.synsFaktor();
+    heltSyn.x = helt.x; heltSyn.z = helt.z; heltSyn.radius = SYN_HELT * f;
     const syn = [
-      ...base.arbejdere.filter((a) => !a.død).map((a) => ({ x: a.x, z: a.z, radius: ARBEJDER_SYN })),
-      ...base.soldater.filter((s) => !s.død).map((s) => ({ x: s.x, z: s.z, radius: SOLDAT_SYN })),
+      ...base.arbejdere.filter((a) => !a.død).map((a) => ({ x: a.x, z: a.z, radius: ARBEJDER_SYN * f })),
+      ...base.soldater.filter((s) => !s.død).map((s) => ({ x: s.x, z: s.z, radius: SOLDAT_SYN * f })),
     ];
     taage.opdater(dt, helt.død ? syn : [heltSyn, ...syn]);
     for (const c of verden.creeps) c.opdater(dt);
@@ -22,6 +27,7 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
     for (const l of lejre) l.opdater(dt);
     base.opdater(dt);
     memory.opdater(dt);
+    spil.verdenstilstand.opdater(dt);
     adskil([helt, ...verden.creeps.filter((c) => !c.død && !c.erBygning && c.rod.visible), ...base.arbejdere.filter((a) => a.rod.visible && !a.død), ...base.soldater.filter((s) => !s.død)], verden.kort);
     stil.opdater(dt, base.soldater);
     spil.veteraner.opdater();

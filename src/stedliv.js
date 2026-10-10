@@ -1,5 +1,5 @@
 // Neutrale steder der gør noget (GDD 4.3): livskilder heler, udkigstårne viser omegnen.
-// Købmanden åbnes fra tryk.js; kro og guldminer får deres funktion i senere milepæle.
+// Købmanden og kroen åbnes fra tryk.js (kroen hyrer lejesoldater, se kro.js).
 import { bus } from './events.js';
 
 const KILDE_RADIUS = 9;

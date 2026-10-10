@@ -13,7 +13,7 @@ export class Soldat extends Unit {
   constructor(verden, base, type, x, z) {
     const d = SOLDATER[type];
     super(verden, d.model, { skala: d.skala, skjul: d.skjul, våben: d.våben ?? {}, våbenSkala: d.våbenSkala ?? 1, radius: d.radius });
-    gørOrkGrøn(this.model);
+    if (!d.menneske) gørOrkGrøn(this.model);
     Object.assign(this, { base, type, data: d, navn: d.navn, side: 'egen' });
     this.maxHp = this.hp = d.hp;
     this.fart = d.fart; this.rustning = d.rustning; this.skadeBonus = 0;
@@ -128,7 +128,7 @@ export class Soldat extends Unit {
       const m = s.mål;
       if (m && !m.død) {
         const skade = reducérSkade(this.slagSkade(), m.rustning ?? 0);
-        if (this.data.projektil) bus.emit('projektil', { fra: this, mål: m, skade, model: 'spyd' });
+        if (this.data.projektil) bus.emit('projektil', { fra: this, mål: m, skade, model: this.data.projektil === 'spyd' ? 'spyd' : undefined, farve: this.data.projektilFarve });
         else if (this.afstand(m) - m.radius <= this.data.rækkevidde * 1.5) { m.tagSkade(skade, this); this.vedSlag(m, skade); }
       }
     }
