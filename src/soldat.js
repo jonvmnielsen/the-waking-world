@@ -82,8 +82,8 @@ export class Soldat extends Unit {
   nærFjende() {
     let bedst = null, bd = this.data.rækkevidde + 3;
     for (const c of this.verden.creeps) {
-      if (c.død || c.tilstand !== 'jagt' || !c.rod.visible) continue;
-      const d = this.afstand(c);
+      if (c.død || !c.rod.visible || (c.tilstand !== 'jagt' && !c.erBygning)) continue;
+      const d = this.afstand(c) - (c.erBygning ? c.radius : 0);
       if (d < bd) { bd = d; bedst = c; }
     }
     return bedst;

@@ -49,7 +49,7 @@ export class Overlay {
     const enheder = [this.verden.helt, ...this.verden.creeps, ...this.ekstra()];
     for (const u of enheder) {
       let el = this.bjælker.get(u);
-      const vis = !u.død && !u.fjernet && u.rod.visible && (u === this.verden.helt || u.tilstand !== 'vågner');
+      const vis = !u.død && !u.fjernet && u.rod.visible && (u === this.verden.helt || u.tilstand !== 'vågner') && (!u.erBygning || u.hp < u.maxHp);
       if (!vis) { if (el) { el.remove(); this.bjælker.delete(u); } continue; }
       if (!el) {
         el = document.createElement('div');

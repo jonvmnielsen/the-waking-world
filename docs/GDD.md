@@ -343,6 +343,15 @@ Regelbaseret, ingen sprogmodel.
 - **Sværhedsgrad:** Let / Normal / Svær styrer hastighed, fejl og snyd (ingen snyd på Normal).
 - **Tilpasser sig** ud fra spillerens adfærdsmålere. Mod en aggressiv spiller bygger den flere tårne, og mod en, der creeper meget, angriber den tidligt.
 
+**Sådan er det bygget (M5):**
+- The Memory har basen i det modsatte hjørne (Gravelands, nordøst), og jorden omkring den er grå og død. Bygninger i rødt: *Bone Throne* (hal), *Crypt* (træner), *Grave Spire* (skyder), *Haunt*. Nye bygninger rejser sig efter en plan (4, 8, 12 og 16 min).
+- Den tjener guld så længe tronen står, og træner *Risen*, *Bone Stalker*, *Grave Knight* og *Bone Mage*. Soldaternes level stiger hvert 4. minut — The Memory bliver stærkere jo længere spillet varer.
+- Hæren vokser med tiden. Første angreb: Easy 10 min, Normal 7 min, Hard 5 min; derefter med 4,5 / 3,5 / 2,5 minutters mellemrum, og bølgerne bliver større. En bølge trækker sig, hvis den mister to tredjedele.
+- Den forsvarer basen med alle hjemme, når spillerens figurer kommer tæt på.
+- Tilpasning: mod en aggressiv spiller kommer tårnene 1,5 min tidligere; mod en forsigtig spiller kommer angrebene 1 min tidligere og der trænes flere Grave Knights; mod en kaotisk flere Bone Mages.
+- **Sejr:** alle The Memorys bygninger er ødelagt. **Nederlag:** man har ingen bygninger tilbage (gemmet slettes). Slutskærmen viser statistik.
+- Spillerens bygninger har liv, kan ødelægges (ruin) og repareres af en arbejder (vælg arbejder, tryk på bygningen).
+
 ---
 
 ## 12. Verdenstilstand i skirmish
@@ -400,7 +409,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M2 ✅** | **Items** | Drop, opsamling, inventar med 6 pladser, eliksirer, permanente items og kister |
 | **M3 ✅** | **Økonomi og base** | Bærere, guld, træ og sten, byggesystem på hex, Storlejr, hytte, savværk, tårn, krigerlejr, marked, alter |
 | **M4 ✅** | **Hær** | Grunts og spydkastere fra Krigerlejren, vælg flere (firkant, dobbelttryk, Hær-knap), formation, fælles angreb, samlingspunkt, veteranstatus, grunt-grenene Ironhide/Ravager/Berserker og spillestilsmålere. Desuden: sammenhængende terræn uden synlige hexagoner, omrids gennem bygninger og gem spil |
-| **M5** | **Modstander** | The Memory som regelbaseret AI med base, sejr og nederlag |
+| **M5 ✅** | **Modstander** | The Memory som regelbaseret AI: base i nordøst med ødeland, krypter der træner skeletter, spir der skyder, bølger mod spillerens base, sejr og nederlag, tre sværhedsgrader. Bygninger har liv og kan repareres |
 | **M6** | **Liv i verden** | Dag og nat, verdenstilstand, neutrale bygninger, lyd |
 | M7+ | Tier 2–3, flere helte, flere racer, udforskning, kampagne | |
 
@@ -412,6 +421,6 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 2. **Dag og nat** — med eller uden?
 3. **XP-loft fra creeps ved level 5** som i WC3, eller fri leveling?
 4. **Underhold** (mindre guld ved stor hær) — med eller uden?
-5. **Første AI-race:** The Memory (vi har skeletterne) eller The Architects (vi har menneskerne)?
+5. ~~Første AI-race~~ — besluttet: The Memory (M5).
 6. **Spillængde:** passer 20–35 minutter?
 7. **Rækkefølgen:** M1 Stor verden → M2 Items → M3 Base, eller base før items?

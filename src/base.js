@@ -109,6 +109,11 @@ export class Base {
     // Døde figurer der er sunket i jorden, fjernes fra listerne
     if (this.arbejdere.some((a) => a.fjernet)) this.arbejdere = this.arbejdere.filter((a) => !a.fjernet);
     if (this.soldater.some((s) => s.fjernet)) this.soldater = this.soldater.filter((s) => !s.fjernet);
+    // Ødelagte bygninger: ruinen bliver stående, men bygningen er ikke længere med i basen
+    if (this.bygninger.some((b) => b.død)) {
+      for (const b of this.bygninger.filter((x) => x.død)) (this.ruiner ??= []).push(b);
+      this.bygninger = this.bygninger.filter((b) => !b.død);
+    }
   }
 
   get hær() { return this.soldater.filter((s) => !s.død); }

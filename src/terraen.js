@@ -18,6 +18,7 @@ const FARVE = {
   klippe: new THREE.Color().setRGB(0.56, 0.53, 0.47, SRGB),
   guld: new THREE.Color().setRGB(0.80, 0.62, 0.30, SRGB),
   mørk: new THREE.Color().setRGB(0.45, 0.62, 0.26, SRGB),
+  øde: new THREE.Color().setRGB(0.33, 0.30, 0.36, SRGB),
   lys: new THREE.Color().setRGB(0.82, 0.80, 0.42, SRGB),
 };
 const glat = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
@@ -60,7 +61,7 @@ function højdeOgPrøve(kort, x, z, seed) {
 }
 export const terrænHøjde = (kort, x, z, seed = 3) => højdeOgPrøve(kort, x, z, seed).y;
 
-export function lavTerrænMesh(kort, grænser, miner = [], seed = 3) {
+export function lavTerrænMesh(kort, grænser, miner = [], ødeland = null, seed = 3) {
   const b = Math.ceil((grænser.maxX - grænser.minX) / TRIN), h = Math.ceil((grænser.maxZ - grænser.minZ) / TRIN);
   const geo = new THREE.PlaneGeometry(b * TRIN, h * TRIN, b, h).rotateX(-Math.PI / 2);
   geo.translate((grænser.minX + grænser.maxX) / 2, 0, (grænser.minZ + grænser.maxZ) / 2);
@@ -84,6 +85,11 @@ export function lavTerrænMesh(kort, grænser, miner = [], seed = 3) {
     for (const m of miner) {
       const d = Math.hypot(m.x - x, m.z - z);
       if (d < 10) c.lerp(FARVE.guld, (1 - d / 10) ** 1.2 * 0.75);
+    }
+    // The Memorys ødelagte land breder sig om deres base (GDD 5.5)
+    if (ødeland) {
+      const d = Math.hypot(ødeland.x - x, ødeland.z - z) + (støj(x, z, seed + 28, 5) - 0.5) * 14;
+      c.lerp(FARVE.øde, (1 - glat(22, 44, d)) * 0.8);
     }
     c.lerp(FARVE.sand, (1 - glat(0.6, 0.88, L)) * 0.9);
     const lys = 0.92 + støj(x, z, seed + 25, 9) * 0.14 + (støj(x * 3, z * 3, seed + 26, 2) - 0.5) * 0.05;

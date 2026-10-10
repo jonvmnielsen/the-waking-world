@@ -142,6 +142,22 @@ body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: non
 .egenskab.str { color: #ff9a7a; } .egenskab.agi { color: #8fe08a; } .egenskab.int { color: #8fc2ff; }
 #essens-start { margin-top: 12px; padding: 14px 28px; border-radius: 14px; border: 1px solid var(--messing-lys); background: linear-gradient(#7a5a2a, #4e3818); font-family: var(--display); font-size: 18px; font-weight: 800; width: 100%; max-width: 340px; }
 #essens-start[hidden] { display: none; }
+#slutskærm { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; padding: var(--kant); background: radial-gradient(rgba(10, 8, 5, 0.55), rgba(10, 8, 5, 0.92)); }
+#slutskærm.vis { display: grid; }
+.slut-kort { width: min(380px, 100%); padding: 22px 20px; border-radius: 16px; background: var(--træ-lys); border: 1px solid var(--messing); text-align: center; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6); }
+#slut-titel { margin: 0; font-family: var(--display); font-size: 40px; text-shadow: 0 3px 0 #000; }
+#slutskærm.sejr #slut-titel { color: var(--messing-lys); }
+#slutskærm.nederlag #slut-titel { color: #ff7a6a; }
+#slut-under { margin: 6px 0 14px; color: var(--dæmpet); font-size: 14px; line-height: 1.4; }
+#slut-tal { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; text-align: left; font-size: 13px; color: var(--dæmpet); margin-bottom: 16px; }
+#slut-tal b { color: var(--tekst); text-align: right; }
+.slut-knapper { display: flex; gap: 8px; }
+.slut-knapper button { flex: 1; padding: 11px; border-radius: 10px; border: 1px solid rgba(201, 163, 90, 0.5); background: rgba(255, 255, 255, 0.07); font-weight: 800; }
+.slut-knapper button[hidden] { display: none; }
+#svaerhed { display: flex; align-items: center; gap: 6px; margin-top: 12px; flex-wrap: wrap; justify-content: center; font-size: 12px; color: var(--dæmpet); }
+#svaerhed span { margin-right: 4px; }
+#svaerhed button { padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(201, 163, 90, 0.4); background: rgba(0, 0, 0, 0.3); font-weight: 800; font-size: 12px; }
+#svaerhed button.valgt { background: #6b2a2a; border-color: #e08a6a; color: #fff; }
 .essens-titel { margin: 0 0 auto; padding-bottom: 24px; font-family: var(--display); font-weight: 800; font-size: clamp(28px, 8vw, 50px); color: var(--messing-lys); text-shadow: 0 3px 0 #000, 0 0 24px rgba(0, 0, 0, 0.6); }
 #essensvalg.vis { display: flex; }
 #essensvalg h2 { margin: 0; font-family: var(--display); font-size: 30px; color: var(--messing-lys); text-shadow: 0 2px 0 #000; }

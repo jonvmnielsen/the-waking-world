@@ -113,13 +113,13 @@ export class Arbejder extends Unit {
       case 'tilByg': {
         const b = this.bygning;
         this.opdaterBevægelse(dt);
-        if (b.færdig) { this.tilstand = 'ledig'; break; }
+        if (b.død || (b.færdig && !b.skadet)) { this.tilstand = 'ledig'; break; }
         if (this.fremme(b.x, b.z, b.radius + 2.5, b.radius + 8)) { this.stop(); this.tilstand = 'bygger'; this.vend(b.x, b.z); this.spil('1H_Melee_Attack_Chop', { fart: 0.9 }); }
         break;
       }
       case 'bygger':
         this.bygning.byg(dt);
-        if (this.bygning.færdig) { this.tilstand = 'ledig'; this.bygning = null; this.spil('Cheer', { loop: false, gentag: true }); this.timer = 1.5; }
+        if (this.bygning.død || (this.bygning.færdig && !this.bygning.skadet)) { this.tilstand = 'ledig'; this.bygning = null; this.spil('Cheer', { loop: false, gentag: true }); this.timer = 1.5; }
         break;
     }
     // Animation efter tilstand

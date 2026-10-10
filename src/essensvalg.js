@@ -12,7 +12,7 @@ const VOKSER = {
   int: 'Intelligence — more mana and stronger abilities',
 };
 
-// Returnerer den valgte essens, eller 'fortsæt' hvis spilleren fortsætter et gemt spil
+// Returnerer { essens, sværhed }, eller 'fortsæt' hvis spilleren fortsætter et gemt spil
 export function vælgEssens(gemt) {
   return new Promise((løs) => {
     const luk = (svar) => { $('essensvalg').classList.remove('vis'); løs(svar); };
@@ -21,7 +21,10 @@ export function vælgEssens(gemt) {
       $('fortsaet-tekst').textContent = beskrivGem(gemt);
       $('fortsaet').onclick = () => luk('fortsæt');
     }
-    let valgt = null;
+    let valgt = null, sværhed = 'normal';
+    for (const k of document.querySelectorAll('#svaerhed button')) {
+      k.onclick = () => { sværhed = k.dataset.s; for (const x of document.querySelectorAll('#svaerhed button')) x.classList.toggle('valgt', x === k); };
+    }
     const boks = $('essenser');
     boks.innerHTML = '';
     for (const [id, e] of Object.entries(ESSENSER)) {
@@ -36,7 +39,7 @@ export function vælgEssens(gemt) {
       });
       boks.appendChild(kort);
     }
-    $('essens-start').onclick = () => { if (valgt) luk(valgt); };
+    $('essens-start').onclick = () => { if (valgt) luk({ essens: valgt, sværhed }); };
     $('essensvalg').classList.add('vis');
   });
 }

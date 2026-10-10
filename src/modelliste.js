@@ -4,6 +4,7 @@ import { CREEP_TYPER } from './creepdata.js';
 import { alleItemModeller } from './itemdata.js';
 import { BYGNINGER, STADIER } from './bygningsdata.js';
 import { SOLDATER, SPYD_MODEL } from './soldatdata.js';
+import { FJENDE_BYGNINGER } from './fjendedata.js';
 
 export const MODELLER = [...new Set([
   'units/hero_tide', 'units/arbejder', ...Object.values(SOLDATER).map((s) => s.model), SPYD_MODEL,
@@ -12,6 +13,7 @@ export const MODELLER = [...new Set([
   ...Object.values(CREEP_TYPER).flatMap((t) => Object.values(t.våben ?? {}).map((v) => `kaykit-skeletons/${v}`)),
   ...alleItemModeller(), 'kaykit-dungeon/chest', 'kaykit-dungeon/chest_gold',
   ...Object.values(BYGNINGER).map((b) => b.model), ...STADIER,
+  ...Object.values(FJENDE_BYGNINGER).map((b) => b.model), 'kaykit-hexagon/buildings/neutral/building_destroyed',
   'kaykit-hexagon/decoration/props/resource_lumber', 'kaykit-hexagon/decoration/props/resource_stone',
   'kaykit-hexagon/decoration/nature/trees_a_cut', 'kaykit-hexagon/decoration/nature/trees_b_cut',
 ])];

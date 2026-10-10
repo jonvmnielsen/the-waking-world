@@ -66,7 +66,7 @@ export class Genstande {
       const helt = this.verden.helt;
       helt.inventar.tilføjGuld(Math.round(4 + creep.level * 2.2 + Math.random() * 4) * (creep.boss ? 5 : 1), creep);
       const lejr = creep.lejr;
-      if (lejr.creeps.some((c) => !c.død)) return;
+      if (!lejr || lejr.fjende || lejr.creeps.some((c) => !c.død)) return;
       if (lejr.data.niveau === 5) {
         const [unik, ekstra] = BOSS_DROP[lejr.data.familie];
         this.læg(unik, creep.x, creep.z);

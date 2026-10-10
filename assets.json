@@ -187,6 +187,7 @@
     "kaykit-hexagon/buildings/green/*",
     "kaykit-hexagon/buildings/neutral/*",
     "kaykit-hexagon/buildings/yellow/*",
+    "kaykit-hexagon/buildings/red/*",
     "kaykit-halloween/grave_a",
     "kaykit-halloween/grave_b",
     "kaykit-halloween/gravestone",

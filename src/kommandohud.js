@@ -1,8 +1,8 @@
 // Ressourcebjælke, "ledige arbejdere"-knap, kommandopanel for arbejdere og bygninger,
 // og bjælken der vises mens en bygning placeres.
 import { BYGNINGER, BYGGEMENU, ENHEDER } from './bygningsdata.js';
-import { GRENE, VETERAN } from './soldatdata.js';
-import { kanKæmpe } from './haer.js';
+import { GRENE } from './soldatdata.js';
+import { kanKæmpe, gruppeStatus } from './haer.js';
 import { RES_NAVN } from './okonomi.js';
 import { EGENSKABER, ofringsPris, OFRINGS_IKON } from './heltstats.js';
 import { ikon } from './ikoner.js';
@@ -13,7 +13,7 @@ const RES = ['guld', 'træ', 'sten'];
 const STATUS = {
   ledig: () => 'Idle', gå: () => 'Walking', tilKilde: (a) => `Heading for ${RES_NAVN[a.kilde?.type]}`, høster: (a) => `Gathering ${RES_NAVN[a.kilde?.type]}`,
   iMine: () => 'Mining gold', tilAflevering: (a) => `Carrying ${RES_NAVN[a.bærer?.type]} home`,
-  tilByg: (a) => `On the way to build ${a.bygning?.data.navn}`, bygger: (a) => `Building ${a.bygning?.data.navn}`,
+  tilByg: (a) => `On the way to ${a.bygning?.færdig ? 'repair' : 'build'} ${a.bygning?.data.navn}`, bygger: (a) => `${a.bygning?.færdig ? 'Repairing' : 'Building'} ${a.bygning?.data.navn}`,
 };
 
 const prisHtml = (pris = {}) => RES.filter((r) => pris[r]).map((r) => `<span><img alt="${r}" src="${ikon('res-' + r)}">${pris[r]}</span>`).join('');
@@ -173,6 +173,8 @@ export class KommandoHud {
       if (!v.færdig) {
         const bygges = this.spil.base.arbejdere.some((a) => a.bygning === v && a.tilstand === 'bygger');
         s = `Under construction ${Math.floor(v.fremskridt * 100)}%${bygges ? '' : ' · Select a worker and tap the site to keep building'}`;
+      } else if (v.skadet) {
+        s = `Health ${Math.ceil(v.hp)}/${v.maxHp} · Select a worker and tap the building to repair it`;
       } else if (v.kø.length) {
         const k = v.kø[0];
         s = `Training ${ENHEDER[k.type].navn} ${Math.floor((k.tid / ENHEDER[k.type].tid) * 100)}% · ${v.kø.length} queued`;
@@ -184,17 +186,4 @@ export class KommandoHud {
       }
     }
   }
-}
-
-function gruppeStatus(g) {
-  if (g.length === 1 && g[0].vet) {
-    const s = g[0], liv = `${Math.ceil(s.hp)}/${s.maxHp} health`;
-    if (s.vet.gren) return `${liv} · ${s.vet.gren.evne}: ${s.vet.gren.evneTekst}`;
-    if (s.vet.påVej) return `${liv} · On the way to the War Camp for ${GRENE[s.vet.påVej].navn} training`;
-    if (s.vet.veteran) return s.type === 'grunt' ? `${liv} · Veteran — choose a path (green edge = suits your way of fighting)` : `${liv} · Veteran`;
-    return `${liv} · Veteran XP ${s.vet.xp}/${VETERAN.tærskel} (survive battles)`;
-  }
-  const antal = {};
-  for (const u of g) { const n = u.navn ?? (u.stats ? 'Hero' : 'Worker'); antal[n] = (antal[n] ?? 0) + 1; }
-  return Object.entries(antal).map(([n, k]) => `${k} × ${n}`).join(' · ');
 }

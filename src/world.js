@@ -11,9 +11,9 @@ export function kortModeller(kort) {
   return [...s];
 }
 
-export function bygVerden(scene, kort, grænser, steder) {
+export function bygVerden(scene, kort, grænser, steder, ødeland) {
   const miner = steder.filter((s) => s.type === 'mine');
-  for (const m of lavTerrænMesh(kort, grænser, miner)) scene.add(m);
+  for (const m of lavTerrænMesh(kort, grænser, miner, ødeland)) scene.add(m);
   const natur = lavNatur(scene, kort);
   const guld = lavGuldårer(scene, miner);
   return { ...natur, opdater: (dt) => guld.opdater(dt) };

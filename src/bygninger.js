@@ -2,7 +2,7 @@
 // (forsyning, aflevering, træning, tårn, alter, butik). Se bygningsdata.js.
 import { kopi } from './assets.js';
 import { BYGNINGER, ENHEDER, STADIER } from './bygningsdata.js';
-import { VERDEN, tilfældig } from './config.js';
+import { VERDEN, tilfældig, reducérSkade } from './config.js';
 import { bus } from './events.js';
 
 const S = VERDEN.hexSkala;
@@ -20,14 +20,16 @@ export class Bygning {
     this.kø = [];                  // træning: [{ type, tid }]
     this.cooldown = 0;
     this.død = false;
+    // Liv: en byggeplads starter med 10 % og vokser mens den bygges (som i WC3)
+    this.maxHp = this.data.hp ?? 900;
+    this.rustning = this.type === 'storlejr' ? 5 : this.type === 'tårn' ? 4 : 3;
+    this.hp = færdig ? this.maxHp : this.maxHp * 0.1;
     this.rod = null;
     this.visModel(færdig ? this.data.model : STADIER[0], færdig ? this.data.skala : 1);
     if (færdig) this.bliverFærdig(true);
   }
 
-  // Til livsbjælken over byggepladsen
-  get hp() { return this.fremskridt; }
-  get maxHp() { return 1; }
+  get skadet() { return this.hp < this.maxHp - 0.5; }
 
   visModel(sti, skala) {
     if (this.rod) this.verden.scene.remove(this.rod);
@@ -39,10 +41,12 @@ export class Bygning {
     this.stadie = sti;
   }
 
-  // En arbejder bygger i dt sekunder
+  // En arbejder bygger (eller reparerer) i dt sekunder
   byg(dt) {
-    if (this.færdig) return;
+    if (this.død) return;
+    if (this.færdig) { this.hp = Math.min(this.maxHp, this.hp + (this.maxHp * dt) / (this.data.tid * 1.5)); return; }
     this.fremskridt = Math.min(1, this.fremskridt + dt / this.data.tid);
+    this.hp = Math.min(this.maxHp, this.hp + (this.maxHp * 0.9 * dt) / this.data.tid);
     const stadie = STADIER[Math.min(2, Math.floor(this.fremskridt * 3))];
     if (this.fremskridt < 1 && stadie !== this.stadie) this.visModel(stadie, 1);
     if (this.fremskridt >= 1) this.bliverFærdig(false);
@@ -54,12 +58,40 @@ export class Bygning {
     const øko = this.base.økonomi;
     if (this.data.forsyning) øko.forsyningMaks += this.data.forsyning;
     this.verden.taage.tilføjKilde(this.x, this.z, this.data.syn ?? 16);
+    this.tågeKilde = this.verden.taage.kilder[this.verden.taage.kilder.length - 1];
     if (this.data.alter) this.verden.helt.spawn = { x: this.x + 4, z: this.z + 6 };
     if (!stille) {
       bus.emit('effekt', { type: 'kiste', x: this.x, z: this.z });
       bus.emit('besked', `${this.data.navn} is complete`);
     }
     bus.emit('bygning_færdig', { bygning: this });
+  }
+
+  // Skade fra The Memory. Ved 0 liv falder bygningen og efterlader en ruin.
+  tagSkade(mængde, kilde) {
+    if (this.død) return false;
+    const skade = reducérSkade(mængde, this.rustning);
+    this.hp = Math.max(0, this.hp - skade);
+    bus.emit('skade', { mål: this, mængde: skade, kilde });
+    bus.emit('bygning_angrebet', { bygning: this, kilde });
+    if (this.hp <= 0) { this.ødelæg(); return true; }
+    return false;
+  }
+
+  ødelæg(stille = false) {
+    this.død = true;
+    const øko = this.base.økonomi;
+    if (this.færdig && this.data.forsyning) øko.forsyningMaks -= this.data.forsyning;
+    for (const k of this.kø) { øko.refunder(ENHEDER[k.type].pris, 0.5); øko.forsyning -= ENHEDER[k.type].forsyning; }
+    this.kø = [];
+    for (const f of this.felter) { f.optaget = false; f.gåbar = true; }
+    const kilder = this.verden.taage.kilder;
+    if (kilder.includes(this.tågeKilde)) kilder.splice(kilder.indexOf(this.tågeKilde), 1);
+    this.visModel('kaykit-hexagon/buildings/neutral/building_destroyed', this.felter.length > 1 ? 1.8 : 1.15);
+    if (stille) return;
+    bus.emit('effekt', { type: 'stomp', x: this.x, z: this.z, radius: this.radius + 2 });
+    bus.emit('bygning_ødelagt', { bygning: this });
+    bus.emit('besked', `Your ${this.data.navn} has been destroyed!`);
   }
 
   // Sæt en enhed i træningskøen (højst 5)
@@ -86,7 +118,7 @@ export class Bygning {
   }
 
   opdater(dt) {
-    if (!this.færdig) return;
+    if (!this.færdig || this.død) return;
     // Træning
     const k = this.kø[0];
     if (k) {
@@ -98,7 +130,7 @@ export class Bygning {
     if (a) {
       this.cooldown -= dt;
       if (this.cooldown <= 0) {
-        const mål = this.verden.creeps.filter((c) => !c.død && c.rod.visible && Math.hypot(c.x - this.x, c.z - this.z) < a.rækkevidde)
+        const mål = this.verden.creeps.filter((c) => !c.død && !c.erBygning && c.rod.visible && Math.hypot(c.x - this.x, c.z - this.z) < a.rækkevidde)
           .sort((p, q) => Math.hypot(p.x - this.x, p.z - this.z) - Math.hypot(q.x - this.x, q.z - this.z))[0];
         if (mål) {
           this.cooldown = a.tid;

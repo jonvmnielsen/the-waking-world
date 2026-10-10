@@ -1,6 +1,7 @@
 // Hæren som gruppe (GDD 10): formation når en gruppe går, fælles angreb, og at vælge flere på én gang
 // (hold fingeren stille et øjeblik og træk en firkant, dobbelttryk på en soldat, eller Hær-knappen).
 import { Arbejder } from './arbejder.js';
+import { GRENE, VETERAN } from './soldatdata.js';
 
 const AFSTAND = 2.5;   // mellem soldaterne i formationen
 
@@ -66,4 +67,18 @@ export function sammeTypePåSkærm(spil, s, skærm) {
     const p = skærm(u.x, 1, u.z);
     return p.synlig && p.x >= 0 && p.y >= 0 && p.x <= r.width && p.y <= r.height;
   });
+}
+
+// Statuslinje i kommandopanelet for en valgt gruppe (eller én soldat)
+export function gruppeStatus(g) {
+  if (g.length === 1 && g[0].vet) {
+    const s = g[0], liv = `${Math.ceil(s.hp)}/${s.maxHp} health`;
+    if (s.vet.gren) return `${liv} · ${s.vet.gren.evne}: ${s.vet.gren.evneTekst}`;
+    if (s.vet.påVej) return `${liv} · On the way to the War Camp for ${GRENE[s.vet.påVej].navn} training`;
+    if (s.vet.veteran) return s.type === 'grunt' ? `${liv} · Veteran — choose a path (green edge = suits your way of fighting)` : `${liv} · Veteran`;
+    return `${liv} · Veteran XP ${s.vet.xp}/${VETERAN.tærskel} (survive battles)`;
+  }
+  const antal = {};
+  for (const u of g) { const n = u.navn ?? (u.stats ? 'Hero' : 'Worker'); antal[n] = (antal[n] ?? 0) + 1; }
+  return Object.entries(antal).map(([n, k]) => `${k} × ${n}`).join(' · ');
 }

@@ -64,6 +64,8 @@ the-waking-world/
 │   ├── trussel.js            # Fælles regel for automatisk angreb
 │   ├── veteran.js / spillerstil.js # Veteranstatus, specialisering og spillestilsmålerne (SAS)
 │   ├── gem.js / gendan.js    # Gem spil i localStorage og gendan det
+│   ├── fjendeai.js / fjende.js / fjendebygning.js / fjendedata.js / fjendeplads.js  # The Memory: AI, soldater, bygninger, tal, basens pladser
+│   ├── sejr.js / spilloop.js # Sejr/nederlag + slutskærm; ét tidstrin i spillet og omrids-tegningen
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud
@@ -299,7 +301,14 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Heltens egenskaber Strength/Agility/Intelligence; bøger, udstyr og ofringer ved alteret øger dem
 - [x] Helten løber 20 % hurtigere
 
-### 📋 Næste: milepæle M5–M7
+### ✅ M5 — "Modstander" (oktober 2026)
+- [x] The Memory: base i nordøst med ødeland, Bone Throne, Crypt, Grave Spire, Haunt; bygger efter plan
+- [x] Skeletthær der bliver stærkere med tiden; forsvar, bølger mod spillerens base, tilbagetog
+- [x] Tilpasser sig spillestilen; tre sværhedsgrader (vælges ved start)
+- [x] Spillerens bygninger har liv, kan ødelægges og repareres
+- [x] Sejr/nederlag med slutskærm; The Memory gemmes med i gem spil
+
+### 📋 Næste: milepæle M6–M7
 Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
 
 ---
@@ -322,6 +331,7 @@ Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og 
 | 2026-10-10 | Hvert træ og hver sten er en ressource | Jons ønske: alt der ligner træ eller sten skal kunne høstes |
 | 2026-10-10 | Spillet er på engelsk | Jons ønske. Koden, kommentarer og docs forbliver på dansk |
 | 2026-10-10 | Helte har Strength/Agility/Intelligence | Jons ønske; klassisk WC3-model. Kan øges med bøger, udstyr og ofringer ved alteret |
+| 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
 | 2026-10-10 | Gem spil i browserens localStorage | Virker på telefonen uden server; ét gemt spil ad gangen |
 | 2026-10-09 | 3D low-poly (KayKit) frem for 2D-sprites | Delt assetbibliotek med Tideborn, rigtige animationer. Klodsgrafik af grundformer er udelukket |
 | 2026-03-23 | Hero progression: 2 tiers + Ascension ved level 10 | Level 10 er vendepunkt ikke loft — giver dybde og replay-value |

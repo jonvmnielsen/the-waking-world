@@ -4,38 +4,45 @@ const G = 'kaykit-hexagon/buildings/green/';
 
 export const BYGNINGER = {
   storlejr: {
+    hp: 2400,
     navn: 'Great Hall', model: G + 'building_castle_green', skala: 1.45, felter: 3,
     pris: { guld: 400, træ: 200, sten: 150 }, tid: 90, forsyning: 12, aflevering: ['guld', 'træ', 'sten'], syn: 34,
     tekst: 'Your main building. Trains workers and receives all resources.',
     træner: ['arbejder'], kanBygges: false,
   },
   hytte: {
+    hp: 600,
     navn: 'Supply Hut', kort: 'Hut', model: G + 'building_home_a_green', skala: 2.15,
     pris: { guld: 80, træ: 50 }, tid: 25, forsyning: 10, syn: 16,
     tekst: '+10 supply, so you can have more workers and soldiers.',
   },
   savværk: {
+    hp: 800,
     navn: 'Lumber Mill', model: G + 'building_lumbermill_green', skala: 1.3,
     pris: { guld: 120, træ: 60 }, tid: 35, aflevering: ['træ', 'sten'], syn: 18,
     tekst: 'Workers can drop off wood and stone here. Build it near the forest.',
   },
   tårn: {
+    hp: 900,
     navn: 'Watch Tower', kort: 'Tower', model: G + 'building_tower_a_green', skala: 1.2,
     pris: { guld: 100, træ: 40, sten: 60 }, tid: 40, syn: 30,
     angreb: { rækkevidde: 18, skade: [22, 30], tid: 1.4 },
     tekst: 'Shoots enemies in range.',
   },
   marked: {
+    hp: 900,
     navn: 'Marketplace', kort: 'Market', model: G + 'building_market_green', skala: 1.15,
     pris: { guld: 150, træ: 80, sten: 40 }, tid: 45, syn: 18, butik: true,
     tekst: 'Your own shop with potions, equipment and tomes.',
   },
   alter: {
+    hp: 1000,
     navn: 'Spirit Altar', kort: 'Altar', model: G + 'building_church_green', skala: 1.5,
     pris: { guld: 160, træ: 60, sten: 80 }, tid: 50, syn: 18, alter: true,
     tekst: 'Your hero is revived here and healed nearby. Make offerings to raise your hero\'s attributes.',
   },
   krigerlejr: {
+    hp: 1100,
     navn: 'War Camp', model: G + 'building_barracks_green', skala: 1.2,
     pris: { guld: 160, træ: 80, sten: 40 }, tid: 55, syn: 18,
     træner: ['grunt', 'spydkaster'],

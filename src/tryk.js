@@ -52,7 +52,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     let fjende = null, bd = 52;
     for (const c of verden.creeps) {
       if (c.død || !c.rod.visible) continue;
-      const s = skærm(c.x, c.højde * 0.5, c.z), d = Math.hypot(s.x - px, s.y - py);
+      const s = skærm(c.x, c.højde * 0.5, c.z), d = Math.hypot(s.x - px, s.y - py) - (c.erBygning ? 40 : 0);
       if (d < bd) { bd = d; fjende = c; }
     }
     return [fjende, bd];
@@ -123,7 +123,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     }
     if (egen && valg.erArbejder && egen.type === 'bygning') {
       const a = valg.valgt, byg = egen.ting;
-      if (!byg.færdig) { a.kommandoByg(byg); return effekter.markør(byg.x, byg.z, 0x7dff6a); }
+      if (!byg.færdig || byg.skadet) { a.kommandoByg(byg); return effekter.markør(byg.x, byg.z, 0x7dff6a); }
       if (a.bærer && byg.data.aflevering?.includes(a.bærer.type)) return a.gåHjem();
     }
     if (egen && egen.ting !== valg.valgt) return valg.vælg(egen.ting);

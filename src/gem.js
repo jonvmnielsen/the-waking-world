@@ -16,7 +16,12 @@ export function hentGem() {
   } catch { return null; }
 }
 
+export function sletGem() {
+  try { localStorage.removeItem(NØGLE); } catch { /* ingen lagring */ }
+}
+
 export function gemSpil(spil) {
+  if (spil.slut === 'nederlag') return false;
   try {
     localStorage.setItem(NØGLE, JSON.stringify(lavGem(spil)));
     return true;
@@ -27,7 +32,7 @@ export function gemSpil(spil) {
 }
 
 function lavGem(spil) {
-  const { helt, økonomi: ø, base, verden, lejre, genstande, taage, rig, stil } = spil;
+  const { helt, økonomi: ø, base, lejre, genstande, taage, rig, stil, memory: m } = spil;
   const inv = helt.inventar;
   return {
     version: GEM_VERSION, seed: KORT.seed, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
@@ -38,7 +43,7 @@ function lavGem(spil) {
     },
     bygninger: base.bygninger.map((b) => ({
       type: b.type, felter: b.felter.map((f) => nøgle(f.q, f.r)), x: r1(b.x), z: r1(b.z), rot: b.rot,
-      fremskridt: b.fremskridt, færdig: b.færdig, kø: b.kø, samling: b.samling ?? null,
+      fremskridt: b.fremskridt, færdig: b.færdig, kø: b.kø, samling: b.samling ?? null, hp: Math.ceil(b.hp),
     })),
     arbejdere: base.arbejdere.filter((a) => !a.død).map((a) => ({
       x: r1(a.x), z: r1(a.z), opgave: a.kilde?.type ?? a.bærer?.type ?? null,
@@ -55,6 +60,11 @@ function lavGem(spil) {
     udforsket: pak(taage.udforsket),
     stil: stil.score,
     kamera: { x: r1(rig.fokus.x), z: r1(rig.fokus.z), afstand: rig.afstand },
+    memory: {
+      sværhed: m.sværhed, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
+      bygninger: m.bygninger.map((b) => ({ id: b.id, hp: Math.ceil(b.hp), fremskridt: b.fremskridt, død: b.død })),
+      enheder: m.levende.map((e) => ({ type: e.type, x: r1(e.x), z: r1(e.z), hp: Math.ceil(e.hp), level: e.level })),
+    },
   };
 }
 
@@ -88,5 +98,5 @@ export function beskrivGem(g) {
   const min = Math.floor(g.spilTid / 60);
   const siden = Math.round((Date.now() - g.tidspunkt) / 60000);
   const hvornår = siden < 1 ? 'saved just now' : siden < 60 ? `saved ${siden} min ago` : siden < 1440 ? `saved ${Math.round(siden / 60)} h ago` : `saved ${Math.round(siden / 1440)} days ago`;
-  return `Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? 'soldier' : 'soldiers'} · ${min} min played · ${hvornår}`;
+  return `${g.memory ? `${g.memory.sværhed[0].toUpperCase()}${g.memory.sværhed.slice(1)} · ` : ''}Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? 'soldier' : 'soldiers'} · ${min} min played · ${hvornår}`;
 }

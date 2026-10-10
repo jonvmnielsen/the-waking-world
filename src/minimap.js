@@ -73,6 +73,18 @@ export class Minimap {
       ctx.fillStyle = NIVEAUER[l.data.niveau].farve;
       ctx.beginPath(); ctx.arc(x, y, l.data.niveau === 5 ? 4 : 2.6, 0, Math.PI * 2); ctx.fill();
     }
+    // Bygninger og figurer: egne i grønt, The Memory i rødt (bygninger når de er set, figurer når de ses)
+    const prik = (x, z, farve, r, firkant) => {
+      const [px, py] = this.px(x, z);
+      ctx.fillStyle = farve;
+      if (firkant) ctx.fillRect(px - r, py - r, r * 2, r * 2);
+      else { ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.fill(); }
+    };
+    for (const b of spil.base.bygninger) prik(b.x, b.z, '#5dff6a', b.felter.length > 1 ? 4 : 2.6, true);
+    for (const s of spil.base.soldater) if (!s.død) prik(s.x, s.z, '#9dff8a', 1.6);
+    for (const b of spil.memory?.bygninger ?? []) if (!b.død && t.erUdforsket(b.x, b.z)) prik(b.x, b.z, '#ff4a3a', b.type === 'hal' ? 4 : 2.6, true);
+    for (const e of spil.memory?.levende ?? []) if (e.rod.visible) prik(e.x, e.z, '#ff7a6a', 1.8);
+
     // Helten og kameraets udsnit
     const h = spil.helt;
     const [hx, hy] = this.px(h.x, h.z);

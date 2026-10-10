@@ -31,6 +31,9 @@ export function lavTerræn(seed) {
   const N = KORT.størrelse, H = N / 2;
   const base = tilAksial(Math.round(-0.55 * H), Math.round(0.55 * H));
   k.base = base;
+  // The Memory (AI-modstanderen) har sin base i det modsatte hjørne
+  const fjende = tilAksial(Math.round(0.55 * H), Math.round(-0.55 * H));
+  k.fjendeBase = fjende;
 
   for (let ræk = -H; ræk < H; ræk++) {
     for (let kol = -H; kol < H; kol++) {
@@ -42,10 +45,11 @@ export function lavTerræn(seed) {
       const f = k.sæt(q, r, { kol, ræk, region, type: land ? 'græs' : 'vand', gåbar: land });
       if (!land) continue;
       const tæt = TÆTHED[region];
-      const dBase = hexAfstand(f, base);
+      const dEgen = hexAfstand(f, base), dFjende = hexAfstand(f, fjende);
+      const dBase = Math.min(dEgen, dFjende);
       const vedBase = dBase <= 6;
       if (!vedBase && støj(kol, ræk, seed + 2, 4) > tæt.sø) { f.type = 'vand'; f.gåbar = false; continue; }
-      if (vedBase) { baseOmegn(f, base, dBase); continue; }
+      if (vedBase) { baseOmegn(f, dEgen <= 6 ? base : fjende, dBase); continue; }
       if (støj(kol, ræk, seed + 3, 4.5) > tæt.bjerg) blokér(f, 'bjerg');
       else if (støj(kol, ræk, seed + 4, 3.5) > tæt.skov) blokér(f, 'skov');
     }

@@ -4,6 +4,7 @@ import { tilAksial } from './kortgen.js';
 import { KORT } from './config.js';
 import { FAMILIE_I_REGION, SAMMENSÆTNING } from './creepdata.js';
 import { lejrPynt } from './pynt.js';
+import { fjendeBase } from './fjendeplads.js';
 
 const BYG = 'kaykit-hexagon/buildings/';
 
@@ -75,10 +76,13 @@ export function placérSteder(k, tilf) {
     const ved = k.naboer(ruin).find(fri);
     if (ved) kiste(ved, 2);
   }
-  for (const [x, z, niv] of [[-0.75, -0.1, 2], [0.1, -0.45, 3], [0.45, 0.78, 3], [0.88, -0.38, 4]]) {
+  for (const [x, z, niv] of [[-0.75, -0.1, 2], [0.1, -0.45, 3], [0.45, 0.78, 3], [0.92, 0.1, 4]]) {
     const f = nærmesteFri(x, z);
     if (f) kiste(f, niv);
   }
+
+  // The Memorys base: hallen og pladser til de andre bygninger (fjendebase.js bygger dem)
+  const fjende = fjendeBase(k, optag, fri, steder);
 
   // 3) Creep-lejre spredt over kortet; sværere jo længere fra basen
   const lejre = [];
@@ -96,7 +100,7 @@ export function placérSteder(k, tilf) {
     lejrPynt(f, familie, tilf, niveau === 5);
     return { id: `lejr-${f.q}-${f.r}`, q: f.q, r: f.r, niveau, familie, creeps: valg[Math.floor(tilf() * valg.length)] };
   };
-  boss(0.72, -0.72, 'skeletter');
+  boss(0.12, -0.84, 'skeletter');
   boss(0.82, -0.05, 'plyndrere');
 
   const maxAfstand = Math.max(...[...k.felter.values()].filter((f) => f.gåbar).map((f) => hexAfstand(f, b)));
@@ -104,7 +108,7 @@ export function placérSteder(k, tilf) {
   for (const f of kandidater) {
     if (lejre.length >= 26) break;
     const d = hexAfstand(f, b);
-    if (d < 6) continue;
+    if (d < 6 || hexAfstand(f, k.fjendeBase) < 9) continue;
     if (lejre.some((l) => hexAfstand(l, f) < 6) || steder.some((s) => hexAfstand(s, f) < 3)) continue;
     const t = d / maxAfstand;
     const niveau = t < 0.3 ? 1 : t < 0.48 ? 2 : t < 0.68 ? 3 : 4;
@@ -118,5 +122,5 @@ export function placérSteder(k, tilf) {
   }
 
   const p = hexTilVerden(spawnFelt.q, spawnFelt.r);
-  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre, kister, storlejr };
+  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre, kister, storlejr, fjende };
 }
