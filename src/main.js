@@ -26,6 +26,7 @@ import { KommandoHud } from './kommandohud.js';
 import { ARBEJDER_SYN } from './arbejder.js';
 import { LEVELS } from './config.js';
 import { bus } from './events.js';
+import { Røntgen } from './rontgen.js';
 
 const lærred = document.getElementById('spil');
 const renderer = new THREE.WebGLRenderer({ canvas: lærred, antialias: true, powerPreference: 'high-performance' });
@@ -41,7 +42,8 @@ async function start() {
 
   const taage = new Taage(grænser);
   const verden = { scene, kort, creeps: [], helt: null, taage, lejrFelter: lejrData };
-  const verdensObj = bygVerden(scene, kort);
+  const verdensObj = bygVerden(scene, kort, grænser, steder);
+  verden.natur = verdensObj;
   const lys = lavLys(scene, renderer);
   const { økonomi, base } = startBase(verden, { storlejr, steder, verdensObj });
 
@@ -121,12 +123,19 @@ async function start() {
     stedLiv.opdater(dt, helt);
     genstande.opdater(dt);
     effekter.opdater(dt);
+    verdensObj.opdater(dt);
     valg.opdater();
     rig.opdater(dt, helt.død ? null : helt);
     minimap.opdater(dt);
     patchTid += dt;
     if (patchTid > 1) { patchTid = 0; taage.patchScene(scene); }
   }
+  // Omrids af figurer og bygninger der står bag en bygning
+  const røntgen = new Røntgen(renderer, scene, rig.kamera, {
+    enheder: () => [helt, ...base.arbejdere, ...verden.creeps].filter((e) => !e.død && e.rod.visible).map((e) => ({ rod: e.rod, egen: e === helt || e.side === 'egen' })),
+    bygninger: () => [...base.bygninger.map((b) => ({ rod: b.rod, egen: true })), ...verdensObj.bygninger],
+  });
+
   spil.simuler = (sek) => { for (let t = 0; t < sek; t += 1 / 30) trin(1 / 30); };
 
   const ur = new THREE.Clock();
@@ -135,6 +144,7 @@ async function start() {
     trin(dt);
     lys.følg(rig.fokus.x, rig.fokus.z);
     renderer.render(scene, rig.kamera);
+    røntgen.tegn();
     overlay.opdater();
     hud.opdater();
     invHud.opdater();

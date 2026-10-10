@@ -155,8 +155,6 @@
     "kaykit-skeletons/skeleton_staff",
     "kaykit-skeletons/skeleton_shield_small_a",
     "kaykit-skeletons/skeleton_shield_large_a",
-    "kaykit-hexagon/tiles/base/*",
-    "kaykit-hexagon/tiles/coast/hex_coast_*",
     "kaykit-hexagon/decoration/nature/*",
     "kaykit-hexagon/decoration/props/*",
     "kaykit-hexagon/buildings/green/*",
@@ -199,6 +197,7 @@
     "kaykit-dungeon/bottle_c_green_gltf",
     "kaykit-dungeon/bottle_b_green_gltf",
     "kaykit-dungeon/coin_stack_small_gltf",
+    "kaykit-dungeon/coin_stack_large_gltf",
     "kaykit-dungeon/chest"
   ]
 }

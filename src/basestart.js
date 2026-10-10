@@ -9,7 +9,7 @@ const START_OPGAVER = ['guld', 'guld', 'guld', 'træ', 'sten'];
 export function startBase(verden, { storlejr, steder, verdensObj }) {
   const økonomi = new Økonomi();
   verden.økonomi = økonomi;
-  const kilder = new Kilder(verden.kort, steder);
+  const kilder = new Kilder(steder, verdensObj.ressourcer);
   const base = new Base(verden, økonomi, kilder);
   const lejr = base.startBygning(storlejr);
   økonomi.forsyning = HELT_FORSYNING;
@@ -22,7 +22,7 @@ export function startBase(verden, { storlejr, steder, verdensObj }) {
   økonomi.forsyning += START_OPGAVER.length;
   // Træning af nye arbejdere tæller allerede forsyning ved bestilling (bygninger.js)
 
-  // Tømt skov bliver til stubbe
-  bus.on('kilde_tom', ({ type, kilde }) => { if (type === 'træ') verdensObj.fæld(kilde); });
+  // Et fældet træ bliver til en stub, en brudt sten forsvinder
+  bus.on('kilde_tom', ({ type, kilde }) => { if (type !== 'guld') verdensObj.fjern(kilde); });
   return { økonomi, kilder, base };
 }

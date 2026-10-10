@@ -1,11 +1,10 @@
 // Inventar på skærmen (6 pladser), info-kort for et item og købmandens butik.
-// Tryk på en eliksir/stav = brug. Tryk på udstyr eller hold fingeren på et item = info-kort med "Smid".
+// Tryk på et item = info-kort med "Brug" (eliksirer, stave), "Smid" og "Luk".
 import { ITEMS, SJÆLDENHED, TYPE_NAVN, BUTIK, beskriv } from './itemdata.js';
 import { ikon } from './ikoner.js';
 import { bus } from './events.js';
 
 const $ = (id) => document.getElementById(id);
-const HOLD = 450;
 
 export class InventarHud {
   constructor(spil) {
@@ -22,22 +21,14 @@ export class InventarHud {
     this.tegn();
   }
 
+  // Tryk på et item åbner info-kortet; derfra bruges eller smides det (intet bruges ved et enkelt tryk)
   bindPlads(el, i) {
-    let timer = null, holdt = false;
-    el.addEventListener('pointerdown', (e) => {
-      e.preventDefault(); e.stopPropagation();
-      holdt = false;
-      timer = setTimeout(() => { holdt = true; this.visInfo(i); }, HOLD);
-    });
-    const slip = (e) => {
+    el.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); });
+    el.addEventListener('pointerup', (e) => {
       e.stopPropagation();
-      clearTimeout(timer);
-      if (holdt || !this.inv.pladser[i]) return;
-      const d = ITEMS[this.inv.pladser[i].id];
-      if (d.brug) this.brug(i); else this.visInfo(i);
-    };
-    el.addEventListener('pointerup', slip);
-    el.addEventListener('pointercancel', () => clearTimeout(timer));
+      if (!this.inv.pladser[i]) return;
+      if (this.infoPlads === i) this.lukInfo(); else this.visInfo(i);
+    });
     el.addEventListener('contextmenu', (e) => e.preventDefault());
   }
 

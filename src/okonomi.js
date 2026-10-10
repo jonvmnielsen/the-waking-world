@@ -1,10 +1,9 @@
 // Spillerens økonomi (GDD 5.1): guld, træ, sten og forsyning, og kortets ressourcekilder.
-// Guld kommer fra guldminer, træ fra skov-felter og sten fra bjerg-felter.
-import { hexTilVerden } from './hexgrid.js';
+// Guld kommer fra guldminer, træ fra hvert eneste træ og sten fra hver eneste sten på kortet.
 import { bus } from './events.js';
 
 export const START = { guld: 300, træ: 150, sten: 80 };
-export const MÆNGDE = { mine: 8000, skov: 250, bjerg: 400 };
+export const MÆNGDE = { mine: 8000 };   // træer og sten: se RESSOURCE i pynt.js
 export const BÆR = { guld: 10, træ: 10, sten: 8 };          // pr. tur
 export const HØST_TID = { guld: 1.6, træ: 4.5, sten: 5.5 }; // sekunder pr. tur
 export const MAKS_FORSYNING = 100;
@@ -49,41 +48,34 @@ export class Økonomi {
   }
 }
 
-// Ressourcekilder på kortet: skov- og bjerg-felter og guldminer
+// Ressourcekilder på kortet: guldminer og alle træer og sten (fra natur.js)
+// En kilde gives videre som { type, kilde, x, z, r } — kilde er minen eller ressourcen selv.
 export class Kilder {
-  constructor(kort, steder) {
-    this.kort = kort;
-    for (const f of kort.felter.values()) {
-      if (f.blok === 'skov') f.træ = MÆNGDE.skov;
-      if (f.blok === 'bjerg') f.sten = MÆNGDE.bjerg;
-    }
+  constructor(steder, ressourcer) {
+    this.ressourcer = ressourcer;
     this.miner = steder.filter((s) => s.type === 'mine').map((s) => ({ ...s, guld: s.start ? MÆNGDE.mine * 1.5 : MÆNGDE.mine }));
   }
 
-  // Kilden ved et felt eller en mine (til tryk)
-  vedFelt(f) {
-    if (!f) return null;
-    const mine = this.miner.find((m) => m.q === f.q && m.r === f.r);
-    if (mine) return mine.guld > 0 ? { type: 'guld', kilde: mine, x: mine.x, z: mine.z } : null;
-    if (f.træ > 0) return { type: 'træ', kilde: f, ...hexTilVerden(f.q, f.r) };
-    if (f.sten > 0) return { type: 'sten', kilde: f, ...hexTilVerden(f.q, f.r) };
-    return null;
-  }
+  som(o) { return { type: o.type ?? 'guld', kilde: o, x: o.x, z: o.z, r: o.r ?? 5 }; }
 
   // Nærmeste kilde af en type (når den gamle er brugt op)
   nærmeste(type, x, z, maks = 60) {
     let bedst = null, bd = maks;
-    const tjek = (kilde, p) => { const d = Math.hypot(p.x - x, p.z - z); if (d < bd) { bd = d; bedst = { type, kilde, x: p.x, z: p.z }; } };
-    if (type === 'guld') for (const m of this.miner) { if (m.guld > 0) tjek(m, m); }
-    else for (const f of this.kort.felter.values()) { if ((f[type] ?? 0) > 0) tjek(f, hexTilVerden(f.q, f.r)); }
-    return bedst;
+    const liste = type === 'guld' ? this.miner : this.ressourcer;
+    for (const o of liste) {
+      if (!(o[type] > 0)) continue;
+      // Ressourcer inde i en skov tæller lidt længere væk, så kanten fældes først
+      const d = Math.hypot(o.x - x, o.z - z) + (o.blokerer && type === 'træ' ? 3 : 0);
+      if (d < bd) { bd = d; bedst = o; }
+    }
+    return bedst && this.som(bedst);
   }
 
   // Tag en tur fra kilden. Returnerer hvor meget der blev taget.
   høst(k, type, ønsket) {
     const m = Math.min(ønsket, k.kilde[type] ?? 0);
     k.kilde[type] -= m;
-    if (k.kilde[type] <= 0) bus.emit('kilde_tom', { type, kilde: k.kilde });
+    if (m > 0 && k.kilde[type] <= 0) bus.emit('kilde_tom', { type, kilde: k.kilde });
     return m;
   }
 }

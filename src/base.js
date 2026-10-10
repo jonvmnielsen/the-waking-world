@@ -46,6 +46,7 @@ export class Base {
     if (fejl) return [null, fejl];
     this.økonomi.betal(BYGNINGER[type].pris);
     f.optaget = true; f.gåbar = false;
+    this.verden.natur?.ryd(f);
     const p = hexTilVerden(f.q, f.r);
     const b = new Bygning(this, type, { x: p.x, z: p.z, felter: [f], rot: (Math.floor(Math.random() * 6) * Math.PI) / 3 });
     this.bygninger.push(b);

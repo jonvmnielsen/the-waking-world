@@ -1,4 +1,4 @@
-// Bærer (The Tides arbejder): høster guld i miner, fælder træ i skoven, hugger sten i bjergene,
+// Bærer (The Tides arbejder): høster guld i miner, fælder træer og hugger sten,
 // bærer det hjem til Storlejren/Savværket og bygger nye bygninger (GDD 5.1–5.2).
 import { Unit } from './unit.js';
 import { skaleretKopi } from './assets.js';
@@ -68,7 +68,7 @@ export class Arbejder extends Unit {
 
   gåTilKilde() {
     this.tilstand = 'tilKilde';
-    this.gåTilKant(this.kilde.x, this.kilde.z, 5.8);
+    this.gåTilKant(this.kilde.x, this.kilde.z, this.kilde.r + 1.2);
   }
 
   gåHjem() {
@@ -97,7 +97,7 @@ export class Arbejder extends Unit {
         break;
       case 'tilKilde':
         this.opdaterBevægelse(dt);
-        if (this.fremme(k.x, k.z, k.type === 'guld' ? 8.5 : 7.6, 13)) this.startHøst();
+        if (this.fremme(k.x, k.z, k.type === 'guld' ? 8.5 : k.r + 2.6, k.type === 'guld' ? 13 : k.r + 7)) this.startHøst();
         else if (!this.bevæger) this.høstNærmeste(k.type);
         break;
       case 'høster':

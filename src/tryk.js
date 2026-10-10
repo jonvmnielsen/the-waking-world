@@ -5,7 +5,6 @@
 // - med helten valgt: angrib, saml op, åbn kiste, handl eller gå
 import * as THREE from 'three';
 import { bus } from './events.js';
-import { hexTilVerden } from './hexgrid.js';
 
 export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder }) {
   const { helt, verden, rig, valg, base } = spil;
@@ -21,22 +20,20 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     return ray.ray.intersectPlane(jord, p) ? p : null;
   }
 
-  // Ressourcekilde nær trykket: miner efter skærmafstand, ellers skov/bjerg i og omkring feltet
+  // Ressourcekilde nær trykket: miner, træer og sten efter afstand på skærmen
   function kildeVed(px, py, p) {
     for (const m of base.kilder.miner) {
       const s = skærm(m.x, 3, m.z);
-      if (m.guld > 0 && Math.hypot(s.x - px, s.y - py) < 70) return { type: 'guld', kilde: m, x: m.x, z: m.z };
+      if (m.guld > 0 && Math.hypot(s.x - px, s.y - py) < 70) return base.kilder.som(m);
     }
-    const f = p && verden.kort.felt(p.x, p.z);
-    if (!f) return null;
-    let bedst = null, bd = 75;
-    for (const kand of [f, ...verden.kort.naboer(f)]) {
-      const k = base.kilder.vedFelt(kand);
-      if (!k || k.type === 'guld') continue;
-      const c = hexTilVerden(kand.q, kand.r), s = skærm(c.x, 3, c.z), d = Math.hypot(s.x - px, s.y - py);
-      if (d < bd && verden.taage.erUdforsket(c.x, c.z)) { bd = d; bedst = k; }
+    if (!p) return null;
+    let bedst = null, bd = 56;
+    for (const o of base.kilder.ressourcer) {
+      if (!(o[o.type] > 0) || Math.abs(o.x - p.x) > 16 || Math.abs(o.z - p.z) > 16) continue;
+      const s = skærm(o.x, o.y + o.h * 0.4, o.z), d = Math.hypot(s.x - px, s.y - py);
+      if (d < bd && verden.taage.erUdforsket(o.x, o.z)) { bd = d; bedst = o; }
     }
-    return bedst;
+    return bedst && base.kilder.som(bedst);
   }
 
   function arbejderTryk(a, px, py) {

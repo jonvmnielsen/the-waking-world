@@ -1,4 +1,6 @@
 // Natur og småting på kortets felter, valgt efter region (GDD 4.4).
+// Hvert træ og hver sten er sin egen ressource (GDD 5.1): træer giver træ, sten giver sten.
+// Skov-felter er tætte klynger af enkelte træer; stenbrud er store grå klippeblokke på en høj.
 import { HEX_BREDDE } from './hexgrid.js';
 
 const RI = HEX_BREDDE / 2;           // afstand fra hex-centrum til kant
@@ -6,69 +8,84 @@ const NAT = 'kaykit-hexagon/decoration/nature/';
 const HAL = 'kaykit-halloween/';
 const vælg = (tilf, liste) => liste[Math.floor(tilf() * liste.length)];
 const spred = (tilf, r = 0.55) => ({ dx: (tilf() - 0.5) * 2 * RI * r, dz: (tilf() - 0.5) * 2 * RI * r });
+const mellem = (tilf, a, b) => a + tilf() * (b - a);
 
-// Blokerede felter: skov og bjerge
+// Hvor meget hver slags giver, og hvor stor den er (radius til at gå hen til den, højde til tryk)
+export const RESSOURCE = {
+  træ: { mængde: 40, r: 1.4, h: 6 },
+  træFrit: { mængde: 30, r: 1.3, h: 5 },
+  blok: { mængde: 150, r: 3, h: 4 },
+  sten: { mængde: 25, r: 1.3, h: 1.5 },
+};
+
+// Træer pr. region: [model, skala]
+function træModel(tilf, region) {
+  if (region === 'gravlandet') return vælg(tilf, [[HAL + 'tree_dead_large', 1.1], [HAL + 'tree_dead_medium', 1.3], [HAL + 'tree_dead_small', 1.5]]);
+  if (region === 'sumpen' && tilf() < 0.35) return [HAL + 'tree_dead_small', 1.3];
+  const str = { skoven: [1.25, 1.6], sumpen: [1.0, 1.3] }[region] ?? [1.1, 1.4];
+  return [NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), mellem(tilf, ...str)];
+}
+
+// Blokerede felter: skov og stenbrud
 export function blokPynt(f, tilf) {
-  const rot = Math.floor(tilf() * 6) * 60;
   if (f.blok === 'bjerg') {
-    const liste = f.region === 'bjergene'
-      ? ['mountain_a_grass_trees', 'mountain_b_grass_trees', 'mountain_c_grass_trees', 'mountain_a_grass', 'mountain_b_grass']
-      : f.region === 'gravlandet' ? ['mountain_a', 'mountain_b', 'mountain_c', 'hills_c']
-        : ['hills_a_trees', 'hills_b_trees', 'hills_c_trees', 'mountain_c_grass'];
-    f.pynt.push({ model: NAT + vælg(tilf, liste), rot, instans: true, skygge: true, skala: 1.05 });
-    return;
-  }
-  // Skov
-  if (f.region === 'gravlandet') {
-    for (let i = 0; i < 3; i++) {
-      const [navn, sk] = vælg(tilf, [['tree_dead_large', 1.05], ['tree_dead_medium', 1.2], ['tree_dead_small', 1.35]]);
-      f.pynt.push({ model: HAL + navn, ...spred(tilf, 0.6), rot: tilf() * 360, skala: sk, instans: true, skygge: true });
+    // 3-4 store klippeblokke tæt sammen + et par små sten
+    const n = 3 + Math.floor(tilf() * 2);
+    for (let i = 0; i < n; i++) {
+      const v = (i / n) * Math.PI * 2 + tilf() * 0.8, r = RI * mellem(tilf, 0.15, 0.42);
+      f.pynt.push({ model: NAT + 'rock_single_' + vælg(tilf, ['c', 'e', 'c', 'b', 'd']), dx: Math.cos(v) * r, dz: Math.sin(v) * r,
+        rot: tilf() * 360, skala: mellem(tilf, 2.4, 3.4), y: -0.25, instans: true, skygge: true, ressource: 'blok' });
+    }
+    for (let i = 0; i < 2; i++) {
+      f.pynt.push({ model: NAT + 'rock_single_' + vælg(tilf, ['a', 'b', 'd']), ...spred(tilf, 0.7), rot: tilf() * 360, skala: 1.3, instans: true, skygge: true, ressource: 'sten' });
     }
     return;
   }
-  const liste = {
-    skoven: ['trees_a_large', 'trees_b_large', 'trees_a_large', 'trees_b_medium'],
-    sumpen: ['trees_b_small', 'trees_b_medium', 'trees_a_small'],
-  }[f.region] ?? ['trees_a_medium', 'trees_b_medium', 'trees_a_small'];
-  f.pynt.push({ model: NAT + vælg(tilf, liste), rot, instans: true, skygge: true, skala: 1.15 });
+  // Skov: 5-6 enkelte træer spredt over feltet
+  const n = 5 + Math.floor(tilf() * 2);
+  for (let i = 0; i < n; i++) {
+    const v = (i / n) * Math.PI * 2 + tilf() * 0.6, r = i === 0 ? RI * 0.1 : RI * mellem(tilf, 0.45, 0.7);
+    const [model, skala] = træModel(tilf, f.region);
+    f.pynt.push({ model, dx: Math.cos(v) * r, dz: Math.sin(v) * r, rot: tilf() * 360, skala, instans: true, skygge: true, ressource: 'træ' });
+  }
 }
 
-// Frie græsfelter: lidt natur man kan gå forbi
+// Frie græsfelter: lidt natur man kan gå forbi — træer og sten kan stadig høstes
 export function friPynt(f, tilf) {
   const x = tilf();
-  const p = (model, skala = 1, skygge = true) => f.pynt.push({ model, ...spred(tilf), rot: tilf() * 360, skala, instans: true, skygge });
+  const p = (model, skala = 1, ressource = null, skygge = true) => f.pynt.push({ model, ...spred(tilf), rot: tilf() * 360, skala, instans: true, skygge, ressource });
+  const træ = (sk = 1) => { const [m, s] = træModel(tilf, f.region); p(m, s * 0.75 * sk, 'træFrit'); };
+  const sten = (sk = 1) => p(NAT + 'rock_single_' + vælg(tilf, ['b', 'c', 'e']), 1.25 * sk, 'sten');
   switch (f.region) {
     case 'skoven':
-      if (x < 0.45) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 0.85);
-      if (x > 0.3 && x < 0.6) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 0.75);
-      else if (x > 0.85) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'b', 'c']), 0.7, false);
+      if (x < 0.45) træ();
+      if (x > 0.3 && x < 0.6) træ(0.9);
+      else if (x > 0.85) sten();
       break;
     case 'gravlandet':
       if (x < 0.22) p(HAL + vælg(tilf, ['gravestone', 'gravemarker_a', 'gravemarker_b']), 0.7);
-      else if (x < 0.36) p(HAL + vælg(tilf, ['tree_dead_small', 'tree_dead_medium']), 1.1);
-      else if (x < 0.46) p(HAL + vælg(tilf, ['bone_a', 'bone_b', 'skull']), 0.6, false);
+      else if (x < 0.36) træ(0.9);
+      else if (x < 0.46) p(HAL + vælg(tilf, ['bone_a', 'bone_b', 'skull']), 0.6, null, false);
+      else if (x < 0.52) sten();
       break;
     case 'bjergene':
-      if (x < 0.25) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'b', 'c', 'd', 'e']), 0.9, false);
-      else if (x < 0.36) p(NAT + vælg(tilf, ['hill_single_a', 'hill_single_b', 'hill_single_c']), 0.9);
-      else if (x < 0.44) p(NAT + 'tree_single_a', 0.8);
+      if (x < 0.32) sten(1.15);
+      else if (x < 0.4) træ();
       break;
     case 'sumpen':
-      if (x < 0.2) p(NAT + vælg(tilf, ['trees_b_small', 'tree_single_b']), 0.8);
-      else if (x < 0.32) p(HAL + 'tree_dead_small', 1.0);
-      else if (x < 0.42) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'b']), 0.7, false);
+      if (x < 0.22) træ(0.9);
+      else if (x < 0.32) sten(0.9);
       break;
     default:
-      if (x < 0.2) p(NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), 0.8);
-      else if (x < 0.4) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'b', 'c', 'd', 'e']), 0.75, false);
-      if (tilf() < 0.25) p(NAT + 'rock_single_' + vælg(tilf, ['a', 'c', 'e']), 0.5, false);
+      if (x < 0.2) træ();
+      else if (x < 0.36) sten();
   }
 }
 
 // Åkander og vandplanter på søer i sumpen
 export function vandPynt(f, tilf) {
   if (f.region !== 'sumpen' || tilf() > 0.45) return;
-  f.pynt.push({ model: NAT + vælg(tilf, ['waterlily_a', 'waterlily_b', 'waterplant_a', 'waterplant_b']), ...spred(tilf), rot: tilf() * 360, skala: 1.2, instans: true, y: -0.2 });
+  f.pynt.push({ model: NAT + vælg(tilf, ['waterlily_a', 'waterlily_b', 'waterplant_a', 'waterplant_b']), ...spred(tilf), rot: tilf() * 360, skala: 1.2, instans: true, y: -0.75, absolut: true });
 }
 
 // Lejrens udseende afhænger af familien

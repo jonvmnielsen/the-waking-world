@@ -54,8 +54,12 @@ the-waking-world/
 │   ├── creepdata.js          # Creep-familier, typer og 5 sværhedsgrader
 │   ├── taage.js / minimap.js # Krigens tåge (shader) og minimap
 │   ├── stedliv.js            # Livskilder og udkigstårne
-│   ├── world.js              # 3D-verden: fliser (instancing), pynt, hav, lys
-│   ├── hexgrid.js            # Hex-koordinater og A*-stifinding
+│   ├── world.js              # 3D-verden: samler terræn, natur og guldårer; lys og himmel
+│   ├── terraen.js            # Ét sammenhængende terræn-mesh (ingen synlige hexagoner) + vand
+│   ├── natur.js              # Træer, sten og steder som instanser; hvert træ/sten er en ressource
+│   ├── guldaarer.js          # Lysende guldårer og glimt ved guldminerne
+│   ├── rontgen.js            # Omrids af figurer/bygninger der står bag en bygning
+│   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, evner, grøn ork-hud
 │   ├── heltlevel.js / heltinteraktion.js    # Heltens level-op og gå-hen-og-gør-noget
@@ -65,7 +69,7 @@ the-waking-world/
 │   ├── ikoner.js             # Tegner item-ikoner ud fra 3D-modellerne
 │   ├── inventarhud.js        # Inventar, info-kort og købmandens butik på skærmen
 │   ├── tryk.js               # Hvad et tryk betyder (vælg, høst, byg, angrib, saml op, handl, gå)
-│   ├── okonomi.js            # Guld/træ/sten/forsyning og ressourcekilder (miner, skov, bjerge)
+│   ├── okonomi.js            # Guld/træ/sten/forsyning og ressourcekilder (miner + hvert træ og hver sten)
 │   ├── bygningsdata.js       # The Tides bygninger og enheder (pris, tid, funktion)
 │   ├── bygninger.js / base.js # Byggepladser → færdige bygninger; basen (placering, aflevering, træning)
 │   ├── arbejder.js           # Bæreren: høster, bærer hjem, bygger
@@ -79,6 +83,7 @@ the-waking-world/
 │   └── style.css
 ├── tools/
 │   ├── smoke-test.mjs        # Headless test i mobilstørrelse med skærmbilleder
+│   ├── visning.mjs           # Skærmbilleder fra bestemte steder på kortet (SKUD='[...]')
 │   └── byg-artefakt.mjs      # Bygger spillet som privat Claude-side
 ├── docs/GDD.md               # Samlet spildesign
 ├── agents/                   # Agent-beskrivelser (skrevet til Godot-versionen — delvist forældede)

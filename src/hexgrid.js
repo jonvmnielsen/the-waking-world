@@ -69,8 +69,13 @@ export class HexKort {
   findVej(fra, til) {
     if (this.friLinje(fra.x, fra.z, til.x, til.z)) return [{ x: til.x, z: til.z }];
     const start = this.felt(fra.x, fra.z);
-    let mål = this.felt(til.x, til.z);
     if (!start) return [];
+    // Er målet blokeret (fx et træ inde i skoven), går man til det første frie punkt på vejen derhen
+    if (!this.erGåbar(til.x, til.z)) {
+      const p = this.frieKant(til, fra);
+      if (p) { til = p; if (this.friLinje(fra.x, fra.z, til.x, til.z)) return [{ x: til.x, z: til.z }]; }
+    }
+    let mål = this.felt(til.x, til.z);
     if (!mål || !mål.gåbar) mål = this.nærmesteGåbare(til.x, til.z);
     if (!mål) return [];
 
@@ -119,6 +124,16 @@ export class HexKort {
       i = længst + 1;
     }
     return ud;
+  }
+
+  // Første gåbare punkt fra et blokeret mål mod et andet punkt
+  frieKant(til, fra) {
+    const d = Math.hypot(fra.x - til.x, fra.z - til.z);
+    for (let t = 0.6; t < Math.min(d, 30); t += 0.6) {
+      const x = til.x + ((fra.x - til.x) / d) * t, z = til.z + ((fra.z - til.z) / d) * t;
+      if (this.erGåbar(x, z)) return { x: x + ((fra.x - til.x) / d) * 0.5, z: z + ((fra.z - til.z) / d) * 0.5 };
+    }
+    return null;
   }
 
   nærmesteGåbare(x, z) {
