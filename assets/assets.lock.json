@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "bfa1c01",
-  "synced": "2026-10-10T12:30:30.044Z",
+  "synced": "2026-10-10T19:10:08.277Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -1131,6 +1131,132 @@
       "file": "kaykit-hexagon/buildings/yellow/building_windmill_yellow.glb",
       "bytes": 56772,
       "sha": "7a0df9b57db4",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_archeryrange_red": {
+      "id": "kaykit-hexagon/buildings/red/building_archeryrange_red",
+      "file": "kaykit-hexagon/buildings/red/building_archeryrange_red.glb",
+      "bytes": 67296,
+      "sha": "dfb4af6c22bf",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_barracks_red": {
+      "id": "kaykit-hexagon/buildings/red/building_barracks_red",
+      "file": "kaykit-hexagon/buildings/red/building_barracks_red.glb",
+      "bytes": 72392,
+      "sha": "728b65f053cf",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_blacksmith_red": {
+      "id": "kaykit-hexagon/buildings/red/building_blacksmith_red",
+      "file": "kaykit-hexagon/buildings/red/building_blacksmith_red.glb",
+      "bytes": 46952,
+      "sha": "1509f81248f3",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_castle_red": {
+      "id": "kaykit-hexagon/buildings/red/building_castle_red",
+      "file": "kaykit-hexagon/buildings/red/building_castle_red.glb",
+      "bytes": 94584,
+      "sha": "659f8a0faa9e",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_church_red": {
+      "id": "kaykit-hexagon/buildings/red/building_church_red",
+      "file": "kaykit-hexagon/buildings/red/building_church_red.glb",
+      "bytes": 33404,
+      "sha": "72b2fbf2abf7",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_home_a_red": {
+      "id": "kaykit-hexagon/buildings/red/building_home_a_red",
+      "file": "kaykit-hexagon/buildings/red/building_home_a_red.glb",
+      "bytes": 24628,
+      "sha": "6640ae9731e9",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_home_b_red": {
+      "id": "kaykit-hexagon/buildings/red/building_home_b_red",
+      "file": "kaykit-hexagon/buildings/red/building_home_b_red.glb",
+      "bytes": 31516,
+      "sha": "bae5e6d8ecf7",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_lumbermill_red": {
+      "id": "kaykit-hexagon/buildings/red/building_lumbermill_red",
+      "file": "kaykit-hexagon/buildings/red/building_lumbermill_red.glb",
+      "bytes": 65080,
+      "sha": "5f68a7944f74",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_market_red": {
+      "id": "kaykit-hexagon/buildings/red/building_market_red",
+      "file": "kaykit-hexagon/buildings/red/building_market_red.glb",
+      "bytes": 54592,
+      "sha": "4c187a15a751",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_mine_red": {
+      "id": "kaykit-hexagon/buildings/red/building_mine_red",
+      "file": "kaykit-hexagon/buildings/red/building_mine_red.glb",
+      "bytes": 28208,
+      "sha": "7cb7f4a7f909",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_tavern_red": {
+      "id": "kaykit-hexagon/buildings/red/building_tavern_red",
+      "file": "kaykit-hexagon/buildings/red/building_tavern_red.glb",
+      "bytes": 62580,
+      "sha": "15d50660a98b",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_tower_a_red": {
+      "id": "kaykit-hexagon/buildings/red/building_tower_a_red",
+      "file": "kaykit-hexagon/buildings/red/building_tower_a_red.glb",
+      "bytes": 41468,
+      "sha": "4987152f28f5",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_tower_b_red": {
+      "id": "kaykit-hexagon/buildings/red/building_tower_b_red",
+      "file": "kaykit-hexagon/buildings/red/building_tower_b_red.glb",
+      "bytes": 46708,
+      "sha": "9b72bbd2d195",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_tower_base_red": {
+      "id": "kaykit-hexagon/buildings/red/building_tower_base_red",
+      "file": "kaykit-hexagon/buildings/red/building_tower_base_red.glb",
+      "bytes": 30156,
+      "sha": "aaa7e23f8381",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_tower_catapult_red": {
+      "id": "kaykit-hexagon/buildings/red/building_tower_catapult_red",
+      "file": "kaykit-hexagon/buildings/red/building_tower_catapult_red.glb",
+      "bytes": 53552,
+      "sha": "46e76d0ef24c",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_watermill_red": {
+      "id": "kaykit-hexagon/buildings/red/building_watermill_red",
+      "file": "kaykit-hexagon/buildings/red/building_watermill_red.glb",
+      "bytes": 41396,
+      "sha": "2c5036dbc0bc",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_well_red": {
+      "id": "kaykit-hexagon/buildings/red/building_well_red",
+      "file": "kaykit-hexagon/buildings/red/building_well_red.glb",
+      "bytes": 20552,
+      "sha": "f772f7b81aba",
+      "license": "CC0-1.0"
+    },
+    "kaykit-hexagon/buildings/red/building_windmill_red": {
+      "id": "kaykit-hexagon/buildings/red/building_windmill_red",
+      "file": "kaykit-hexagon/buildings/red/building_windmill_red.glb",
+      "bytes": 56752,
+      "sha": "0f7c8a64f439",
       "license": "CC0-1.0"
     },
     "kaykit-halloween/grave_a": {
