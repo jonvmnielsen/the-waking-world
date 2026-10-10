@@ -1,0 +1,91 @@
+{
+ "slag": [
+  "slag_1.mp3",
+  "slag_2.mp3",
+  "slag_3.mp3",
+  "slag_4.mp3",
+  "slag_5.mp3"
+ ],
+ "slag_fjende": [
+  "slag_fjende_1.mp3",
+  "slag_fjende_2.mp3",
+  "slag_fjende_3.mp3",
+  "slag_fjende_4.mp3",
+  "slag_fjende_5.mp3"
+ ],
+ "slag_bygning": [
+  "slag_bygning_1.mp3",
+  "slag_bygning_2.mp3",
+  "slag_bygning_3.mp3",
+  "slag_bygning_4.mp3",
+  "slag_bygning_5.mp3"
+ ],
+ "blok": [
+  "blok_1.mp3",
+  "blok_2.mp3",
+  "blok_3.mp3",
+  "blok_4.mp3",
+  "blok_5.mp3"
+ ],
+ "død": [
+  "doed_1.mp3",
+  "doed_2.mp3",
+  "doed_3.mp3",
+  "doed_4.mp3",
+  "doed_5.mp3"
+ ],
+ "hug_træ": [
+  "hug_trae_1.mp3",
+  "hug_trae_2.mp3",
+  "hug_trae_3.mp3",
+  "hug_trae_4.mp3",
+  "hug_trae_5.mp3",
+  "hug_trae_6.mp3"
+ ],
+ "hug_sten": [
+  "hug_sten_1.mp3",
+  "hug_sten_2.mp3",
+  "hug_sten_3.mp3",
+  "hug_sten_4.mp3",
+  "hug_sten_5.mp3"
+ ],
+ "træ_falder": [
+  "trae_falder_1.mp3"
+ ],
+ "bygning_falder": [
+  "bygning_falder_1.mp3"
+ ],
+ "mønt": [
+  "moent_1.mp3",
+  "moent_2.mp3"
+ ],
+ "dør": [
+  "doer_1.mp3",
+  "doer_2.mp3"
+ ],
+ "klik": [
+  "klik_1.mp3",
+  "klik_2.mp3",
+  "klik_3.mp3",
+  "klik_4.mp3",
+  "klik_5.mp3"
+ ],
+ "hane": [
+  "hane_1.mp3"
+ ],
+ "uhyggelig": [
+  "uhyggelig_1.mp3"
+ ],
+ "metal": [
+  "metal_1.mp3"
+ ],
+ "skov_dag": [
+  "skov_dag_1.mp3"
+ ],
+ "skov_nat": [
+  "skov_nat_1.mp3"
+ ],
+ "vind": [
+  "vind_1.mp3"
+ ]
+}
