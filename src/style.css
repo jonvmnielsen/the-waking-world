@@ -63,7 +63,7 @@ body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: non
 #menu p { margin: 2px 2px 0; font-size: 12px; line-height: 1.4; color: var(--dæmpet); }
 
 #minimap { left: var(--kant); bottom: var(--bund); width: min(34vw, 150px); height: auto; border-radius: 10px; border: 2px solid rgba(201, 163, 90, 0.7); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); background: #0b0906; touch-action: none; }
-#centrer { left: calc(var(--kant) + min(34vw, 150px) + 10px); bottom: var(--bund); width: 52px; height: 52px; border-radius: 50%; background: var(--træ); border: 2px solid var(--messing); font-size: 24px; color: var(--messing-lys); transition: opacity 0.2s, transform 0.2s; }
+#centrer { left: var(--kant); bottom: calc(var(--bund) + min(34vw, 150px) + 12px); width: 52px; height: 52px; border-radius: 50%; background: var(--træ); border: 2px solid var(--messing); font-size: 24px; color: var(--messing-lys); transition: opacity 0.2s, transform 0.2s; }
 #centrer.skjult { opacity: 0; transform: scale(0.7); pointer-events: none; }
 
 #evner { right: var(--kant); bottom: var(--bund); display: flex; gap: 10px; align-items: flex-end; }
