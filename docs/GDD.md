@@ -341,7 +341,8 @@ Erfaringen fra dit tidligere RTS-forsøg er, at tryk-gestus skal holdes helt ads
 | **Hold og træk** | Markér et område (vælg flere) |
 | **To fingre træk** | Flyt kameraet |
 | **Knib** | Zoom |
-| **Heltens portræt** (venstre hjørne) | Vælg helten. Dobbelttryk = kameraet hopper til helten |
+| **Helteknappen** (øverst til venstre) | Vælg helten og åbn/luk heltens overblik |
+| **✕ Deselect** (nederst til venstre) | Intet valgt — tryk på jorden flytter ingen |
 | **Hærknap** | Vælg alle kamp-units |
 | **Gruppeknapper 1–3** | Gem og vælg grupper |
 | **Kommandopanel** (nederst til højre) | Evner, byg, træn, opgrader for det valgte |
@@ -355,6 +356,17 @@ En grøn markering viser, hvor units skal gå hen. Rød markerer et angrebsmål,
 **Hæren (M4):** Tryk på en soldat = vælg den. Dobbelttryk = alle af samme slags på skærmen. Hold fingeren stille et øjeblik og træk = vælg alle i firkanten. Hær-knappen vælger alle soldater. Med en gruppe valgt: tryk på en fjende = angrib sammen, tryk på jorden = gå i formation (nærkamp forrest, spydkastere bagerst). Med Krigerlejren valgt sætter et tryk på jorden samlingsstedet for nye soldater.
 
 **Omrids:** Figurer der går bag en bygning, og egne bygninger der står bag en anden bygning, vises med et lysende omrids (grønt for egne, rødt for fjender).
+
+**Skærmen (Jons feedback, oktober 2026):**
+- **Øverst:** ressourcerne (guld, træ, sten, forsyning), uret og menuknappen står altid øverst, også når menuen er åben.
+- **Helten:** en lille rund helteknap med level og en livsring. Den åbner heltens overblik (liv, mana, erfaring, egenskaber, afledte værdier, Ascension, spillestil). Liv, mana, erfaring og level står altid lige over helten i verden.
+- **Kun når helten er valgt** vises evnerne og rygsækken. Rygsækken åbnes med en *Backpack*-knap.
+- **Indstillinger** (i menuen): *View distance* (100–200 %, standard 130 %; tåge og skygger følger med), lyd, *Always show abilities* og *Always show backpack*. Er evnerne slået fra, åbner én *Hero*-knap i højre side både evner og rygsæk. Indstillingerne gemmes i browseren.
+- **Menuen** lægger sig over resten af skærmen (som er dæmpet og sløret) og rummer gem, hovedmenu, indstillinger og "How to play".
+- **Kortet:** ⤢ åbner minimappet i fuld skærm; tryk et sted for at kigge der, eller luk.
+- **Angreb:** skærmens kant blinker rødt, og en rød plet blinker på kortet, når noget af dit bliver angrebet uden for skærmen, når en bygning angribes, eller når helten er under 30 % liv.
+
+**Arbejdere og bygninger:** Arbejdere går til et frit felt tæt op ad bygningen (eller minen) og vælger en anden side, hvis vejen er spærret. Figurer der mødes, glider ud til hver deres højre side, og en der står stille, skubbes til side. Ruter holder lidt afstand til blokerede felter, så de ikke skærer hjørner gennem bygninger.
 
 **Gem spil:** Spillet gemmes automatisk hvert minut og når appen lægges væk, og kan gemmes fra menuen. Ved start vises "Fortsæt spillet", hvis der er et gemt spil. Gemmet ligger i telefonens browser (ét gemt spil ad gangen).
 

@@ -54,15 +54,33 @@ export class HexKort {
     return RETNINGER.map(([dq, dr]) => this.hent(f.q + dq, f.r + dr)).filter(Boolean);
   }
 
-  // Fri sigtelinje mellem to punkter (kun gåbare felter)
+  // Fri sigtelinje mellem to punkter (kun gåbare felter). Undervejs holdes lidt afstand til blokerede felter
+  // til begge sider, så figurer ikke skærer hjørner gennem bygninger og skov.
   friLinje(ax, az, bx, bz) {
     const dist = Math.hypot(bx - ax, bz - az);
     const trin = Math.max(1, Math.ceil(dist / 0.8));
+    const px = -(bz - az) / (dist || 1), pz = (bx - ax) / (dist || 1);
     for (let i = 1; i <= trin; i++) {
-      const t = i / trin;
-      if (!this.erGåbar(ax + (bx - ax) * t, az + (bz - az) * t)) return false;
+      const t = i / trin, x = ax + (bx - ax) * t, z = az + (bz - az) * t;
+      if (!this.erGåbar(x, z)) return false;
+      if (t * dist > 1.5 && (1 - t) * dist > 1.5 && (!this.erGåbar(x + px * 1.2, z + pz * 1.2) || !this.erGåbar(x - px * 1.2, z - pz * 1.2))) return false;
     }
     return true;
+  }
+
+  // Frie pladser lige uden for nogle blokerede felter (fx en bygning), nærmeste først set fra 'fra'.
+  // Hvert punkt ligger tæt op ad bygningen, i et gåbart nabofelt.
+  kantPunkter(felter, fra) {
+    const ud = [];
+    for (const f of felter) {
+      const c = hexTilVerden(f.q, f.r);
+      for (const n of this.naboer(f)) {
+        if (!n.gåbar || felter.includes(n)) continue;
+        const p = hexTilVerden(n.q, n.r);
+        ud.push({ x: p.x + (c.x - p.x) * 0.25, z: p.z + (c.z - p.z) * 0.25 });
+      }
+    }
+    return ud.sort((a, b) => Math.hypot(a.x - fra.x, a.z - fra.z) - Math.hypot(b.x - fra.x, b.z - fra.z));
   }
 
   // A* fra punkt til punkt. Returnerer liste af waypoints {x,z} (glattet).

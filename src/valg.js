@@ -34,12 +34,20 @@ export class Valg {
     if (Array.isArray(ting)) {
       ting = ting.filter((u) => !u.død);
       if (ting.length === 1 && ting[0] === this.spil.helt) ting = null;
-      else if (!ting.length) ting = null;
+      else if (!ting.length) return this.fravælg();
     }
     this.valgt = ting ?? this.spil.helt;
     bus.emit('valg', this.valgt);
   }
 
+  // Intet valgt: et tryk på jorden flytter ingen, så man kan se sig omkring i fred
+  fravælg() {
+    this.annullérPlacering();
+    this.valgt = null;
+    bus.emit('valg', null);
+  }
+
+  get ingen() { return this.valgt === null; }
   get erHelt() { return this.valgt === this.spil.helt; }
   get erGruppe() { return Array.isArray(this.valgt); }
   get gruppe() { return this.erGruppe ? this.valgt : []; }
@@ -100,10 +108,10 @@ export class Valg {
     const v = this.valgt;
     if (this.erGruppe) {
       this.ring.visible = false;
-      if (v.some((u) => u.død)) this.vælg(v);
+      if (v.some((u) => u.død)) this.vælg(v.filter((u) => !u.død));
       return;
     }
-    if (v?.død) { this.vælg(null); return; }
+    if (v?.død && v !== this.spil.helt) { this.fravælg(); return; }
     this.ring.visible = !!v && !this.erHelt && (v.rod?.visible ?? true);
     if (!this.ring.visible) return;
     const str = this.erBygning ? v.radius * 2.2 : 2.6;

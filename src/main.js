@@ -73,7 +73,7 @@ async function start() {
     vinkel += 0.0012;
     rig.fokus.set(heltSpawn.x + 28 + Math.sin(vinkel) * 32, 0, heltSpawn.z - 28 + Math.cos(vinkel) * 20);
     rig.opdater(0.016, null);
-    lys.følg(rig.fokus.x, rig.fokus.z);
+    lys.følg(rig.fokus.x, rig.fokus.z, rig.synsAfstand);
     renderer.render(scene, rig.kamera);
   });
 
@@ -136,7 +136,7 @@ async function start() {
   spil.veteraner = new Veteraner(spil, stil);
   const kmdHud = new KommandoHud(spil);
   const helteKort = new HelteKort(spil);
-  const fremskridt = lavFremskridtsHud(spil);
+  const fremskridt = lavFremskridtsHud(spil, overlay);
   rig.onBoks = lavBoksValg(spil, (x, y, z) => overlay.skærm(x, y, z));
   spil.memory = new Memory(spil, fjende, sværhed);
   const sejr = new Sejr(spil);
@@ -174,7 +174,7 @@ async function start() {
   renderer.setAnimationLoop(() => {
     const dt = Math.min(ur.getDelta(), 0.05);
     trin(dt);
-    lys.følg(rig.fokus.x, rig.fokus.z);
+    lys.følg(rig.fokus.x, rig.fokus.z, rig.synsAfstand);
     renderer.render(scene, rig.kamera);
     røntgen.tegn();
     overlay.opdater();

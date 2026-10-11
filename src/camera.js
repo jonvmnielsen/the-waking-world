@@ -2,12 +2,13 @@
 // tryk = kommando, træk med én finger = panorer, knib = zoom. Mus: klik, træk, scroll.
 // Hold fingeren stille et øjeblik og træk derefter = vælg-firkant (onBoks).
 import * as THREE from 'three';
+import { indstillinger } from './indstillinger.js';
 
 const HÆLDNING = THREE.MathUtils.degToRad(52);
 
 export class KameraRig {
   constructor(lærred, onTryk) {
-    this.kamera = new THREE.PerspectiveCamera(38, 1, 0.5, 300);
+    this.kamera = new THREE.PerspectiveCamera(38, 1, 0.5, 420);
     this.fokus = new THREE.Vector3();
     this.afstand = 28;
     this.følger = true;
@@ -46,7 +47,7 @@ export class KameraRig {
       for (const q of this.pegere.values()) q.trukket = true;
     } else if (p.trukket) {
       // Panorer: træk flytter kortet med fingeren
-      const k = this.afstand / this.lærred.clientHeight * 1.15;
+      const k = this.synsAfstand / this.lærred.clientHeight * 0.92;
       this.fokus.x -= dx * k;
       this.fokus.z -= dy * k / Math.sin(HÆLDNING);
       this.følger = false;
@@ -77,6 +78,9 @@ export class KameraRig {
 
   centrér() { this.følger = true; }
 
+  // Den faktiske afstand: knib-zoom × portræt × udsynet fra indstillingerne
+  get synsAfstand() { return this.afstand * (this.portrætFaktor ?? 1) * indstillinger.zoom; }
+
   størrelse(b, h) {
     this.kamera.aspect = b / h;
     // Smal skærm (portræt) får lidt mere afstand så man ser nok af kortet
@@ -90,7 +94,7 @@ export class KameraRig {
       this.fokus.x += (mål.x - this.fokus.x) * k;
       this.fokus.z += (mål.z - this.fokus.z) * k;
     }
-    const a = this.afstand * (this.portrætFaktor ?? 1);
+    const a = this.synsAfstand;
     this.kamera.position.set(this.fokus.x, Math.sin(HÆLDNING) * a, this.fokus.z + Math.cos(HÆLDNING) * a);
     this.kamera.lookAt(this.fokus.x, 0.8, this.fokus.z);
   }

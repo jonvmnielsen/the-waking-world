@@ -43,7 +43,11 @@ export function lavLys(scene, renderer) {
   const forskydning = new THREE.Vector3(-30, 60, 26);
   return {
     scene, sol, hemi, renderer,
-    følg(x, z) {
+    // a = kameraets afstand: tåge og skygger følger med, når man ser længere ud
+    følg(x, z, a = 50) {
+      const r = Math.max(46, a * 0.72);
+      if (Math.abs(c.right - r) > 1) { c.left = -r; c.right = r; c.top = r; c.bottom = -r; c.updateProjectionMatrix(); }
+      if (scene.fog) { scene.fog.near = Math.max(85, a * 1.2); scene.fog.far = Math.max(190, a * 2.4); }
       sol.target.position.set(x, 0, z);
       sol.position.set(x + forskydning.x, forskydning.y, z + forskydning.z);
     },

@@ -112,7 +112,8 @@ export class Unit {
   }
 }
 
-// Skub enheder fra hinanden så de ikke står inde i hinanden
+// Skub enheder fra hinanden så de ikke står inde i hinanden. Står den ene stille, skubbes den mest til side;
+// figurer der går, glider ud til deres højre side, så to der mødes, kan passere hinanden.
 export function adskil(enheder, kort) {
   for (let i = 0; i < enheder.length; i++) {
     const a = enheder[i]; if (a.død) continue;
@@ -121,11 +122,21 @@ export function adskil(enheder, kort) {
       const dx = b.x - a.x, dz = b.z - a.z;
       const d = Math.hypot(dx, dz), min = a.radius + b.radius;
       if (d >= min || d < 1e-4) continue;
-      const skub = (min - d) / 2, nx = dx / d, nz = dz / d;
-      flyt(a, -nx * skub, -nz * skub, kort);
-      flyt(b, nx * skub, nz * skub, kort);
+      const skub = min - d, nx = dx / d, nz = dz / d;
+      const am = a.bevæger, bm = b.bevæger;
+      const wa = am === bm ? 0.5 : am ? 0.2 : 0.8;
+      flyt(a, -nx * skub * wa, -nz * skub * wa, kort);
+      flyt(b, nx * skub * (1 - wa), nz * skub * (1 - wa), kort);
+      if (am) vigTilSiden(a, skub, kort);
+      if (bm) vigTilSiden(b, skub, kort);
     }
   }
+}
+
+function vigTilSiden(u, skub, kort) {
+  const m = u.vej[0], dx = m.x - u.x, dz = m.z - u.z, d = Math.hypot(dx, dz);
+  if (d < 1e-3) return;
+  flyt(u, (-dz / d) * skub * 0.6, (dx / d) * skub * 0.6, kort);
 }
 
 function flyt(u, dx, dz, kort) {

@@ -26,8 +26,6 @@ export class KommandoHud {
     $('ledige').addEventListener('click', () => this.næsteLedige());
     $('hær-ikon').src = ikon('hær');
     $('hær').addEventListener('click', () => this.valg.vælg(spil.base.hær));
-    $('kmd-helt').addEventListener('click', () => { this.valg.vælg(null); });
-    $('heltepanel').addEventListener('click', () => { this.valg.vælg(null); spil.rig.centrér(); });
     $('plac-byg').addEventListener('click', () => { const f = this.valg.bekræftPlacering(); if (f) bus.emit('besked', f); });
     $('plac-annuller').addEventListener('click', () => this.valg.annullérPlacering());
     bus.on('valg', () => this.byg());
@@ -49,10 +47,9 @@ export class KommandoHud {
 
   // Byg panelet op for det valgte
   byg() {
-    const v = this.valg.valgt, helt = this.valg.erHelt;
-    document.body.classList.toggle('valgt-andet', !helt);
-    $('kommando').hidden = helt;
-    if (helt) return;
+    const v = this.valg.valgt, intet = this.valg.erHelt || this.valg.ingen;
+    $('kommando').hidden = intet;
+    if (intet) return;
     const knapper = $('kmd-knapper');
     knapper.innerHTML = '';
     if (this.valg.erArbejder) {

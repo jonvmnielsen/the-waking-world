@@ -1,5 +1,5 @@
-// Heltens egenskaber i heltepanelet (STR/AGI/INT) og heltekortet med forklaring,
-// afledte værdier og en blød antydning af spillestilen (uden tal).
+// Helteknappen (øverst til venstre) og heltens overblik: liv, mana og erfaring, egenskaber (STR/AGI/INT)
+// med forklaring, afledte værdier, Ascension og en blød antydning af spillestilen (uden tal).
 import { EGENSKABER } from './heltstats.js';
 import { ESSENSER } from './abilities.js';
 import { ASCENSION_LEVEL } from './ascensiondata.js';
@@ -21,7 +21,13 @@ export class HelteKort {
   constructor(spil) {
     this.spil = spil;
     this.tid = 0;
-    $('egenskaber').addEventListener('click', (e) => { e.stopPropagation(); this.skift(); });
+    // Helteknappen vælger helten og åbner/lukker overblikket
+    $('helteknap').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const åben = $('heltekort').classList.contains('vis');
+      if (!åben) { spil.valg.vælg(null); spil.rig.centrér(); }
+      this.skift(!åben);
+    });
     $('hk-luk').addEventListener('click', () => this.skift(false));
     const e = ESSENSER[spil.helt.evner.essens];
     $('hk-essens').textContent = `Essence of ${e.navn} — ${e.motto}`;
@@ -29,6 +35,7 @@ export class HelteKort {
 
   skift(vis = !$('heltekort').classList.contains('vis')) {
     $('heltekort').classList.toggle('vis', vis);
+    $('helteknap').classList.toggle('åben', vis);
     if (vis) this.tegnKort();
   }
 
@@ -36,12 +43,6 @@ export class HelteKort {
     this.tid += dt;
     if (this.tid < 0.25) return;
     this.tid = 0;
-    const h = this.spil.helt;
-    for (const n of ['str', 'agi', 'int']) {
-      const el = $(`eg-${n}`);
-      el.textContent = h.egenskab(n);
-      el.classList.toggle('bonus', h.egenskabBonus(n) > 0);
-    }
     if ($('heltekort').classList.contains('vis')) this.tegnKort();
   }
 

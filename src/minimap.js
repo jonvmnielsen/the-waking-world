@@ -1,5 +1,5 @@
-// Minimap (GDD 4.5): terræn, tåge, lejre i sværhedsgradens farve, helten og kameraets udsnit.
-// Tryk på minimappet flytter kameraet.
+// Minimap (GDD 4.5): terræn, tåge, lejre i sværhedsgradens farve, helten, kameraets udsnit og røde
+// blinkende pletter hvor man bliver angrebet (advarsel.js). Tryk flytter kameraet; ⤢ åbner kortet i fuld skærm.
 import { hexTilVerden, HEX_BREDDE } from './hexgrid.js';
 import { NIVEAUER } from './creepdata.js';
 import { REGIONER } from './kortgen.js';
@@ -10,20 +10,27 @@ export class Minimap {
     this.spil = spil;
     const g = spil.grænser;
     this.g = g;
-    this.skala = 160 / (g.maxX - g.minX);
+    this.skala = 400 / (g.maxX - g.minX);   // tegnes skarpt i høj opløsning og skaleres ned på skærmen
+    this.k = 2.5;                           // prikkernes størrelse følger opløsningen
     lærred.width = Math.round((g.maxX - g.minX) * this.skala);
     lærred.height = Math.round((g.maxZ - g.minZ) * this.skala);
     this.terræn = this.tegnTerræn(spil.verden.kort);
     this.tåge = document.createElement('canvas');
     this.tid = 0;
-    lærred.addEventListener('pointerdown', (e) => {
-      e.stopPropagation();
-      const r = lærred.getBoundingClientRect();
-      const x = g.minX + ((e.clientX - r.left) / r.width) * (g.maxX - g.minX);
-      const z = g.minZ + ((e.clientY - r.top) / r.height) * (g.maxZ - g.minZ);
+    const kig = (c, e) => {
+      const r = c.getBoundingClientRect();
       spil.rig.følger = false;
-      spil.rig.fokus.set(x, 0, z);
-    });
+      spil.rig.fokus.set(g.minX + ((e.clientX - r.left) / r.width) * (g.maxX - g.minX), 0, g.minZ + ((e.clientY - r.top) / r.height) * (g.maxZ - g.minZ));
+    };
+    lærred.addEventListener('pointerdown', (e) => { e.stopPropagation(); kig(lærred, e); });
+    // Fuld skærm: tryk et sted for at kigge der (og lukke kortet), eller luk med knappen
+    this.stor = document.getElementById('kort-stort');
+    this.stor.width = lærred.width; this.stor.height = lærred.height;
+    const fuld = document.getElementById('kort-fuld');
+    document.getElementById('kort-stor').addEventListener('click', (e) => { e.stopPropagation(); fuld.classList.add('vis'); this.tid = 1; });
+    document.getElementById('kort-luk').addEventListener('click', () => fuld.classList.remove('vis'));
+    this.stor.addEventListener('pointerdown', (e) => { e.stopPropagation(); kig(this.stor, e); fuld.classList.remove('vis'); });
+    this.fuld = fuld;
   }
 
   px(x, z) { return [(x - this.g.minX) * this.skala, (z - this.g.minZ) * this.skala]; }
@@ -33,7 +40,7 @@ export class Minimap {
     c.width = this.c.width; c.height = this.c.height;
     const ctx = c.getContext('2d');
     ctx.fillStyle = '#2f6f99'; ctx.fillRect(0, 0, c.width, c.height);
-    const r = (HEX_BREDDE / 2) * this.skala * 1.18;
+    const r = (HEX_BREDDE / 2) * this.skala * 1.18;   // hex-prikker
     for (const f of kort.felter.values()) {
       const p = hexTilVerden(f.q, f.r);
       const [x, y] = this.px(p.x, p.z);
@@ -71,11 +78,12 @@ export class Minimap {
       if (!l.creeps.some((cr) => !cr.død) || !t.erUdforsket(l.x, l.z)) continue;
       const [x, y] = this.px(l.x, l.z);
       ctx.fillStyle = NIVEAUER[l.data.niveau].farve;
-      ctx.beginPath(); ctx.arc(x, y, l.data.niveau === 5 ? 4 : 2.6, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y, (l.data.niveau === 5 ? 4 : 2.6) * this.k, 0, Math.PI * 2); ctx.fill();
     }
     // Bygninger og figurer: egne i grønt, The Memory i rødt (bygninger når de er set, figurer når de ses)
     const prik = (x, z, farve, r, firkant) => {
       const [px, py] = this.px(x, z);
+      r *= this.k;
       ctx.fillStyle = farve;
       if (firkant) ctx.fillRect(px - r, py - r, r * 2, r * 2);
       else { ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.fill(); }
@@ -89,10 +97,20 @@ export class Minimap {
     const h = spil.helt;
     const [hx, hy] = this.px(h.x, h.z);
     ctx.fillStyle = '#7dff6a'; ctx.strokeStyle = '#000';
-    ctx.beginPath(); ctx.arc(hx, hy, 3.2, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    const f = spil.rig.fokus, a = spil.rig.afstand;
+    ctx.lineWidth = this.k;
+    ctx.beginPath(); ctx.arc(hx, hy, 3.2 * this.k, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    const f = spil.rig.fokus, a = spil.rig.synsAfstand / 1.25;
     const [fx, fy] = this.px(f.x - a * 0.55, f.z - a * 0.7);
     ctx.strokeStyle = 'rgba(255,255,255,0.8)';
     ctx.strokeRect(fx, fy, a * 1.1 * this.skala, a * 1.0 * this.skala);
+    // Angreb: røde blinkende pletter
+    for (const p of spil.advarsel?.aktive() ?? []) {
+      const [px, py] = this.px(p.x, p.z);
+      ctx.globalAlpha = p.styrke;
+      ctx.strokeStyle = '#ff2a1a'; ctx.fillStyle = 'rgba(255,40,20,0.45)'; ctx.lineWidth = 2 * this.k;
+      ctx.beginPath(); ctx.arc(px, py, 7 * this.k, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    if (this.fuld.classList.contains('vis')) this.stor.getContext('2d').drawImage(this.c, 0, 0);
   }
 }

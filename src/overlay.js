@@ -53,8 +53,10 @@ export class Overlay {
       if (!vis) { if (el) { el.remove(); this.bjælker.delete(u); } continue; }
       if (!el) {
         el = document.createElement('div');
-        el.className = `bjælke ${u === this.verden.helt ? 'helt' : u.side === 'egen' ? 'egen' : 'fjende'}`;
-        el.innerHTML = '<i></i>';
+        const helt = u === this.verden.helt;
+        el.className = `bjælke ${helt ? 'helt' : u.side === 'egen' ? 'egen' : 'fjende'}`;
+        // Helten har også mana, erfaring og level over hovedet
+        el.innerHTML = helt ? '<i></i><em class="mana"><u></u></em><em class="xp"><u></u></em><span class="lv"></span>' : '<i></i>';
         this.rod.appendChild(el);
         this.bjælker.set(u, el);
       }
@@ -62,6 +64,11 @@ export class Overlay {
       el.style.transform = `translate(${s.x}px, ${s.y}px) translate(-50%, -50%)`;
       el.style.display = s.synlig ? '' : 'none';
       el.firstChild.style.width = `${(u.hp / u.maxHp) * 100}%`;
+      if (u === this.verden.helt) {
+        el.children[1].firstChild.style.width = `${(u.mana / u.manaMax) * 100}%`;
+        el.children[2].firstChild.style.width = `${u.xpProcent() * 100}%`;
+        if (el.lastChild.textContent !== String(u.level)) el.lastChild.textContent = u.level;
+      }
       // Veteraner får en stjerne i grenens farve
       if (u.vet && el.dataset.vet !== `${u.vet.veteran}${u.vet.gren?.id}`) {
         el.dataset.vet = `${u.vet.veteran}${u.vet.gren?.id}`;

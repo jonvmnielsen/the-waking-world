@@ -50,7 +50,7 @@ export class Arbejder extends Unit {
     if (k) this.kommandoHøst(k); else { this.tilstand = 'ledig'; bus.emit('besked', `There is no more ${RES_NAVN[type]} nearby`); }
   }
 
-  kommandoByg(b) { this.nulstil(); this.bygning = b; this.tilstand = 'tilByg'; this.gåTilKant(b.x, b.z, b.radius + 1); }
+  kommandoByg(b) { this.nulstil(); this.bygning = b; this.tilstand = 'tilByg'; this.gåTilBygning(b); }
 
   nulstil() { this.kilde = null; this.bygning = null; this.rod.visible = true; this.stop(); }
 
@@ -66,9 +66,25 @@ export class Arbejder extends Unit {
     if (!this.gåTil(x + (dx / d) * r, z + (dz / d) * r)) this.gåTil(x, z);
   }
 
+  // Gå til en fri plads tæt op ad bygningen (eller minen), og vælg en anden side hvis vejen er spærret
+  gåTilBygning(b, felter = b.felter) {
+    for (const p of this.verden.kort.kantPunkter(felter, this).slice(0, 5)) {
+      if (this.gåTil(p.x, p.z)) { this.målPunkt = p; return true; }
+    }
+    this.målPunkt = null;
+    return this.gåTil(b.x, b.z);
+  }
+
+  // Fremme ved bygningen: tæt på, eller stået stille på den plads vi gik efter
+  vedBygning(b) {
+    return Math.hypot(b.x - this.x, b.z - this.z) <= b.radius + 2 || (!this.bevæger && !!this.målPunkt && Math.hypot(this.målPunkt.x - this.x, this.målPunkt.z - this.z) < 2.5);
+  }
+
   gåTilKilde() {
     this.tilstand = 'tilKilde';
-    this.gåTilKant(this.kilde.x, this.kilde.z, this.kilde.r + 1.2);
+    const k = this.kilde, felt = k.type === 'guld' && this.verden.kort.hent(k.kilde.q, k.kilde.r);
+    if (felt) this.gåTilBygning(k, [felt]);
+    else this.gåTilKant(k.x, k.z, k.r + 1.2);
   }
 
   gåHjem() {
@@ -76,7 +92,9 @@ export class Arbejder extends Unit {
     if (!b) { this.tilstand = 'ledig'; bus.emit('besked', 'No building can take it'); return; }
     this.hjem = b;
     this.tilstand = 'tilAflevering';
-    this.gåTilKant(b.x, b.z, b.radius + 1);
+    // Kan bygningen slet ikke nås, giver arbejderen op i stedet for at prøve igen og igen
+    this.forsøg = (this.forsøg ?? 0) + 1;
+    if (!this.gåTilBygning(b) && this.forsøg > 3) { this.forsøg = 0; this.tilstand = 'ledig'; bus.emit('besked', `A worker cannot reach the ${b.data.navn}`); }
   }
 
   fremme(x, z, nær, langt) {
@@ -109,14 +127,15 @@ export class Arbejder extends Unit {
         break;
       case 'tilAflevering':
         this.opdaterBevægelse(dt);
-        if (this.fremme(this.hjem.x, this.hjem.z, this.hjem.radius + 2, this.hjem.radius + 8)) this.aflever();
+        if (this.vedBygning(this.hjem)) { this.forsøg = 0; this.aflever(); }
         else if (!this.bevæger) this.gåHjem();
         break;
       case 'tilByg': {
         const b = this.bygning;
         this.opdaterBevægelse(dt);
         if (b.død || (b.færdig && !b.skadet)) { this.tilstand = 'ledig'; break; }
-        if (this.fremme(b.x, b.z, b.radius + 2.5, b.radius + 8)) { this.stop(); this.tilstand = 'bygger'; this.vend(b.x, b.z); this.spil('1H_Melee_Attack_Chop', { fart: 0.9 }); }
+        if (!this.bevæger && !this.vedBygning(b)) this.gåTilBygning(b);
+        if (this.vedBygning(b)) { this.stop(); this.tilstand = 'bygger'; this.vend(b.x, b.z); this.spil('1H_Melee_Attack_Chop', { fart: 0.9 }); }
         break;
       }
       case 'bygger':

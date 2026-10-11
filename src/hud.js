@@ -1,4 +1,4 @@
-// Skærmens faste brugerflade: heltepanel, evneknapper, kamera-knap, menu og essensvalg.
+// Skærmens faste brugerflade: helteknap og heltens bjælker, evneknapper, kamera-knap og essensvalg.
 import { bus } from './events.js';
 import { gemSpil } from './gem.js';
 
@@ -10,13 +10,9 @@ export class Hud {
     this.knapper = [0, 1, 2, 3, 4].map((i) => $(`evne${i}`));
     this.knapper.forEach((k, i) => k.addEventListener('pointerdown', (e) => { e.preventDefault(); spil.brugEvne(i); }));
     $('centrer').addEventListener('click', () => spil.rig.centrér());
-    $('menuknap').addEventListener('click', () => $('menu').classList.toggle('åben'));
     $('test-level').addEventListener('click', () => { spil.helt.fåXp(Math.max(1, spil.nødvendigXp())); });
     $('genstart').addEventListener('click', () => location.reload());
-    const lydTekst = () => { $('lyd-knap').textContent = `Sound: ${spil.lyd?.til ? 'On' : 'Off'}`; };
-    $('lyd-knap').addEventListener('click', () => { spil.lyd?.skift(); lydTekst(); });
-    lydTekst();
-    $('gem').addEventListener('click', () => { bus.emit('besked', gemSpil(spil) ? 'Game saved' : 'The game could not be saved'); $('menu').classList.remove('åben'); });
+    $('gem').addEventListener('click', () => { bus.emit('besked', gemSpil(spil) ? 'Game saved' : 'The game could not be saved'); bus.emit('luk_menu'); });
     window.addEventListener('keydown', (e) => {
       const i = ['q', 'w', 'e', 'r', 't'].indexOf(e.key.toLowerCase());
       if (i >= 0) spil.brugEvne(i);
@@ -43,6 +39,10 @@ export class Hud {
     $('mana').style.width = `${(h.mana / h.manaMax) * 100}%`;
     $('mana-tal').textContent = `${Math.floor(h.mana)} / ${h.manaMax}`;
     $('xp').style.width = `${h.xpProcent() * 100}%`;
+    $('xp-tal').textContent = h.level >= 20 ? 'Max level' : `Level ${h.level} · ${Math.round(h.xpProcent() * 100)}% to ${h.level + 1}`;
+    const kn = $('helteknap');
+    kn.style.setProperty('--liv', `${(h.hp / h.maxHp) * 360}deg`);
+    kn.classList.toggle('død', h.død);
     $('centrer').classList.toggle('skjult', this.spil.rig.følger);
     if (h.død) $('genopliv-tid').textContent = Math.ceil(h.genopliv);
 

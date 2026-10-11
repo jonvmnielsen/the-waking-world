@@ -139,8 +139,9 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
         bus.emit('besked', 'New soldiers will gather here');
         return effekter.markør(p.x, p.z);
       }
-      return valg.vælg(null);
+      return valg.fravælg();
     }
+    if (valg.ingen) return;   // intet valgt: tryk på jorden gør ingenting
     heltTryk(px, py);
   };
 }

@@ -75,7 +75,9 @@ the-waking-world/
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud
 │   ├── ascension.js / ascensiondata.js / ascensionhud.js # Ascension ved level 10: stier, passiver, evner, valget
 │   ├── udvikling.js / udviklingdata.js / udviklinghud.js # Forskning, bygningsopgraderinger, upkeep-visning
-│   ├── fremskridt.js         # Sætter M7-systemerne op
+│   ├── fremskridt.js         # Sætter M7-systemerne, skærmen og advarslerne op
+│   ├── skaerm.js / indstillinger.js # Skærmens opbygning efter valg; menu og indstillinger (zoom, altid-vis)
+│   ├── advarsel.js           # Rød kant og rød plet på kortet ved angreb
 │   ├── heltstats.js / heltekort.js # Heltens egenskaber (STR/AGI/INT), ofringer; heltekortet på skærmen
 │   ├── essensvalg.js         # Essensvalget ved start med forklaring og vink
 │   ├── heltlevel.js / heltinteraktion.js    # Heltens level-op og gå-hen-og-gør-noget
@@ -331,6 +333,13 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Opgraderinger: Great Hall → Stronghold → Fortress (låser forskningslevels op), Watch Tower → Guard Tower
 - [x] Alt gemmes med
 
+### ✅ Jons feedback: skærm og kollision (oktober 2026)
+- [x] Arbejdere går uden om bygninger (frit felt ved bygningen, vig til siden, afstand til hjørner)
+- [x] Ressourcer altid øverst; lille helteknap med overblik; liv/mana/xp/level over helten
+- [x] Evner og rygsæk kun når helten er valgt; Backpack-knap; Deselect-knap
+- [x] Menu som lag over alt med indstillinger: udsyn/zoom, lyd, altid vis evner/rygsæk (ellers én Hero-knap)
+- [x] Kortet i fuld skærm; rød kant og rød blinkende plet ved angreb
+
 ### 📋 Næste: M8+
 Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer. Se `docs/GDD.md` afsnit 16.
 
@@ -359,6 +368,7 @@ Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer
 | 2026-10-11 | Spillængde 20–35 min | Jon: ok for nu |
 | 2026-10-11 | Opgraderinger og forskning til bygninger og units | Jons ønske; WC3-tiers (Stronghold/Fortress) låser forskningslevels op |
 | 2026-10-11 | Ascension: stien der passer er gratis, andre koster ressourcer; level 11–20 kræver Ascension | Valget skal føles spillet til, ikke bare købt |
+| 2026-10-11 | Ny skærm: helteknap i stedet for heltepanel, HUD efter valg, indstillinger | Jon: for meget UI på skærmen og for tæt zoom; heltens ting kun når helten er valgt |
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
 | 2026-10-10 | Dag og nat med | Rytme og taktik (GDD 4.6) |
 | 2026-10-10 | Lyd syntetiseres med WebAudio indtil videre | Ingen lydfiler i asset-biblioteket endnu; virker uden downloads |
