@@ -77,6 +77,9 @@ export class Unit {
     const dx = mål.x - this.x, dz = mål.z - this.z;
     const d = Math.hypot(dx, dz);
     const skridt = this.fart * dt;
+    // Et mellempunkt på ruten tæller som nået på et par skridts afstand; ellers kredser en flok om det,
+    // når de skubber hinanden væk fra præcis samme sted
+    if (this.vej.length > 1 && d < 2.4) { this.vej.shift(); return; }
     if (d <= skridt) {
       this.rod.position.x = mål.x; this.rod.position.z = mål.z;
       this.vej.shift();

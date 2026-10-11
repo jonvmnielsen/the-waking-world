@@ -48,6 +48,7 @@ export class HexKort {
 
   felt(x, z) { const h = verdenTilHex(x, z); return this.hent(h.q, h.r); }
 
+  centrum(f) { return hexTilVerden(f.q, f.r); }
   erGåbar(x, z) { const f = this.felt(x, z); return !!(f && f.gåbar); }
 
   naboer(f) {

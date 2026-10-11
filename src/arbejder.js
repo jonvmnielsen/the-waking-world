@@ -60,24 +60,27 @@ export class Arbejder extends Unit {
     for (const [type, m] of Object.entries(this.byrder)) m.visible = b?.type === type;
   }
 
-  // Gå til kanten af noget blokeret (den side der vender mod arbejderen), ikke til midten
+  // Gå til kanten af noget blokeret (fx et træ i skoven), den side der vender mod arbejderen
   gåTilKant(x, z, r) {
     const dx = this.x - x, dz = this.z - z, d = Math.hypot(dx, dz) || 1;
     if (!this.gåTil(x + (dx / d) * r, z + (dz / d) * r)) this.gåTil(x, z);
   }
 
-  // Gå til en fri plads tæt op ad bygningen (eller minen), og vælg en anden side hvis vejen er spærret
+  // Gå til en fri plads tæt op ad bygningen (eller minen). Pladsen vælges blandt de nærmeste, så mange
+  // arbejdere spredes rundt om bygningen i stedet for at stå i kø samme sted; spærret vej → en anden side.
   gåTilBygning(b, felter = b.felter) {
-    for (const p of this.verden.kort.kantPunkter(felter, this).slice(0, 5)) {
-      if (this.gåTil(p.x, p.z)) { this.målPunkt = p; return true; }
-    }
+    const punkter = this.verden.kort.kantPunkter(felter, this).slice(0, 6);
+    if (punkter.length > 1) punkter.unshift(punkter.splice(Math.floor(Math.random() * Math.min(3, punkter.length)), 1)[0]);
+    for (const p of punkter) if (this.gåTil(p.x, p.z)) { this.målPunkt = p; return true; }
     this.målPunkt = null;
     return this.gåTil(b.x, b.z);
   }
 
-  // Fremme ved bygningen: tæt på, eller stået stille på den plads vi gik efter
+  // Fremme ved bygningen: helt op ad et af dens felter (også når andre arbejdere skubber), eller ved pladsen
   vedBygning(b) {
-    return Math.hypot(b.x - this.x, b.z - this.z) <= b.radius + 2 || (!this.bevæger && !!this.målPunkt && Math.hypot(this.målPunkt.x - this.x, this.målPunkt.z - this.z) < 2.5);
+    const k = this.verden.kort;
+    if (b.felter.some((f) => { const c = k.centrum(f); return Math.hypot(c.x - this.x, c.z - this.z) < 9.5; })) return true;
+    return !!this.målPunkt && Math.hypot(this.målPunkt.x - this.x, this.målPunkt.z - this.z) < (this.bevæger ? 1.5 : 3);
   }
 
   gåTilKilde() {
@@ -97,10 +100,7 @@ export class Arbejder extends Unit {
     if (!this.gåTilBygning(b) && this.forsøg > 3) { this.forsøg = 0; this.tilstand = 'ledig'; bus.emit('besked', `A worker cannot reach the ${b.data.navn}`); }
   }
 
-  fremme(x, z, nær, langt) {
-    const d = Math.hypot(x - this.x, z - this.z);
-    return d <= nær || (!this.bevæger && d <= langt);
-  }
+  fremme(x, z, nær, langt) { const d = Math.hypot(x - this.x, z - this.z); return d <= nær || (!this.bevæger && d <= langt); }
 
   // --- Opdatering ---
   opdater(dt) {
