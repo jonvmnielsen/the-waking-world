@@ -366,7 +366,7 @@ En grøn markering viser, hvor units skal gå hen. Rød markerer et angrebsmål,
 - **Kortet:** ⤢ åbner minimappet i fuld skærm; tryk et sted for at kigge der, eller luk.
 - **Angreb:** skærmens kant blinker rødt, og en rød plet blinker på kortet, når noget af dit bliver angrebet uden for skærmen, når en bygning angribes, eller når helten er under 30 % liv.
 
-**Arbejdere og bygninger:** Arbejdere går til et frit felt tæt op ad bygningen (eller minen), spredt over de nærmeste sider, og vælger en anden side, hvis vejen er spærret. De kan aflevere, så snart de står op ad bygningen, også i en trængsel, og et mellempunkt på ruten tæller som nået på et par skridts afstand, så en flok ikke kredser om det. Figurer der mødes, glider ud til hver deres højre side, og en der står stille, skubbes til side. Ruter holder lidt afstand til blokerede felter, så de ikke skærer hjørner gennem bygninger.
+**Arbejdere og bygninger:** Arbejdere går til et frit felt tæt op ad bygningen (eller minen), spredt over de nærmeste sider, og vælger en anden side, hvis vejen er spærret. De kan aflevere, så snart de står op ad bygningen, også i en trængsel, og et mellempunkt på ruten tæller som nået på et par skridts afstand, så en flok ikke kredser om det. Arbejdere går igennem hinanden (som i WC3), så de aldrig kører fast i flok ved miner og bygninger. Andre figurer der mødes, glider ud til hver deres højre side, og en der står stille, skubbes til side. Ruter holder lidt afstand til blokerede felter, så de ikke skærer hjørner gennem bygninger.
 
 **Gem spil:** Spillet gemmes automatisk hvert minut og når appen lægges væk, og kan gemmes fra menuen. Ved start vises "Fortsæt spillet", hvis der er et gemt spil. Gemmet ligger i telefonens browser (ét gemt spil ad gangen).
 

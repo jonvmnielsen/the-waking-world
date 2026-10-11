@@ -116,12 +116,13 @@ export class Unit {
 }
 
 // Skub enheder fra hinanden så de ikke står inde i hinanden. Står den ene stille, skubbes den mest til side;
-// figurer der går, glider ud til deres højre side, så to der mødes, kan passere hinanden.
+// figurer der går, glider ud til deres højre side, så to der mødes, kan passere hinanden. Arbejdere skubber ikke hinanden.
 export function adskil(enheder, kort) {
   for (let i = 0; i < enheder.length; i++) {
     const a = enheder[i]; if (a.død) continue;
     for (let j = i + 1; j < enheder.length; j++) {
       const b = enheder[j]; if (b.død) continue;
+      if (a.byrder && b.byrder) continue;   // arbejdere går igennem hinanden (som i WC3), så de aldrig kører fast i flok
       const dx = b.x - a.x, dz = b.z - a.z;
       const d = Math.hypot(dx, dz), min = a.radius + b.radius;
       if (d >= min || d < 1e-4) continue;
