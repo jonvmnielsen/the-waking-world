@@ -6,7 +6,7 @@ export const interaktionMetoder = {
   // Interaktion: gå hen til et sted og gør noget, når helten er tæt nok på (saml op, åbn kiste, handl)
   kommandoInteraktion(x, z, radius, udfør) {
     if (this.død) return;
-    this.mål = null; this.sving = null;
+    this.mål = null; this.sving = null; this.jagt = null;
     this.handling = { x, z, radius, udfør };
     this.gåOrdre = Math.hypot(x - this.x, z - this.z) <= radius ? false : this.gåTil(x, z);
   },

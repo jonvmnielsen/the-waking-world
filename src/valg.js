@@ -63,7 +63,15 @@ export class Valg {
     spøgelse.visible = false;
     this.spil.verden.scene.add(spøgelse);
     this.placering = { type, felt: null, spøgelse, fejl: 'Tap a spot' };
-    bus.emit('placering', this.placering);
+    // Skyggen starter på den nærmeste ledige plads midt på skærmen
+    const kort = this.spil.verden.kort, f = this.spil.rig.fokus;
+    let bedst = kort.felt(f.x, f.z), bd = Infinity;
+    for (const felt of kort.felter.values()) {
+      const p = hexTilVerden(felt.q, felt.r), d = Math.hypot(p.x - f.x, p.z - f.z);
+      if (d < bd && d < 60 && !this.spil.base.kanPlacere(type, felt)) { bd = d; bedst = felt; }
+    }
+    this.vælgFelt(bedst);
+    if (!this.placering.felt) bus.emit('placering', this.placering);
   }
 
   vælgFelt(f) {
@@ -75,7 +83,8 @@ export class Valg {
     p.spøgelse.position.set(pos.x, 0, pos.z);
     p.spøgelse.visible = true;
     const farve = p.fejl ? 0xff5040 : 0x7dff6a;
-    p.spøgelse.traverse((o) => { if (o.isMesh) o.material.color.setHex(p.fejl ? 0xff8a80 : 0xffffff); });
+    // Grøn skygge = her kan der bygges, rød = ikke her
+    p.spøgelse.traverse((o) => { if (o.isMesh) { o.material.color.setHex(p.fejl ? 0xff6a5a : 0x8dff7a); o.material.emissive?.setHex(p.fejl ? 0x5a0a00 : 0x0f4a08); } });
     this.felt.position.set(pos.x, 0.06, pos.z);
     this.felt.material.color.setHex(farve);
     this.felt.visible = true;

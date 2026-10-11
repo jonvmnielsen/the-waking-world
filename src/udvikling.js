@@ -3,7 +3,7 @@
 import * as THREE from 'three';
 import { bus } from './events.js';
 import { kopi } from './assets.js';
-import { FORSKNING, HAL, VAGTTÅRN, UDVIKLINGER } from './udviklingdata.js';
+import { FORSKNING, HAL, TÅRN_TRIN, UDVIKLINGER } from './udviklingdata.js';
 
 const PROPS = 'kaykit-hexagon/decoration/props/';
 const G = 'kaykit-hexagon/buildings/green/';
@@ -21,7 +21,7 @@ export class Udvikling {
       const n = HAL[this.hal];
       return n && { navn: n.navn, ikon: 'udv-hal', tekst: n.tekst, pris: n.pris, tid: n.tid, niveau: this.hal + 1, kræver: 1 };
     }
-    if (id === 'vagttårn') return b.opg ? null : { navn: VAGTTÅRN.navn, ikon: 'udv-vagttårn', tekst: VAGTTÅRN.tekst, pris: VAGTTÅRN.pris, tid: VAGTTÅRN.tid, kræver: VAGTTÅRN.hal };
+    if (id === 'vagttårn') { const t = TÅRN_TRIN[b.opg ?? 0]; return t && { navn: t.navn, ikon: t.ikon, tekst: t.tekst, pris: t.pris, tid: t.tid, kræver: t.hal }; }
     const f = FORSKNING[id], n = this.niveau[id];
     if (n >= f.niveauer.length) return null;
     return { navn: f.niveauer.length > 1 ? `${f.navn} ${n + 1}` : f.navn, ikon: f.ikon, tekst: f.tekst, ...f.niveauer[n], niveau: n + 1, kræver: n + 1 };
@@ -72,9 +72,10 @@ export class Udvikling {
       b.data = { ...b.data, navn: n.navn };
       this.pynt(b);
     } else if (id === 'vagttårn') {
-      b.opg = 1;
-      b.data = { ...b.data, navn: VAGTTÅRN.navn, model: VAGTTÅRN.model, angreb: VAGTTÅRN.angreb };
-      b.ekstraHp += VAGTTÅRN.hp; b.grundRustning += VAGTTÅRN.rustning;
+      const t = TÅRN_TRIN[b.opg ?? 0];
+      b.opg = (b.opg ?? 0) + 1;
+      b.data = { ...b.data, navn: t.navn, model: t.model, angreb: t.angreb };
+      b.ekstraHp += t.hp; b.grundRustning += t.rustning;
       b.visModel(b.data.model, b.data.skala);
     } else {
       const før = id === 'murværk' ? this.spil.base.bygninger.map((x) => x.maxHp) : null;
@@ -92,6 +93,8 @@ export class Udvikling {
   bær(type) { return 2 * (type === 'guld' ? this.niveau.minedrift : type === 'træ' ? this.niveau.økser : this.niveau.hakker); }
   bygHp() { return 0.15 * this.niveau.murværk; }
   bygRustning() { return this.niveau.murværk; }
+  tårnSkade() { return 1 + 0.2 * this.niveau.tårnskud; }
+  tårnRækkevidde() { return 2 * this.niveau.tårnskud; }
   vetFaktor() { return this.niveau.drill ? 1.5 : 1; }
   helingFaktor() { return this.niveau.drill ? 2 : 1; }
 

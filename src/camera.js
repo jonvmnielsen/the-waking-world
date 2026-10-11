@@ -27,6 +27,8 @@ export class KameraRig {
   ned(e) {
     this.lærred.setPointerCapture?.(e.pointerId);
     this.pegere.set(e.pointerId, { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, t: performance.now(), trukket: false });
+    // Starter fingeren på noget der kan trækkes (fx skyggen af en ny bygning), flyttes det i stedet for kortet
+    if (this.pegere.size === 1 && this.onTrækStart?.(e.clientX, e.clientY)) this.pegere.get(e.pointerId).flytTing = true;
     if (this.pegere.size === 2) this.knibStart = this.knibAfstand();
   }
 
@@ -35,6 +37,7 @@ export class KameraRig {
     if (!p) return;
     const dx = e.clientX - p.x, dy = e.clientY - p.y;
     p.x = e.clientX; p.y = e.clientY;
+    if (p.flytTing && this.pegere.size === 1) { p.trukket = true; this.onTræk?.(p.x, p.y); return; }
     const flyttet = Math.hypot(p.x - p.sx, p.y - p.sy) > 12;
     // Holdt stille i 0,3 sek. før fingeren flyttes: vælg-firkant i stedet for at panorere
     if (flyttet && !p.trukket && this.pegere.size === 1 && this.onBoks && performance.now() - p.t > 300) p.boks = true;

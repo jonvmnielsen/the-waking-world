@@ -38,6 +38,19 @@ export class Overlay {
     setTimeout(() => el.remove(), 1100);
   }
 
+  // Et lille navneskilt over noget i verden (fx et item på jorden), der følger med i et par sekunder
+  mærkat(ting, html, farve, ms = 2600) {
+    this.mærkatEl?.remove();
+    const el = document.createElement('div');
+    el.className = 'mærkat';
+    el.style.color = farve;
+    el.innerHTML = html;
+    this.rod.appendChild(el);
+    this.mærkatEl = el; this.mærkatTing = ting;
+    clearTimeout(this.mærkatTimer);
+    this.mærkatTimer = setTimeout(() => { el.remove(); if (this.mærkatEl === el) this.mærkatEl = null; }, ms);
+  }
+
   toast(tekst) {
     this.toastEl.textContent = tekst;
     this.toastEl.classList.remove('vis');
@@ -46,6 +59,10 @@ export class Overlay {
   }
 
   opdater() {
+    if (this.mærkatEl) {
+      const s = this.skærm(this.mærkatTing.x, 1.6, this.mærkatTing.z);
+      this.mærkatEl.style.transform = `translate(${s.x}px, ${s.y}px) translate(-50%, -100%)`;
+    }
     const enheder = [this.verden.helt, ...this.verden.creeps, ...this.ekstra()];
     for (const u of enheder) {
       let el = this.bjælker.get(u);

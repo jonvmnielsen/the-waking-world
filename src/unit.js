@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { kopi, animationer } from './assets.js';
 import { bus } from './events.js';
+import { undgåTing } from './hindring.js';
 
 export class Unit {
   constructor(verden, model, { skala = 1, skjul = [], våben = {}, våbenSkala = 1, radius = 0.7 } = {}) {
@@ -80,14 +81,26 @@ export class Unit {
     // Et mellempunkt på ruten tæller som nået på et par skridts afstand; ellers kredser en flok om det,
     // når de skubber hinanden væk fra præcis samme sted
     if (this.vej.length > 1 && d < 2.4) { this.vej.shift(); return; }
-    if (d <= skridt) {
+    if (d <= Math.max(skridt, 0.9)) {
       this.rod.position.x = mål.x; this.rod.position.z = mål.z;
       this.vej.shift();
     } else {
       this.rod.position.x += (dx / d) * skridt;
       this.rod.position.z += (dz / d) * skridt;
       this.vinkelMål = Math.atan2(dx, dz);
+      undgåTing(this.verden.kort, this);
     }
+    this.vagt(d, dt);
+  }
+
+  // Kommer figuren ikke nærmere sit mål i 1,5 sek. (fx klemt inde bag en sten), springes punktet over;
+  // er det det sidste, stopper den, så dens opgave kan vælge noget andet
+  vagt(d, dt) {
+    const v = (this.vagtData ??= { bedst: Infinity, tid: 0, mål: null });
+    if (v.mål !== this.vej[0]) { v.mål = this.vej[0]; v.bedst = d; v.tid = 0; return; }
+    if (d < v.bedst - 0.3) { v.bedst = d; v.tid = 0; return; }
+    v.tid += dt;
+    if (v.tid > 1.5) { v.tid = 0; if (this.vej.length > 1) this.vej.shift(); else this.vej = []; }
   }
 
   opdater(dt) {

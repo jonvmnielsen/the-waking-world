@@ -35,7 +35,7 @@ export function gendanSpil(spil, g) {
     if (!d.færdig) { b.fremskridt = d.fremskridt; b.visModel(STADIER[Math.min(2, Math.floor(d.fremskridt * 3))], 1); }
     b.kø = d.kø ?? [];
     b.samling = d.samling;
-    if (d.opg) spil.udvikling.anvend(b, 'vagttårn');
+    for (let i = 0; i < (d.opg ?? 0); i++) spil.udvikling.anvend(b, 'vagttårn');
     b.udv = d.udv ?? null;
     b.hp = Math.min(b.maxHp, d.hp ?? b.maxHp);
     base.bygninger.push(b);

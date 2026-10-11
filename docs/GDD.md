@@ -168,7 +168,8 @@ Navnene er arbejdsnavne. Modellerne er KayKit Hexagon i holdfarve.
 | War Camp | Battle Drills | 1 | Veteraner 50 % hurtigere, dobbelt heling uden for kamp |
 | Lumber Mill | Sharper Axes / Stone Picks | 2 | +2 træ / sten pr. tur pr. level |
 | Lumber Mill | Masonry | 3 | Bygninger +15 % liv og +1 rustning pr. level |
-| Watch Tower | → **Guard Tower** (kræver Stronghold) | 1 | Ny model, mere skade, rækkevidde, liv og rustning |
+| Watch Tower | → **Guard Tower** (Stronghold) → **Cannon Tower** (Fortress) | 2 | Ny model hver gang, mere skade, rækkevidde, liv og rustning; Cannon Tower rammer også alle fjender tæt på målet (60 %) |
+| Forge | Burning Bolts | 2 | Alle tårne +20 % skade og +2 rækkevidde pr. level |
 
 Priser og tider står i `src/udviklingdata.js`.
 
@@ -367,6 +368,14 @@ En grøn markering viser, hvor units skal gå hen. Rød markerer et angrebsmål,
 - **Angreb:** skærmens kant blinker rødt, og en rød plet blinker på kortet, når noget af dit bliver angrebet uden for skærmen, når en bygning angribes, eller når helten er under 30 % liv.
 
 **Arbejdere og bygninger:** Arbejdere går til et frit felt tæt op ad bygningen (eller minen), spredt over de nærmeste sider, og vælger en anden side, hvis vejen er spærret. De kan aflevere, så snart de står op ad bygningen, også i en trængsel, og et mellempunkt på ruten tæller som nået på et par skridts afstand, så en flok ikke kredser om det. Arbejdere går igennem hinanden (som i WC3), så de aldrig kører fast i flok ved miner og bygninger. Andre figurer der mødes, glider ud til hver deres højre side, og en der står stille, skubbes til side. Ruter holder lidt afstand til blokerede felter, så de ikke skærer hjørner gennem bygninger.
+
+**Høst (Jons regel):** Arbejderen fortsætter med samme ressource, så længe der er mere inden for 1,5 hex af den forrige kilde; ellers bliver den ledig (med en besked). Knapperne "Get gold/wood/stone" sender til den nærmeste skov, stenbrud eller mine, man kan nå. Højst to arbejdere deler et træ eller en sten, og en kilde der ikke kan nås, opgives i stedet for at prøve igen og igen. Figurer går uden om frie træer og sten, og en figur der ikke kommer nærmere i 1,5 sek., springer punktet over.
+
+**Jagt og tilbagevenden:** Finder en helt eller soldat selv en fjende, husker den sin plads. Når fjenden er død eller stukket af, eller jagten har varet over 10 sekunder, tager den en ny trussel tæt på, ellers går den tilbage. Spillerens egne angrebsordrer vender ikke hjem.
+
+**Byggeri:** En arbejder viser først *Get gold/wood/stone* og *Build*. *Build* åbner listen over bygninger; et valg lukker listen og viser bygningen som en grøn (kan bygges) eller rød (kan ikke) skygge, der kan trækkes eller flyttes med et tryk. *Build* bygger, *Stop* fortryder.
+
+**Helteknappen:** første tryk hopper til helten og vælger den, næste tryk åbner overblikket; dobbelttryk åbner det med det samme. **Items på jorden:** et tryk viser navnet i sjældenhedens farve. **Top-bjælken** viser hele tallene og upkeep; uret står under den.
 
 **Gem spil:** Spillet gemmes automatisk hvert minut og når appen lægges væk, og kan gemmes fra menuen. Ved start vises "Fortsæt spillet", hvis der er et gemt spil. Gemmet ligger i telefonens browser (ét gemt spil ad gangen).
 

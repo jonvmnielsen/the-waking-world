@@ -21,12 +21,16 @@ export class HelteKort {
   constructor(spil) {
     this.spil = spil;
     this.tid = 0;
-    // Helteknappen vælger helten og åbner/lukker overblikket
+    // Helteknappen: første tryk hopper til helten (og vælger den), næste tryk åbner overblikket.
+    // Dobbelttryk åbner overblikket med det samme. Tryk mens det er åbent lukker det.
     $('helteknap').addEventListener('click', (e) => {
       e.stopPropagation();
-      const åben = $('heltekort').classList.contains('vis');
-      if (!åben) { spil.valg.vælg(null); spil.rig.centrér(); }
-      this.skift(!åben);
+      if ($('heltekort').classList.contains('vis')) return this.skift(false);
+      const nu = performance.now(), dobbelt = nu - (this.sidstTryk ?? -1e9) < 400;
+      this.sidstTryk = nu;
+      const fremme = spil.valg.erHelt && spil.rig.følger;   // allerede valgt og kameraet følger helten
+      spil.valg.vælg(null); spil.rig.centrér();
+      if (dobbelt || fremme) this.skift(true);
     });
     $('hk-luk').addEventListener('click', () => this.skift(false));
     const e = ESSENSER[spil.helt.evner.essens];

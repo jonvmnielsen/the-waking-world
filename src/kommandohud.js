@@ -28,7 +28,7 @@ export class KommandoHud {
     $('hær').addEventListener('click', () => this.valg.vælg(spil.base.hær));
     $('plac-byg').addEventListener('click', () => { const f = this.valg.bekræftPlacering(); if (f) bus.emit('besked', f); });
     $('plac-annuller').addEventListener('click', () => this.valg.annullérPlacering());
-    bus.on('valg', () => this.byg());
+    bus.on('valg', () => { this.byggeListe = false; this.byg(); });
     bus.on('udvikling', () => { if (this.valg.erBygning) this.byg(); });
     bus.on('placering', (p) => this.visPlacering(p));
     this.tid = 0;
@@ -55,12 +55,19 @@ export class KommandoHud {
     if (this.valg.erArbejder) {
       $('kmd-ikon').src = ikon('økse');
       $('kmd-navn').textContent = 'Worker';
-      for (const r of RES) this.knap(knapper, ikon('res-' + r), `Get ${RES_NAVN[r]}`, '', () => v.høstNærmeste(r));
+      // Byggemenuen ligger bag "Build"-knappen; et valg lukker den og viser bygningen som skygge
+      if (!this.byggeListe) {
+        for (const r of RES) this.knap(knapper, ikon('res-' + r), `Get ${RES_NAVN[r]}`, '', () => v.høstNærmeste(r));
+        this.knap(knapper, ikon('byg-hytte'), 'Build', '', () => { this.byggeListe = true; this.byg(); }, 'bygmenu');
+        return this.opdater(1);
+      }
+      this.knap(knapper, ikon('økse'), 'Back', '', () => { this.byggeListe = false; this.byg(); });
       for (const type of BYGGEMENU) {
         const d = BYGNINGER[type];
         this.knap(knapper, ikon('byg-' + type), d.kort ?? d.navn, prisHtml(d.pris), () => {
           const mangler = this.spil.økonomi.mangler(d.pris);
           if (mangler) return bus.emit('besked', mangler);
+          this.byggeListe = false;
           this.valg.startPlacering(type);
         }, `byg-${type}`);
       }
@@ -120,8 +127,9 @@ export class KommandoHud {
 
   visPlacering(p) {
     $('placering').hidden = !p;
-    if (!p) return;
-    $('plac-tekst').textContent = p.fejl ?? `Build ${BYGNINGER[p.type].navn} here?`;
+    document.body.classList.toggle('placerer', !!p);
+    if (!p) return this.byg();
+    $('plac-tekst').textContent = p.fejl ? `${BYGNINGER[p.type].navn}: ${p.fejl}` : `${BYGNINGER[p.type].navn} — drag it or tap the ground to move it`;
     $('plac-byg').disabled = !!p.fejl;
   }
 

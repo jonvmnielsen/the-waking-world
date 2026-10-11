@@ -135,11 +135,12 @@ export class Bygning {
     if (a) {
       this.cooldown -= dt;
       if (this.cooldown <= 0) {
-        const mål = this.verden.creeps.filter((c) => !c.død && !c.erBygning && c.rod.visible && Math.hypot(c.x - this.x, c.z - this.z) < a.rækkevidde)
+        const u = this.verden.udvikling, rk = a.rækkevidde + (u?.tårnRækkevidde() ?? 0);
+        const mål = this.verden.creeps.filter((c) => !c.død && !c.erBygning && c.rod.visible && Math.hypot(c.x - this.x, c.z - this.z) < rk)
           .sort((p, q) => Math.hypot(p.x - this.x, p.z - this.z) - Math.hypot(q.x - this.x, q.z - this.z))[0];
         if (mål) {
           this.cooldown = a.tid;
-          bus.emit('projektil', { fra: this.skytte(), mål, skade: tilfældig(...a.skade), farve: 0xffd27a });
+          bus.emit('projektil', { fra: this.skytte(), mål, skade: Math.round(tilfældig(...a.skade) * (u?.tårnSkade() ?? 1)), farve: a.område ? 0xff8a3a : 0xffd27a, område: a.område });
         }
       }
     }

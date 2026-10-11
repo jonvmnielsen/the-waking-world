@@ -259,7 +259,7 @@ body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: non
 #placering[hidden] { display: none; }
 #placering div { display: flex; gap: 8px; }
 #placering button { white-space: nowrap; padding: 8px 14px; border-radius: 9px; border: 1px solid rgba(201, 163, 90, 0.45); background: rgba(255, 255, 255, 0.07); font-weight: 800; }
-#plac-byg { background: #3f6b2a; border-color: #6fae4c; }
+#plac-byg { background: #3f6b2a !important; border-color: #6fae4c !important; }
 #plac-byg:disabled { opacity: 0.4; }
 
 .bjælke.egen { width: 38px; height: 5px; }
@@ -320,11 +320,11 @@ body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: non
 
 /* ---------- Skærm v2 (Jons feedback): top-bjælke, helteknap, valg-styret HUD, menu, kort og advarsel ---------- */
 #topbar { z-index: 30; top: var(--top); left: var(--kant); right: var(--kant); display: flex; align-items: center; gap: 6px; }
-#ressourcer { flex: 1; min-width: 0; display: flex; gap: 4px; }
-.res { padding: 2px 7px 2px 3px; font-size: 12px; gap: 3px; min-width: 0; }
+#ressourcer { flex: 1; min-width: 0; display: flex; gap: 4px; justify-content: space-between; }
+.res { flex: none; padding: 2px 7px 2px 3px; font-size: 12px; gap: 3px; white-space: nowrap; }
 .res img { width: 19px; height: 19px; }
 #menuknap { flex: none; width: 40px; height: 36px; border-radius: 10px; background: var(--træ); border: 1px solid rgba(201, 163, 90, 0.45); font-size: 18px; color: var(--messing-lys); }
-#ur { top: calc(var(--top) + 44px); right: var(--kant); display: flex; align-items: baseline; gap: 5px; padding: 3px 9px; border-radius: 999px; background: rgba(20, 14, 10, 0.7); border: 1px solid rgba(201, 163, 90, 0.4); font-size: 11px; pointer-events: none; }
+#ur { top: calc(var(--top) + 44px); right: var(--kant); z-index: 30; display: flex; align-items: baseline; gap: 5px; padding: 3px 9px; border-radius: 999px; background: rgba(20, 14, 10, 0.7); border: 1px solid rgba(201, 163, 90, 0.4); font-size: 11px; pointer-events: none; }
 
 #helteknap { --liv: 360deg; top: calc(var(--top) + 44px); left: var(--kant); width: 54px; height: 54px; padding: 0; border-radius: 50%; border: 0; display: grid; place-content: center; text-align: center;
   background: radial-gradient(circle at 40% 30%, #5b8f3a, #22401a 70%) padding-box, conic-gradient(var(--hp) var(--liv), rgba(0, 0, 0, 0.55) 0) border-box; border: 4px solid transparent; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45); }
@@ -422,3 +422,14 @@ body.menu-åben #menu, body.menu-åben #menu-bag { display: block; }
   #sti-evner, body.altid-evner:not(.altid-rygsæk):not(.rygsæk-åben) #sti-evner { right: var(--kant); bottom: calc(var(--bund) + 104px); }
   #rygsæk-knap { bottom: calc(var(--bund) + 104px); right: calc(var(--kant) + 130px); }
 }
+.mærkat { position: absolute; left: 0; top: 0; padding: 4px 10px; border-radius: 9px; background: rgba(16, 12, 8, 0.88); border: 1px solid currentColor; text-align: center; white-space: nowrap; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); pointer-events: none; }
+.mærkat b { display: block; font-size: 13px; }
+.mærkat small { display: block; font-size: 10px; font-weight: 800; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.05em; }
+.res img { width: 17px; height: 17px; }
+.res { padding: 2px 6px 2px 2px; }
+/* Placering af en ny bygning: bjælken nederst, kommandopanelet væk */
+#placering { top: auto; bottom: calc(var(--bund) + 6px); left: auto; right: var(--kant); transform: none; width: min(300px, calc(100vw - 2 * var(--kant) - min(34vw, 150px) - 10px)); z-index: 6; }
+#placering button { padding: 12px 20px; font-size: 16px; }
+#plac-annuller { background: rgba(90, 30, 24, 0.92) !important; border-color: #e08a6a !important; }
+body.placerer #kommando { display: none; }
+@media (max-height: 500px) and (orientation: landscape) { #placering { top: auto; } }

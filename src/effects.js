@@ -107,7 +107,7 @@ export class Effekter {
     else if (e.type === 'røg') { this.bølge(e.x, e.z, 6, 0x9a9a9a, 1.4); this.søjle({ x: e.x, z: e.z }, 0x777777, 1.6, 4); }
   }
 
-  projektil({ fra, mål, skade, farve = 0xb36bff, model }) {
+  projektil({ fra, mål, skade, farve = 0xb36bff, model, område }) {
     let kugle;
     if (model === 'spyd') {
       // Et kastespyd der peger i flyveretningen
@@ -131,7 +131,9 @@ export class Effekter {
       if (model) kugle.lookAt(punkt(Math.min(1, t + 0.05), næste));
     }, () => {
       if (!mål.død) mål.tagSkade(skade, fra);
-      if (!model) this.bølge(mål.x, mål.z, 1.4, farve, 0.35);
+      if (!model) this.bølge(mål.x, mål.z, område ?? 1.4, farve, område ? 0.5 : 0.35);
+      // Kanontårn: alle fjender tæt på målet tager også skade
+      if (område) for (const c of this.verden.creeps) if (c !== mål && !c.død && !c.erBygning && Math.hypot(c.x - mål.x, c.z - mål.z) < område) c.tagSkade(Math.round(skade * 0.6), fra);
     });
   }
 

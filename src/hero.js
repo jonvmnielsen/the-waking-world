@@ -7,7 +7,7 @@ import { gørOrkGrøn } from './orkhud.js';
 import { Inventar } from './inventar.js';
 import { levelMetoder } from './heltlevel.js';
 import { interaktionMetoder } from './heltinteraktion.js';
-import { findTrussel } from './trussel.js';
+import { findTrussel, jagtMetoder } from './trussel.js';
 import { egenskabsMetoder, EGENSKABER } from './heltstats.js';
 import { Ascension } from './ascension.js';
 
@@ -50,14 +50,14 @@ export class Helt extends Unit {
   // Spillerens kommandoer
   kommandoGå(x, z) {
     if (this.død) return false;
-    this.mål = null; this.sving = null; this.handling = null;
+    this.mål = null; this.sving = null; this.handling = null; this.jagt = null;
     this.gåOrdre = this.gåTil(x, z);
     return this.gåOrdre;
   }
 
   kommandoAngrib(creep) {
     if (this.død || creep.død) return;
-    this.mål = creep;
+    this.mål = creep; this.jagt = null;
     this.gåOrdre = false;
     this.handling = null;
   }
@@ -92,7 +92,7 @@ export class Helt extends Unit {
     if (this.mål?.død) this.mål = null;
     if (this.gåOrdre && !this.bevæger) this.gåOrdre = false;
     // Auto-angreb: står helten frit, går den efter den nærmeste fjende der angriber den
-    if (!this.mål && !this.gåOrdre && !this.sving) this.mål = this.findTrussel();
+    this.autoMål(dt, () => this.findTrussel());
     if (this.sving) this.opdaterSving(dt);
     else if (this.mål) this.forfølg(dt);
     else this.opdaterBevægelse(dt);
@@ -158,7 +158,7 @@ export class Helt extends Unit {
   dø() {
     super.dø();
     this.mål = null; this.sving = null; this.gåOrdre = false; this.handling = null; this.angribere.clear();
-    this.sti.hop = null; this.rod.position.y = 0;
+    this.sti.hop = null; this.rod.position.y = 0; this.jagt = null;
     this.spil('Death_A', { loop: false, fade: 0.1 });
     this.genopliv = this.stats.genopliv;
     bus.emit('helt_død', { helt: this });
@@ -176,4 +176,4 @@ export class Helt extends Unit {
 }
 
 // Erfaring og level ligger i heltlevel.js; gå-hen-og-gør-noget i heltinteraktion.js
-Object.assign(Helt.prototype, levelMetoder, interaktionMetoder, egenskabsMetoder);
+Object.assign(Helt.prototype, levelMetoder, interaktionMetoder, egenskabsMetoder, jagtMetoder);

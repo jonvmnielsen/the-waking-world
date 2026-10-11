@@ -72,11 +72,11 @@ export class Kilder {
   som(o) { const mine = o.type === 'mine'; return { type: mine ? 'guld' : o.type, kilde: o, x: o.x, z: o.z, r: mine ? 5 : o.r }; }
 
   // Nærmeste kilde af en type (når den gamle er brugt op)
-  nærmeste(type, x, z, maks = 60) {
+  nærmeste(type, x, z, maks = 60, filter = null) {
     let bedst = null, bd = maks;
     const liste = type === 'guld' ? this.miner : this.ressourcer;
     for (const o of liste) {
-      if (!(o[type] > 0)) continue;
+      if (!(o[type] > 0) || (filter && !filter(o))) continue;
       // Ressourcer inde i en skov tæller lidt længere væk, så kanten fældes først
       const d = Math.hypot(o.x - x, o.z - z) + (o.blokerer && type === 'træ' ? 3 : 0);
       if (d < bd) { bd = d; bedst = o; }

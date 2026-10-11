@@ -14,3 +14,28 @@ export function findTrussel(enhed, radius, angribere, tid) {
   }
   return bedst;
 }
+
+// Automatisk angreb med tilbagevenden (Jons regel): finder en helt eller soldat selv en fjende, husker den,
+// hvor den stod. Når fjenden er død eller stukket af, eller jagten har varet over 10 sekunder, tager den
+// en ny trussel tæt på, hvis der er en — ellers går den tilbage til sin plads.
+// Spillerens egne angrebsordrer er ikke en jagt og vender ikke hjem. Blandes ind i Helt og Soldat.
+export const jagtMetoder = {
+  autoMål(dt, find) {
+    const j = this.jagt;
+    if (!j) {
+      if (this.mål || this.gåOrdre || this.sving) return;
+      const m = find();
+      if (m) { this.mål = m; this.jagt = { x: this.x, z: this.z, tid: 0 }; }
+      return;
+    }
+    const m = this.mål, lever = !!m && !m.død;
+    const rækkevidde = (this.data?.rækkevidde ?? this.stats?.rækkevidde ?? 2) + (m?.radius ?? 0) + 0.5;
+    if (lever && this.afstand(m) > rækkevidde) j.tid += dt;   // tiden tæller kun mens den løber efter
+    const flygtet = lever && (m.tilstand === 'hjem' || !m.rod.visible || Math.hypot(m.x - j.x, m.z - j.z) > 28);
+    if (lever && !flygtet && j.tid <= 10) return;
+    this.mål = lever && !flygtet ? null : j.tid <= 10 ? find() : null;
+    if (this.mål) return;
+    this.jagt = null;
+    if (Math.hypot(this.x - j.x, this.z - j.z) > 2.5) this.gåOrdre = this.gåTil(j.x, j.z);
+  },
+};

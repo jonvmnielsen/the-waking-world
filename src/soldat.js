@@ -5,7 +5,7 @@ import { gørOrkGrøn } from './orkhud.js';
 import { SOLDATER } from './soldatdata.js';
 import { ENHEDER } from './bygningsdata.js';
 import { reducérSkade, tilfældig } from './config.js';
-import { findTrussel } from './trussel.js';
+import { findTrussel, jagtMetoder } from './trussel.js';
 import { evneMetoder } from './soldatevner.js';
 import { bus } from './events.js';
 
@@ -32,7 +32,7 @@ export class Soldat extends Unit {
   // --- Kommandoer ---
   kommandoGå(x, z) {
     if (this.død || this.evne.raseri > 0) return false;
-    this.mål = null; this.angrebsOrdre = false; this.hen = null;
+    this.mål = null; this.angrebsOrdre = false; this.hen = null; this.jagt = null;
     this.gåOrdre = this.gåTil(x, z);
     bus.emit('soldat_ordre', { soldat: this, type: 'gå' });
     return this.gåOrdre;
@@ -40,7 +40,7 @@ export class Soldat extends Unit {
 
   kommandoAngrib(c) {
     if (this.død || c.død || this.evne.raseri > 0) return;
-    this.mål = c; this.angrebsOrdre = true; this.gåOrdre = false; this.hen = null;
+    this.mål = c; this.angrebsOrdre = true; this.gåOrdre = false; this.hen = null; this.jagt = null;
     bus.emit('soldat_ordre', { soldat: this, type: 'angrib', mål: c });
   }
 
@@ -51,7 +51,7 @@ export class Soldat extends Unit {
     return true;
   }
 
-  stopOrdre() { this.stop(); this.mål = null; this.gåOrdre = false; this.angrebsOrdre = false; this.hen = null; }
+  stopOrdre() { this.stop(); this.mål = null; this.gåOrdre = false; this.angrebsOrdre = false; this.hen = null; this.jagt = null; }
 
   // --- Opdatering ---
   opdater(dt) {
@@ -67,7 +67,7 @@ export class Soldat extends Unit {
       const h = this.hen; this.hen = null; this.stop(); this.gåOrdre = false; h.udfør();
     }
     if (this.gåOrdre && !this.bevæger) { this.gåOrdre = false; this.hen = null; }
-    if (!this.mål && !this.gåOrdre && !this.sving) this.mål = findTrussel(this, 15, this.angribere, this.tid) ?? this.nærFjende();
+    this.autoMål(dt, () => findTrussel(this, 15, this.angribere, this.tid) ?? this.nærFjende());
 
     if (this.sving) this.opdaterSving(dt);
     else if (this.mål && !this.gåOrdre) this.forfølg(dt);
@@ -167,7 +167,7 @@ export class Soldat extends Unit {
   }
 }
 
-Object.assign(Soldat.prototype, evneMetoder);
+Object.assign(Soldat.prototype, evneMetoder, jagtMetoder);
 
 // Hvor langt en soldat kan se (krigens tåge)
 export const SOLDAT_SYN = 16;

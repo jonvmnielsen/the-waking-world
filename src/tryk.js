@@ -8,6 +8,7 @@
 import * as THREE from 'three';
 import { bus } from './events.js';
 import { gruppeGå, gruppeAngrib, kanKæmpe, sammeTypePåSkærm } from './haer.js';
+import { ITEMS, SJÆLDENHED } from './itemdata.js';
 
 export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder }) {
   const { helt, verden, rig, valg, base } = spil;
@@ -98,6 +99,19 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     else overlay.toast('Your hero cannot go there');
   }
 
+  // Skyggen af en ny bygning kan trækkes rundt med fingeren
+  rig.onTrækStart = (sx, sy) => {
+    const p = valg.placering;
+    if (!p?.felt) return false;
+    const b = r(), s = skærm(p.spøgelse.position.x, 3, p.spøgelse.position.z);
+    return Math.hypot(s.x - (sx - b.left), s.y - (sy - b.top)) < 90;
+  };
+  rig.onTræk = (sx, sy) => {
+    const b = r(), p = jordpunkt(sx - b.left, sy - b.top);
+    const f = p && verden.kort.felt(p.x, p.z);
+    if (f && f !== valg.placering?.felt) valg.vælgFelt(f);
+  };
+
   const forrige = { s: null, t: 0 };
   return (sx, sy) => {
     const b = r(), px = sx - b.left, py = sy - b.top;
@@ -140,6 +154,13 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
         return effekter.markør(p.x, p.z);
       }
       return valg.fravælg();
+    }
+    // Et item på jorden: vis navnet i sjældenhedens farve (med helten valgt samler den det også op)
+    const ting = genstande.find(px, py, skærm, 46);
+    if (ting?.type === 'item') {
+      const d = ITEMS[ting.ting.id], sj = SJÆLDENHED[d.sjældenhed];
+      overlay.mærkat(ting.ting, `<b>${d.navn}</b><small>${sj.navn}</small>`, sj.farve);
+      if (!valg.erHelt) return;
     }
     if (valg.ingen) return;   // intet valgt: tryk på jorden gør ingenting
     heltTryk(px, py);

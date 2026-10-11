@@ -3,7 +3,8 @@
 import { Unit } from './unit.js';
 import { skaleretKopi } from './assets.js';
 import { gørOrkGrøn } from './orkhud.js';
-import { BÆR, HØST_TID, RES_NAVN } from './okonomi.js';
+import { RES_NAVN } from './okonomi.js';
+import { høstMetoder } from './hoest.js';
 import { bus } from './events.js';
 
 const SKJUL = ['Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Knife', 'Throwable'];
@@ -38,18 +39,6 @@ export class Arbejder extends Unit {
   // --- Kommandoer ---
   kommandoGå(x, z) { this.nulstil(); this.tilstand = this.gåTil(x, z) ? 'gå' : 'ledig'; return this.tilstand === 'gå'; }
 
-  kommandoHøst(k) {
-    this.nulstil();
-    this.kilde = k;
-    if (this.bærer && this.bærer.type !== k.type) this.sætByrde(null);
-    this.gåTilKilde();
-  }
-
-  høstNærmeste(type) {
-    const k = this.base.kilder.nærmeste(type, this.x, this.z, 200);
-    if (k) this.kommandoHøst(k); else { this.tilstand = 'ledig'; bus.emit('besked', `There is no more ${RES_NAVN[type]} nearby`); }
-  }
-
   kommandoByg(b) { this.nulstil(); this.bygning = b; this.tilstand = 'tilByg'; this.gåTilBygning(b); }
 
   nulstil() { this.kilde = null; this.bygning = null; this.rod.visible = true; this.stop(); }
@@ -58,12 +47,6 @@ export class Arbejder extends Unit {
   sætByrde(b) {
     this.bærer = b;
     for (const [type, m] of Object.entries(this.byrder)) m.visible = b?.type === type;
-  }
-
-  // Gå til kanten af noget blokeret (fx et træ i skoven), den side der vender mod arbejderen
-  gåTilKant(x, z, r) {
-    const dx = this.x - x, dz = this.z - z, d = Math.hypot(dx, dz) || 1;
-    if (!this.gåTil(x + (dx / d) * r, z + (dz / d) * r)) this.gåTil(x, z);
   }
 
   // Gå til en fri plads tæt op ad bygningen (eller minen). Pladsen vælges blandt de nærmeste, så mange
@@ -83,13 +66,6 @@ export class Arbejder extends Unit {
     return !!this.målPunkt && Math.hypot(this.målPunkt.x - this.x, this.målPunkt.z - this.z) < (this.bevæger ? 1.5 : 3);
   }
 
-  gåTilKilde() {
-    this.tilstand = 'tilKilde';
-    const k = this.kilde, felt = k.type === 'guld' && this.verden.kort.hent(k.kilde.q, k.kilde.r);
-    if (felt) this.gåTilBygning(k, [felt]);
-    else this.gåTilKant(k.x, k.z, k.r + 1.2);
-  }
-
   gåHjem() {
     const b = this.base.afleveringssted(this.bærer.type, this.x, this.z);
     if (!b) { this.tilstand = 'ledig'; bus.emit('besked', 'No building can take it'); return; }
@@ -100,7 +76,6 @@ export class Arbejder extends Unit {
     if (!this.gåTilBygning(b) && this.forsøg > 3) { this.forsøg = 0; this.tilstand = 'ledig'; bus.emit('besked', `A worker cannot reach the ${b.data.navn}`); }
   }
 
-  fremme(x, z, nær, langt) { const d = Math.hypot(x - this.x, z - this.z); return d <= nær || (!this.bevæger && d <= langt); }
 
   // --- Opdatering ---
   opdater(dt) {
@@ -114,9 +89,7 @@ export class Arbejder extends Unit {
         if (!this.bevæger) this.tilstand = 'ledig';
         break;
       case 'tilKilde':
-        this.opdaterBevægelse(dt);
-        if (this.fremme(k.x, k.z, k.type === 'guld' ? 8.5 : k.r + 2.6, k.type === 'guld' ? 13 : k.r + 7)) this.startHøst();
-        else if (!this.bevæger) this.høstNærmeste(k.type);
+        this.opdaterTilKilde(dt);
         break;
       case 'høster':
       case 'iMine':
@@ -148,26 +121,6 @@ export class Arbejder extends Unit {
     else if (this.tilstand === 'ledig' || this.tilstand === 'gå') { this.timer -= dt; if (this.timer <= 0) this.spil('Idle'); }
   }
 
-  startHøst() {
-    const k = this.kilde;
-    this.stop();
-    this.vend(k.x, k.z);
-    this.timer = HØST_TID[k.type];
-    if (k.type === 'guld') { this.tilstand = 'iMine'; this.rod.visible = false; }
-    else { this.tilstand = 'høster'; this.spil('1H_Melee_Attack_Chop', { fart: k.type === 'sten' ? 0.8 : 1 }); }
-  }
-
-  færdigHøst() {
-    const k = this.kilde;
-    // I verdenstilstanden Fald giver minerne mindre (GDD 12)
-    const bær = (k.type === 'guld' ? Math.round(BÆR.guld * (this.verden.guldFaktor ?? 1)) : BÆR[k.type]) + (this.verden.udvikling?.bær(k.type) ?? 0);
-    const m = this.base.kilder.høst(k, k.type, bær);
-    if (m <= 0) { this.høstNærmeste(k.type); return; }
-    this.sætByrde({ type: k.type, mængde: m });
-    this.spil('PickUp', { loop: false, gentag: true, fart: 1.6 });
-    this.gåHjem();
-  }
-
   dø(kilde) {
     super.dø(kilde);
     this.nulstil(); this.sætByrde(null); this.tilstand = 'død';
@@ -190,11 +143,11 @@ export class Arbejder extends Unit {
     bus.emit('flydetekst', { enhed: this, tekst: `+${this.bærer.mængde} ${RES_NAVN[this.bærer.type]}`, klasse: this.bærer.type === 'guld' ? 'guld' : 'ressource' });
     const type = this.bærer.type;
     this.sætByrde(null);
-    // Tilbage til samme kilde, eller den nærmeste af samme slags hvis den er tom
-    if (this.kilde && (this.kilde.kilde[type] ?? 0) > 0) this.gåTilKilde();
-    else this.høstNærmeste(type);
+    this.efterAflevering(type);
   }
 }
+
+Object.assign(Arbejder.prototype, høstMetoder);   // høst: hoest.js
 
 // Hvor langt en arbejder kan se (krigens tåge)
 export const ARBEJDER_SYN = 14;
