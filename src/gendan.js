@@ -101,6 +101,8 @@ export function gendanSpil(spil, g) {
       if (!b) continue;
       if (d.død) { b.ødelæg(null, true); continue; }
       b.fremskridt = d.fremskridt; b.hp = d.hp;
+      // Vis den rigtige model: færdige bygninger må ikke beholde byggepladsens udseende
+      b.vis(b.færdig ? b.data.model : STADIER[Math.min(2, Math.floor(b.fremskridt * 3))], b.færdig ? b.data.skala : 1);
     }
     for (const d of gm.enheder) {
       const e = m.nyEnhed(d.type, { x: d.x, z: d.z, radius: -1.5 });

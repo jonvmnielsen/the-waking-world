@@ -35,8 +35,9 @@ export const høstMetoder = {
   sætKilde(k) {
     this.kilde = k;
     this.område = { x: k.x, z: k.z };
-    if (this.bærer && this.bærer.type !== k.type) this.sætByrde(null);
-    this.gåTilKilde();
+    // Bærer arbejderen allerede noget, afleveres det først; derefter går den til kilden
+    if (this.bærer?.mængde > 0) this.gåHjem();
+    else this.gåTilKilde();
   },
 
   // Den næste kilde af samme slags tæt på den forrige; ellers ledig
@@ -137,7 +138,8 @@ export const høstMetoder = {
 
   // Efter aflevering: tilbage til samme kilde, eller den næste i området
   efterAflevering(type) {
-    if (this.kilde && (this.kilde.kilde[type] ?? 0) > 0) this.gåTilKilde();
-    else this.fortsætHøst(type);
+    const k = this.kilde;
+    if (k && (k.kilde[k.type] ?? 0) > 0) this.gåTilKilde();
+    else this.fortsætHøst(k?.type ?? type);
   },
 };

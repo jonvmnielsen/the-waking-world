@@ -52,7 +52,7 @@ export class FjendeBygning {
       return;
     }
     const a = this.data.angreb;
-    if (!a) return;
+    if (!a || this.model !== this.data.model) return;   // kun en færdig, synlig bygning skyder
     this.cooldown -= dt;
     if (this.cooldown > 0) return;
     const mål = this.verden.egne().filter((u) => this.afstand(u) < a.rækkevidde).sort((p, q) => this.afstand(p) - this.afstand(q))[0];
