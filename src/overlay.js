@@ -73,14 +73,16 @@ export class Overlay {
         const helt = u === this.verden.helt;
         el.className = `bjælke ${helt ? 'helt' : u.side === 'egen' ? 'egen' : 'fjende'}`;
         // Helten har også mana, erfaring og level over hovedet
-        el.innerHTML = helt ? '<i></i><em class="mana"><u></u></em><em class="xp"><u></u></em><span class="lv"></span>' : '<i></i>';
+        el.innerHTML = helt ? '<em class="liv"><u></u></em><em class="mana"><u></u></em><em class="xp"><u></u></em><span class="lv"></span>' : '<i></i>';
         this.rod.appendChild(el);
         this.bjælker.set(u, el);
       }
-      const s = this.skærm(u.x, u.højde + 0.35, u.z);
-      el.style.transform = `translate(${s.x}px, ${s.y}px) translate(-50%, -50%)`;
+      // Heltens bjælker står over hovedet (bunden af bjælkerne ved toppen af helten), så de ikke dækker den
+      const helt = u === this.verden.helt;
+      const s = this.skærm(u.x, u.højde + (helt ? 0.55 : 0.35), u.z);
+      el.style.transform = `translate(${s.x}px, ${s.y}px) translate(-50%, ${helt ? '-100%' : '-50%'})`;
       el.style.display = s.synlig ? '' : 'none';
-      el.firstChild.style.width = `${(u.hp / u.maxHp) * 100}%`;
+      (el.firstChild.firstChild ?? el.firstChild).style.width = `${(u.hp / u.maxHp) * 100}%`;
       if (u === this.verden.helt) {
         el.children[1].firstChild.style.width = `${(u.mana / u.manaMax) * 100}%`;
         el.children[2].firstChild.style.width = `${u.xpProcent() * 100}%`;

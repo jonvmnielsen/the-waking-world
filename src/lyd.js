@@ -185,8 +185,7 @@ export function forbindLyd(lyd, spil) {
     if (tekst === 'Blocked') lyd.enkelt('blok', enhed, 0.6, 100);
   });
   bus.on('kilde_tom', ({ type, kilde }) => { if (type === 'træ') lyd.enkelt('trae_falder', kilde, 0.5, 600); });
-  bus.on('bygning_ødelagt', ({ bygning }) => lyd.enkelt('bygning_falder', bygning, 0.8, 500));
-  bus.on('fjende_bygning_ødelagt', ({ bygning }) => lyd.enkelt('bygning_falder', bygning, 0.8, 500));
+  for (const n of ['bygning_ødelagt', 'fjende_bygning_ødelagt', 'konstruktion_ødelagt']) bus.on(n, ({ bygning }) => lyd.enkelt('bygning_falder', bygning, 0.8, 500));
   bus.on('butik_åben', () => lyd.enkelt('doer', null, 0.5, 500));
   bus.on('level_op', () => lyd.akkord([523, 659, 784, 1046]));
   bus.on('bygning_færdig', ({ bygning }) => { if (helt.tid > 2) lyd.akkord([392, 523, 659], { vol: 0.1 }); });

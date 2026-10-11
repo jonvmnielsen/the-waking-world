@@ -85,7 +85,7 @@ export class Ascension {
   }
 
   fjender(r, fra = this.helt) {
-    return this.helt.verden.creeps.filter((c) => !c.død && Math.hypot(c.x - fra.x, c.z - fra.z) - (c.radius ?? 0) <= r)
+    return this.helt.verden.creeps.filter((c) => !c.død && !c.neutral && Math.hypot(c.x - fra.x, c.z - fra.z) - (c.radius ?? 0) <= r)
       .sort((a, b) => Math.hypot(a.x - fra.x, a.z - fra.z) - Math.hypot(b.x - fra.x, b.z - fra.z));
   }
 

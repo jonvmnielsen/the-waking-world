@@ -98,7 +98,7 @@ export class Udvikling {
   vetFaktor() { return this.niveau.drill ? 1.5 : 1; }
   helingFaktor() { return this.niveau.drill ? 2 : 1; }
 
-  // Storlejrens tier vises med flag (Stronghold) og små tårne (Fortress)
+  // Storlejrens tier vises med flag (Citadel) og små tårne (Fortress)
   pynt(b) {
     if (b.type !== 'storlejr' || this.hal < 2 || !b.rod) return;
     b.rod.getObjectByName('tier-pynt')?.removeFromParent();

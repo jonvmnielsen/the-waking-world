@@ -7,9 +7,12 @@ import { hexTilVerden } from './hexgrid.js';
 import { VERDEN } from './config.js';
 import { RESSOURCE } from './pynt.js';
 import { terrænHøjde } from './terraen.js';
+import { bus } from './events.js';
 
 const S = VERDEN.hexSkala;
 const BID = 12;   // kortet deles i bidder på 12×12 felter, så kun det synlige tegnes
+// Ting på kortet der kan angribes og ødelægges: ruiner og creep-lejrenes telte, våbenstativer og lygter
+const KONSTRUKTION = /building_destroyed|building_scaffolding|props\/tent|weaponrack|lantern_standing|post_skull/;
 export const STUBBE = ['kaykit-hexagon/decoration/nature/tree_single_a_cut', 'kaykit-hexagon/decoration/nature/tree_single_b_cut'];
 
 // Hexagon-pakken er bygget til 2-enheds fliser og skaleres med; andre pakker har figurstørrelse
@@ -20,6 +23,7 @@ export function lavNatur(scene, kort) {
   const op = new THREE.Vector3(0, 1, 0);
   const ressourcer = [];
   const bygninger = [];   // neutrale bygninger (til omrids gennem bygninger)
+  const konstruktioner = [];   // ruiner og lejrenes telte m.m., som kan angribes (konstruktion.js)
 
   for (const f of kort.felter.values()) {
     const c = hexTilVerden(f.q, f.r);
@@ -41,6 +45,7 @@ export function lavNatur(scene, kort) {
         m.decompose(obj.position, obj.quaternion, obj.scale);
         scene.add(obj);
         if (pynt.model.includes('/buildings/')) bygninger.push({ rod: obj, egen: false });
+        if (KONSTRUKTION.test(pynt.model)) konstruktioner.push({ obj, f, model: pynt.model });
       }
       // Træer og sten er ressourcer
       if (pynt.ressource) {
@@ -78,9 +83,9 @@ export function lavNatur(scene, kort) {
       s.scale.setScalar(S * 1.2);
       scene.add(s);
     }
-    // En skov uden træer kan man gå igennem (stenbrud forbliver klipper)
+    // En skov uden træer og et stenbrud uden klippeblokke kan man gå igennem
     const f = r.f;
-    if (f.blok === 'skov' && f.ressourcer.every((o) => o.træ <= 0 || !o.blokerer)) { f.blok = undefined; f.gåbar = !f.optaget; }
+    if ((f.blok === 'skov' || f.blok === 'bjerg') && f.ressourcer.every((o) => o[o.type] <= 0 || !o.blokerer)) { f.blok = undefined; f.gåbar = !f.optaget; bus.emit('felt_ryddet', { felt: f }); }
   }
 
   // Ryd et felt for natur (når der bygges på det)
@@ -89,5 +94,5 @@ export function lavNatur(scene, kort) {
     for (const r of f.ressourcer ?? []) r[r.type] = 0;
   }
 
-  return { ressourcer, bygninger, fjern, ryd };
+  return { ressourcer, bygninger, konstruktioner, fjern, ryd };
 }

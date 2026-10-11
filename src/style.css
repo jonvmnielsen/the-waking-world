@@ -368,10 +368,10 @@ body.valg-helt #helteknap { outline: 2px solid #b8ff7a; outline-offset: 2px; }
 #evner, #sti-evner, #inventar, #rygsæk-knap, #handling-knap { display: none; }
 body.valg-helt.altid-evner #evner, body.valg-helt.handling-åben #evner { display: flex; }
 body.valg-helt.altid-evner #sti-evner:not([hidden]), body.valg-helt.handling-åben #sti-evner:not([hidden]) { display: flex; }
-body.valg-helt.altid-rygsæk #inventar, body.valg-helt.rygsæk-åben #inventar, body.valg-helt.handling-åben #inventar { display: grid; }
+body.valg-helt.altid-rygsæk #inventar, body.valg-helt.rygsæk-åben #inventar, body.valg-helt.handling-åben #inventar { display: flex; }
 body.valg-helt.altid-evner:not(.altid-rygsæk) #rygsæk-knap { display: grid; }
 body.valg-helt:not(.altid-evner) #handling-knap { display: grid; }
-#inventar { right: var(--kant); bottom: calc(var(--bund) + 118px); grid-template-columns: repeat(3, 46px); gap: 6px; }
+#inventar { right: var(--kant); bottom: calc(var(--bund) + 96px); flex-direction: column; gap: 3px; padding: 5px 6px 6px; border-radius: 12px; background: rgba(20, 15, 10, 0.72); border: 1px solid rgba(201, 163, 90, 0.35); }
 #sti-evner { right: calc(var(--kant) + 162px); bottom: calc(var(--bund) + 124px); gap: 10px; }
 #rygsæk-knap, #handling-knap { right: var(--kant); width: 58px; height: 58px; padding: 0; place-content: center; text-align: center; border-radius: 14px; background: var(--træ); border: 2px solid var(--messing); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45); }
 #rygsæk-knap span, #handling-knap span { font-size: 24px; line-height: 1; }
@@ -433,3 +433,37 @@ body.menu-åben #menu, body.menu-åben #menu-bag { display: block; }
 #plac-annuller { background: rgba(90, 30, 24, 0.92) !important; border-color: #e08a6a !important; }
 body.placerer #kommando { display: none; }
 @media (max-height: 500px) and (orientation: landscape) { #placering { top: auto; } }
+
+/* Inventory: udrustet + rygsæk, tættere heltknapper, kompakte bjælker over helten */
+.inv-titel { font-size: 9px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dæmpet); }
+.inv-gitter { display: grid; grid-template-columns: repeat(3, 40px); gap: 4px; }
+#inventar .plads { width: 40px; height: 40px; border-radius: 9px; }
+#inv-rygsæk .plads { opacity: 0.88; }
+#evner { gap: 6px; padding-bottom: 12px; }
+.evne { width: 58px; height: 58px; }
+#evne0 { width: 66px; height: 66px; }
+.evne .ikon { font-size: 25px; }
+#sti-evner { gap: 6px; bottom: calc(var(--bund) + 100px); right: calc(var(--kant) + 150px); }
+#sti-evner .evne { width: 48px; height: 48px; }
+#rygsæk-knap, #handling-knap { width: 52px; height: 52px; }
+#rygsæk-knap { bottom: calc(var(--bund) + 96px); }
+body.rygsæk-åben #rygsæk-knap, body.handling-åben #handling-knap { bottom: calc(var(--bund) + 330px); }
+body.altid-evner:not(.altid-rygsæk):not(.rygsæk-åben) #sti-evner { right: calc(var(--kant) + 58px); }
+#info { bottom: calc(var(--bund) + 330px); }
+.bjælke.helt { width: 54px; height: 6px; }
+.bjælke.helt em { top: 7px; height: 4px; }
+.bjælke.helt em.xp { top: 12px; height: 3px; }
+.bjælke.helt .lv { top: -2px; min-width: 14px; height: 14px; font-size: 9px; line-height: 12px; }
+#butik-faner { display: flex; gap: 6px; padding: 8px 10px 0; }
+#butik-faner[hidden] { display: none; }
+#butik-faner button { flex: 1; padding: 8px; border-radius: 9px 9px 0 0; border: 1px solid rgba(201, 163, 90, 0.35); background: rgba(0, 0, 0, 0.25); font-weight: 800; }
+#butik-faner button.valgt { background: rgba(201, 163, 90, 0.25); color: var(--messing-lys); }
+.tom-liste { margin: 10px; font-size: 13px; color: var(--dæmpet); }
+.bjælke.helt { width: 56px; height: 15px; padding: 0; background: none; box-shadow: none; }
+.bjælke.helt em { position: absolute; left: 0; right: 0; padding: 1px; border-radius: 3px; background: rgba(10, 8, 6, 0.8); }
+.bjælke.helt em.liv { top: 0; height: 7px; }
+.bjælke.helt em.mana { top: 8px; height: 4px; }
+.bjælke.helt em.xp { top: 12px; height: 3px; padding: 0 1px; }
+.bjælke.helt em.liv u { background: linear-gradient(#63d95c, #2c8f27); }
+.bjælke.helt .lv { top: 0; }
+.evne .navn { font-size: 9px; white-space: normal; width: 62px; text-align: center; line-height: 1.05; }

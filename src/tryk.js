@@ -52,7 +52,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
   function fjendeVed(px, py) {
     let fjende = null, bd = 52;
     for (const c of verden.creeps) {
-      if (c.død || !c.rod.visible) continue;
+      if (c.død || !c.rod.visible || (c.neutral && !verden.taage.erUdforsket(c.x, c.z))) continue;
       const s = skærm(c.x, c.højde * 0.5, c.z), d = Math.hypot(s.x - px, s.y - py) - (c.erBygning ? 40 : 0);
       if (d < bd) { bd = d; fjende = c; }
     }
@@ -122,16 +122,18 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       valg.vælgFelt(p && verden.kort.felt(p.x, p.z));
       return;
     }
-    // Egen helt, arbejder eller bygning
-    if (!helt.død && !valg.erHelt) {
+    // Egen helt, arbejder eller bygning. Er noget allerede valgt, vælges intet andet ved et tryk (Jons ønske):
+    // trykket bliver en ordre i stedet, og man fravælger med "Deselect" for at vælge noget nyt.
+    const låst = !valg.ingen;
+    if (!helt.død && !låst) {
       const s = skærm(helt.x, 1.2, helt.z);
       if (Math.hypot(s.x - px, s.y - py) < 40) return valg.vælg(null);
     }
     const egen = base.find(px, py, skærm);
-    // Soldat: vælg den; dobbelttryk vælger alle af samme slags på skærmen
-    if (egen?.type === 'soldat') {
+    // Soldat: vælg den; dobbelttryk på en af de valgte vælger alle af samme slags på skærmen
+    if (egen?.type === 'soldat' && (!låst || valg.gruppe.includes(egen.ting))) {
       const s = egen.ting, nu = performance.now();
-      valg.vælg(forrige.s === s && nu - forrige.t < 420 ? sammeTypePåSkærm(spil, s, skærm) : [s]);
+      if (!låst || (forrige.s === s && nu - forrige.t < 420)) valg.vælg(låst ? sammeTypePåSkærm(spil, s, skærm) : [s]);
       forrige.s = s; forrige.t = nu;
       return;
     }
@@ -140,8 +142,9 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       if (!byg.færdig || byg.skadet) { a.kommandoByg(byg); return effekter.markør(byg.x, byg.z, 0x7dff6a); }
       if (a.bærer && byg.data.aflevering?.includes(a.bærer.type)) return a.gåHjem();
     }
-    if (egen && egen.ting !== valg.valgt) return valg.vælg(egen.ting);
-    if (egen) return;
+    // Helten ved egen markedsplads: handl
+    if (egen?.type === 'bygning' && valg.erHelt && egen.ting.data.butik && egen.ting.færdig) return spil.handlVed(egen.ting);
+    if (egen && !låst) return valg.vælg(egen.ting);
 
     if (valg.erGruppe) return gruppeTryk(valg.gruppe, px, py);
     if (valg.erArbejder) return arbejderTryk(valg.valgt, px, py);

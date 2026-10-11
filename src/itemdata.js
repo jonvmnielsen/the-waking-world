@@ -84,3 +84,10 @@ export function træk(bord, tilf = Math.random) {
 }
 
 export const alleItemModeller = () => [...new Set(Object.values(ITEMS).map((d) => d.model))];
+
+// Salgspris ved en butik: halvdelen af købsprisen; items der ikke sælges i butikker efter sjældenhed
+const SALG = { almindelig: 40, sjælden: 100, episk: 200, legendarisk: 400 };
+export function salgsPris(id) {
+  const d = ITEMS[id];
+  return d.pris ? Math.floor(d.pris / 2) : SALG[d.sjældenhed] ?? 40;
+}

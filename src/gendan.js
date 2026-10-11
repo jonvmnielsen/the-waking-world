@@ -12,6 +12,7 @@ export function gendanSpil(spil, g) {
   helt.xp = g.helt.xp;
   const inv = helt.inventar;
   inv.pladser = g.helt.pladser.map((p) => (p ? { ...p } : null));
+  if (g.helt.rygsæk) inv.rygsæk = g.helt.rygsæk.map((p) => (p ? { ...p } : null));
   Object.assign(inv.permanent, g.helt.permanent);
   inv.beregn();
   if (g.helt.sti) helt.sti.stig(g.helt.sti, true);
@@ -87,7 +88,7 @@ export function gendanSpil(spil, g) {
     const k = genstande.kister[i];
     if (!åben || !k) return;
     k.åben = true;
-    k.rod.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.color.multiplyScalar(0.45); } });
+    verden.scene.remove(k.rod);   // åbnede kister er væk
   });
 
   // The Memory: bygninger (samme pladser hver gang), guld, bølger og hæren
@@ -107,6 +108,8 @@ export function gendanSpil(spil, g) {
       e.tilstand = 'march'; e.spil(e.anim.idle);
     }
   }
+
+  for (const id of g.ødelagte ?? []) spil.konstruktioner?.[id]?.ødelæg(null, true);
 
   // Udforsket land, spillestil, økonomi og kamera
   pakUd(g.udforsket, taage.udforsket);

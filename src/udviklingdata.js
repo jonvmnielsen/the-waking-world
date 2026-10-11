@@ -1,22 +1,22 @@
 // Opgraderinger og forskning (M7, Jons ønske): bygningerne forsker i bedre våben, rustning og redskaber,
 // Storlejren opgraderes i tre tiers, og vagttårne kan bygges om til Guard Towers og derefter Cannon Towers.
-// Forskningens level 2 kræver Stronghold og level 3 kræver Fortress (som WC3's tiers).
+// Forskningens level 2 kræver Citadel og level 3 kræver Fortress (som WC3's tiers).
 const G = 'kaykit-hexagon/buildings/green/';
 const P = (guld, træ, sten, tid) => ({ pris: { guld, træ, ...(sten ? { sten } : {}) }, tid });
 
 // Storlejrens tiers (index = tier - 1)
 export const HAL = [
   { navn: 'Great Hall' },
-  { navn: 'Stronghold', ...P(450, 250, 200, 70), hp: 800, tekst: 'Tier 2: +800 health, and second-level research.' },
+  { navn: 'Citadel', ...P(450, 250, 200, 70), hp: 800, tekst: 'Tier 2: +800 health, and second-level research.' },
   { navn: 'Fortress', ...P(700, 400, 350, 90), hp: 1200, tekst: 'Tier 3: +1200 health, and third-level research.' },
 ];
 
-// Vagttårnets opgraderinger, ét trin ad gangen: Guard Tower (Stronghold) → Cannon Tower (Fortress)
+// Vagttårnets opgraderinger, ét trin ad gangen: Guard Tower (Citadel) → Cannon Tower (Fortress)
 export const TÅRN_TRIN = [
   {
     navn: 'Guard Tower', ikon: 'udv-vagttårn', model: G + 'building_tower_b_green', ...P(150, 60, 120, 35), hal: 2, hp: 500, rustning: 2,
     angreb: { rækkevidde: 22, skade: [36, 48], tid: 1.3 },
-    tekst: 'Upgrade to a Guard Tower: more damage, range and health. Needs a Stronghold.',
+    tekst: 'Upgrade to a Guard Tower: more damage, range and health. Needs a Citadel.',
   },
   {
     navn: 'Cannon Tower', ikon: 'udv-kanontårn', model: G + 'building_tower_catapult_green', ...P(250, 120, 220, 45), hal: 3, hp: 600, rustning: 2,
@@ -69,6 +69,7 @@ export const FORSKNING = {
 // Hvad hver bygningstype kan forske i / opgradere til ('hal' og 'vagttårn' er opgraderinger af selve bygningen)
 export const UDVIKLINGER = {
   storlejr: ['hal', 'minedrift'],
+  borg: ['minedrift'],
   smedje: ['våben', 'spyd', 'rustning', 'tårnskud'],
   krigerlejr: ['drill'],
   savværk: ['økser', 'hakker', 'murværk'],

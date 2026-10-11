@@ -10,6 +10,13 @@ export const BYGNINGER = {
     tekst: 'Your main building. Trains workers and receives all resources.',
     træner: ['arbejder'], kanBygges: false,
   },
+  borg: {
+    hp: 1800,
+    navn: 'Stronghold', model: G + 'building_castle_green', skala: 1.0,
+    pris: { guld: 380, træ: 200, sten: 120 }, tid: 75, forsyning: 8, aflevering: ['guld', 'træ', 'sten'], syn: 26,
+    tekst: 'A second main hall: trains workers and receives gold, wood and stone. Build it near a new gold mine.',
+    træner: ['arbejder'],
+  },
   hytte: {
     hp: 600,
     navn: 'Supply Hut', kort: 'Hut', model: G + 'building_home_a_green', skala: 2.15,
@@ -57,7 +64,7 @@ export const BYGNINGER = {
 };
 
 // Hvad en arbejder kan bygge, i menuens rækkefølge
-export const BYGGEMENU = ['hytte', 'savværk', 'tårn', 'krigerlejr', 'smedje', 'marked', 'alter'];
+export const BYGGEMENU = ['hytte', 'savværk', 'tårn', 'krigerlejr', 'smedje', 'marked', 'alter', 'borg'];
 
 export const ENHEDER = {
   arbejder: { navn: 'Worker', pris: { guld: 50 }, tid: 12, forsyning: 1, tekst: 'Gathers gold, wood and stone and builds your base.' },

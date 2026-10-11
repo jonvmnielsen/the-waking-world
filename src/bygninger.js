@@ -22,7 +22,7 @@ export class Bygning {
     this.død = false;
     // Liv: en byggeplads starter med 10 % og vokser mens den bygges (som i WC3)
     this.grundHp = this.data.hp ?? 900; this.ekstraHp = 0;
-    this.grundRustning = this.type === 'storlejr' ? 5 : this.type === 'tårn' ? 4 : 3;
+    this.grundRustning = this.type === 'storlejr' || this.type === 'borg' ? 5 : this.type === 'tårn' ? 4 : 3;
     this.hp = færdig ? this.maxHp : this.maxHp * 0.1;
     this.rod = null;
     this.visModel(færdig ? this.data.model : STADIER[0], færdig ? this.data.skala : 1);

@@ -101,7 +101,8 @@ export class Genstande {
     const id = træk(DROP[k.niveau ?? 2]);
     this.læg(id, k.x + 1.6, k.z + 1.2);
     bus.emit('effekt', { type: 'kiste', x: k.x, z: k.z });
-    k.rod.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.color.multiplyScalar(0.45); } });
+    // Den åbnede kiste forsvinder lidt efter
+    setTimeout(() => this.verden.scene.remove(k.rod), 700);
   }
 
   // Det tættest på et skærmpunkt (til tryk); skærm(x,y,z) giver skærmkoordinater

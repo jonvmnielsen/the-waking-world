@@ -92,6 +92,7 @@ the-waking-world/
 │   ├── bygninger.js / base.js # Byggepladser → færdige bygninger; basen (placering, aflevering, træning)
 │   ├── arbejder.js / hoest.js # Bæreren: bærer hjem, bygger; høst (kilde man kan nå, 1,5 hex-område, ellers ledig)
 │   ├── hindring.js           # Figurer går uden om frie træer og sten
+│   ├── konstruktion.js       # Ruiner og lejrtelte på kortet, som kan angribes
 │   ├── basestart.js          # Storlejr + 5 bærere ved start
 │   ├── valg.js               # Hvad er valgt + placering af nye bygninger
 │   ├── kommandohud.js        # Ressourcebjælke, ledige bærere, kommandopanel, placeringsbjælke
@@ -348,6 +349,13 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Top-bjælke med hele tal og upkeep, ur under; helteknap (hop → info, dobbelttryk); itemnavne på jorden
 - [x] Byggemenu bag Build-knap; grøn/rød skygge der kan trækkes; Build/Stop
 
+### ✅ Jons feedback 4 (oktober 2026)
+- [x] Inventory: udrustet + rygsæk; sælg items i butikkens Sell-fane
+- [x] Valg låst indtil Deselect; Hero-knappen sender valgte soldater til helten
+- [x] Ruiner og lejrtelte kan angribes; åbnede kister forsvinder; ryddede stenbrud kan betrædes
+- [x] Byg flere Strongholds (ekstra haller); tier 2 hedder Citadel
+- [x] Kompakte bjælker over helten; heltens knapper tættere sammen
+
 ### 📋 Næste: M8+
 Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer. Se `docs/GDD.md` afsnit 16.
 
@@ -378,6 +386,7 @@ Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer
 | 2026-10-11 | Ascension: stien der passer er gratis, andre koster ressourcer; level 11–20 kræver Ascension | Valget skal føles spillet til, ikke bare købt |
 | 2026-10-11 | Ny skærm: helteknap i stedet for heltepanel, HUD efter valg, indstillinger | Jon: for meget UI på skærmen og for tæt zoom; heltens ting kun når helten er valgt |
 | 2026-10-11 | Høst inden for 1,5 hex, ellers ledig; tilbagevenden efter jagt (10 s) | Jons regler |
+| 2026-10-11 | Valg låst indtil Deselect; Strongholds kan bygges; tier 2 omdøbt til Citadel | Jons ønsker; Citadel undgår to ting med samme navn |
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
 | 2026-10-10 | Dag og nat med | Rytme og taktik (GDD 4.6) |
 | 2026-10-10 | Lyd syntetiseres med WebAudio indtil videre | Ingen lydfiler i asset-biblioteket endnu; virker uden downloads |

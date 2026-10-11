@@ -157,18 +157,18 @@ Navnene er arbejdsnavne. Modellerne er KayKit Hexagon i holdfarve.
 
 \* Mangler en passende model.
 
-**Opgraderinger og forskning (M7):** Vælg en færdig bygning, og panelet viser hvad den kan forske i. Én ting ad gangen pr. bygning; den kan annulleres med fuld refusion. Level 2 af en forskning kræver *Stronghold*, level 3 kræver *Fortress*.
+**Opgraderinger og forskning (M7):** Vælg en færdig bygning, og panelet viser hvad den kan forske i. Én ting ad gangen pr. bygning; den kan annulleres med fuld refusion. Level 2 af en forskning kræver *Citadel*, level 3 kræver *Fortress*.
 
 | Bygning | Udvikling | Levels | Virkning |
 |---|---|---|---|
-| Great Hall | → **Stronghold** → **Fortress** | 2 | +800 / +1200 liv, låser forskningens level 2 og 3 op; flag og små tårne på hallen |
+| Great Hall | → **Citadel** → **Fortress** | 2 | +800 / +1200 liv, låser forskningens level 2 og 3 op; flag og små tårne på hallen |
 | Great Hall | Deep Mining | 2 | +2 guld pr. tur pr. level |
 | Forge | Forged Axes / Barbed Spears | 3 | Nærkamp- / afstandssoldater +3 skade pr. level |
 | Forge | Hardened Hides | 3 | Alle soldater +1 rustning pr. level |
 | War Camp | Battle Drills | 1 | Veteraner 50 % hurtigere, dobbelt heling uden for kamp |
 | Lumber Mill | Sharper Axes / Stone Picks | 2 | +2 træ / sten pr. tur pr. level |
 | Lumber Mill | Masonry | 3 | Bygninger +15 % liv og +1 rustning pr. level |
-| Watch Tower | → **Guard Tower** (Stronghold) → **Cannon Tower** (Fortress) | 2 | Ny model hver gang, mere skade, rækkevidde, liv og rustning; Cannon Tower rammer også alle fjender tæt på målet (60 %) |
+| Watch Tower | → **Guard Tower** (Citadel) → **Cannon Tower** (Fortress) | 2 | Ny model hver gang, mere skade, rækkevidde, liv og rustning; Cannon Tower rammer også alle fjender tæt på målet (60 %) |
 | Forge | Burning Bolts | 2 | Alle tårne +20 % skade og +2 rækkevidde pr. level |
 
 Priser og tider står i `src/udviklingdata.js`.
@@ -376,6 +376,14 @@ En grøn markering viser, hvor units skal gå hen. Rød markerer et angrebsmål,
 **Byggeri:** En arbejder viser først *Get gold/wood/stone* og *Build*. *Build* åbner listen over bygninger; et valg lukker listen og viser bygningen som en grøn (kan bygges) eller rød (kan ikke) skygge, der kan trækkes eller flyttes med et tryk. *Build* bygger, *Stop* fortryder.
 
 **Helteknappen:** første tryk hopper til helten og vælger den, næste tryk åbner overblikket; dobbelttryk åbner det med det samme. **Items på jorden:** et tryk viser navnet i sjældenhedens farve. **Top-bjælken** viser hele tallene og upkeep; uret står under den.
+
+**Valg er låst (Jons ønske):** Når noget er valgt, vælger et tryk på en anden figur eller bygning ikke den; trykket bliver en ordre (gå derhen). Man fravælger med *Deselect* for at vælge noget nyt. Knapperne (Hero, idle, army) og vælg-firkanten virker stadig. Dobbelttryk på en af de valgte soldater vælger alle af samme slags. **Soldater til helten:** med soldater valgt sender Hero-knappen dem hen til helten.
+
+**Inventory:** 6 udrustede pladser (giver bonusser og kan bruges) og en rygsæk med 6 pladser. Nye items udrustes, hvis der er plads, ellers lægges de i rygsækken. Info-kortet har *Equip/Unequip*. Ved købmanden og egen Marketplace har butikken fanerne *Buy* og *Sell*; *Sell* viser alle heltens items (udrustede og i rygsækken) til halv pris.
+
+**Ting på kortet man kan angribe:** ruiner (giver 50–110 guld og 30 træ og frigør feltet), lejrenes telte og udstyr (lidt guld). Ingen angriber dem af sig selv. Kro, købmand, kilder, udkigstårne og miner kan ikke ødelægges. Åbnede kister forsvinder, og et stenbrud uden klippeblokke kan man gå igennem.
+
+**Stronghold:** arbejdere kan bygge flere Strongholds (ét felt): ekstra hovedhaller, der træner arbejdere, modtager guld, træ og sten og giver 8 forsyning. Storlejrens tier 2 hedder nu *Citadel*.
 
 **Gem spil:** Spillet gemmes automatisk hvert minut og når appen lægges væk, og kan gemmes fra menuen. Ved start vises "Fortsæt spillet", hvis der er et gemt spil. Gemmet ligger i telefonens browser (ét gemt spil ad gangen).
 

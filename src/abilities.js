@@ -97,7 +97,7 @@ export class Evner {
   }
 
   fjenderInden(r) {
-    return this.helt.verden.creeps.filter((c) => !c.død && this.helt.afstand(c) - c.radius <= r);
+    return this.helt.verden.creeps.filter((c) => !c.død && !c.neutral && this.helt.afstand(c) - c.radius <= r);
   }
 
   bruteStrike() {

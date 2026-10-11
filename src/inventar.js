@@ -1,5 +1,6 @@
-// Heltens inventar: 6 pladser, samlede bonusser fra udstyr og brug af items (GDD 8.1–8.2).
-import { ITEMS } from './itemdata.js';
+// Heltens inventar (GDD 8.1–8.2): 6 udrustede pladser (giver bonusser og kan bruges) og en rygsæk med 6 pladser
+// til items man bærer uden at have dem udrustet. Samlede bonusser, brug af items og salg.
+import { ITEMS, salgsPris } from './itemdata.js';
 import { bus } from './events.js';
 
 export const PLADSER = 6;
@@ -8,14 +9,44 @@ const TOM = { str: 0, agi: 0, int: 0, skade: 0, rustning: 0, hp: 0, mana: 0, ang
 export class Inventar {
   constructor(helt) {
     this.helt = helt;
-    this.pladser = new Array(PLADSER).fill(null);   // { id, ladninger }
+    this.pladser = new Array(PLADSER).fill(null);   // udrustet: { id, ladninger }
+    this.rygsæk = new Array(PLADSER).fill(null);    // båret, men ikke udrustet (ingen bonusser)
     this.bonus = { ...TOM };
     this.permanent = { hp: 0, skade: 0, str: 0, agi: 0, int: 0, ofringer: 0 };   // fra bøger og ofringer ved alteret
     this.cooldown = 0;
     this.helOverTid = null;                           // { pr, tid }
   }
 
-  get fuld() { return this.pladser.every(Boolean); }
+  get fuld() { return this.pladser.every(Boolean) && this.rygsæk.every(Boolean); }
+
+  liste(hvor) { return hvor === 'rygsæk' ? this.rygsæk : this.pladser; }
+
+  // Flyt et item mellem udrustet og rygsækken
+  flyt(hvor, i) {
+    const fra = this.liste(hvor), til = this.liste(hvor === 'rygsæk' ? 'udstyr' : 'rygsæk');
+    const j = til.indexOf(null);
+    if (!fra[i]) return null;
+    if (j < 0) return hvor === 'rygsæk' ? 'No free equipped slot' : 'Your backpack is full';
+    til[j] = fra[i]; fra[i] = null;
+    this.beregn();
+    const h = this.helt;
+    h.hp = Math.min(h.hp, h.maxHp); h.mana = Math.min(h.mana, h.manaMax);
+    return null;
+  }
+
+  // Sælg et item (ved en butik): halv pris
+  sælg(hvor, i) {
+    const l = this.liste(hvor), p = l[i];
+    if (!p) return 0;
+    l[i] = null;
+    const pris = salgsPris(p.id);
+    this.guld += pris;
+    this.beregn();
+    const h = this.helt;
+    h.hp = Math.min(h.hp, h.maxHp); h.mana = Math.min(h.mana, h.manaMax);
+    bus.emit('flydetekst', { enhed: h, tekst: `+${pris} gold`, klasse: 'guld' });
+    return pris;
+  }
 
   // Guld deles med resten af økonomien (basen)
   get guld() { return this.helt.verden.økonomi.guld; }
@@ -25,18 +56,21 @@ export class Inventar {
   modtag(id, ladninger) {
     const d = ITEMS[id];
     if (d.type === 'opsamling') { this.virkning(d.brug, d); bus.emit('item_samlet', { id }); return true; }
-    const i = this.pladser.indexOf(null);
-    if (i < 0) return false;
-    this.pladser[i] = { id, ladninger: ladninger ?? d.ladninger ?? null };
+    // Udrustet hvis der er plads, ellers i rygsækken
+    const item = { id, ladninger: ladninger ?? d.ladninger ?? null };
+    const i = this.pladser.indexOf(null), j = this.rygsæk.indexOf(null);
+    if (i >= 0) this.pladser[i] = item;
+    else if (j >= 0) { this.rygsæk[j] = item; bus.emit('besked', `${d.navn} went into your backpack`); }
+    else return false;
     this.beregn();
     bus.emit('item_samlet', { id });
     return true;
   }
 
-  smid(i) {
-    const p = this.pladser[i];
+  smid(i, hvor = 'udstyr') {
+    const l = this.liste(hvor), p = l[i];
     if (!p) return null;
-    this.pladser[i] = null;
+    l[i] = null;
     const h = this.helt;
     this.beregn();
     h.hp = Math.min(h.hp, h.maxHp);

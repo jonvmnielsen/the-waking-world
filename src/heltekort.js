@@ -3,6 +3,8 @@
 import { EGENSKABER } from './heltstats.js';
 import { ESSENSER } from './abilities.js';
 import { ASCENSION_LEVEL } from './ascensiondata.js';
+import { gruppeGå } from './haer.js';
+import { bus } from './events.js';
 
 const $ = (id) => document.getElementById(id);
 const FORKLARING = {
@@ -26,6 +28,12 @@ export class HelteKort {
     $('helteknap').addEventListener('click', (e) => {
       e.stopPropagation();
       if ($('heltekort').classList.contains('vis')) return this.skift(false);
+      // Med soldater valgt: send dem hen til helten
+      const kæmpere = spil.valg.gruppe.filter((u) => u.vet && !u.død);
+      if (kæmpere.length && !spil.helt.død) {
+        gruppeGå(kæmpere, spil.helt.x, spil.helt.z, spil.verden.kort);
+        return bus.emit('besked', `${kæmpere.length} ${kæmpere.length === 1 ? 'soldier heads' : 'soldiers head'} to your hero`);
+      }
       const nu = performance.now(), dobbelt = nu - (this.sidstTryk ?? -1e9) < 400;
       this.sidstTryk = nu;
       const fremme = spil.valg.erHelt && spil.rig.følger;   // allerede valgt og kameraet følger helten
