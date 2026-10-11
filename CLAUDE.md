@@ -90,7 +90,7 @@ the-waking-world/
 │   ├── okonomi.js            # Guld/træ/sten/forsyning og ressourcekilder (miner + hvert træ og hver sten)
 │   ├── bygningsdata.js       # The Tides bygninger og enheder (pris, tid, funktion)
 │   ├── bygninger.js / base.js # Byggepladser → færdige bygninger; basen (placering, aflevering, træning)
-│   ├── arbejder.js / hoest.js # Bæreren: bærer hjem, bygger; høst (kilde man kan nå, 1,5 hex-område, ellers ledig)
+│   ├── arbejder.js / hoest.js # Bæreren: bærer hjem, bygger; høst (kilde man kan nå, 2 hex-område, ellers ledig)
 │   ├── hindring.js           # Figurer går uden om frie træer og sten
 │   ├── konstruktion.js       # Ruiner og lejrtelte på kortet, som kan angribes
 │   ├── basestart.js          # Storlejr + 5 bærere ved start
@@ -343,7 +343,7 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Kortet i fuld skærm; rød kant og rød blinkende plet ved angreb
 
 ### ✅ Jons feedback 3 (oktober 2026)
-- [x] Arbejdere sidder ikke fast ved træ/sten; fortsætter inden for 1,5 hex, ellers ledige; går uden om ting
+- [x] Arbejdere sidder ikke fast ved træ/sten; fortsætter inden for 2 hex, ellers ledige; går uden om ting
 - [x] Helt og soldater vender tilbage efter en jagt (død/flygtet/10 s)
 - [x] Cannon Tower og forskningen Burning Bolts
 - [x] Top-bjælke med hele tal og upkeep, ur under; helteknap (hop → info, dobbelttryk); itemnavne på jorden
@@ -385,7 +385,7 @@ Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer
 | 2026-10-11 | Opgraderinger og forskning til bygninger og units | Jons ønske; WC3-tiers (Stronghold/Fortress) låser forskningslevels op |
 | 2026-10-11 | Ascension: stien der passer er gratis, andre koster ressourcer; level 11–20 kræver Ascension | Valget skal føles spillet til, ikke bare købt |
 | 2026-10-11 | Ny skærm: helteknap i stedet for heltepanel, HUD efter valg, indstillinger | Jon: for meget UI på skærmen og for tæt zoom; heltens ting kun når helten er valgt |
-| 2026-10-11 | Høst inden for 1,5 hex, ellers ledig; tilbagevenden efter jagt (10 s) | Jons regler |
+| 2026-10-11 | Høst inden for 2 hex (først 1,5), ellers ledig; tilbagevenden efter jagt (10 s) | Jons regler |
 | 2026-10-11 | Valg låst indtil Deselect; Strongholds kan bygges; tier 2 omdøbt til Citadel | Jons ønsker; Citadel undgår to ting med samme navn |
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
 | 2026-10-10 | Dag og nat med | Rytme og taktik (GDD 4.6) |

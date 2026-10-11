@@ -1,12 +1,12 @@
 // Arbejderens høst (Jons regler): gå hen til en kilde man faktisk kan nå, høst, bær hjem og fortsæt
-// med samme slags ressource inden for 1,5 hex af den forrige kilde. Er der ikke mere i området,
+// med samme slags ressource inden for 2 hex af den forrige kilde. Er der ikke mere i området,
 // stopper arbejderen og bliver ledig. En kilde der ikke kan nås, opgives i stedet for at prøve igen og igen.
 // Blandes ind i Arbejder-klassen.
 import { bus } from './events.js';
 import { RES_NAVN, BÆR, HØST_TID } from './okonomi.js';
 import { HEX_BREDDE } from './hexgrid.js';
 
-const OMRÅDE = 1.5 * HEX_BREDDE;
+const OMRÅDE = 2 * HEX_BREDDE;     // hvor langt fra den forrige kilde arbejderen leder efter den næste (Jon: 2 hex)
 let sidstBesked = -1e9;
 
 // Hvor mange andre kilder af samme slags der er inden for området (til at finde skove og stenbrud)
