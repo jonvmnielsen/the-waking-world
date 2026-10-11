@@ -1,14 +1,15 @@
 {
   "library": "jonvmnielsen/game-assets",
-  "libraryCommit": "bfa1c01",
-  "synced": "2026-10-10T19:10:08.277Z",
+  "libraryCommit": "26a3e52",
+  "synced": "2026-10-11T10:10:13.210Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
       "file": "units/hero_tide.glb",
-      "bytes": 493064,
-      "sha": "85d8bacadb12",
+      "bytes": 561560,
+      "sha": "3120cbeb6ff2",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "2H_Melee_Idle",
@@ -20,6 +21,8 @@
         "Death_A",
         "Hit_A",
         "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
         "Block"
       ]
     },
@@ -29,6 +32,7 @@
       "bytes": 414188,
       "sha": "1c8b9cc01e12",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Walking_A",
@@ -47,6 +51,7 @@
       "bytes": 367120,
       "sha": "9c4a8d510322",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_C",
@@ -63,6 +68,7 @@
       "bytes": 388204,
       "sha": "3af5b75ff03b",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_C",
@@ -79,6 +85,7 @@
       "bytes": 381740,
       "sha": "1aefe7b9105b",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_C",
@@ -95,6 +102,7 @@
       "bytes": 376908,
       "sha": "e73a312dfab2",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_C",
@@ -112,6 +120,7 @@
       "bytes": 324880,
       "sha": "67afc2f85075",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_A",
@@ -127,6 +136,7 @@
       "bytes": 357868,
       "sha": "cf82c25c294b",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_A",
@@ -143,6 +153,7 @@
       "bytes": 375844,
       "sha": "dbd6b1e4355d",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_A",
@@ -159,6 +170,7 @@
       "bytes": 315656,
       "sha": "4362be139f64",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_A",
@@ -174,6 +186,7 @@
       "bytes": 378684,
       "sha": "642bd011d95f",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_A",
@@ -190,6 +203,7 @@
       "bytes": 383084,
       "sha": "9e08dc010a9c",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_A",
@@ -207,6 +221,7 @@
       "bytes": 325664,
       "sha": "6552fa273008",
       "license": "CC0-1.0",
+      "kind": "model",
       "animations": [
         "Idle",
         "Running_A",
@@ -221,1323 +236,1512 @@
       "file": "kaykit-skeletons/skeleton_arrow.glb",
       "bytes": 9848,
       "sha": "4af67db9f3d5",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-skeletons/skeleton_axe": {
       "id": "kaykit-skeletons/skeleton_axe",
       "file": "kaykit-skeletons/skeleton_axe.glb",
       "bytes": 18140,
       "sha": "42134ae60d2b",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-skeletons/skeleton_blade": {
       "id": "kaykit-skeletons/skeleton_blade",
       "file": "kaykit-skeletons/skeleton_blade.glb",
       "bytes": 16500,
       "sha": "5aee478f68ca",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-skeletons/skeleton_staff": {
       "id": "kaykit-skeletons/skeleton_staff",
       "file": "kaykit-skeletons/skeleton_staff.glb",
       "bytes": 36624,
       "sha": "1b97693cce23",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-skeletons/skeleton_shield_small_a": {
       "id": "kaykit-skeletons/skeleton_shield_small_a",
       "file": "kaykit-skeletons/skeleton_shield_small_a.glb",
       "bytes": 17112,
       "sha": "44776d76f7a1",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-skeletons/skeleton_shield_large_a": {
       "id": "kaykit-skeletons/skeleton_shield_large_a",
       "file": "kaykit-skeletons/skeleton_shield_large_a.glb",
       "bytes": 22364,
       "sha": "8e7db54c336b",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/cloud_big": {
       "id": "kaykit-hexagon/decoration/nature/cloud_big",
       "file": "kaykit-hexagon/decoration/nature/cloud_big.glb",
       "bytes": 13332,
       "sha": "93397f8a32fa",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/cloud_small": {
       "id": "kaykit-hexagon/decoration/nature/cloud_small",
       "file": "kaykit-hexagon/decoration/nature/cloud_small.glb",
       "bytes": 10688,
       "sha": "a38d18489940",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hill_single_a": {
       "id": "kaykit-hexagon/decoration/nature/hill_single_a",
       "file": "kaykit-hexagon/decoration/nature/hill_single_a.glb",
       "bytes": 8544,
       "sha": "72e90e8424b4",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hill_single_b": {
       "id": "kaykit-hexagon/decoration/nature/hill_single_b",
       "file": "kaykit-hexagon/decoration/nature/hill_single_b.glb",
       "bytes": 8592,
       "sha": "97022162c6c7",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hill_single_c": {
       "id": "kaykit-hexagon/decoration/nature/hill_single_c",
       "file": "kaykit-hexagon/decoration/nature/hill_single_c.glb",
       "bytes": 8572,
       "sha": "b2f0233b6af8",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hills_a": {
       "id": "kaykit-hexagon/decoration/nature/hills_a",
       "file": "kaykit-hexagon/decoration/nature/hills_a.glb",
       "bytes": 15116,
       "sha": "c65250289fa9",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hills_a_trees": {
       "id": "kaykit-hexagon/decoration/nature/hills_a_trees",
       "file": "kaykit-hexagon/decoration/nature/hills_a_trees.glb",
       "bytes": 18520,
       "sha": "d464a86d61d2",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hills_b": {
       "id": "kaykit-hexagon/decoration/nature/hills_b",
       "file": "kaykit-hexagon/decoration/nature/hills_b.glb",
       "bytes": 11920,
       "sha": "292fee4c11b9",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hills_b_trees": {
       "id": "kaykit-hexagon/decoration/nature/hills_b_trees",
       "file": "kaykit-hexagon/decoration/nature/hills_b_trees.glb",
       "bytes": 16500,
       "sha": "b2132b9f475b",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hills_c": {
       "id": "kaykit-hexagon/decoration/nature/hills_c",
       "file": "kaykit-hexagon/decoration/nature/hills_c.glb",
       "bytes": 12288,
       "sha": "fa4e3296c23c",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/hills_c_trees": {
       "id": "kaykit-hexagon/decoration/nature/hills_c_trees",
       "file": "kaykit-hexagon/decoration/nature/hills_c_trees.glb",
       "bytes": 21636,
       "sha": "eb0c411134f6",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_a": {
       "id": "kaykit-hexagon/decoration/nature/mountain_a",
       "file": "kaykit-hexagon/decoration/nature/mountain_a.glb",
       "bytes": 9548,
       "sha": "2f98e3d626a4",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_a_grass": {
       "id": "kaykit-hexagon/decoration/nature/mountain_a_grass",
       "file": "kaykit-hexagon/decoration/nature/mountain_a_grass.glb",
       "bytes": 12712,
       "sha": "12563feccf8a",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_a_grass_trees": {
       "id": "kaykit-hexagon/decoration/nature/mountain_a_grass_trees",
       "file": "kaykit-hexagon/decoration/nature/mountain_a_grass_trees.glb",
       "bytes": 17148,
       "sha": "05265d81acf8",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_b": {
       "id": "kaykit-hexagon/decoration/nature/mountain_b",
       "file": "kaykit-hexagon/decoration/nature/mountain_b.glb",
       "bytes": 9552,
       "sha": "c3b8dea089d0",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_b_grass": {
       "id": "kaykit-hexagon/decoration/nature/mountain_b_grass",
       "file": "kaykit-hexagon/decoration/nature/mountain_b_grass.glb",
       "bytes": 12644,
       "sha": "45a58e0d6402",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_b_grass_trees": {
       "id": "kaykit-hexagon/decoration/nature/mountain_b_grass_trees",
       "file": "kaykit-hexagon/decoration/nature/mountain_b_grass_trees.glb",
       "bytes": 19300,
       "sha": "6eecde034d20",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_c": {
       "id": "kaykit-hexagon/decoration/nature/mountain_c",
       "file": "kaykit-hexagon/decoration/nature/mountain_c.glb",
       "bytes": 11060,
       "sha": "fa977c7acec9",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_c_grass": {
       "id": "kaykit-hexagon/decoration/nature/mountain_c_grass",
       "file": "kaykit-hexagon/decoration/nature/mountain_c_grass.glb",
       "bytes": 16220,
       "sha": "fe5f96abccff",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/mountain_c_grass_trees": {
       "id": "kaykit-hexagon/decoration/nature/mountain_c_grass_trees",
       "file": "kaykit-hexagon/decoration/nature/mountain_c_grass_trees.glb",
       "bytes": 22856,
       "sha": "c83fb8d9cec2",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/rock_single_a": {
       "id": "kaykit-hexagon/decoration/nature/rock_single_a",
       "file": "kaykit-hexagon/decoration/nature/rock_single_a.glb",
       "bytes": 7736,
       "sha": "cfbee317eef4",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/rock_single_b": {
       "id": "kaykit-hexagon/decoration/nature/rock_single_b",
       "file": "kaykit-hexagon/decoration/nature/rock_single_b.glb",
       "bytes": 7928,
       "sha": "ca55f3800296",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/rock_single_c": {
       "id": "kaykit-hexagon/decoration/nature/rock_single_c",
       "file": "kaykit-hexagon/decoration/nature/rock_single_c.glb",
       "bytes": 8096,
       "sha": "f6c1a79ebdcd",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/rock_single_d": {
       "id": "kaykit-hexagon/decoration/nature/rock_single_d",
       "file": "kaykit-hexagon/decoration/nature/rock_single_d.glb",
       "bytes": 7828,
       "sha": "d0a4293126b1",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/rock_single_e": {
       "id": "kaykit-hexagon/decoration/nature/rock_single_e",
       "file": "kaykit-hexagon/decoration/nature/rock_single_e.glb",
       "bytes": 8804,
       "sha": "6eb23f5e5994",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/tree_single_a": {
       "id": "kaykit-hexagon/decoration/nature/tree_single_a",
       "file": "kaykit-hexagon/decoration/nature/tree_single_a.glb",
       "bytes": 8516,
       "sha": "3f144a758cd5",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/tree_single_a_cut": {
       "id": "kaykit-hexagon/decoration/nature/tree_single_a_cut",
       "file": "kaykit-hexagon/decoration/nature/tree_single_a_cut.glb",
       "bytes": 7696,
       "sha": "f38d49bc98b4",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/tree_single_b": {
       "id": "kaykit-hexagon/decoration/nature/tree_single_b",
       "file": "kaykit-hexagon/decoration/nature/tree_single_b.glb",
       "bytes": 9988,
       "sha": "be60d284b9ae",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/tree_single_b_cut": {
       "id": "kaykit-hexagon/decoration/nature/tree_single_b_cut",
       "file": "kaykit-hexagon/decoration/nature/tree_single_b_cut.glb",
       "bytes": 7852,
       "sha": "e9b4246b2d71",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/trees_a_cut": {
       "id": "kaykit-hexagon/decoration/nature/trees_a_cut",
       "file": "kaykit-hexagon/decoration/nature/trees_a_cut.glb",
       "bytes": 13356,
       "sha": "ce41e208c121",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/trees_a_large": {
       "id": "kaykit-hexagon/decoration/nature/trees_a_large",
       "file": "kaykit-hexagon/decoration/nature/trees_a_large.glb",
       "bytes": 27980,
       "sha": "409e69f742dc",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/trees_a_medium": {
       "id": "kaykit-hexagon/decoration/nature/trees_a_medium",
       "file": "kaykit-hexagon/decoration/nature/trees_a_medium.glb",
       "bytes": 19068,
       "sha": "1d56d95d8c44",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/trees_a_small": {
       "id": "kaykit-hexagon/decoration/nature/trees_a_small",
       "file": "kaykit-hexagon/decoration/nature/trees_a_small.glb",
       "bytes": 17940,
       "sha": "e60c9240cb55",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/trees_b_cut": {
       "id": "kaykit-hexagon/decoration/nature/trees_b_cut",
       "file": "kaykit-hexagon/decoration/nature/trees_b_cut.glb",
       "bytes": 11176,
       "sha": "3f1260a62574",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/trees_b_large": {
       "id": "kaykit-hexagon/decoration/nature/trees_b_large",
       "file": "kaykit-hexagon/decoration/nature/trees_b_large.glb",
       "bytes": 26364,
       "sha": "900976b0ada9",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/trees_b_medium": {
       "id": "kaykit-hexagon/decoration/nature/trees_b_medium",
       "file": "kaykit-hexagon/decoration/nature/trees_b_medium.glb",
       "bytes": 20988,
       "sha": "57d54cb8df76",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/trees_b_small": {
       "id": "kaykit-hexagon/decoration/nature/trees_b_small",
       "file": "kaykit-hexagon/decoration/nature/trees_b_small.glb",
       "bytes": 15464,
       "sha": "68cee28fbc4a",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/waterlily_a": {
       "id": "kaykit-hexagon/decoration/nature/waterlily_a",
       "file": "kaykit-hexagon/decoration/nature/waterlily_a.glb",
       "bytes": 8272,
       "sha": "7c286f664df4",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/waterlily_b": {
       "id": "kaykit-hexagon/decoration/nature/waterlily_b",
       "file": "kaykit-hexagon/decoration/nature/waterlily_b.glb",
       "bytes": 8348,
       "sha": "122afca605ea",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/waterplant_a": {
       "id": "kaykit-hexagon/decoration/nature/waterplant_a",
       "file": "kaykit-hexagon/decoration/nature/waterplant_a.glb",
       "bytes": 8732,
       "sha": "d2b6c6f3e777",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/waterplant_b": {
       "id": "kaykit-hexagon/decoration/nature/waterplant_b",
       "file": "kaykit-hexagon/decoration/nature/waterplant_b.glb",
       "bytes": 9828,
       "sha": "c7f97958e310",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/nature/waterplant_c": {
       "id": "kaykit-hexagon/decoration/nature/waterplant_c",
       "file": "kaykit-hexagon/decoration/nature/waterplant_c.glb",
       "bytes": 12400,
       "sha": "c13537abcb36",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/barrel": {
       "id": "kaykit-hexagon/decoration/props/barrel",
       "file": "kaykit-hexagon/decoration/props/barrel.glb",
       "bytes": 12816,
       "sha": "9ccc799fa079",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/bucket_arrows": {
       "id": "kaykit-hexagon/decoration/props/bucket_arrows",
       "file": "kaykit-hexagon/decoration/props/bucket_arrows.glb",
       "bytes": 13216,
       "sha": "b932d1105af4",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/bucket_empty": {
       "id": "kaykit-hexagon/decoration/props/bucket_empty",
       "file": "kaykit-hexagon/decoration/props/bucket_empty.glb",
       "bytes": 9712,
       "sha": "90573910394b",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/bucket_water": {
       "id": "kaykit-hexagon/decoration/props/bucket_water",
       "file": "kaykit-hexagon/decoration/props/bucket_water.glb",
       "bytes": 9680,
       "sha": "44c2f690669d",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_a_big": {
       "id": "kaykit-hexagon/decoration/props/crate_a_big",
       "file": "kaykit-hexagon/decoration/props/crate_a_big.glb",
       "bytes": 9456,
       "sha": "b25822d7b493",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_a_small": {
       "id": "kaykit-hexagon/decoration/props/crate_a_small",
       "file": "kaykit-hexagon/decoration/props/crate_a_small.glb",
       "bytes": 9440,
       "sha": "ae23858b5893",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_b_big": {
       "id": "kaykit-hexagon/decoration/props/crate_b_big",
       "file": "kaykit-hexagon/decoration/props/crate_b_big.glb",
       "bytes": 9456,
       "sha": "32c99689ac74",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_b_small": {
       "id": "kaykit-hexagon/decoration/props/crate_b_small",
       "file": "kaykit-hexagon/decoration/props/crate_b_small.glb",
       "bytes": 9432,
       "sha": "c69584a9c3d6",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_long_a": {
       "id": "kaykit-hexagon/decoration/props/crate_long_a",
       "file": "kaykit-hexagon/decoration/props/crate_long_a.glb",
       "bytes": 12516,
       "sha": "f64afe76052b",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_long_b": {
       "id": "kaykit-hexagon/decoration/props/crate_long_b",
       "file": "kaykit-hexagon/decoration/props/crate_long_b.glb",
       "bytes": 12520,
       "sha": "7742b9cdd7ef",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_long_c": {
       "id": "kaykit-hexagon/decoration/props/crate_long_c",
       "file": "kaykit-hexagon/decoration/props/crate_long_c.glb",
       "bytes": 11248,
       "sha": "4f3aa5dce053",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_long_empty": {
       "id": "kaykit-hexagon/decoration/props/crate_long_empty",
       "file": "kaykit-hexagon/decoration/props/crate_long_empty.glb",
       "bytes": 8040,
       "sha": "2f555523745d",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/crate_open": {
       "id": "kaykit-hexagon/decoration/props/crate_open",
       "file": "kaykit-hexagon/decoration/props/crate_open.glb",
       "bytes": 11448,
       "sha": "d8b8aa5e40d7",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/flag_blue": {
       "id": "kaykit-hexagon/decoration/props/flag_blue",
       "file": "kaykit-hexagon/decoration/props/flag_blue.glb",
       "bytes": 8192,
       "sha": "fb0687478cf0",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/flag_green": {
       "id": "kaykit-hexagon/decoration/props/flag_green",
       "file": "kaykit-hexagon/decoration/props/flag_green.glb",
       "bytes": 8192,
       "sha": "34677aafd11e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/flag_red": {
       "id": "kaykit-hexagon/decoration/props/flag_red",
       "file": "kaykit-hexagon/decoration/props/flag_red.glb",
       "bytes": 8192,
       "sha": "b4dc302cda64",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/flag_yellow": {
       "id": "kaykit-hexagon/decoration/props/flag_yellow",
       "file": "kaykit-hexagon/decoration/props/flag_yellow.glb",
       "bytes": 8196,
       "sha": "9bc01eb538d2",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/ladder": {
       "id": "kaykit-hexagon/decoration/props/ladder",
       "file": "kaykit-hexagon/decoration/props/ladder.glb",
       "bytes": 8764,
       "sha": "49232646c149",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/pallet": {
       "id": "kaykit-hexagon/decoration/props/pallet",
       "file": "kaykit-hexagon/decoration/props/pallet.glb",
       "bytes": 8544,
       "sha": "f95c8d7ffaef",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/resource_lumber": {
       "id": "kaykit-hexagon/decoration/props/resource_lumber",
       "file": "kaykit-hexagon/decoration/props/resource_lumber.glb",
       "bytes": 12036,
       "sha": "5ec795969429",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/resource_stone": {
       "id": "kaykit-hexagon/decoration/props/resource_stone",
       "file": "kaykit-hexagon/decoration/props/resource_stone.glb",
       "bytes": 11940,
       "sha": "a8c767dc6ad3",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/sack": {
       "id": "kaykit-hexagon/decoration/props/sack",
       "file": "kaykit-hexagon/decoration/props/sack.glb",
       "bytes": 8684,
       "sha": "65dbb8f5d71e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/target": {
       "id": "kaykit-hexagon/decoration/props/target",
       "file": "kaykit-hexagon/decoration/props/target.glb",
       "bytes": 9624,
       "sha": "1ec00346c5fc",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/tent": {
       "id": "kaykit-hexagon/decoration/props/tent",
       "file": "kaykit-hexagon/decoration/props/tent.glb",
       "bytes": 8896,
       "sha": "f95e992a2f50",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/weaponrack": {
       "id": "kaykit-hexagon/decoration/props/weaponrack",
       "file": "kaykit-hexagon/decoration/props/weaponrack.glb",
       "bytes": 8176,
       "sha": "7585b9b0a8ff",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/decoration/props/wheelbarrow": {
       "id": "kaykit-hexagon/decoration/props/wheelbarrow",
       "file": "kaykit-hexagon/decoration/props/wheelbarrow.glb",
       "bytes": 13652,
       "sha": "c19cc3bad2e8",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_archeryrange_green": {
       "id": "kaykit-hexagon/buildings/green/building_archeryrange_green",
       "file": "kaykit-hexagon/buildings/green/building_archeryrange_green.glb",
       "bytes": 67212,
       "sha": "14aea645de0e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_barracks_green": {
       "id": "kaykit-hexagon/buildings/green/building_barracks_green",
       "file": "kaykit-hexagon/buildings/green/building_barracks_green.glb",
       "bytes": 72416,
       "sha": "fd4a31f9463d",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_blacksmith_green": {
       "id": "kaykit-hexagon/buildings/green/building_blacksmith_green",
       "file": "kaykit-hexagon/buildings/green/building_blacksmith_green.glb",
       "bytes": 46956,
       "sha": "4f177e37cddf",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_castle_green": {
       "id": "kaykit-hexagon/buildings/green/building_castle_green",
       "file": "kaykit-hexagon/buildings/green/building_castle_green.glb",
       "bytes": 94584,
       "sha": "ed44ec59acb5",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_church_green": {
       "id": "kaykit-hexagon/buildings/green/building_church_green",
       "file": "kaykit-hexagon/buildings/green/building_church_green.glb",
       "bytes": 33408,
       "sha": "e6c25eddd1cf",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_home_a_green": {
       "id": "kaykit-hexagon/buildings/green/building_home_a_green",
       "file": "kaykit-hexagon/buildings/green/building_home_a_green.glb",
       "bytes": 24632,
       "sha": "2a0e1379a199",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_home_b_green": {
       "id": "kaykit-hexagon/buildings/green/building_home_b_green",
       "file": "kaykit-hexagon/buildings/green/building_home_b_green.glb",
       "bytes": 31520,
       "sha": "60a36bddc103",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_lumbermill_green": {
       "id": "kaykit-hexagon/buildings/green/building_lumbermill_green",
       "file": "kaykit-hexagon/buildings/green/building_lumbermill_green.glb",
       "bytes": 65092,
       "sha": "a209cdd10856",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_market_green": {
       "id": "kaykit-hexagon/buildings/green/building_market_green",
       "file": "kaykit-hexagon/buildings/green/building_market_green.glb",
       "bytes": 54600,
       "sha": "c180685b4e84",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_mine_green": {
       "id": "kaykit-hexagon/buildings/green/building_mine_green",
       "file": "kaykit-hexagon/buildings/green/building_mine_green.glb",
       "bytes": 28220,
       "sha": "e06ad6be5e1e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_tavern_green": {
       "id": "kaykit-hexagon/buildings/green/building_tavern_green",
       "file": "kaykit-hexagon/buildings/green/building_tavern_green.glb",
       "bytes": 62584,
       "sha": "f2717f6768a5",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_tower_a_green": {
       "id": "kaykit-hexagon/buildings/green/building_tower_a_green",
       "file": "kaykit-hexagon/buildings/green/building_tower_a_green.glb",
       "bytes": 41484,
       "sha": "993c882a54f2",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_tower_b_green": {
       "id": "kaykit-hexagon/buildings/green/building_tower_b_green",
       "file": "kaykit-hexagon/buildings/green/building_tower_b_green.glb",
       "bytes": 46720,
       "sha": "fa0a7009268b",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_tower_base_green": {
       "id": "kaykit-hexagon/buildings/green/building_tower_base_green",
       "file": "kaykit-hexagon/buildings/green/building_tower_base_green.glb",
       "bytes": 30168,
       "sha": "7cb4e1a56dac",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_tower_catapult_green": {
       "id": "kaykit-hexagon/buildings/green/building_tower_catapult_green",
       "file": "kaykit-hexagon/buildings/green/building_tower_catapult_green.glb",
       "bytes": 53568,
       "sha": "65be95c34ab3",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_watermill_green": {
       "id": "kaykit-hexagon/buildings/green/building_watermill_green",
       "file": "kaykit-hexagon/buildings/green/building_watermill_green.glb",
       "bytes": 41408,
       "sha": "7e00c57f65b3",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_well_green": {
       "id": "kaykit-hexagon/buildings/green/building_well_green",
       "file": "kaykit-hexagon/buildings/green/building_well_green.glb",
       "bytes": 20556,
       "sha": "9a64c5526507",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/green/building_windmill_green": {
       "id": "kaykit-hexagon/buildings/green/building_windmill_green",
       "file": "kaykit-hexagon/buildings/green/building_windmill_green.glb",
       "bytes": 56768,
       "sha": "591ce02ec600",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_bridge_a": {
       "id": "kaykit-hexagon/buildings/neutral/building_bridge_a",
       "file": "kaykit-hexagon/buildings/neutral/building_bridge_a.glb",
       "bytes": 15880,
       "sha": "258ee9884788",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_bridge_b": {
       "id": "kaykit-hexagon/buildings/neutral/building_bridge_b",
       "file": "kaykit-hexagon/buildings/neutral/building_bridge_b.glb",
       "bytes": 15980,
       "sha": "28701bc7ffb1",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_destroyed": {
       "id": "kaykit-hexagon/buildings/neutral/building_destroyed",
       "file": "kaykit-hexagon/buildings/neutral/building_destroyed.glb",
       "bytes": 25936,
       "sha": "16b40a317439",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_dirt": {
       "id": "kaykit-hexagon/buildings/neutral/building_dirt",
       "file": "kaykit-hexagon/buildings/neutral/building_dirt.glb",
       "bytes": 10168,
       "sha": "1b60c0d95870",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_grain": {
       "id": "kaykit-hexagon/buildings/neutral/building_grain",
       "file": "kaykit-hexagon/buildings/neutral/building_grain.glb",
       "bytes": 11388,
       "sha": "89c3ae7adc43",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_scaffolding": {
       "id": "kaykit-hexagon/buildings/neutral/building_scaffolding",
       "file": "kaykit-hexagon/buildings/neutral/building_scaffolding.glb",
       "bytes": 59176,
       "sha": "d78557fd59fd",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_stage_a": {
       "id": "kaykit-hexagon/buildings/neutral/building_stage_a",
       "file": "kaykit-hexagon/buildings/neutral/building_stage_a.glb",
       "bytes": 22844,
       "sha": "3b5e6edd5ba4",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_stage_b": {
       "id": "kaykit-hexagon/buildings/neutral/building_stage_b",
       "file": "kaykit-hexagon/buildings/neutral/building_stage_b.glb",
       "bytes": 24604,
       "sha": "cffb2c61722c",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/building_stage_c": {
       "id": "kaykit-hexagon/buildings/neutral/building_stage_c",
       "file": "kaykit-hexagon/buildings/neutral/building_stage_c.glb",
       "bytes": 29256,
       "sha": "760b28466d66",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/fence_stone_straight": {
       "id": "kaykit-hexagon/buildings/neutral/fence_stone_straight",
       "file": "kaykit-hexagon/buildings/neutral/fence_stone_straight.glb",
       "bytes": 12096,
       "sha": "6de6bc50e394",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/fence_stone_straight_gate": {
       "id": "kaykit-hexagon/buildings/neutral/fence_stone_straight_gate",
       "file": "kaykit-hexagon/buildings/neutral/fence_stone_straight_gate.glb",
       "bytes": 14160,
       "sha": "3ccb4832efb9",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/fence_wood_straight": {
       "id": "kaykit-hexagon/buildings/neutral/fence_wood_straight",
       "file": "kaykit-hexagon/buildings/neutral/fence_wood_straight.glb",
       "bytes": 12120,
       "sha": "fa042d53b1f7",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/fence_wood_straight_gate": {
       "id": "kaykit-hexagon/buildings/neutral/fence_wood_straight_gate",
       "file": "kaykit-hexagon/buildings/neutral/fence_wood_straight_gate.glb",
       "bytes": 14768,
       "sha": "c8e25c0b9c8f",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/projectile_catapult": {
       "id": "kaykit-hexagon/buildings/neutral/projectile_catapult",
       "file": "kaykit-hexagon/buildings/neutral/projectile_catapult.glb",
       "bytes": 12272,
       "sha": "474d846deb75",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/wall_corner_a_gate": {
       "id": "kaykit-hexagon/buildings/neutral/wall_corner_a_gate",
       "file": "kaykit-hexagon/buildings/neutral/wall_corner_a_gate.glb",
       "bytes": 26220,
       "sha": "ebe3d8cfd594",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/wall_corner_a_inside": {
       "id": "kaykit-hexagon/buildings/neutral/wall_corner_a_inside",
       "file": "kaykit-hexagon/buildings/neutral/wall_corner_a_inside.glb",
       "bytes": 14468,
       "sha": "fc36645edd49",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/wall_corner_a_outside": {
       "id": "kaykit-hexagon/buildings/neutral/wall_corner_a_outside",
       "file": "kaykit-hexagon/buildings/neutral/wall_corner_a_outside.glb",
       "bytes": 15548,
       "sha": "c5c35508805e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/wall_corner_b_inside": {
       "id": "kaykit-hexagon/buildings/neutral/wall_corner_b_inside",
       "file": "kaykit-hexagon/buildings/neutral/wall_corner_b_inside.glb",
       "bytes": 12904,
       "sha": "e1aa489bf36d",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/wall_corner_b_outside": {
       "id": "kaykit-hexagon/buildings/neutral/wall_corner_b_outside",
       "file": "kaykit-hexagon/buildings/neutral/wall_corner_b_outside.glb",
       "bytes": 14924,
       "sha": "fddc49002f5e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/wall_straight": {
       "id": "kaykit-hexagon/buildings/neutral/wall_straight",
       "file": "kaykit-hexagon/buildings/neutral/wall_straight.glb",
       "bytes": 16028,
       "sha": "94a9ca952f3c",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/neutral/wall_straight_gate": {
       "id": "kaykit-hexagon/buildings/neutral/wall_straight_gate",
       "file": "kaykit-hexagon/buildings/neutral/wall_straight_gate.glb",
       "bytes": 24872,
       "sha": "57dbbd248bcc",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_archeryrange_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_archeryrange_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_archeryrange_yellow.glb",
       "bytes": 67264,
       "sha": "1e4f50d59a98",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_barracks_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_barracks_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_barracks_yellow.glb",
       "bytes": 72396,
       "sha": "985499e004fb",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_blacksmith_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_blacksmith_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_blacksmith_yellow.glb",
       "bytes": 46960,
       "sha": "f45731759958",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_castle_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_castle_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_castle_yellow.glb",
       "bytes": 94576,
       "sha": "4d39ae19571a",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_church_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_church_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_church_yellow.glb",
       "bytes": 33408,
       "sha": "41f720132505",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_home_a_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_home_a_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_home_a_yellow.glb",
       "bytes": 24632,
       "sha": "933d79f8372c",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_home_b_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_home_b_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_home_b_yellow.glb",
       "bytes": 31524,
       "sha": "c141f4e8815a",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_lumbermill_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_lumbermill_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_lumbermill_yellow.glb",
       "bytes": 65096,
       "sha": "8f2843a223e6",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_market_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_market_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_market_yellow.glb",
       "bytes": 54604,
       "sha": "3f313f0eef1e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_mine_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_mine_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_mine_yellow.glb",
       "bytes": 28212,
       "sha": "9bfdf317b2f6",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_tavern_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_tavern_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_tavern_yellow.glb",
       "bytes": 62588,
       "sha": "b05499a57cd5",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_tower_a_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_tower_a_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_tower_a_yellow.glb",
       "bytes": 41480,
       "sha": "b6e98b50f736",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_tower_b_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_tower_b_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_tower_b_yellow.glb",
       "bytes": 46720,
       "sha": "58633917322a",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_tower_base_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_tower_base_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_tower_base_yellow.glb",
       "bytes": 30164,
       "sha": "277759f07ee1",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_tower_catapult_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_tower_catapult_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_tower_catapult_yellow.glb",
       "bytes": 53568,
       "sha": "509d5542ae66",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_watermill_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_watermill_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_watermill_yellow.glb",
       "bytes": 41408,
       "sha": "b0a92ee97d94",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_well_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_well_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_well_yellow.glb",
       "bytes": 20560,
       "sha": "cca33ebca491",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/yellow/building_windmill_yellow": {
       "id": "kaykit-hexagon/buildings/yellow/building_windmill_yellow",
       "file": "kaykit-hexagon/buildings/yellow/building_windmill_yellow.glb",
       "bytes": 56772,
       "sha": "7a0df9b57db4",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_archeryrange_red": {
       "id": "kaykit-hexagon/buildings/red/building_archeryrange_red",
       "file": "kaykit-hexagon/buildings/red/building_archeryrange_red.glb",
       "bytes": 67296,
       "sha": "dfb4af6c22bf",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_barracks_red": {
       "id": "kaykit-hexagon/buildings/red/building_barracks_red",
       "file": "kaykit-hexagon/buildings/red/building_barracks_red.glb",
       "bytes": 72392,
       "sha": "728b65f053cf",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_blacksmith_red": {
       "id": "kaykit-hexagon/buildings/red/building_blacksmith_red",
       "file": "kaykit-hexagon/buildings/red/building_blacksmith_red.glb",
       "bytes": 46952,
       "sha": "1509f81248f3",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_castle_red": {
       "id": "kaykit-hexagon/buildings/red/building_castle_red",
       "file": "kaykit-hexagon/buildings/red/building_castle_red.glb",
       "bytes": 94584,
       "sha": "659f8a0faa9e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_church_red": {
       "id": "kaykit-hexagon/buildings/red/building_church_red",
       "file": "kaykit-hexagon/buildings/red/building_church_red.glb",
       "bytes": 33404,
       "sha": "72b2fbf2abf7",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_home_a_red": {
       "id": "kaykit-hexagon/buildings/red/building_home_a_red",
       "file": "kaykit-hexagon/buildings/red/building_home_a_red.glb",
       "bytes": 24628,
       "sha": "6640ae9731e9",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_home_b_red": {
       "id": "kaykit-hexagon/buildings/red/building_home_b_red",
       "file": "kaykit-hexagon/buildings/red/building_home_b_red.glb",
       "bytes": 31516,
       "sha": "bae5e6d8ecf7",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_lumbermill_red": {
       "id": "kaykit-hexagon/buildings/red/building_lumbermill_red",
       "file": "kaykit-hexagon/buildings/red/building_lumbermill_red.glb",
       "bytes": 65080,
       "sha": "5f68a7944f74",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_market_red": {
       "id": "kaykit-hexagon/buildings/red/building_market_red",
       "file": "kaykit-hexagon/buildings/red/building_market_red.glb",
       "bytes": 54592,
       "sha": "4c187a15a751",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_mine_red": {
       "id": "kaykit-hexagon/buildings/red/building_mine_red",
       "file": "kaykit-hexagon/buildings/red/building_mine_red.glb",
       "bytes": 28208,
       "sha": "7cb7f4a7f909",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_tavern_red": {
       "id": "kaykit-hexagon/buildings/red/building_tavern_red",
       "file": "kaykit-hexagon/buildings/red/building_tavern_red.glb",
       "bytes": 62580,
       "sha": "15d50660a98b",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_tower_a_red": {
       "id": "kaykit-hexagon/buildings/red/building_tower_a_red",
       "file": "kaykit-hexagon/buildings/red/building_tower_a_red.glb",
       "bytes": 41468,
       "sha": "4987152f28f5",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_tower_b_red": {
       "id": "kaykit-hexagon/buildings/red/building_tower_b_red",
       "file": "kaykit-hexagon/buildings/red/building_tower_b_red.glb",
       "bytes": 46708,
       "sha": "9b72bbd2d195",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_tower_base_red": {
       "id": "kaykit-hexagon/buildings/red/building_tower_base_red",
       "file": "kaykit-hexagon/buildings/red/building_tower_base_red.glb",
       "bytes": 30156,
       "sha": "aaa7e23f8381",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_tower_catapult_red": {
       "id": "kaykit-hexagon/buildings/red/building_tower_catapult_red",
       "file": "kaykit-hexagon/buildings/red/building_tower_catapult_red.glb",
       "bytes": 53552,
       "sha": "46e76d0ef24c",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_watermill_red": {
       "id": "kaykit-hexagon/buildings/red/building_watermill_red",
       "file": "kaykit-hexagon/buildings/red/building_watermill_red.glb",
       "bytes": 41396,
       "sha": "2c5036dbc0bc",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_well_red": {
       "id": "kaykit-hexagon/buildings/red/building_well_red",
       "file": "kaykit-hexagon/buildings/red/building_well_red.glb",
       "bytes": 20552,
       "sha": "f772f7b81aba",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-hexagon/buildings/red/building_windmill_red": {
       "id": "kaykit-hexagon/buildings/red/building_windmill_red",
       "file": "kaykit-hexagon/buildings/red/building_windmill_red.glb",
       "bytes": 56752,
       "sha": "0f7c8a64f439",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/grave_a": {
       "id": "kaykit-halloween/grave_a",
       "file": "kaykit-halloween/grave_a.glb",
       "bytes": 12868,
       "sha": "853acc88d97d",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/grave_b": {
       "id": "kaykit-halloween/grave_b",
       "file": "kaykit-halloween/grave_b.glb",
       "bytes": 12220,
       "sha": "dca573e415ab",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/gravestone": {
       "id": "kaykit-halloween/gravestone",
       "file": "kaykit-halloween/gravestone.glb",
       "bytes": 11780,
       "sha": "47ee7c1a6d31",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/gravemarker_a": {
       "id": "kaykit-halloween/gravemarker_a",
       "file": "kaykit-halloween/gravemarker_a.glb",
       "bytes": 9432,
       "sha": "2a81a2e418bd",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/gravemarker_b": {
       "id": "kaykit-halloween/gravemarker_b",
       "file": "kaykit-halloween/gravemarker_b.glb",
       "bytes": 11820,
       "sha": "b727f0fe27f2",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/tree_dead_large": {
       "id": "kaykit-halloween/tree_dead_large",
       "file": "kaykit-halloween/tree_dead_large.glb",
       "bytes": 10412,
       "sha": "0c6eb82ca524",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/tree_dead_medium": {
       "id": "kaykit-halloween/tree_dead_medium",
       "file": "kaykit-halloween/tree_dead_medium.glb",
       "bytes": 9712,
       "sha": "774d55bea88b",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/tree_dead_small": {
       "id": "kaykit-halloween/tree_dead_small",
       "file": "kaykit-halloween/tree_dead_small.glb",
       "bytes": 9624,
       "sha": "a184bb855708",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/skull": {
       "id": "kaykit-halloween/skull",
       "file": "kaykit-halloween/skull.glb",
       "bytes": 12996,
       "sha": "37a0b83b3ab9",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/bone_a": {
       "id": "kaykit-halloween/bone_a",
       "file": "kaykit-halloween/bone_a.glb",
       "bytes": 10744,
       "sha": "b88e2573f90f",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/bone_b": {
       "id": "kaykit-halloween/bone_b",
       "file": "kaykit-halloween/bone_b.glb",
       "bytes": 10124,
       "sha": "7ce714d74231",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/ribcage": {
       "id": "kaykit-halloween/ribcage",
       "file": "kaykit-halloween/ribcage.glb",
       "bytes": 28872,
       "sha": "4137d3af082f",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/post_skull": {
       "id": "kaykit-halloween/post_skull",
       "file": "kaykit-halloween/post_skull.glb",
       "bytes": 21036,
       "sha": "ce67b99d4df8",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/lantern_standing": {
       "id": "kaykit-halloween/lantern_standing",
       "file": "kaykit-halloween/lantern_standing.glb",
       "bytes": 12096,
       "sha": "565ade3f470f",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/crypt": {
       "id": "kaykit-halloween/crypt",
       "file": "kaykit-halloween/crypt.glb",
       "bytes": 26232,
       "sha": "d64654a90afb",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/shrine_candles": {
       "id": "kaykit-halloween/shrine_candles",
       "file": "kaykit-halloween/shrine_candles.glb",
       "bytes": 14804,
       "sha": "0c2d951ec7ef",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-halloween/floor_dirt_grave": {
       "id": "kaykit-halloween/floor_dirt_grave",
       "file": "kaykit-halloween/floor_dirt_grave.glb",
       "bytes": 10392,
       "sha": "f94ed6327b05",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-dungeon/chest_gold": {
       "id": "kaykit-dungeon/chest_gold",
       "file": "kaykit-dungeon/chest_gold.glb",
       "bytes": 40984,
       "sha": "4bddf43c1fc8",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/dagger": {
       "id": "kaykit-adventurers/dagger",
       "file": "kaykit-adventurers/dagger.glb",
       "bytes": 12280,
       "sha": "93968b6a78ca",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/shield_round": {
       "id": "kaykit-adventurers/shield_round",
       "file": "kaykit-adventurers/shield_round.glb",
       "bytes": 12736,
       "sha": "627edccbfbb7",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/sword_1handed": {
       "id": "kaykit-adventurers/sword_1handed",
       "file": "kaykit-adventurers/sword_1handed.glb",
       "bytes": 12948,
       "sha": "936616d8a68d",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/shield_badge_color": {
       "id": "kaykit-adventurers/shield_badge_color",
       "file": "kaykit-adventurers/shield_badge_color.glb",
       "bytes": 12100,
       "sha": "9e25aea2eaa1",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/quiver": {
       "id": "kaykit-adventurers/quiver",
       "file": "kaykit-adventurers/quiver.glb",
       "bytes": 14976,
       "sha": "d300943deae1",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/spellbook_open": {
       "id": "kaykit-adventurers/spellbook_open",
       "file": "kaykit-adventurers/spellbook_open.glb",
       "bytes": 14372,
       "sha": "3434fd2397f5",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/spellbook_closed": {
       "id": "kaykit-adventurers/spellbook_closed",
       "file": "kaykit-adventurers/spellbook_closed.glb",
       "bytes": 13924,
       "sha": "daf1d9e3d606",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/axe_2handed": {
       "id": "kaykit-adventurers/axe_2handed",
       "file": "kaykit-adventurers/axe_2handed.glb",
       "bytes": 16964,
       "sha": "cd3d1759ad76",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/shield_round_barbarian": {
       "id": "kaykit-adventurers/shield_round_barbarian",
       "file": "kaykit-adventurers/shield_round_barbarian.glb",
       "bytes": 12804,
       "sha": "cfa6587cdf30",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/shield_spikes_color": {
       "id": "kaykit-adventurers/shield_spikes_color",
       "file": "kaykit-adventurers/shield_spikes_color.glb",
       "bytes": 16472,
       "sha": "4437e432258e",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/staff": {
       "id": "kaykit-adventurers/staff",
       "file": "kaykit-adventurers/staff.glb",
       "bytes": 15800,
       "sha": "f7eb8bf6bb9c",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/axe_1handed": {
       "id": "kaykit-adventurers/axe_1handed",
       "file": "kaykit-adventurers/axe_1handed.glb",
       "bytes": 13056,
       "sha": "e9edff0dcf3a",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/sword_2handed_color": {
       "id": "kaykit-adventurers/sword_2handed_color",
       "file": "kaykit-adventurers/sword_2handed_color.glb",
       "bytes": 15296,
       "sha": "44f0d38b8d0d",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/wand": {
       "id": "kaykit-adventurers/wand",
       "file": "kaykit-adventurers/wand.glb",
       "bytes": 11148,
       "sha": "a0ff88bee4de",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/smokebomb": {
       "id": "kaykit-adventurers/smokebomb",
       "file": "kaykit-adventurers/smokebomb.glb",
       "bytes": 13832,
       "sha": "3a4de521de20",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-adventurers/mug_full": {
       "id": "kaykit-adventurers/mug_full",
       "file": "kaykit-adventurers/mug_full.glb",
       "bytes": 14044,
       "sha": "d975e4dcf355",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-dungeon/bottle_a_labeled_green_gltf": {
       "id": "kaykit-dungeon/bottle_a_labeled_green_gltf",
       "file": "kaykit-dungeon/bottle_a_labeled_green_gltf.glb",
       "bytes": 11336,
       "sha": "f50838ce9a3a",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-dungeon/bottle_c_green_gltf": {
       "id": "kaykit-dungeon/bottle_c_green_gltf",
       "file": "kaykit-dungeon/bottle_c_green_gltf.glb",
       "bytes": 11236,
       "sha": "1c2b2ef3387f",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-dungeon/bottle_b_green_gltf": {
       "id": "kaykit-dungeon/bottle_b_green_gltf",
       "file": "kaykit-dungeon/bottle_b_green_gltf.glb",
       "bytes": 11276,
       "sha": "3b8cd7d91c7c",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-dungeon/coin_stack_small_gltf": {
       "id": "kaykit-dungeon/coin_stack_small_gltf",
       "file": "kaykit-dungeon/coin_stack_small_gltf.glb",
       "bytes": 16588,
       "sha": "12d565bffe07",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-dungeon/coin_stack_large_gltf": {
       "id": "kaykit-dungeon/coin_stack_large_gltf",
       "file": "kaykit-dungeon/coin_stack_large_gltf.glb",
       "bytes": 43124,
       "sha": "949502308f86",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     },
     "kaykit-dungeon/chest": {
       "id": "kaykit-dungeon/chest",
       "file": "kaykit-dungeon/chest.glb",
       "bytes": 24092,
       "sha": "7b374746d0c6",
-      "license": "CC0-1.0"
+      "license": "CC0-1.0",
+      "kind": "model"
     }
   }
 }

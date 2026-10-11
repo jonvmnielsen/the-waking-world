@@ -21,6 +21,7 @@ export class Soldat extends Unit {
     this.tid = 0; this.sidstIKamp = -99; this.angribere = new Map();
     this.vet = { xp: 0, veteran: false, gren: null };
     this.evne = { cd: 0, storm: 0, raseri: 0 };
+    this.buff = { rally: 0, linje: 0 };   // fra heltens Warlord-evner
     this.rod.position.set(x, 0, z);
     this.spil('Cheer', { loop: false });
     this.timer = 1.2;
@@ -58,8 +59,9 @@ export class Soldat extends Unit {
     super.opdater(dt);
     if (this.død) return this.opdaterDød(dt);
     this.cooldown -= dt;
+    this.buff.rally = Math.max(0, this.buff.rally - dt); this.buff.linje = Math.max(0, this.buff.linje - dt);
     this.opdaterEvner(dt);
-    if (!this.iKamp) this.hp = Math.min(this.maxHp, this.hp + this.maxHp * 0.004 * dt);
+    if (!this.iKamp) this.hp = Math.min(this.maxHp, this.hp + this.maxHp * 0.004 * dt * (this.verden.udvikling?.helingFaktor() ?? 1));
     if (this.mål?.død || this.mål?.tilstand === 'hjem') { this.mål = null; this.angrebsOrdre = false; }
     if (this.hen && Math.hypot(this.hen.x - this.x, this.hen.z - this.z) <= this.hen.radius) {
       const h = this.hen; this.hen = null; this.stop(); this.gåOrdre = false; h.udfør();
@@ -108,12 +110,19 @@ export class Soldat extends Unit {
     const klip = this.handlinger.get(anim)?.getClip().duration ?? 1;
     this.spil(anim, { loop: false, fart: klip / varighed, gentag: true, fade: 0.08 });
     this.sving = { tid: 0, varighed, slagTid: varighed * this.data.slag, mål: this.mål, ramt: false };
-    this.cooldown = this.data.angrebsTid;
+    this.cooldown = this.data.angrebsTid / (this.buff.rally > 0 ? 1.35 : 1);
     this.sidstIKamp = this.tid;
   }
 
+  // Bonusser fra forskning (udvikling.js) og heltens Warlord-aura
+  bonus() {
+    const a = this.verden.helt?.sti?.aura(this), u = this.verden.udvikling;
+    return { skade: u?.skade(this) ?? 0, faktor: 1 + (a?.skade ?? 0), rustning: (a?.rustning ?? 0) + (u?.rustning(this) ?? 0) };
+  }
+
   slagSkade() {
-    let s = tilfældig(...this.data.skade) + this.skadeBonus;
+    const b = this.bonus();
+    let s = (tilfældig(...this.data.skade) + this.skadeBonus + b.skade) * b.faktor;
     const v = this.vet.gren?.variation;
     if (v) s *= 1 + (Math.random() * 2 - 1) * v;
     return Math.max(1, Math.round(s * this.slagFaktor()));
@@ -138,7 +147,8 @@ export class Soldat extends Unit {
   tagSkade(mængde, kilde) {
     this.sidstIKamp = this.tid;
     if (kilde && kilde !== this) this.angribere.set(kilde, this.tid);
-    return super.tagSkade(reducérSkade(mængde, this.rustning), kilde);
+    if (this.buff.linje > 0) mængde *= 0.6;
+    return super.tagSkade(reducérSkade(mængde, this.rustning + this.bonus().rustning), kilde);
   }
 
   dø(kilde) {

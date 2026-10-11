@@ -73,6 +73,9 @@ the-waking-world/
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud
+│   ├── ascension.js / ascensiondata.js / ascensionhud.js # Ascension ved level 10: stier, passiver, evner, valget
+│   ├── udvikling.js / udviklingdata.js / udviklinghud.js # Forskning, bygningsopgraderinger, upkeep-visning
+│   ├── fremskridt.js         # Sætter M7-systemerne op
 │   ├── heltstats.js / heltekort.js # Heltens egenskaber (STR/AGI/INT), ofringer; heltekortet på skærmen
 │   ├── essensvalg.js         # Essensvalget ved start med forklaring og vink
 │   ├── heltlevel.js / heltinteraktion.js    # Heltens level-op og gå-hen-og-gør-noget
@@ -320,8 +323,16 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Kroen hyrer lejesoldater (Brawler, Crossbowman, Sellsword)
 - [x] Syntetisk lyd og vind, lyd til/fra i menuen; alt gemmes med
 
-### 📋 Næste: M7+
-Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og base → Hær → Modstander → Liv i verden).
+### ✅ M7 — "Fremskridt" (oktober 2026)
+- [x] Ascension ved level 10: Warlord, Avatar, Bloodbound med passiv evne og to nye evner; adgang efter spillestil; level 11–20
+- [x] XP skaleres efter level-forskel (intet loft)
+- [x] Upkeep: mindre guld fra minerne fra 41 og 71 forsyning
+- [x] Forskning: Forge (våben, spyd, rustning), Lumber Mill (økser, hakker, murværk), War Camp (drills), Great Hall (minedrift)
+- [x] Opgraderinger: Great Hall → Stronghold → Fortress (låser forskningslevels op), Watch Tower → Guard Tower
+- [x] Alt gemmes med
+
+### 📋 Næste: M8+
+Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer. Se `docs/GDD.md` afsnit 16.
 
 ---
 
@@ -343,6 +354,11 @@ Se byggeplanen i `docs/GDD.md` afsnit 16 (Stor verden → Items → Økonomi og 
 | 2026-10-10 | Hvert træ og hver sten er en ressource | Jons ønske: alt der ligner træ eller sten skal kunne høstes |
 | 2026-10-10 | Spillet er på engelsk | Jons ønske. Koden, kommentarer og docs forbliver på dansk |
 | 2026-10-10 | Helte har Strength/Agility/Intelligence | Jons ønske; klassisk WC3-model. Kan øges med bøger, udstyr og ofringer ved alteret |
+| 2026-10-11 | Intet XP-loft fra creeps; XP skaleres efter level-forskel | Jons ønske: man skal altid kunne få XP, men lave fjender giver mindre og høje mere |
+| 2026-10-11 | Upkeep for stor hær | Jons ønske: 41+ forsyning = 30 % mindre guld, 71+ = 60 % |
+| 2026-10-11 | Spillængde 20–35 min | Jon: ok for nu |
+| 2026-10-11 | Opgraderinger og forskning til bygninger og units | Jons ønske; WC3-tiers (Stronghold/Fortress) låser forskningslevels op |
+| 2026-10-11 | Ascension: stien der passer er gratis, andre koster ressourcer; level 11–20 kræver Ascension | Valget skal føles spillet til, ikke bare købt |
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
 | 2026-10-10 | Dag og nat med | Rytme og taktik (GDD 4.6) |
 | 2026-10-10 | Lyd syntetiseres med WebAudio indtil videre | Ingen lydfiler i asset-biblioteket endnu; virker uden downloads |
@@ -407,4 +423,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-10-10*
+*Sidst opdateret: 2026-10-11*

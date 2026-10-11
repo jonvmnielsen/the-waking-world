@@ -125,7 +125,7 @@ Et døgn varer 8 minutter: 5 min dag, 3 min nat med skumring og daggry. Om natte
 | **Sten** | Hver eneste sten: små sten i landskabet og store grå klippeblokke i stenbrud | Tårne, større bygninger, opgraderinger |
 | **Forsyning** | Forsyningsbygninger (max 100) | Loft over hærens størrelse |
 
-**Arbejdere** går hen til minen eller skoven, arbejder et øjeblik og bærer ressourcerne hjem til hovedhallen. Det er ikke øjeblikkelig indsamling. Ved større hær stiger "underhold", så du får mindre guld pr. tur. Det belønner en lille hær med mange helte-items.
+**Arbejdere** går hen til minen eller skoven, arbejder et øjeblik og bærer ressourcerne hjem til hovedhallen. Det er ikke øjeblikkelig indsamling. **Upkeep (M7, Jons beslutning):** en stor hær koster. Op til 40 brugt forsyning er der intet upkeep; fra 41 giver minerne 30 % mindre guld (*Low upkeep*), fra 71 giver de 60 % mindre (*High upkeep*). Forsyningstælleren skifter farve og viser fradraget, og et tryk på den forklarer det. Det belønner en lille hær med stærke helte og veteraner.
 
 **Startressourcer:** 300 guld, 150 træ, 80 sten. En tur giver 10 guld, 10 træ eller 8 sten. En guldmine rummer 8.000 guld (startminen 12.000). Et træ i skoven giver 40 træ, et frit træ 30, en klippeblok i et stenbrud 150 sten og en lille sten 25. Når alle træer i et skovfelt er fældet, kan man gå igennem. Guldminer har lysende guldårer og glimt, så de er lette at kende. Storlejren giver 12 forsyning, en hytte 10, helten koster 5 og en bærer 1.
 
@@ -148,7 +148,7 @@ Navnene er arbejdsnavne. Modellerne er KayKit Hexagon i holdfarve.
 | **Krigerlejr** | 1 | Grunts, spydkastere | barracks |
 | **Forsyningshytte** | 1 | +10 forsyning | home_a / home_b |
 | **Vagttårn** | 1 | Forsvar | tower_a / tower_catapult |
-| **Smedje** | 1 | Våben- og rustningsopgraderinger | blacksmith |
+| **Smedje** (*Forge*) | 1 | Våben- og rustningsopgraderinger | blacksmith |
 | **Savværk** | 1 | Modtager træ og sten (byg det ved skoven), opgraderinger senere | lumbermill |
 | **Markedsplads** | 1 (M3) | Egen butik: forbrugsitems og simpelt udstyr | market |
 | **Ulvekennel** | 2 | Ryttere | stable* |
@@ -156,6 +156,21 @@ Navnene er arbejdsnavne. Modellerne er KayKit Hexagon i holdfarve.
 | **Stormværksted** | 3 | Belejringsmaskiner | windmill / watermill |
 
 \* Mangler en passende model.
+
+**Opgraderinger og forskning (M7):** Vælg en færdig bygning, og panelet viser hvad den kan forske i. Én ting ad gangen pr. bygning; den kan annulleres med fuld refusion. Level 2 af en forskning kræver *Stronghold*, level 3 kræver *Fortress*.
+
+| Bygning | Udvikling | Levels | Virkning |
+|---|---|---|---|
+| Great Hall | → **Stronghold** → **Fortress** | 2 | +800 / +1200 liv, låser forskningens level 2 og 3 op; flag og små tårne på hallen |
+| Great Hall | Deep Mining | 2 | +2 guld pr. tur pr. level |
+| Forge | Forged Axes / Barbed Spears | 3 | Nærkamp- / afstandssoldater +3 skade pr. level |
+| Forge | Hardened Hides | 3 | Alle soldater +1 rustning pr. level |
+| War Camp | Battle Drills | 1 | Veteraner 50 % hurtigere, dobbelt heling uden for kamp |
+| Lumber Mill | Sharper Axes / Stone Picks | 2 | +2 træ / sten pr. tur pr. level |
+| Lumber Mill | Masonry | 3 | Bygninger +15 % liv og +1 rustning pr. level |
+| Watch Tower | → **Guard Tower** (kræver Stronghold) | 1 | Ny model, mere skade, rækkevidde, liv og rustning |
+
+Priser og tider står i `src/udviklingdata.js`.
 
 ### 5.4 The Tide — units
 
@@ -187,8 +202,8 @@ Den første AI-modstander er **The Memory**. Vi har allerede skeletmodellerne.
 - **Op til 3 helte** pr. spiller. Den første er gratis fra alteret, de næste koster mere.
 - Helte fra **kroen** er neutrale, og alle racer kan hyre dem.
 - **Død:** Helten kan genoplives ved alteret for guld og tid. Items bliver liggende, hvor helten døde, i 60 sekunder.
-- Level 1–10 med tre evner (låst op ved level 1, 3 og 6), og ved level 10 kommer **Ascension** (se `DESIGN_PROGRESSION.md`).
-- XP fra creeps stopper ved level 5 (som i WC3). Derefter skal XP komme fra kamp mod fjenden. Det skubber spillet mod konfrontation.
+- Level 1–10 med tre evner (låst op ved level 1, 3 og 6), og ved level 10 kommer **Ascension** (afsnit 6.4). Level 11–20 kræver Ascension; erfaringen gemmes imens.
+- **XP efter level-forskel (Jons beslutning, intet loft):** man kan altid få XP, men fjender under heltens level giver 15 % mindre pr. level (mindst 10 %), og fjender over giver 10 % mere pr. level (højst 150 %).
 
 ### 6.1 Essens — valget ved start
 
@@ -214,6 +229,18 @@ Essensens egenskab starter 2 højere og vokser +1 ekstra pr. level. Helten løbe
 - **Bøger** (Tome of Strength/Agility/Intelligence +2, Tome of Power +2 til alle): fra kister og stærke lejre, og købmanden sælger de tre første.
 - **Udstyr** med egenskaber (fx Iron Sword +2 STR, Hunter's Quiver +5 AGI, Mage's Tome +6 INT).
 - **Ofringer ved Spirit Altar** (Ånde-alteret): +1 i en valgfri egenskab for guld og sten; prisen stiger for hver ofring.
+
+### 6.4 Ascension (M7)
+
+Ved level 10 lyser knappen **Ascend** op. Spilleren vælger én af tre stier; valget kan ikke fortrydes. Stien der passer til spillestilen er gratis, de andre koster 300 guld og 150 sten ("goes against your nature"). Overlevelse → Warlord, aggression → Bloodbound, kaos eller blandet → Avatar. Helten bliver lidt større, får et skær i stiens farve og en ny titel.
+
+| Sti | Passiv | Level 10 | Level 14 |
+|---|---|---|---|
+| **Warlord** (+5 STR, +3 AGI) | Soldater tæt på: +15 % skade og +2 rustning (+25 % / +3 fra level 16); helten +2 rustning. Bærer et flag | **Rally:** heler 25 %, soldater angriber 35 % hurtigere i 8 s | **Hold the Line:** 40 % mindre skade i 8 s for helten og soldaterne |
+| **Avatar** (+6 INT, +2 AGI) | 25 % chance for lyn på målet og to nære fjender; +50 % mana-regeneration | **Chain Lightning:** 140 skade, springer til fire mere | **Tempest:** storm om helten i 6 s, 45 skade pr. sekund |
+| **Bloodbound** (+6 STR, +2 AGI) | Op til +60 % skade jo lavere liv, 10 % livsstjæl; −2 rustning, halv heling | **Crimson Leap:** koster 12 % liv, spring på en fjende, 2× skade hvor den lander | **Bloodrage:** koster 20 % liv, +60 % angrebsfart og +30 % livsstjæl i 10 s, men 20 % mere skade |
+
+Stiens to evner ligger i en ekstra række over de tre essens-evner.
 
 ### 6.3 The Tide — helte (Forslag)
 
@@ -417,7 +444,8 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M4 ✅** | **Hær** | Grunts og spydkastere fra Krigerlejren, vælg flere (firkant, dobbelttryk, Hær-knap), formation, fælles angreb, samlingspunkt, veteranstatus, grunt-grenene Ironhide/Ravager/Berserker og spillestilsmålere. Desuden: sammenhængende terræn uden synlige hexagoner, omrids gennem bygninger og gem spil |
 | **M5 ✅** | **Modstander** | The Memory som regelbaseret AI: base i nordøst med ødeland, krypter der træner skeletter, spir der skyder, bølger mod spillerens base, sejr og nederlag, tre sværhedsgrader. Bygninger har liv og kan repareres |
 | **M6 ✅** | **Liv i verden** | Dag og nat, verdenstilstand (Balance/Fald/Opvågning), kroen hyrer lejesoldater, syntetisk lyd |
-| M7+ | Tier 2–3, flere helte, flere racer, udforskning, kampagne | |
+| **M7 ✅** | **Fremskridt** | Ascension ved level 10 med tre stier og level 11–20, XP efter level-forskel, upkeep, forskning (Forge, Lumber Mill, War Camp, Great Hall) og opgraderinger (Stronghold/Fortress, Guard Tower) |
+| M8+ | Flere helte, en helt til The Memory, flere racer, udforskning, kampagne | |
 
 ---
 
@@ -425,8 +453,8 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 
 1. **Arbejdsnavnene** på The Tides bygninger, units og helte — beholde, ændre?
 2. ~~Dag og nat~~ — besluttet: med (M6).
-3. **XP-loft fra creeps ved level 5** som i WC3, eller fri leveling?
-4. **Underhold** (mindre guld ved stor hær) — med eller uden?
+3. ~~XP-loft fra creeps~~ — besluttet: intet loft, XP skaleres efter level-forskel (M7).
+4. ~~Underhold~~ — besluttet: med (M7).
 5. ~~Første AI-race~~ — besluttet: The Memory (M5).
-6. **Spillængde:** passer 20–35 minutter?
+6. ~~Spillængde~~ — besluttet: 20–35 minutter er ok for nu.
 7. **Rækkefølgen:** M1 Stor verden → M2 Items → M3 Base, eller base før items?

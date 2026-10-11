@@ -5,6 +5,7 @@ import { alleItemModeller } from './itemdata.js';
 import { BYGNINGER, STADIER } from './bygningsdata.js';
 import { SOLDATER, SPYD_MODEL } from './soldatdata.js';
 import { FJENDE_BYGNINGER } from './fjendedata.js';
+import { VAGTTÅRN, UDVIKLINGS_IKONER } from './udviklingdata.js';
 
 export const MODELLER = [...new Set([
   'units/hero_tide', 'units/arbejder', ...Object.values(SOLDATER).map((s) => s.model), SPYD_MODEL,
@@ -16,6 +17,8 @@ export const MODELLER = [...new Set([
   ...Object.values(FJENDE_BYGNINGER).map((b) => b.model), 'kaykit-hexagon/buildings/neutral/building_destroyed',
   'kaykit-hexagon/decoration/props/resource_lumber', 'kaykit-hexagon/decoration/props/resource_stone',
   'kaykit-hexagon/decoration/nature/trees_a_cut', 'kaykit-hexagon/decoration/nature/trees_b_cut',
+  VAGTTÅRN.model, 'kaykit-hexagon/decoration/props/flag_green', 'kaykit-hexagon/decoration/props/weaponrack',
+  'kaykit-hexagon/buildings/green/building_tower_a_green', 'kaykit-hexagon/buildings/green/building_tower_base_green',
 ])];
 
 export const EKSTRA_IKONER = [
@@ -28,4 +31,5 @@ export const EKSTRA_IKONER = [
   { id: 'enhed-spydkaster', sti: SPYD_MODEL, vinkel: [0.5, 0, 0.8] },
   { id: 'hær', sti: 'kaykit-adventurers/axe_2handed', vinkel: [0.2, -0.6, -0.6] },
   ...Object.entries(BYGNINGER).map(([type, b]) => ({ id: 'byg-' + type, sti: b.model })),
+  ...UDVIKLINGS_IKONER,
 ];

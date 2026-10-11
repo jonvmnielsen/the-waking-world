@@ -21,13 +21,17 @@ export class Bygning {
     this.cooldown = 0;
     this.død = false;
     // Liv: en byggeplads starter med 10 % og vokser mens den bygges (som i WC3)
-    this.maxHp = this.data.hp ?? 900;
-    this.rustning = this.type === 'storlejr' ? 5 : this.type === 'tårn' ? 4 : 3;
+    this.grundHp = this.data.hp ?? 900; this.ekstraHp = 0;
+    this.grundRustning = this.type === 'storlejr' ? 5 : this.type === 'tårn' ? 4 : 3;
     this.hp = færdig ? this.maxHp : this.maxHp * 0.1;
     this.rod = null;
     this.visModel(færdig ? this.data.model : STADIER[0], færdig ? this.data.skala : 1);
     if (færdig) this.bliverFærdig(true);
   }
+
+  // Liv og rustning inkl. opgraderinger og Masonry (udvikling.js)
+  get maxHp() { return Math.round((this.grundHp + this.ekstraHp) * (1 + (this.verden.udvikling?.bygHp() ?? 0))); }
+  get rustning() { return this.grundRustning + (this.verden.udvikling?.bygRustning() ?? 0); }
 
   get skadet() { return this.hp < this.maxHp - 0.5; }
 
@@ -39,6 +43,7 @@ export class Bygning {
     this.rod.scale.setScalar(S * skala);
     this.verden.scene.add(this.rod);
     this.stadie = sti;
+    if (sti === this.data.model) this.verden.udvikling?.pynt(this);   // flag og tårne på opgraderede bygninger
   }
 
   // En arbejder bygger (eller reparerer) i dt sekunder

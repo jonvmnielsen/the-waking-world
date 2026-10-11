@@ -16,6 +16,8 @@
         "Death_A",
         "Hit_A",
         "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
         "Block"
       ]
     },

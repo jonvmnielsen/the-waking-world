@@ -17,7 +17,7 @@
     <div id="heltepanel">
       <div id="level-ring"><span id="level">1</span></div>
       <div class="bjælker">
-        <div class="navn">Orc Warrior <button id="egenskaber" type="button" aria-label="Hero attributes"><span class="str">STR <b id="eg-str">22</b></span><span class="agi">AGI <b id="eg-agi">14</b></span><span class="int">INT <b id="eg-int">12</b></span></button></div>
+        <div class="navn"><span id="helt-titel">Orc Warrior</span> <button id="egenskaber" type="button" aria-label="Hero attributes"><span class="str">STR <b id="eg-str">22</b></span><span class="agi">AGI <b id="eg-agi">14</b></span><span class="int">INT <b id="eg-int">12</b></span></button></div>
         <div class="bar hp"><i id="hp"></i><span id="hp-tal"></span></div>
         <div class="bar mana"><i id="mana"></i><span id="mana-tal"></span></div>
         <div class="bar xp"><i id="xp"></i></div>
@@ -49,6 +49,9 @@
         <p><b>Hero:</b> tap the ground to walk, tap an enemy to attack, tap an item or chest to pick it up. Tap the hero portrait to select your hero again; tap STR/AGI/INT for your hero's attributes.</p>
         <p><b>Workers:</b> tap a worker, then tap a gold mine, any tree or any stone to gather. Use the panel to build. "Idle" selects a worker with nothing to do.</p>
         <p><b>Army:</b> tap a soldier to select it, double-tap to select all of that kind, or hold your finger still for a moment and drag a box. "Army" selects every soldier. With a War Camp selected, tapping the ground sets where new soldiers gather.</p>
+        <p><b>Ascension:</b> at level 10 your hero can Ascend and choose one of three paths, with new abilities up to level 20. The path that matches how you fight is free. Enemies far below your level give less experience; stronger enemies give more.</p>
+        <p><b>Upgrades:</b> select a building to research upgrades — the Forge improves your soldiers, the Lumber Mill your workers and walls. Upgrade the Great Hall to a Stronghold and a Fortress to unlock higher levels. Upgrade towers to Guard Towers.</p>
+        <p><b>Upkeep:</b> a large army costs. From 41 supply your mines give 30% less gold, from 71 supply 60% less. Tap the supply counter to see your upkeep.</p>
         <p><b>Items:</b> tap an item in your inventory to see it, then use or drop it there.</p>
         <p><b>Camera:</b> drag to look around, pinch to zoom.</p>
       </div>
@@ -71,6 +74,11 @@
       <button id="evne1" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>W</kbd></button>
       <button id="evne2" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>E</kbd></button>
     </div>
+    <div id="sti-evner" hidden>
+      <button id="evne3" class="evne sti"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>R</kbd></button>
+      <button id="evne4" class="evne sti"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>T</kbd></button>
+    </div>
+    <button id="ascend" type="button" hidden><b>Ascend</b><small>Your hero is ready</small></button>
   </div>
 
   <div id="info" role="dialog" aria-label="Item">
@@ -80,11 +88,21 @@
   </div>
 
   <div id="heltekort" role="dialog" aria-label="Hero">
-    <div class="heltekort-top"><b>Orc Warrior</b><small id="hk-essens"></small><button id="hk-luk" type="button" aria-label="Close">✕</button></div>
+    <div class="heltekort-top"><b id="hk-titel">Orc Warrior</b><small id="hk-essens"></small><button id="hk-luk" type="button" aria-label="Close">✕</button></div>
     <div id="hk-egenskaber"></div>
     <div id="hk-afledt"></div>
     <p class="hk-vækst">Attributes grow every level — most in your essence's attribute. You can raise them further with <b>tomes</b> (found in chests, dropped by strong camps or sold at the merchant), <b>equipment</b>, and <b>offerings</b> at your Spirit Altar.</p>
+    <p id="hk-sti"></p>
     <p id="hk-stil"></p>
+  </div>
+
+  <div id="ascension" role="dialog" aria-label="Ascension">
+    <div class="asc-kort">
+      <div class="asc-top"><h2>Ascension</h2><button id="asc-luk" type="button" aria-label="Close">✕</button></div>
+      <p class="asc-intro">Your hero stands at a turning point. Choose the path your hero will walk to level 20. The path that matches how you have fought is open; the others go against your nature and cost more. <b>The choice cannot be undone.</b></p>
+      <div id="asc-stier"></div>
+      <button id="asc-stig" type="button" disabled>Choose a path</button>
+    </div>
   </div>
 
   <div id="butik" role="dialog" aria-label="Merchant">

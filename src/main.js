@@ -22,7 +22,7 @@ import { MODELLER, EKSTRA_IKONER } from './modelliste.js';
 import { startBase } from './basestart.js';
 import { Valg } from './valg.js';
 import { KommandoHud } from './kommandohud.js';
-import { LEVELS } from './config.js';
+import { LEVELS, xpFaktor } from './config.js';
 import { bus } from './events.js';
 import { Spillerstil } from './spillerstil.js';
 import { Veteraner } from './veteran.js';
@@ -38,6 +38,7 @@ import { DagNat } from './dagnat.js';
 import { Verdenstilstand } from './verdenstilstand.js';
 import { HelteKort } from './heltekort.js';
 import { ESSENSER } from './abilities.js';
+import { lavUdvikling, lavFremskridtsHud } from './fremskridt.js';
 
 const lærred = document.getElementById('spil');
 const renderer = new THREE.WebGLRenderer({ canvas: lærred, antialias: true, powerPreference: 'high-performance' });
@@ -130,10 +131,12 @@ async function start() {
   const invHud = new InventarHud(spil);
   const valg = new Valg(spil);
   spil.valg = valg;
+  lavUdvikling(spil);
   spil.invHud = invHud;
   spil.veteraner = new Veteraner(spil, stil);
   const kmdHud = new KommandoHud(spil);
   const helteKort = new HelteKort(spil);
+  const fremskridt = lavFremskridtsHud(spil);
   rig.onBoks = lavBoksValg(spil, (x, y, z) => overlay.skærm(x, y, z));
   spil.memory = new Memory(spil, fjende, sværhed);
   const sejr = new Sejr(spil);
@@ -144,7 +147,7 @@ async function start() {
   spil.lyd = lyd;
   forbindLyd(lyd, spil);
   bus.on('spil_slut', ({ vandt }) => { spil.slut = vandt ? 'sejr' : 'nederlag'; });
-  bus.on('creep_død', ({ xp }) => helt.fåXp(xp));
+  bus.on('creep_død', ({ xp, creep }) => helt.fåXp(Math.round(xp * xpFaktor(creep?.level, helt.level))));
   bus.on('teleport', () => rig.centrér());
   if (fortsæt) {
     gendanSpil(spil, gemt);
@@ -179,6 +182,7 @@ async function start() {
     invHud.opdater();
     kmdHud.opdater(dt);
     helteKort.opdater(dt);
+    fremskridt.opdater();
   });
 
   // Til test: vis hele kortet uden tåge

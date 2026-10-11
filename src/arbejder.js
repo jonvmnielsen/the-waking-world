@@ -141,7 +141,8 @@ export class Arbejder extends Unit {
   færdigHøst() {
     const k = this.kilde;
     // I verdenstilstanden Fald giver minerne mindre (GDD 12)
-    const m = this.base.kilder.høst(k, k.type, k.type === 'guld' ? Math.round(BÆR.guld * (this.verden.guldFaktor ?? 1)) : BÆR[k.type]);
+    const bær = (k.type === 'guld' ? Math.round(BÆR.guld * (this.verden.guldFaktor ?? 1)) : BÆR[k.type]) + (this.verden.udvikling?.bær(k.type) ?? 0);
+    const m = this.base.kilder.høst(k, k.type, bær);
     if (m <= 0) { this.høstNærmeste(k.type); return; }
     this.sætByrde({ type: k.type, mængde: m });
     this.spil('PickUp', { loop: false, gentag: true, fart: 1.6 });

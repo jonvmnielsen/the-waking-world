@@ -9,6 +9,7 @@ import { levelMetoder } from './heltlevel.js';
 import { interaktionMetoder } from './heltinteraktion.js';
 import { findTrussel } from './trussel.js';
 import { egenskabsMetoder, EGENSKABER } from './heltstats.js';
+import { Ascension } from './ascension.js';
 
 const SKJUL = ['1H_Axe', '1H_Axe_Offhand', 'Barbarian_Round_Shield', 'Mug', 'Barbarian_Hat'];
 const SVING = [
@@ -33,6 +34,7 @@ export class Helt extends Unit {
     this.level = 1;
     this.xp = 0;
     this.evner = new Evner(this, essens);
+    this.sti = new Ascension(this);   // Ascension ved level 10
     this.mål = null;
     this.cooldown = 0;
     this.sving = null;        // igangværende slag { tid, slagTid, mål, ramt }
@@ -132,9 +134,10 @@ export class Helt extends Unit {
     if (!s.ramt && s.tid >= s.slagTid) {
       s.ramt = true;
       if (s.mål && !s.mål.død && this.afstand(s.mål) - s.mål.radius <= this.stats.rækkevidde * 1.5) {
-        const skade = reducérSkade(this.evner.slagMultiplikator(this.slagSkade()), s.mål.rustning ?? 0);
+        const skade = reducérSkade(this.evner.slagMultiplikator(this.slagSkade() * this.sti.skadeFaktor()), s.mål.rustning ?? 0);
         s.mål.tagSkade(skade, this);
         this.inventar.vedSlag(s.mål, skade);
+        this.sti.vedSlag(s.mål, skade);
         bus.emit('slag', { kilde: this, mål: s.mål });
       }
     }
@@ -148,13 +151,14 @@ export class Helt extends Unit {
     if (this.evner.erUdødelig()) mængde = 0;
     this.sidstIKamp = this.tid;
     if (kilde && kilde !== this) this.angribere.set(kilde, this.tid);
-    if (mængde > 0) mængde = this.inventar.vedSkade(mængde, kilde);
+    if (mængde > 0) mængde = this.inventar.vedSkade(mængde, kilde) * this.sti.skadeTagetFaktor();
     return super.tagSkade(reducérSkade(mængde, this.rustning() + this.evner.rustningsBonus()), kilde);
   }
 
   dø() {
     super.dø();
     this.mål = null; this.sving = null; this.gåOrdre = false; this.handling = null; this.angribere.clear();
+    this.sti.hop = null; this.rod.position.y = 0;
     this.spil('Death_A', { loop: false, fade: 0.1 });
     this.genopliv = this.stats.genopliv;
     bus.emit('helt_død', { helt: this });

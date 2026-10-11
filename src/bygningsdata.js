@@ -41,6 +41,12 @@ export const BYGNINGER = {
     pris: { guld: 160, træ: 60, sten: 80 }, tid: 50, syn: 18, alter: true,
     tekst: 'Your hero is revived here and healed nearby. Make offerings to raise your hero\'s attributes.',
   },
+  smedje: {
+    hp: 900,
+    navn: 'Forge', model: G + 'building_blacksmith_green', skala: 1.25,
+    pris: { guld: 140, træ: 100, sten: 60 }, tid: 45, syn: 18,
+    tekst: 'Researches better axes, spears and armor for your soldiers.',
+  },
   krigerlejr: {
     hp: 1100,
     navn: 'War Camp', model: G + 'building_barracks_green', skala: 1.2,
@@ -51,7 +57,7 @@ export const BYGNINGER = {
 };
 
 // Hvad en arbejder kan bygge, i menuens rækkefølge
-export const BYGGEMENU = ['hytte', 'savværk', 'tårn', 'krigerlejr', 'marked', 'alter'];
+export const BYGGEMENU = ['hytte', 'savværk', 'tårn', 'krigerlejr', 'smedje', 'marked', 'alter'];
 
 export const ENHEDER = {
   arbejder: { navn: 'Worker', pris: { guld: 50 }, tid: 12, forsyning: 1, tekst: 'Gathers gold, wood and stone and builds your base.' },

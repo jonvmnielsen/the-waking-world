@@ -14,13 +14,16 @@ export function gendanSpil(spil, g) {
   inv.pladser = g.helt.pladser.map((p) => (p ? { ...p } : null));
   Object.assign(inv.permanent, g.helt.permanent);
   inv.beregn();
+  if (g.helt.sti) helt.sti.stig(g.helt.sti, true);
   helt.rod.position.set(g.helt.x, 0, g.helt.z);
   helt.hp = Math.min(helt.maxHp, g.helt.hp);
   helt.mana = Math.min(helt.manaMax, g.helt.mana);
 
   // Bygninger: Storlejren findes allerede (medmindre den var faldet i det gemte spil)
   const start = base.bygninger[0], gemtStart = g.bygninger[0]?.type === 'storlejr' ? g.bygninger[0] : null;
+  spil.udvikling.gendan(g.udvikling, gemtStart ? [start] : []);   // forskning og Storlejrens tier
   if (gemtStart) {
+    start.udv = gemtStart.udv ?? null;
     start.kø = gemtStart.kø ?? [];
     start.samling = gemtStart.samling ?? null;
     start.hp = Math.min(start.maxHp, gemtStart.hp ?? start.maxHp);
@@ -32,6 +35,8 @@ export function gendanSpil(spil, g) {
     if (!d.færdig) { b.fremskridt = d.fremskridt; b.visModel(STADIER[Math.min(2, Math.floor(d.fremskridt * 3))], 1); }
     b.kø = d.kø ?? [];
     b.samling = d.samling;
+    if (d.opg) spil.udvikling.anvend(b, 'vagttårn');
+    b.udv = d.udv ?? null;
     b.hp = Math.min(b.maxHp, d.hp ?? b.maxHp);
     base.bygninger.push(b);
   }

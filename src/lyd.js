@@ -191,6 +191,7 @@ export function forbindLyd(lyd, spil) {
   bus.on('level_op', () => lyd.akkord([523, 659, 784, 1046]));
   bus.on('bygning_færdig', ({ bygning }) => { if (helt.tid > 2) lyd.akkord([392, 523, 659], { vol: 0.1 }); });
   bus.on('evne', () => lyd.evne());
+  bus.on('ascension', () => { lyd.horn(true); lyd.akkord([262, 330, 392, 523, 659], { varighed: 1.4, trin: 0.18 }); }); bus.on('udvikling', () => lyd.akkord([523, 784], { vol: 0.1 }));
   bus.on('fjende_angreb', () => lyd.horn());
   bus.on('verdenstilstand', ({ fase }) => { lyd.horn(true); if (fase.id === 'opvågning') lyd.enkelt('uhyggelig', null, 0.7, 1000); });
   bus.on('nat', () => lyd.klokke());

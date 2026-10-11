@@ -26,13 +26,21 @@ export const HELT = {
   genopliv: 6,          // sekunder til helten rejser sig igen
 };
 
-// XP for at nå hvert level (index = level-1) + bonusser ved level-op (egenskaberne vokser også, se heltstats.js)
+// XP for at nå hvert level (index = level-1) + bonusser ved level-op (egenskaberne vokser også, se heltstats.js).
+// Level 11–20 (tier 2) kræver Ascension ved level 10; erfaringen gemmes imens.
 export const LEVELS = {
-  xp:        [0, 200, 500, 900, 1400, 2100, 3000, 4200, 5600, 7500],
-  hpBonus:   [0, 25, 25, 30, 30, 40, 40, 50, 50, 60],      // oven i det Strength giver
-  skadeBonus:[0, 4, 4, 5, 5, 6, 6, 7, 7, 8],
-  rustBonus: [0, 0, 1, 0, 1, 0, 1, 0, 1, 1],
+  xp:        [0, 200, 500, 900, 1400, 2100, 3000, 4200, 5600, 7500, 9000, 10800, 12800, 15000, 17400, 20000, 22800, 25800, 29000, 32500],
+  hpBonus:   [0, 25, 25, 30, 30, 40, 40, 50, 50, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60],      // oven i det Strength giver
+  skadeBonus:[0, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+  rustBonus: [0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
 };
+
+// Erfaring efter level-forskel (intet loft, Jons ønske): fjender under heltens level giver mindre
+// (−15 % pr. level, mindst 10 %), fjender over giver mere (+10 % pr. level, højst 150 %).
+export function xpFaktor(fjendeLevel, heltLevel) {
+  const d = (fjendeLevel ?? heltLevel) - heltLevel;
+  return d >= 0 ? Math.min(1.5, 1 + 0.1 * d) : Math.max(0.1, 1 + 0.15 * d);
+}
 
 export const CREEP_AI = {
   aggro: 9,         // afstand hvor creeps opdager helten

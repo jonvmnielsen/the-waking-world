@@ -18,7 +18,7 @@ export class Veteraner {
   }
 
   givXp(s, n) {
-    s.vet.xp += n;
+    s.vet.xp += n * (this.spil.udvikling?.vetFaktor() ?? 1);
     if (!s.vet.veteran && s.vet.xp >= VETERAN.tærskel) this.blivVeteran(s);
   }
 

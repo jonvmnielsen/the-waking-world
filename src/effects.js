@@ -102,6 +102,7 @@ export class Effekter {
     else if (e.type === 'samlet') this.bølge(e.x, e.z, 1.6, e.farve ?? 0xffe08a, 0.4);
     else if (e.type === 'kiste') { this.bølge(e.x, e.z, 3.5, 0xffd36b, 0.8); this.søjle({ x: e.x, z: e.z }, 0xffd36b, 0.9, 5); }
     else if (e.type === 'evne') this.bølge(e.x, e.z, 5, e.farve ?? 0xffffff, 0.5);
+    else if (e.type === 'ascension') { this.bølge(e.x, e.z, 9, e.farve, 1.2); this.søjle({ x: e.x, z: e.z }, e.farve, 2.4, 14); }
     else if (e.type === 'veteran') { this.bølge(e.x, e.z, 3, 0xffd36b, 0.7); this.søjle({ x: e.x, z: e.z }, 0xffd36b, 1.2, 5); }
     else if (e.type === 'røg') { this.bølge(e.x, e.z, 6, 0x9a9a9a, 1.4); this.søjle({ x: e.x, z: e.z }, 0x777777, 1.6, 4); }
   }

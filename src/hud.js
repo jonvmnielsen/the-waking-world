@@ -7,7 +7,7 @@ const $ = (id) => document.getElementById(id);
 export class Hud {
   constructor(spil) {
     this.spil = spil;
-    this.knapper = [0, 1, 2].map((i) => $(`evne${i}`));
+    this.knapper = [0, 1, 2, 3, 4].map((i) => $(`evne${i}`));
     this.knapper.forEach((k, i) => k.addEventListener('pointerdown', (e) => { e.preventDefault(); spil.brugEvne(i); }));
     $('centrer').addEventListener('click', () => spil.rig.centrér());
     $('menuknap').addEventListener('click', () => $('menu').classList.toggle('åben'));
@@ -18,14 +18,14 @@ export class Hud {
     lydTekst();
     $('gem').addEventListener('click', () => { bus.emit('besked', gemSpil(spil) ? 'Game saved' : 'The game could not be saved'); $('menu').classList.remove('åben'); });
     window.addEventListener('keydown', (e) => {
-      const i = ['q', 'w', 'e'].indexOf(e.key.toLowerCase());
+      const i = ['q', 'w', 'e', 'r', 't'].indexOf(e.key.toLowerCase());
       if (i >= 0) spil.brugEvne(i);
       if (e.key === ' ') spil.rig.centrér();
     });
     bus.on('helt_død', () => $('dødsskærm').classList.add('vis'));
     bus.on('helt_genoplivet', () => $('dødsskærm').classList.remove('vis'));
     bus.on('banner', ({ titel, tekst }) => this.banner(titel, tekst));
-    bus.on('level_op', ({ level }) => this.banner(`Level ${level}`, level === 3 || level === 6 ? 'New ability unlocked!' : 'Your hero grows stronger'));
+    bus.on('level_op', ({ level }) => this.banner(`Level ${level}`, [3, 6, 14].includes(level) ? 'New ability unlocked!' : level === 10 && !spil.helt.sti.id ? 'Ascension awaits' : 'Your hero grows stronger'));
   }
 
   banner(titel, under) {
@@ -48,6 +48,7 @@ export class Hud {
 
     this.knapper.forEach((k, i) => {
       const e = h.evner.info(i);
+      if (!e) return;
       k.querySelector('.ikon').textContent = e.ikon;
       k.querySelector('.navn').textContent = e.navn;
       k.classList.toggle('låst', !e.oplåst);

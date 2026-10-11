@@ -4,7 +4,7 @@ import { BYGNINGER, BYGGEMENU, ENHEDER } from './bygningsdata.js';
 import { GRENE } from './soldatdata.js';
 import { kanKæmpe, gruppeStatus } from './haer.js';
 import { RES_NAVN } from './okonomi.js';
-import { EGENSKABER, ofringsPris, OFRINGS_IKON } from './heltstats.js';
+import { prisHtml, udviklingsKnapper, udviklingsStatus, markérUdvikling, ofringsKnapper } from './udviklinghud.js';
 import { ikon } from './ikoner.js';
 import { bus } from './events.js';
 
@@ -15,8 +15,6 @@ const STATUS = {
   iMine: () => 'Mining gold', tilAflevering: (a) => `Carrying ${RES_NAVN[a.bærer?.type]} home`,
   tilByg: (a) => `On the way to ${a.bygning?.færdig ? 'repair' : 'build'} ${a.bygning?.data.navn}`, bygger: (a) => `${a.bygning?.færdig ? 'Repairing' : 'Building'} ${a.bygning?.data.navn}`,
 };
-
-const prisHtml = (pris = {}) => RES.filter((r) => pris[r]).map((r) => `<span><img alt="${r}" src="${ikon('res-' + r)}">${pris[r]}</span>`).join('');
 
 export class KommandoHud {
   constructor(spil) {
@@ -33,6 +31,7 @@ export class KommandoHud {
     $('plac-byg').addEventListener('click', () => { const f = this.valg.bekræftPlacering(); if (f) bus.emit('besked', f); });
     $('plac-annuller').addEventListener('click', () => this.valg.annullérPlacering());
     bus.on('valg', () => this.byg());
+    bus.on('udvikling', () => { if (this.valg.erBygning) this.byg(); });
     bus.on('placering', (p) => this.visPlacering(p));
     this.tid = 0;
     this.byg();
@@ -81,27 +80,10 @@ export class KommandoHud {
         }, `træn-${type}`);
       }
       if (v.data.butik) this.knap(knapper, ikon('livseliksir'), 'Shop', '', () => this.spil.handlVed(v));
-      if (v.data.alter && v.færdig) this.ofringer(knapper);
+      if (v.data.alter && v.færdig) ofringsKnapper(this, knapper);
+      udviklingsKnapper(this, v, knapper);
     }
     this.opdater(1);
-  }
-
-  // Ånde-alteret: ofr ressourcer for +1 i en af heltens egenskaber
-  ofringer(knapper) {
-    const inv = this.spil.helt.inventar;
-    for (const n of ['str', 'agi', 'int']) {
-      this.knap(knapper, ikon(OFRINGS_IKON[n]), `+1 ${EGENSKABER.kort[n]}`, prisHtml(ofringsPris(inv.permanent.ofringer)), () => {
-        const pris = ofringsPris(inv.permanent.ofringer), øko = this.spil.økonomi;
-        const mangler = øko.mangler(pris);
-        if (mangler) return bus.emit('besked', mangler);
-        øko.betal(pris);
-        inv.permanent.ofringer += 1;
-        inv.øgEgenskaber({ [n]: 1 });
-        bus.emit('effekt', { type: 'veteran', x: this.spil.helt.x, z: this.spil.helt.z });
-        bus.emit('besked', `Your offering is accepted: +1 ${EGENSKABER.navn[n]}`);
-        this.byg();
-      }, `ofr-${n}`);
-    }
   }
 
   // Panel for en gruppe: stop, høst (arbejdere) og specialisering af en enkelt veteran-grunt
@@ -175,6 +157,8 @@ export class KommandoHud {
         s = `Under construction ${Math.floor(v.fremskridt * 100)}%${bygges ? '' : ' · Select a worker and tap the site to keep building'}`;
       } else if (v.skadet) {
         s = `Health ${Math.ceil(v.hp)}/${v.maxHp} · Select a worker and tap the building to repair it`;
+      } else if (udviklingsStatus(v) && !v.kø.length) {
+        s = udviklingsStatus(v);
       } else if (v.kø.length) {
         const k = v.kø[0];
         s = `Training ${ENHEDER[k.type].navn} ${Math.floor((k.tid / ENHEDER[k.type].tid) * 100)}% · ${v.kø.length} queued`;
@@ -184,6 +168,7 @@ export class KommandoHud {
         const e = ENHEDER[b.dataset.id.slice(5)];
         b.classList.toggle('dyr', !!e.låst || !!øko.mangler(e.pris, e.forsyning) || !v.færdig);
       }
+      markérUdvikling(this.spil, v);
     }
   }
 }

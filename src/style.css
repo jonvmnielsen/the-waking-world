@@ -296,3 +296,57 @@ body.valgt-andet #evner, body.valgt-andet #inventar { display: none; }
   #kmd-knapper { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
   #placering { top: calc(var(--top) + 70px); }
 }
+
+/* ---------- M7: Ascension, stiens evner, opgraderinger og upkeep ---------- */
+#sti-evner { right: calc(var(--kant) + 162px); bottom: calc(var(--bund) + 124px); display: flex; gap: 10px; }
+#sti-evner[hidden], #ascend[hidden] { display: none; }
+#sti-evner .evne { width: 54px; height: 54px; }
+#sti-evner .evne .ikon { font-size: 22px; }
+.evne.sti { border-color: #ffd36b; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 0 12px rgba(255, 211, 107, 0.35); }
+body.valgt-andet #sti-evner, body.valgt-andet #ascend { display: none; }
+#ascend { right: var(--kant); bottom: calc(var(--bund) + 226px); display: grid; padding: 8px 14px; border-radius: 12px; border: 2px solid #ffd36b; background: radial-gradient(circle at 50% 20%, #6a4a1c, #2a1d0e); color: var(--messing-lys); text-align: center; animation: stigPuls 1.6s ease-in-out infinite; }
+#ascend b { font-family: var(--display); font-size: 16px; letter-spacing: 0.06em; }
+#ascend small { font-size: 10px; color: var(--tekst); }
+@keyframes stigPuls { 0%, 100% { box-shadow: 0 0 8px rgba(255, 211, 107, 0.4); } 50% { box-shadow: 0 0 22px rgba(255, 211, 107, 0.9); } }
+@media (max-height: 500px) and (orientation: landscape) {
+  #sti-evner { right: var(--kant); bottom: calc(var(--bund) + 104px); }
+  #ascend { right: calc(var(--kant) + 130px); bottom: calc(var(--bund) + 104px); }
+}
+
+#ascension { position: fixed; inset: 0; z-index: 15; display: none; overflow-y: auto; padding: var(--top) var(--kant) calc(var(--bund) + 10px); background: rgba(10, 8, 5, 0.88); }
+#ascension.vis { display: block; }
+.asc-kort { max-width: 640px; margin: 0 auto; }
+.asc-top { display: flex; align-items: center; justify-content: space-between; }
+.asc-top h2 { margin: 6px 0; font-family: var(--display); font-size: 26px; color: var(--messing-lys); }
+#asc-luk { border: 0; background: none; font-size: 20px; }
+.asc-intro { margin: 0 0 12px; font-size: 14px; line-height: 1.45; color: var(--dæmpet); }
+.asc-intro b { color: var(--tekst); }
+#asc-stier { display: grid; gap: 10px; }
+.asc-sti { display: block; width: 100%; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(201, 163, 90, 0.45); background: var(--træ-lys); text-align: left; color: var(--tekst); }
+.asc-sti.valgt { border: 2px solid #ffd36b; box-shadow: 0 0 18px rgba(255, 211, 107, 0.35); }
+.asc-navn { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.asc-navn i { font-style: normal; font-size: 22px; }
+.asc-navn b { font-family: var(--display); font-size: 19px; }
+.asc-navn em { font-size: 12px; color: var(--dæmpet); }
+.asc-sti p { margin: 6px 0 0; font-size: 13px; line-height: 1.4; }
+.asc-eg { font-weight: 800; color: #8fd06a; white-space: nowrap; }
+.asc-mere { display: none; }
+.asc-sti.valgt .asc-mere { display: block; }
+.asc-sti h3 { margin: 10px 0 2px; font-family: var(--display); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--messing-lys); }
+.asc-sti h3 small { font-family: var(--ui); text-transform: none; letter-spacing: 0; color: var(--dæmpet); }
+.asc-sti .evneliste { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.asc-sti .evneliste li { display: flex; gap: 8px; font-size: 13px; }
+.asc-sti .evneliste i { font-style: normal; font-size: 20px; }
+.asc-sti .evneliste span { display: block; color: var(--dæmpet); }
+.asc-hint { color: var(--dæmpet); font-style: italic; }
+.asc-pris { font-weight: 800; }
+.asc-sti.passer .asc-pris { color: #8fd06a; }
+.asc-sti.mod .asc-pris { color: #ffb36b; }
+#asc-stig { display: block; width: 100%; margin-top: 12px; padding: 14px; border-radius: 12px; border: 2px solid #ffd36b; background: linear-gradient(#7a5a24, #4a3414); font-family: var(--display); font-weight: 800; font-size: 16px; color: var(--messing-lys); }
+#asc-stig:disabled { opacity: 0.45; border-color: rgba(201, 163, 90, 0.4); }
+#hk-sti { font-size: 12px; line-height: 1.4; margin: 8px 0 0; }
+.res #upkeep { margin-left: 3px; font-size: 10px; font-weight: 800; }
+.res.upkeep-lav #upkeep, .res.upkeep-lav b { color: #ffcf6b; }
+.res.upkeep-høj #upkeep, .res.upkeep-høj b { color: #ff7a5a; }
+.res { cursor: pointer; }
+#asc-stig { position: sticky; bottom: 0; box-shadow: 0 -8px 20px rgba(10, 8, 5, 0.9); }

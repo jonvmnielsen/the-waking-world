@@ -42,9 +42,9 @@ export const egenskabsMetoder = {
   },
 
   // Afledte værdier
-  rustning() { return HELT.rustning + this.egenskab('agi') * P.rustning + (this.inventar?.bonus.rustning ?? 0); },
-  hpRegen() { return HELT.hpRegen + this.egenskab('str') * P.hpRegen + this.inventar.bonus.hpRegen; },
-  manaRegen() { return HELT.manaRegen + this.egenskab('int') * P.manaRegen + this.inventar.bonus.manaRegen; },
+  rustning() { return HELT.rustning + this.egenskab('agi') * P.rustning + (this.inventar?.bonus.rustning ?? 0) + (this.sti?.rustning() ?? 0); },
+  hpRegen() { return (HELT.hpRegen + this.egenskab('str') * P.hpRegen + this.inventar.bonus.hpRegen) * (this.sti?.hpRegenFaktor() ?? 1); },
+  manaRegen() { return (HELT.manaRegen + this.egenskab('int') * P.manaRegen + this.inventar.bonus.manaRegen) * (this.sti?.manaRegenFaktor() ?? 1); },
   egenskabsSkade() { return Math.round(this.egenskab('str') * P.skade); },
   evneStyrke() { return 1 + this.egenskab('int') * P.evne; },
   angrebsfartBonus() { return this.egenskab('agi') * P.angrebsfart + this.inventar.bonus.angrebsfart; },

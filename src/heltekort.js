@@ -2,6 +2,7 @@
 // afledte værdier og en blød antydning af spillestilen (uden tal).
 import { EGENSKABER } from './heltstats.js';
 import { ESSENSER } from './abilities.js';
+import { ASCENSION_LEVEL } from './ascensiondata.js';
 
 const $ = (id) => document.getElementById(id);
 const FORKLARING = {
@@ -58,6 +59,10 @@ export class HelteKort {
       ['Ability power', `${Math.round(h.evneStyrke() * 100)}%`], ['Speed', h.fart.toFixed(1)], ['Level', h.level],
     ];
     $('hk-afledt').innerHTML = v.map(([k, t]) => `<span>${k}</span><b>${t}</b>`).join('');
+    const sti = h.sti.data;
+    $('hk-sti').innerHTML = sti ? `<b>${sti.navn}</b> — ${sti.passiv.navn}: ${sti.passiv.tekst}`
+      : h.level >= ASCENSION_LEVEL ? '<b>Ascension awaits.</b> Your hero will not grow past level 10 until you choose a path.'
+        : `At level ${ASCENSION_LEVEL} your hero will <b>Ascend</b> and choose one of three paths. The way you fight decides which path comes easiest.`;
     $('hk-stil').textContent = `${STIL[this.spil.stil.dominant()]} The way you fight shapes the training your veterans take to.`;
   }
 }

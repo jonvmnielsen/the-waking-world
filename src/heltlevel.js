@@ -1,12 +1,14 @@
-// Heltens erfaring og level-op (level 1–10, GDD 6). Blandes ind i Helt-klassen.
+// Heltens erfaring og level-op (level 1–10, og 11–20 efter Ascension, GDD 6). Blandes ind i Helt-klassen.
 import { LEVELS } from './config.js';
+import { ASCENSION_LEVEL } from './ascensiondata.js';
 import { bus } from './events.js';
 
 export const levelMetoder = {
   fåXp(mængde) {
     const tabel = LEVELS.xp;
     this.xp += mængde;
-    while (this.level < tabel.length && this.xp >= tabel[this.level]) this.levelOp();
+    const loft = this.sti?.id ? tabel.length : ASCENSION_LEVEL;
+    while (this.level < loft && this.xp >= tabel[this.level]) this.levelOp();
   },
 
   // stille = uden fanfare (når et gemt spil gendannes)
@@ -26,7 +28,7 @@ export const levelMetoder = {
   // Fremgang mod næste level (0-1)
   xpProcent() {
     const t = LEVELS.xp;
-    if (this.level >= t.length) return 1;
+    if (this.level >= t.length || (this.level >= ASCENSION_LEVEL && !this.sti?.id)) return 1;
     return Math.min(1, (this.xp - t[this.level - 1]) / (t[this.level] - t[this.level - 1]));
   },
 };

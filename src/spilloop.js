@@ -27,6 +27,7 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
     if (verden.creeps.some((c) => c.fjernet)) verden.creeps = verden.creeps.filter((c) => !c.fjernet);
     for (const l of lejre) l.opdater(dt);
     base.opdater(dt);
+    spil.udvikling.opdater(dt);
     memory.opdater(dt);
     spil.verdenstilstand.opdater(dt);
     adskil([helt, ...verden.creeps.filter((c) => !c.død && !c.erBygning && c.rod.visible), ...base.arbejdere.filter((a) => a.rod.visible && !a.død), ...base.soldater.filter((s) => !s.død)], verden.kort);

@@ -7,6 +7,12 @@ export const MÆNGDE = { mine: 8000 };   // træer og sten: se RESSOURCE i pynt.
 export const BÆR = { guld: 10, træ: 10, sten: 8 };          // pr. tur
 export const HØST_TID = { guld: 1.6, træ: 4.5, sten: 5.5 }; // sekunder pr. tur
 export const MAKS_FORSYNING = 100;
+// Upkeep (Jons ønske): en stor hær koster. Jo mere forsyning der er brugt, jo mindre af minernes guld når frem.
+export const UPKEEP = [
+  { fra: 0, navn: 'No upkeep', faktor: 1 },
+  { fra: 41, navn: 'Low upkeep', faktor: 0.7 },
+  { fra: 71, navn: 'High upkeep', faktor: 0.4 },
+];
 // Ressourcernes navne på skærmen
 export const RES_NAVN = { guld: 'gold', træ: 'wood', sten: 'stone' };
 
@@ -44,7 +50,11 @@ export class Økonomi {
     bus.emit('økonomi', this);
   }
 
+  upkeep() { return UPKEEP.findLast((u) => this.forsyning >= u.fra); }
+
+  // Guld fra minerne trækkes for upkeep
   aflever(type, mængde) {
+    if (type === 'guld') mængde = Math.round(mængde * this.upkeep().faktor);
     this[type] += mængde;
     bus.emit('økonomi', this);
   }

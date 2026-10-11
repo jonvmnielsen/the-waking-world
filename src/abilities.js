@@ -1,6 +1,7 @@
 // Heltens tre evner. Slot 0 for alle, slot 1 og 2 afhænger af valgt essens.
 // Værdier fra docs/balance/ability_values_v1.md
 import { bus } from './events.js';
+import { STI_EVNER, STIER, STI_OPLÅS } from './ascensiondata.js';
 
 // Essenserne (GDD 6): hvordan helten kæmper nu, hvilken egenskab der vokser mest, og et vink om hvad valget
 // kan betyde senere (Ascension ved level 10 og hærens veteran-grene) — uden at afsløre det hele.
@@ -43,23 +44,30 @@ export class Evner {
   constructor(helt, essens) {
     this.helt = helt;
     this.essens = essens;
-    this.cooldowns = [0, 0, 0];
+    this.cooldowns = [0, 0, 0, 0, 0];   // slot 3 og 4: Ascension-stiens evner
     this.tWarCry = 0; this.tIronSkin = 0; this.tUdødelig = 0; this.blodAktiv = false;
   }
 
   info(slot) {
+    if (slot >= 3) {
+      const sti = this.helt.sti?.id;
+      if (!sti) return null;
+      const id = STIER[sti].evner[slot - 3], lv = STI_OPLÅS[slot - 3];
+      return { id, ...STI_EVNER[id], sti: true, oplåsLevel: lv, oplåst: this.helt.level >= lv, cd: this.cooldowns[slot], cdMax: STI_EVNER[id].cd };
+    }
     const id = SLOTS[this.essens][slot];
     return { id, ...EVNER[id], oplåsLevel: OPLÅS[slot], oplåst: this.helt.level >= OPLÅS[slot], cd: this.cooldowns[slot], cdMax: EVNER[id].cd };
   }
 
   opdater(dt) {
-    for (let i = 0; i < 3; i++) this.cooldowns[i] = Math.max(0, this.cooldowns[i] - dt);
+    for (let i = 0; i < 5; i++) this.cooldowns[i] = Math.max(0, this.cooldowns[i] - dt);
     this.tWarCry = Math.max(0, this.tWarCry - dt);
     this.tIronSkin = Math.max(0, this.tIronSkin - dt);
     this.tUdødelig = Math.max(0, this.tUdødelig - dt);
+    this.helt.sti?.opdater(dt);
   }
 
-  angrebsBonus() { return this.tWarCry > 0 ? 0.3 : 0; }
+  angrebsBonus() { return (this.tWarCry > 0 ? 0.3 : 0) + (this.helt.sti?.angrebsBonus() ?? 0); }
   rustningsBonus() { return this.tIronSkin > 0 ? Math.round(this.helt.rustning() * 5) / 10 : 0; }
   erUdødelig() { return this.tUdødelig > 0; }
 
@@ -74,11 +82,12 @@ export class Evner {
   brug(slot) {
     const h = this.helt;
     const e = this.info(slot);
+    if (!e) return null;
     if (h.død) return 'Your hero has fallen';
     if (!e.oplåst) return `Unlocks at level ${e.oplåsLevel}`;
     if (e.cd > 0) return `${e.navn} is ready in ${Math.ceil(e.cd)}s`;
     if (h.mana < e.mana) return 'Not enough mana';
-    const fejl = this[e.id]();
+    const fejl = e.sti ? h.sti[e.id]() : this[e.id]();
     if (fejl) return fejl;
     h.mana -= e.mana;
     this.cooldowns[slot] = e.cdMax;
@@ -142,10 +151,10 @@ export class Evner {
     }, 500);
   }
 
-  heltRåb() {
+  heltRåb(anim = 'Spellcast_Raise') {
     const h = this.helt;
     if (h.sving) return;
-    h.spil('Spellcast_Raise', { loop: false, fart: 1.6, gentag: true, fade: 0.1 });
+    h.spil(anim, { loop: false, fart: 1.6, gentag: true, fade: 0.1 });
     h.sving = { tid: 0, varighed: 1.0, slagTid: 99, ramt: true };
   }
 }
