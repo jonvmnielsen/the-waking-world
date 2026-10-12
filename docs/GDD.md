@@ -115,17 +115,18 @@ Man ser på selve minen hvor meget der er tilbage (Jon: visuelle tegn frem for t
 
 **Huler.** Hvert kort har en huleindgang (to på store kort): en klippeåbning med fakler i bjergene eller gravlandet. Helten går ind med de soldater, der står tæt på eller er valgt. Hulen er 5–7 rum forbundet af gange (KayKit Dungeon: jord- og flisegulv, klippevægge, fakler, tønder, søjler, knogler), med lejre der bliver sværere jo længere ind man kommer, en skattekiste undervejs og en boss med en låst guldkiste i det inderste rum. Derinde er der mørkt (helten bærer en lygte), intet vejr og ingen tåge; minimappet viser en pulserende ring ved indgangen, og kameraet kan ikke panorere ud af hulen. Trappen ved indgangsrummet fører op igen. Når bossen er død, er hulen *cleared*.
 
-**Begivenheder.** Hvert 2½–4. minut sker der noget — aldrig det samme to gange i træk. Tegnet kommer først, krøniken bagefter:
+**Begivenheder.** Én ad gangen (Jon, M12: der skal være tid til at afvikle hver): den første efter 7–9 minutter, og 7–10 minutter fra en er slut til den næste begynder — aldrig det samme to gange i træk. Tegnet kommer først; kun vigtige ting vises på skærmen, resten står i krøniken i menuen:
 
 | Begivenhed | Tegn | Virkning |
 |---|---|---|
 | *Blood Moon* (en tilfældig nat fra nat 2, 30 %) | Rødt lys, creeps får røde øjne | Creeps slår 25 % hårdere og giver 50 % mere XP resten af natten |
-| *Eclipse* (kun om dagen) | Verden bliver mørk og violet i 90 s | The Memory slår 25 % hårdere, ekkoerne vejer dobbelt |
+| *Eclipse* (kun om dagen) | Verden bliver mørk og violet i 90 s | Ekkoerne vejer dobbelt i Erevoss |
 | *Starfall* | En stjerne falder med en lysende hale, brag, lyssøjle, landet lyses op | Fire glødende stjernekrystaller (90–220 guld hver, den store kan give et item) i 4 min |
 | *Gold rush* | Guld springer op af en mine, gylden lyssøjle | Minen giver dobbelt guld i 2 min |
 | *Hidden shrine* | Gylden lyssøjle over en glemt helligdom | Helten får en velsignelse: liv og mana, XP eller guld (3 min) |
 | *Wandering sellswords* | Et bål med tre lejesvende | Hyr dem for 70 % af kroens pris (3½ min) |
 | *Ambush* | Krager kredser lavt over et sted | Plyndrere springer frem, når nogen kommer tæt på |
+| *Merchant caravan* (M12) | En overdækket vogn med to bærere og tre vagter, støv bag hjulene, vogn-prik på minimappet | Følg den forbi kroen til den anden kant: guld, et item og 10 % lavere priser hos købmanden og kroen. Angrib vagterne: lasten er din, men priserne stiger 25 %. Halvvejs angriber røvere en eskorteret karavane |
 
 Lyssøjler og bål ses også gennem tågen; selve tingene ses først, når stedet er udforsket. Tryk på et begivenhedssted med helten valgt, og han går derhen.
 
@@ -196,7 +197,7 @@ Et døgn varer 8 minutter: 5 min dag, 3 min nat med skumring og daggry. Om natte
 
 ### 5.2 Byggesystem på hex
 
-- En bygning fylder **ét hex-felt**. Store bygninger som hovedhallen fylder tre felter i en trekant.
+- **Mindre bygninger (Jon, M12):** et felt har tre små *byggepladser*, så to-tre bygninger kan stå på ét felt. Hovedhallen og Stronghold fylder et helt felt. Feltet kan betrædes, så længe der er en ledig plads, og figurer går uden om bygningerne. Skyggen hopper til den plads, der er nærmest fingeren.
 - **Byg:** Vælg en bærer → tryk på en bygning i panelet → tryk på et felt (grøn = muligt, rød = ikke muligt, og bjælken siger hvorfor) → *Byg her*. Bæreren går derhen, og bygningen rejser sig gennem tre byggestadier. Den bygger kun, mens en bærer arbejder på den.
 - Bygninger kan **opgraderes**, **repareres** og **rives ned** (halvdelen af prisen tilbage).
 
@@ -253,11 +254,11 @@ Priser og tider står i `src/udviklingdata.js`.
 
 Hver race får sin egen økonomiske særhed, når de bygges:
 
-- **The Architects:** Stærke mure og tårne, bygninger kan opgraderes på stedet.
-- **The Memory:** Ånder der ikke kan glemme. De høster *ekkoer* fra alt der dør (afsnit 12.1); deres land, Erevoss, er stille og sølvblegt — ingen død jord der breder sig (Jon, M8).
-- **The Dreaming:** Bygninger kan gå og flytte sig, og de høster uden at fælde skoven.
+- **The Architects** (spilbar fra M12): mennesker i blåt. *Town Hall*, *Farm* (vindmølle), *Lumber Yard* (vandmølle), *Scout Tower*, *Market Square*, *Chapel of Kings*, *Blacksmith*, *Barracks* og *Keep*. Soldater: *Footman* (sværd og skjold) og *Marksman* (armbrøst); arbejderen er en *Peasant*. Veteran-grenene hedder *Bulwark*, *Lancer* og *Zealot*. Senere: mure og opgraderinger på stedet.
+- **The Dreaming:** Bygninger kan gå og flytte sig, og de høster uden at fælde skoven. (Designet)
+- **The Unmade:** samler stumper fra de faldne. (Designet)
 
-Den første AI-modstander er **The Memory**. Vi har allerede skeletmodellerne.
+Man vælger selv sin race på startskærmen. Modstanderen er en tilfældig race og bygger i sin egen farve — eller rødt, hvis den er samme race som spilleren. **The Memory og The Unnamed er ikke racer**, men entiteter på kortet (afsnit 12).
 
 ---
 
@@ -480,13 +481,14 @@ Regelbaseret, ingen sprogmodel.
 - **Sværhedsgrad:** Let / Normal / Svær styrer hastighed, fejl og snyd (ingen snyd på Normal).
 - **Tilpasser sig** ud fra spillerens adfærdsmålere. Mod en aggressiv spiller bygger den flere tårne, og mod en, der creeper meget, angriber den tidligt.
 
-**Sådan er det bygget (M5):**
-- The Memory har basen i det modsatte hjørne (Erevoss, nordøst). Jorden omkring tronen er sølvbleg, og en lys tåge driver over den (M8). Soldaterne er ånder: blege, sølvblå og en smule gennemsigtige. Minimappet viser altid Erevoss, så man ved hvor de kommer fra. Bygninger i rødt: *Bone Throne* (hal), *Crypt* (træner), *Grave Spire* (skyder), *Haunt*. Nye bygninger rejser sig efter en plan (4, 8, 12 og 16 min).
-- Den tjener guld så længe tronen står, og træner *Risen*, *Bone Stalker*, *Grave Knight* og *Bone Mage*. Soldaternes level stiger hvert 4. minut — The Memory bliver stærkere jo længere spillet varer.
+**Sådan er det bygget (M5, ændret i M12):**
+- Modstanderen er en af standardracerne (tilfældig) med basen i det modsatte hjørne: racens hal, kaserne, tårne og forsyningshytter i holdfarve, tæt om hallen som spillerens. Nye bygninger rejser sig efter en plan (4, 8, 12 og 16 min).
+- Fem arbejdere går mellem minen og hallen; indtægten følger hvor mange der lever, og nye trænes for guld. Den træner racens nærkæmpere og skytter, og soldaternes level stiger hvert 4. minut.
+- **Modstanderens helt** er en af racens tre (følger verdens frø). Den har en ring og et skær i holdfarven, går med i bølgerne, bruger sin signatur-evne og rejser sig i hallen 35 sekunder efter at være faldet. Den giver meget erfaring.
 - Hæren vokser med tiden. Første angreb: Easy 10 min, Normal 7 min, Hard 5 min; derefter med 4,5 / 3,5 / 2,5 minutters mellemrum, og bølgerne bliver større. En bølge trækker sig, hvis den mister to tredjedele.
 - Den forsvarer basen med alle hjemme, når spillerens figurer kommer tæt på.
-- Tilpasning: mod en aggressiv spiller kommer tårnene 1,5 min tidligere; mod en forsigtig spiller kommer angrebene 1 min tidligere og der trænes flere Grave Knights; mod en kaotisk flere Bone Mages.
-- **Sejr:** alle The Memorys bygninger er ødelagt. **Nederlag:** man har ingen bygninger tilbage (gemmet slettes). Slutskærmen viser statistik.
+- Tilpasning: mod en aggressiv spiller kommer tårnene 1,5 min tidligere; mod en forsigtig spiller kommer angrebene 1 min tidligere og der trænes flere nærkæmpere; mod en kaotisk flere skytter.
+- **Sejr:** alle modstanderens bygninger er ødelagt. **Nederlag:** man har ingen bygninger tilbage (gemmet slettes). Slutskærmen viser statistik.
 - Spillerens bygninger har liv, kan ødelægges (ruin) og repareres af en arbejder (vælg arbejder, tryk på bygningen).
 
 ---
@@ -497,7 +499,9 @@ Regelbaseret, ingen sprogmodel.
 |---|---|---|
 | **Balance** | 0–12 min | Normalt spil |
 | **Fald** | 12–25 min, eller tidligere hvis ingen kæmper | Guldminer giver mindre, creeps vandrer og angriber baser |
-| **Opvågning** | Fra ca. 25 min | En tredje kraft (The Unnamed's tjenere) dukker op midt på kortet og angriber alle. Den giver de bedste items, hvis den besejres |
+| **Opvågning** | Fra ca. 25 min | The Unnamed's tjenere dukker op ved De Vågnende Sten og vogter dem. De går ikke efter nogen, men den der besejrer dem, får de bedste items |
+
+**The Memory og The Unnamed (Jon, M12):** entiteter på kortet, ikke fjender der går efter spilleren. The Memory bor i *Erevoss*, en bleg hal på stedet længst fra begge baser, vogtet af ånder der kun forsvarer sig selv. Ekkoerne fra alle der falder (begge spillere), driver dertil; for hver 15 vågner en ny vogter, og Opvågningen kommer tidligere. Hvad det præcist betyder, at verden vågner, er åbent — det behøver ikke være ondsindet.
 
 Det forhindrer, at spillet går i stå, og giver et klimaks.
 
@@ -586,7 +590,8 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M9 ✅** | **Verdener og detaljer** | Fire kort med hver sin form og historie; teksturer og stier i jorden, bunddække, blandede træer, bølgende vand med kystskum, liv omkring stederne; Navnesten, mindesmærker, navngivne lejre, regionernes historie og heltens replikker |
 | **M10 ✅** | **Biomer, årstider og miner** | Seks biomer, fire årstider, tre størrelser og nye verdener hver gang; miner i fire størrelser med fem (seks) stadier, Motherlode og Deep Quarry; heldige fund; vejr |
 | **M11 ✅** | **Huler, begivenheder og championer** | Huler med rum, lejre, boss og kister; syv tilfældige begivenheder med synlige tegn; champion-creeps med fire egenskaber. Desuden: kaktusser fra vores generator, lavasøer inde i landet, minernes stadier kun som synlige tegn |
-| M12+ | Flere helte, en helt til The Memory, karavanen, prospektering, items med rul, træer der gror igen, flere racer, kampagne | |
+| **M12 ✅** | **Racer, modstander og helte** | Ro på skærmen (én begivenhed ad gangen, færre tekster); karavanen; mindre bygninger med tre pladser pr. felt; racevalg og The Architects spilbar; AI-modstander med tilfældig race, arbejdere og helt; The Memory og The Unnamed neutrale; tre helte pr. race; prospektering |
+| M13+ | The Dreaming, items med rul, træer der gror igen, hvad Opvågningen betyder, kampagne | |
 
 ---
 
@@ -599,13 +604,13 @@ Hvor RNG kan gøre hvert spil anderledes. ✅ = bygget i M10.
 3. ✅ **Minernes størrelse** trækkes; Motherloden har 30–50.000 guld og ligger på en tilfældig side.
 4. ✅ **Heldige fund** i miner og stenbrud.
 5. ✅ **Vejret** kommer i byger på tilfældige tidspunkter (regn, støv, blæst).
-6. ✅ (M11, undtagen karavanen) **Verdensbegivenheder** (hele kortet): *Blood Moon* (creeps stærkere, mere XP), *Starfall* (en meteor slår ned og efterlader en midlertidig åre af stjernemalm), *Eclipse* (The Memory stærkere, dobbelte ekkoer), *Gold Rush* (en mine giver mere i to minutter), en *karavane* der krydser kortet (beskyt den eller plyndr den).
+6. ✅ (M11; karavanen M12) **Verdensbegivenheder** (hele kortet): *Blood Moon* (creeps stærkere, mere XP), *Starfall* (en meteor slår ned og efterlader en midlertidig åre af stjernemalm), *Eclipse* (dobbelte ekkoer), *Gold Rush* (en mine giver mere i to minutter), en *karavane* der krydser kortet (beskyt den eller plyndr den).
 7. ✅ (M11) **Områdebegivenheder**: en lejr får en *champion*, en vandrende lejesoldatflok kan hyres, et skjult alter dukker op i tre minutter, en flok krager varsler et baghold.
 8. ✅ (M11) **Champion-creeps**: 10 % af lejrene har en elite med en egenskab (*Fiery*, *Swift*, *Vampiric*, *Shielded*) og et bedre drop.
 9. **Items med rul**: tal i et spænd (fx Iron Sword +8–11 skade) og sjældne navngivne varianter.
 10. ✅ (M11) **Huler / dungeons**: 1–2 huleindgange pr. kort, der fører til et lille kort under jorden sat sammen af tilfældige rum (KayKit Dungeon), med en boss og en kiste — kun for helten og en lille gruppe.
 11. **Kroens og købmandens udvalg** skifter fra spil til spil.
-12. **Prospektering**: arbejdere kan lede efter nye guld- og stenårer i bjergene (chance for at finde en skjult mine).
+12. ✅ (M12) **Prospektering**: arbejdere kan lede efter nye guld- og stenårer i bjergene (chance for at finde en skjult mine).
 
 **Gro igen?** Fordele: lange spil løber ikke tør for træ, verden ser levende ud. Ulemper: mindre grund til at ekspandere, ryddede veje lukker til igen. Forslag: kun træer gror igen, langsomt, fra stubbe ved siden af levende skov (og hurtigere om foråret); sten gror ikke — ny sten kommer fra prospektering og Deep Quarry.
 

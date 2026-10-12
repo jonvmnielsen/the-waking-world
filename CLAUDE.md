@@ -64,7 +64,10 @@ the-waking-world/
 │   ├── trussel.js            # Fælles regel for automatisk angreb
 │   ├── veteran.js / spillerstil.js # Veteranstatus, specialisering og spillestilsmålerne (SAS)
 │   ├── gem.js / gendan.js    # Gem spil i localStorage og gendan det
-│   ├── fjendeai.js / fjende.js / fjendebygning.js / fjendedata.js / fjendeplads.js  # The Memory: AI, soldater, bygninger, tal, basens pladser
+│   ├── racer.js              # Racerne (The Tide, The Architects): navne, farver, soldater; spillerens og modstanderens race
+│   ├── fjendeai.js / fjende.js / fjendebygning.js / fjendedata.js / fjendeplads.js  # AI-modstanderen (tilfældig race): AI, soldater, bygninger, tal, basens pladser
+│   ├── fjendearbejder.js / fjendehelt.js # Modstanderens arbejdere og helt
+│   ├── erevoss.js            # The Memory (neutral): hallen i Erevoss, åndevogtere, ekkoer
 │   ├── sejr.js / spilloop.js # Sejr/nederlag + slutskærm; ét tidstrin i spillet og omrids-tegningen
 │   ├── dagnat.js             # Dag og nat: lys, himmel, udsyn, ur
 │   ├── verdenstilstand.js / tjener.js # Balance → Fald → Opvågning; Den Unavngivnes tjenere
@@ -88,10 +91,14 @@ the-waking-world/
 │   ├── begivenheder.js / begivenhedsdata.js # Tilfældige begivenheder: planlægning, steder, tryk; tal og tekster
 │   ├── himmelbegivenheder.js / stedbegivenheder.js # Blood Moon, Eclipse, Starfall, Gold rush; helligdom, lejesvende, baghold
 │   ├── champion.js           # Champion-creeps: egenskaber, ring og skær, ekstra drop
+│   ├── karavane.js           # Karavanen: vogn, bærere og vagter; eskorte eller plyndring, priser
+│   ├── prospekt.js           # Arbejdere leder efter skjulte guldårer ved bjergene
+│   ├── byggeplads.js         # Mindre bygninger: tre pladser pr. felt, figurer går uden om
 │   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
-│   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud
+│   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud og holdfarve
+│   ├── heltedata.js / heltevner.js # Tre helte pr. race (model, egenskab, kampform); deres signatur-evner
 │   ├── ascension.js / ascensiondata.js / ascensionhud.js # Ascension ved level 10: stier, passiver, evner, valget
 │   ├── udvikling.js / udviklingdata.js / udviklinghud.js # Forskning, bygningsopgraderinger, upkeep-visning
 │   ├── fremskridt.js         # Sætter M7-systemerne, skærmen og advarslerne op
@@ -186,11 +193,11 @@ I praksis åbnes separate CC-sessioner per agent. Arkitekt-agenten producerer pr
 |---|---|---|---|
 | **The Architects** | Humans | Bygmestre af orden | Stærke strukturer, stive men ubrydelige |
 | **The Tide** | Orcs | Naturkraft med intelligens | Tilpasningsdygtige, vokser med kaos |
-| **The Memory** | Undead | Akkumulerede erindringer | Styrke stiger jo længere spillet varer |
+| **The Memory** | *(neutral entitet)* | De dødes ånder i Erevoss | Ikke en race: samler ekkoer, forsvarer kun sig selv (M12) |
 | **The Dreaming** | Night Elves | Halvt i verden, halvt udenfor | Indirekte påvirkning, høj kompleksitet |
 | **The Unmade** | *(ny)* | Spillerdefineret faction | Saml fragmenter fra faldne — udskydes |
 
-**Fokus nu:** The Tide (Orc Warrior). Indtil der findes en rigtig orkmodel bruges KayKits barbar med grøn hud og uden hjelm.
+**Spilbare nu:** The Tide og The Architects (M12). Man vælger race og helt ved start; AI-modstanderen får en tilfældig race. **The Memory og The Unnamed er ikke racer, men neutrale entiteter på kortet** (Jon, M12). Orkerne er KayKit-figurer med grøn hud.
 
 ---
 
@@ -403,8 +410,18 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Championer: Fiery, Swift, Vampiric, Shielded med ring, skær, skiltets ruder og ekstra drop
 - [x] game-assets: krystaller og lejrbål i vores generator
 
-### 📋 Næste: M12+
-Flere helte, en helt til The Memory, karavanen, prospektering, items med rul, træer der gror igen, musik. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M12 — "Racer, modstander og helte" (oktober 2026)
+- [x] Ro på skærmen (Jon): én begivenhed ad gangen med 7–10 min imellem; kun vigtige krønikeposter på skærmen; færre plyndringer
+- [x] Karavanen: eskortér (belønning, lavere priser) eller plyndr (loot, højere priser); vogn fra generatoren
+- [x] Mindre bygninger: tre byggepladser pr. felt, hallen fylder ét felt; gem-version 6
+- [x] Racer som data; The Architects spilbar (blå bygninger, Footman, Marksman, Peasant); racevalg på startskærmen
+- [x] AI-modstander med tilfældig race (rød ved samme race): arbejdere, kaserner, tårne, bølger, egen helt; sejr = udryd modstanderen; gem-version 7
+- [x] The Memory neutral i Erevoss (vogtere, ekkoer); The Unnamed vogter stenene i stedet for at angribe
+- [x] Tre helte pr. race med heltevalg; designet tre til The Dreaming og The Unmade (GDD 6.3)
+- [x] Prospektering: arbejdere finder skjulte guldårer
+
+### 📋 Næste: M13+
+The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), items med rul, træer der gror igen, musik. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 
@@ -444,6 +461,12 @@ Flere helte, en helt til The Memory, karavanen, prospektering, items med rul, tr
 | 2026-10-12 | Huler ligger langt øst i hex-gitteret (q ≥ 400, x > 3000) | Stifinding virker derinde uden at blande sig med kortet; ingen tåge og intet vejr derinde. Gem-version 5 |
 | 2026-10-12 | Begivenheder gemmes ikke | De varer få minutter; efter "fortsæt" starter nedtællingen forfra |
 | 2026-10-12 | Championer trækkes med lejrens eget frø | Kortet ændres ikke, og gemte spil får de samme championer |
+| 2026-10-13 | Man spiller mod en AI-modstander af en standardrace; den der udrydder den anden, vinder | Jon: som WC3. Spilleren vælger race, AI'en får en tilfældig (rød ved samme race) |
+| 2026-10-13 | The Memory og The Unnamed er neutrale entiteter på kortet | Jon: ikke fjender der går efter spilleren; de bliver mere aktive, når verden vågner. Hvad opvågningen betyder, er åbent |
+| 2026-10-13 | Mindre bygninger, tre pladser pr. felt | Jon: lidt plads på mobilskærmen; en bygning skal ikke fylde et helt felt |
+| 2026-10-13 | Én begivenhed ad gangen, 7–10 min imellem; kun vigtige tekster på skærmen | Jon: for meget tekst og for mange begivenheder |
+| 2026-10-13 | Tre helte pr. race, én vælges ved start | Jons valg; The Dreaming og The Unmade er designet, men ikke spilbare endnu |
+| 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
 | 2026-10-12 | Gem-version 3 (M9) | Kortene og mindesmærkerne ændrer placeringen af lejre og kister |
 | 2026-10-12 | Gem-version 2 | De Ældgamles lejre ændrer kortet, så gemte spil fra før M8 kan ikke fortsættes |
@@ -511,4 +534,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-10-12*
+*Sidst opdateret: 2026-10-13*
