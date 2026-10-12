@@ -30,7 +30,7 @@ const REGION = {
 const TRÆDESTEN = [QN + 'rockpath_round_small_1', QN + 'rockpath_round_small_2'];
 
 // Biomernes egne planter (M10)
-const FL = 'forge-lowpoly/', KM = 'kaykit-furniture/';
+const FL = 'forge-lowpoly/';
 const JUNGLE = { banan: [FL + 'banana_a', 0.9, 1], monstera: [FL + 'monstera', 1.3, 2], heliconia: [FL + 'heliconia', 1.3, 1], bregne: [FL + 'fern_a', 2, 2], hibiscus: [FL + 'bush_hibiscus', 1.5, 1] };
 const LYNG = { lilla: [FL + 'flowers_purple', 2.2, 5], hvid: [FL + 'flowers_white', 2.0, 1] };
 const KAKTUS = { tønde: [FL + 'cactus_barrel', 1.6, 3], blomst: [FL + 'cactus_barrel_flower', 1.7, 2], lille: [FL + 'cactus_saguaro_b', 0.9, 1] };

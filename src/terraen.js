@@ -118,17 +118,15 @@ export function lavTerrænMesh(kort, grænser, { miner = [], ødeland = null, st
   geo.computeVertexNormals();
   const mat = new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.95, metalness: 0 });
   const tid = { value: 0 };   // til kystskummet og vandets bølger (world.js tæller den op)
-  if (grund) grundShader(mat, grund, tid, u?.sne ?? 0);
+  if (grund) grundShader(mat, grund, tid, u?.sne ?? 0, u?.lava ? '0.3, 0.28, 0.26' : '0.95, 0.97, 0.95');   // askegråt skum i det vulkanske biom
   mat.userData.sne = false;   // jorden har sin egen sne (shaderen), ikke den fælles
   const mesh = new THREE.Mesh(geo, mat);
   mesh.receiveShadow = true;
-  // Vandoverflade over hele verden: lyse og mørke bølgepletter der glider, og glimt i solen
-  // I det vulkanske biom er "vandet" glødende lava
-  const lava = !!u?.lava;
-  const vandMat = new THREE.MeshStandardMaterial({ color: lava ? 0x2a140a : u?.vand ?? 0x3f9ac9, roughness: lava ? 0.85 : 0.25, metalness: 0, transparent: !lava, opacity: lava ? 1 : 0.8,
-    emissive: lava ? 0xff5a14 : 0x000000, emissiveIntensity: lava ? 1.6 : 0 });
+  // Vandoverflade over hele verden: lyse og mørke bølgepletter der glider, og glimt i solen.
+  // I det vulkanske biom er havet mørkt askevand; lavaen ligger kun i søerne inde i landet (lava.js)
+  const vandMat = new THREE.MeshStandardMaterial({ color: u?.vand ?? 0x3f9ac9, roughness: 0.25, metalness: 0, transparent: true, opacity: u?.lava ? 0.92 : 0.8 });
   vandMat.userData.sne = false;
-  if (grund) vandShader(vandMat, grund, tid, lava);
+  if (grund) vandShader(vandMat, grund, tid);
   const vand = new THREE.Mesh(new THREE.CircleGeometry(800, 64).rotateX(-Math.PI / 2), vandMat);
   vand.position.y = VAND_Y;
   vand.receiveShadow = true;
@@ -143,7 +141,7 @@ export function lavTerrænMesh(kort, grænser, { miner = [], ødeland = null, st
 }
 
 // Vandets shader: to lag støj der glider hver sin vej giver bølger; de lyseste toppe glimter
-function vandShader(mat, g, tid, lava = false) {
+export function vandShader(mat, g, tid, lava = false) {
   const u = { tStoej: { value: g.støj }, uTid: tid };
   mat.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, u);
@@ -163,7 +161,7 @@ function vandShader(mat, g, tid, lava = false) {
 }
 
 // Shaderen blander jordens teksturer efter splat-vægtene, med uregelmæssige kanter og store lyse/mørke pletter
-function grundShader(mat, g, tid, sne = 0) {
+function grundShader(mat, g, tid, sne = 0, skumFarve = '0.95, 0.97, 0.95') {
   const u = { tGraes: { value: g.græs }, tJord: { value: g.jord }, tSkov: { value: g.skov }, tKlippe: { value: g.klippe }, tSand: { value: g.sand }, tStoej: { value: g.støj }, tSne: { value: g.sne }, uSne: { value: sne }, uTid: tid };
   mat.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, u);
@@ -190,7 +188,7 @@ function grundShader(mat, g, tid, sne = 0) {
         // Kystskum (lys stribe ved vandkanten, der boelger frem og tilbage)
         float kant = ${VAND_Y.toFixed(2)} + 0.12 + sin( uTid * 1.3 + nKant * 9.0 ) * 0.1;
         float skum = smoothstep( 0.32, 0.0, abs( vGrundY - kant ) ) * smoothstep( 0.25, 0.6, texture2D( tStoej, vGrundXZ / 3.0 + uTid * 0.02 ).r );
-        alb = mix( alb, vec3( 0.95, 0.97, 0.95 ), skum * 0.75 );
+        alb = mix( alb, vec3( ${skumFarve} ), skum * 0.75 );
         // Snedaekke (vinter): pletter af sne, mindst paa stier og ved vandet
         float sneM = uSne * smoothstep( 0.35, 0.65, nStor * 0.55 + nKant * 0.45 + uSne * 0.55 - w.x * 0.35 - w.w * 0.4 );
         alb = mix( alb, texture2D( tSne, uvG ).rgb, clamp( sneM * 1.4, 0.0, 1.0 ) );

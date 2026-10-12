@@ -2,7 +2,7 @@
 // Et biom bestemmer jordens farver, træer og planter, vand (eller lava), himmel, vejr og regionernes navne.
 // En årstid justerer græsset, løvet, blomsterne, sneen og vejret oven i biomet.
 // Jordfarver er [farvetone, mætning, lyshed] (HSL) til de tegnede teksturer i grund.js.
-const KF = 'kaykit-forest/', NAT = 'kaykit-hexagon/decoration/nature/', HAL = 'kaykit-halloween/', FL = 'forge-lowpoly/', QN = 'quaternius-nature/', KM = 'kaykit-furniture/';
+const KF = 'kaykit-forest/', NAT = 'kaykit-hexagon/decoration/nature/', HAL = 'kaykit-halloween/', FL = 'forge-lowpoly/', QN = 'quaternius-nature/';
 
 // Træsæt: [model, skala]. 'fyr' = nåletræer, 'løv' = løvtræer, 'død' = døde/nøgne træer, 'særlig' = biomets egne
 const FYR = [[NAT + 'tree_single_a', 1.3], [NAT + 'tree_single_b', 1.3]];
@@ -64,7 +64,7 @@ export const BIOMER = {
   vulkansk: {
     navn: 'Volcanic', kort: 'Black rock, ash and rivers of fire.',
     jord: { græs: [28, 10, 32], jord: [12, 18, 20], skov: [20, 14, 18], sand: [0, 0, 22], klippe: [10, 8, 26] }, græsTør: true,
-    tone: [1.02, 0.94, 0.9], himmel: 0x9b8f8c, sol: 0xffc49a, hemiJord: 0x4a2a1a, vand: 0xff5a14, lava: true, sne: 0, vejr: 'aske',
+    tone: [1.02, 0.94, 0.9], himmel: 0x9b8f8c, sol: 0xffc49a, hemiJord: 0x4a2a1a, vand: 0x55606a, lava: true, sne: 0, vejr: 'aske',
     træer: { fyr: DØDE, løv: NØGNE, løvAndel: 0.35, død: DØDE }, sten: [0.45, 0.42, 0.42], basalt: true,
     regioner: {
       askemarken: ['Ashen Plains', 'Grey ash to the knees. Under it the ground is still warm.'],

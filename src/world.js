@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { hexTilVerden } from './hexgrid.js';
 import { lavStier } from './stier.js';
 import { lavGrund } from './grund.js';
+import { lavLavasøer } from './lava.js';
 import { UDSEENDE } from './kortvalg.js';
 import { lavBunddække, BUNDDÆKKE_MODELLER } from './bunddaekke.js';
 
@@ -24,11 +25,13 @@ export function bygVerden(scene, kort, grænser, steder, ødeland, lejre = []) {
   const stier = lavStier(kort, [base, ...steder.filter((s) => mål.includes(s.type)), ...(ødeland ? [ødeland] : [])]);
   const pletter = [{ ...base, r: 16 }, ...steder.filter((s) => s.type !== 'mine').map((s) => ({ x: s.x, z: s.z, r: 9 })),
     ...lejre.map((l) => ({ ...hexTilVerden(l.q, l.r), r: 7 + l.niveau, styrke: 0.7 }))];
-  const terræn = lavTerrænMesh(kort, grænser, { miner, ødeland, stier, pletter, grund: lavGrund(11, UDSEENDE), u: UDSEENDE });
+  const grund = lavGrund(11, UDSEENDE);
+  const terræn = lavTerrænMesh(kort, grænser, { miner, ødeland, stier, pletter, grund, u: UDSEENDE });
   for (const m of terræn) scene.add(m);
+  if (UDSEENDE.lava) lavLavasøer(scene, kort, grund, terræn.tid);
   lavBunddække(scene, kort, { stier, pletter, u: UDSEENDE });
   const natur = lavNatur(scene, kort);
-  const guld = lavGuldårer(scene, miner);
+  const guld = lavGuldårer(scene, miner, natur.bygninger);
   return { ...natur, opdater: (dt) => { guld.opdater(dt); terræn.tid.value += dt; } };
 }
 
