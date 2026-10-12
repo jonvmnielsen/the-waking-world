@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
-  "libraryCommit": "b863717",
-  "synced": "2026-10-12T17:33:15.611Z",
+  "libraryCommit": "b5dedfb",
+  "synced": "2026-10-12T17:50:09.956Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -2638,6 +2638,46 @@
       "file": "kaykit-dungeon/stairs_gltf.glb",
       "bytes": 17480,
       "sha": "6290749ab7c2",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/crystal_star_a": {
+      "id": "forge-lowpoly/crystal_star_a",
+      "file": "forge-lowpoly/crystal_star_a.glb",
+      "bytes": 16212,
+      "sha": "0e3575dfc28e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/crystal_star_b": {
+      "id": "forge-lowpoly/crystal_star_b",
+      "file": "forge-lowpoly/crystal_star_b.glb",
+      "bytes": 14880,
+      "sha": "4721d5504817",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/crystal_star_c": {
+      "id": "forge-lowpoly/crystal_star_c",
+      "file": "forge-lowpoly/crystal_star_c.glb",
+      "bytes": 11556,
+      "sha": "720856d73207",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/campfire": {
+      "id": "forge-lowpoly/campfire",
+      "file": "forge-lowpoly/campfire.glb",
+      "bytes": 29824,
+      "sha": "4e0754f71af6",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/shrine": {
+      "id": "kaykit-halloween/shrine",
+      "file": "kaykit-halloween/shrine.glb",
+      "bytes": 9472,
+      "sha": "6461de2b3e25",
       "license": "CC0-1.0",
       "kind": "model"
     }
