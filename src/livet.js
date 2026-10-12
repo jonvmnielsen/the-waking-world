@@ -19,6 +19,7 @@ import { MineVisning } from './minevisning.js';
 import { lavFund } from './fund.js';
 import { Huler } from './huler.js';
 import { Begivenheder } from './begivenheder.js';
+import { Champions } from './champion.js';
 import { UDSEENDE } from './kortvalg.js';
 
 // Sætter M8-systemerne op: ekkoer, livet, fortællingen og lejrenes skilte. opdater() kører med tegningen.
@@ -26,6 +27,7 @@ export function lavVerdensliv(spil, steder, minder = []) {
   spil.ekkoer = new Ekkoer(spil);
   spil.minder = new Mindesmærker(spil, minder);
   spil.livet = new Livet(spil, steder);
+  spil.champions = new Champions(spil);   // før skiltene, så de kan vise championerne
   const fortælling = new Fortælling(spil), skilte = new LejrSkilte(spil), replikker = new HeltReplikker(spil);
   const vejr = new Vejr(spil.verden.scene, UDSEENDE.vejr);
   spil.vejr = vejr;

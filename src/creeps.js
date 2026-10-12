@@ -131,7 +131,7 @@ export class Creep extends Unit {
       if (m && !m.død) {
         const skade = Math.round(tilfældig(...this.data.skade) * this.skadeFaktor());
         if (this.data.projektil) bus.emit('projektil', { fra: this, mål: m, skade, farve: this.data.projektil });
-        else if (this.afstand(m) - m.radius <= this.data.rækkevidde * 1.4) m.tagSkade(skade, this);
+        else if (this.afstand(m) - m.radius <= this.data.rækkevidde * 1.4) { m.tagSkade(skade, this); if (this.vampyr) this.hp = Math.min(this.maxHp, this.hp + skade * this.vampyr); }   // Vampiric champion
       }
     }
     if (s.tid >= s.varighed) this.sving = null;

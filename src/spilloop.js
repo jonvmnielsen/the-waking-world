@@ -30,7 +30,8 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
     spil.udvikling.opdater(dt);
     memory.opdater(dt);
     spil.verdenstilstand.opdater(dt);
-    spil.begivenheder?.opdater(dt);   // tilfældige begivenheder (begivenheder.js)
+    spil.begivenheder?.opdater(dt);
+    spil.champions?.opdater(dt);   // tilfældige begivenheder (begivenheder.js)
     spil.ekkoer?.opdater(dt);
     spil.livet?.opdater(dt);
     spil.minder?.opdater(dt);

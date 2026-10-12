@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { NIVEAUER } from './creepdata.js';
 import { bus } from './events.js';
 import { LEJR_LORE, BOSS_NAVNE } from './stedlore.js';
+import { AFFIKSER } from './champion.js';
 
 const B = 256, H = 64, NH = 30;   // NH: plads til lejrens navn over pladen
 const teksturer = new Map();
@@ -31,8 +32,14 @@ function stjerne(ctx, x, y, r, farve) {
   ctx.closePath(); ctx.fill();
 }
 
-function tekstur(niveau, navn) {
-  const nøgle = `${niveau}|${navn}`;
+// En lille rude i championens farve
+function rude(ctx, x, y, r, farve) {
+  ctx.fillStyle = farve; ctx.strokeStyle = 'rgba(15,10,6,0.9)'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(x, y - r); ctx.lineTo(x + r * 0.75, y); ctx.lineTo(x, y + r); ctx.lineTo(x - r * 0.75, y); ctx.closePath(); ctx.stroke(); ctx.fill();
+}
+
+function tekstur(niveau, navn, champion) {
+  const nøgle = `${niveau}|${navn}|${champion}`;
   if (teksturer.has(nøgle)) return teksturer.get(nøgle);
   const n = NIVEAUER[niveau];
   const c = document.createElement('canvas'); c.width = B; c.height = H + NH;
@@ -41,6 +48,7 @@ function tekstur(niveau, navn) {
   ctx.font = '700 21px Georgia, serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(15,10,6,0.9)'; ctx.strokeText(navn, B / 2, NH / 2);
   ctx.fillStyle = '#f2e2b8'; ctx.fillText(navn, B / 2, NH / 2);
+  if (champion) { const w = ctx.measureText(navn).width / 2 + 16; rude(ctx, B / 2 - w, NH / 2, 10, AFFIKSER[champion].css); rude(ctx, B / 2 + w, NH / 2, 10, AFFIKSER[champion].css); }
   ctx.translate(0, NH);
   ctx.fillStyle = 'rgba(20, 14, 10, 0.82)'; ctx.strokeStyle = n.farve; ctx.lineWidth = 5;
   ctx.beginPath(); ctx.roundRect(4, 6, B - 8, H - 12, 16); ctx.fill(); ctx.stroke();
@@ -72,7 +80,7 @@ export class LejrSkilte {
       const navn = l.data.niveau === 5 ? BOSS_NAVNE[fam] : lore.navne[i % lore.navne.length];
       const linje = l.data.niveau === 5 ? 'A boss guards a locked golden chest here.' : lore.linjer[i % lore.linjer.length];
       l.navn = navn;
-      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tekstur(l.data.niveau, navn), transparent: true, depthWrite: false, fog: false }));
+      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tekstur(l.data.niveau, navn, l.champion), transparent: true, depthWrite: false, fog: false }));
       const stor = l.data.niveau >= 5, k = (H + NH) / H;
       s.scale.set(stor ? 8.4 : 7, (stor ? 2.1 : 1.75) * k, 1);
       s.position.set(l.x, stor ? 9.5 : 7, l.z);
@@ -95,7 +103,7 @@ export class LejrSkilte {
       if (s.visible && !sk.kendt && t.erSynlig(l.x, l.z)) {
         sk.kendt = true;
         const n = NIVEAUER[l.data.niveau];
-        bus.emit('krønike', { titel: l.navn, tekst: `${n.navn} camp, level ${n.level}. ${sk.linje}`, x: l.x, z: l.z, farve: n.farve, varighed: 12 });
+        bus.emit('krønike', { titel: l.navn, tekst: `${n.navn} camp, level ${n.level}. ${l.champion ? `Led by a ${AFFIKSER[l.champion].navn} champion that ${AFFIKSER[l.champion].tekst}. ` : ''}${sk.linje}`, x: l.x, z: l.z, farve: n.farve, varighed: 12 });
       }
     }
   }
