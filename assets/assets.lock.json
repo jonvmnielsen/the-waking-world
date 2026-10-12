@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "b863717",
-  "synced": "2026-10-12T13:29:46.131Z",
+  "synced": "2026-10-12T17:33:15.611Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -2518,6 +2518,126 @@
       "file": "kaykit-halloween/tree_pine_yellow_medium.glb",
       "bytes": 14996,
       "sha": "9fbedd640fa5",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/floor_dirt_large_gltf": {
+      "id": "kaykit-dungeon/floor_dirt_large_gltf",
+      "file": "kaykit-dungeon/floor_dirt_large_gltf.glb",
+      "bytes": 10692,
+      "sha": "e7749986292b",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/floor_dirt_large_rocky_gltf": {
+      "id": "kaykit-dungeon/floor_dirt_large_rocky_gltf",
+      "file": "kaykit-dungeon/floor_dirt_large_rocky_gltf.glb",
+      "bytes": 12948,
+      "sha": "49b46f53662a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/floor_tile_large_gltf": {
+      "id": "kaykit-dungeon/floor_tile_large_gltf",
+      "file": "kaykit-dungeon/floor_tile_large_gltf.glb",
+      "bytes": 11108,
+      "sha": "bcb63441d2e4",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/floor_tile_large_rocks_gltf": {
+      "id": "kaykit-dungeon/floor_tile_large_rocks_gltf",
+      "file": "kaykit-dungeon/floor_tile_large_rocks_gltf.glb",
+      "bytes": 15520,
+      "sha": "0524600fa146",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/torch_lit_gltf": {
+      "id": "kaykit-dungeon/torch_lit_gltf",
+      "file": "kaykit-dungeon/torch_lit_gltf.glb",
+      "bytes": 12452,
+      "sha": "0b03008ea209",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/torch_mounted_gltf": {
+      "id": "kaykit-dungeon/torch_mounted_gltf",
+      "file": "kaykit-dungeon/torch_mounted_gltf.glb",
+      "bytes": 13512,
+      "sha": "7a53e39be783",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/pillar_gltf": {
+      "id": "kaykit-dungeon/pillar_gltf",
+      "file": "kaykit-dungeon/pillar_gltf.glb",
+      "bytes": 10340,
+      "sha": "9d1bd60a18a8",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/pillar_decorated_gltf": {
+      "id": "kaykit-dungeon/pillar_decorated_gltf",
+      "file": "kaykit-dungeon/pillar_decorated_gltf.glb",
+      "bytes": 24656,
+      "sha": "a1d33d58826e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/rubble_large_gltf": {
+      "id": "kaykit-dungeon/rubble_large_gltf",
+      "file": "kaykit-dungeon/rubble_large_gltf.glb",
+      "bytes": 24664,
+      "sha": "fa296dc0289e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/rubble_half_gltf": {
+      "id": "kaykit-dungeon/rubble_half_gltf",
+      "file": "kaykit-dungeon/rubble_half_gltf.glb",
+      "bytes": 16408,
+      "sha": "1309b34f6cf0",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/barrel_large_gltf": {
+      "id": "kaykit-dungeon/barrel_large_gltf",
+      "file": "kaykit-dungeon/barrel_large_gltf.glb",
+      "bytes": 16956,
+      "sha": "81ade327cc60",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/crates_stacked_gltf": {
+      "id": "kaykit-dungeon/crates_stacked_gltf",
+      "file": "kaykit-dungeon/crates_stacked_gltf.glb",
+      "bytes": 38148,
+      "sha": "8e7961b87e29",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/column_gltf": {
+      "id": "kaykit-dungeon/column_gltf",
+      "file": "kaykit-dungeon/column_gltf.glb",
+      "bytes": 8704,
+      "sha": "7833f1580cac",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/candle_lit_gltf": {
+      "id": "kaykit-dungeon/candle_lit_gltf",
+      "file": "kaykit-dungeon/candle_lit_gltf.glb",
+      "bytes": 9444,
+      "sha": "6be997f5ff2a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-dungeon/stairs_gltf": {
+      "id": "kaykit-dungeon/stairs_gltf",
+      "file": "kaykit-dungeon/stairs_gltf.glb",
+      "bytes": 17480,
+      "sha": "6290749ab7c2",
       "license": "CC0-1.0",
       "kind": "model"
     }
