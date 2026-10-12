@@ -45,3 +45,13 @@ function lavGrøn(kilde) {
   t.magFilter = kilde.magFilter; t.minFilter = kilde.minFilter;
   return t;
 }
+
+// Holdfarve på mennesker (The Architects og modstanderen): et let skær af holdets farve over tøjet
+export function holdSkær(model, farve, styrke = 0.3) {
+  const c = new THREE.Color(farve);
+  model.traverse((o) => {
+    if (!o.isMesh) return;
+    o.material = o.material.clone();
+    o.material.color.lerp(c, styrke);
+  });
+}

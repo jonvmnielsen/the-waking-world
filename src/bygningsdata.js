@@ -1,8 +1,11 @@
-// The Tides bygninger og enheder (GDD 5.3–5.4). Navne er arbejdsnavne.
+// Racernes bygninger og enheder (GDD 5.3–5.4). Skabelonen er The Tides; de andre racer får egne navne,
+// modeller og farve (racer.js). BYGNINGER er spillerens race; bygningerFor() giver en anden races.
+import { SPILLER, SPILLER_FARVE, iFarve } from './racer.js';
+
 // skala = ekstra skala oven i hex-skalaen (og BYG_SKALA, byggeplads.js); stor = fylder hele feltet; tid = sekunder at bygge med én arbejder.
 const G = 'kaykit-hexagon/buildings/green/';
 
-export const BYGNINGER = {
+const SKABELON = {
   storlejr: {
     hp: 2400,
     navn: 'Great Hall', model: G + 'building_castle_green', skala: 1.25, stor: true,
@@ -63,15 +66,28 @@ export const BYGNINGER = {
   },
 };
 
+export function bygningerFor(race, farve) {
+  const ud = {};
+  for (const [type, d] of Object.entries(SKABELON)) {
+    const model = race.modeller?.[type] ? `kaykit-hexagon/buildings/green/${race.modeller[type]}_green` : d.model;
+    ud[type] = { ...d, model: iFarve(model, farve), navn: race.bygninger?.[type] ?? d.navn, kort: race.korte?.[type] ?? (race.bygninger?.[type] ? undefined : d.kort), tekst: race.tekster?.[type] ?? d.tekst };
+    if (d.træner?.includes('grunt')) ud[type].træner = [race.kriger, race.skytte];
+  }
+  return ud;
+}
+export const BYGNINGER = bygningerFor(SPILLER, SPILLER_FARVE);
+
 // Hvad en arbejder kan bygge, i menuens rækkefølge
 export const BYGGEMENU = ['hytte', 'savværk', 'tårn', 'krigerlejr', 'smedje', 'marked', 'alter', 'borg'];
 
 export const ENHEDER = {
-  arbejder: { navn: 'Worker', pris: { guld: 50 }, tid: 12, forsyning: 1, tekst: 'Gathers gold, wood and stone and builds your base.' },
+  arbejder: { navn: SPILLER.arbejder, pris: { guld: 50 }, tid: 12, forsyning: 1, tekst: 'Gathers gold, wood and stone and builds your base.' },
   grunt: { navn: 'Grunt', pris: { guld: 120, træ: 20 }, tid: 18, forsyning: 2, ikon: 'enhed-grunt', tekst: 'Melee. The backbone of your army.' },
   slagsbror: { navn: 'Brawler', pris: { guld: 130 }, tid: 0, forsyning: 2, kro: true, ikon: 'rustenDolk', tekst: 'A tough brawler for hire. Fights up close.' },
   skytte: { navn: 'Crossbowman', pris: { guld: 150 }, tid: 0, forsyning: 2, kro: true, ikon: 'lynstav', tekst: 'Shoots from range. Fragile up close.' },
   lejesoldat: { navn: 'Sellsword', pris: { guld: 220 }, tid: 0, forsyning: 3, kro: true, ikon: 'ridderskjold', tekst: 'Heavy armor and a long sword. Holds the line.' },
+  fodsoldat: { navn: 'Footman', pris: { guld: 120, træ: 20 }, tid: 18, forsyning: 2, ikon: 'enhed-fodsoldat', tekst: 'Melee. Shield and sword — the backbone of your army.' },
+  armbrøst: { navn: 'Marksman', pris: { guld: 110, træ: 40 }, tid: 18, forsyning: 2, ikon: 'enhed-armbrøst', tekst: 'Shoots crossbow bolts from range.' },
   spydkaster: { navn: 'Spear Thrower', pris: { guld: 100, træ: 40 }, tid: 18, forsyning: 2, ikon: 'enhed-spydkaster', tekst: 'Throws spears from range.' },
 };
 

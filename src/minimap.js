@@ -5,6 +5,8 @@ import { hexTilVerden, HEX_BREDDE } from './hexgrid.js';
 import { NIVEAUER } from './creepdata.js';
 import { REGIONER } from './kortgen.js';
 import { UDSEENDE } from './kortvalg.js';
+import { HOLD_FARVE, SPILLER_FARVE } from './racer.js';
+const EGEN = '#' + HOLD_FARVE[SPILLER_FARVE].toString(16).padStart(6, '0');   // spillerens holdfarve
 
 // Minimappets farver følger biomet (jordens HSL-farver i biomdata.js)
 const hsl = ([h, s, l], dl = 0) => `hsl(${h},${s}%,${Math.max(5, Math.min(95, l + dl))}%)`;
@@ -103,8 +105,8 @@ export class Minimap {
       if (firkant) ctx.fillRect(px - r, py - r, r * 2, r * 2);
       else { ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.fill(); }
     };
-    for (const b of spil.base.bygninger) prik(b.x, b.z, '#5dff6a', b.felter.length > 1 ? 4 : 2.6, true);
-    for (const s of spil.base.soldater) if (!s.død) prik(s.x, s.z, '#9dff8a', 1.6);
+    for (const b of spil.base.bygninger) prik(b.x, b.z, EGEN, b.felter.length > 1 ? 4 : 2.6, true);
+    for (const s of spil.base.soldater) if (!s.død) prik(s.x, s.z, EGEN, 1.6);
     for (const b of spil.memory?.bygninger ?? []) if (!b.død && t.erUdforsket(b.x, b.z)) prik(b.x, b.z, '#ff4a3a', b.type === 'hal' ? 4 : 2.6, true);
     for (const e of spil.memory?.levende ?? []) if (e.rod.visible) prik(e.x, e.z, '#ff7a6a', 1.8);
 

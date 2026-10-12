@@ -2,7 +2,8 @@
 // bærer det hjem til Storlejren/Savværket og bygger nye bygninger (GDD 5.1–5.2).
 import { Unit } from './unit.js';
 import { skaleretKopi } from './assets.js';
-import { gørOrkGrøn } from './orkhud.js';
+import { gørOrkGrøn, holdSkær } from './orkhud.js';
+import { SPILLER, HOLD_FARVE, SPILLER_FARVE } from './racer.js';
 import { RES_NAVN } from './okonomi.js';
 import { høstMetoder } from './hoest.js';
 import { bus } from './events.js';
@@ -18,7 +19,7 @@ const BÆRE_MODEL = {
 export class Arbejder extends Unit {
   constructor(verden, base, x, z) {
     super(verden, 'units/arbejder', { skala: 0.85, skjul: SKJUL, våben: { r: 'kaykit-adventurers/axe_1handed' }, radius: 0.55 });
-    gørOrkGrøn(this.model);
+    if (SPILLER.orkhud) gørOrkGrøn(this.model); else holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], 0.25);
     this.base = base;
     this.maxHp = 220; this.hp = 220; this.fart = 4.4;
     this.side = 'egen';

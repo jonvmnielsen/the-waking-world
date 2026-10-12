@@ -3,7 +3,8 @@ import { Unit } from './unit.js';
 import { HELT, reducérSkade, tilfældig } from './config.js';
 import { Evner } from './abilities.js';
 import { bus } from './events.js';
-import { gørOrkGrøn } from './orkhud.js';
+import { gørOrkGrøn, holdSkær } from './orkhud.js';
+import { SPILLER, HOLD_FARVE, SPILLER_FARVE } from './racer.js';
 import { Inventar } from './inventar.js';
 import { levelMetoder } from './heltlevel.js';
 import { interaktionMetoder } from './heltinteraktion.js';
@@ -19,8 +20,8 @@ const SVING = [
 
 export class Helt extends Unit {
   constructor(verden, spawn, essens) {
-    super(verden, 'units/hero_tide', { skjul: SKJUL, radius: 0.75 });
-    gørOrkGrøn(this.model);
+    super(verden, SPILLER.helt.model, { skjul: SPILLER.helt.skjul ?? SKJUL, radius: 0.75 });
+    if (SPILLER.orkhud) gørOrkGrøn(this.model); else holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], 0.2);
     this.spawn = spawn;
     this.stats = { ...HELT };
     this.startEgenskaber(essens);

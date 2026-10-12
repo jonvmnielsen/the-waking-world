@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { bus } from './events.js';
 import { kopi } from './assets.js';
 import { STIER, ASCENSION_LEVEL, MOD_NATUREN, stiForStil } from './ascensiondata.js';
+import { SPILLER_FARVE } from './racer.js';
 
 const AURA = 16, RÆKKE = 18;
 
@@ -32,7 +33,7 @@ export class Ascension {
       o.material.emissiveIntensity = 0.1;
     });
     if (id === 'warlord') {
-      const flag = kopi('kaykit-hexagon/decoration/props/flag_green', { skygge: true });
+      const flag = kopi(`kaykit-hexagon/decoration/props/flag_${SPILLER_FARVE}`, { skygge: true });
       flag.scale.setScalar(1.5);
       flag.position.set(-0.35, 0, -0.45);
       h.rod.add(flag);

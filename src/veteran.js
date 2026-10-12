@@ -3,7 +3,11 @@
 // en stjerne ved livsbjælken). En veteran-grunt kan specialiseres i Krigerlejren: grenen der passer til
 // spillestilen (spillerstil.js) koster normal pris, de andre dobbelt.
 import * as THREE from 'three';
-import { VETERAN, GRENE } from './soldatdata.js';
+import { VETERAN, GRENE, SOLDATER } from './soldatdata.js';
+import { BYGNINGER } from './bygningsdata.js';
+import { SPILLER } from './racer.js';
+
+const VET_TYPE = SPILLER.kriger;   // racens nærkæmper kan specialiseres (grunt / footman)
 import { bus } from './events.js';
 
 export class Veteraner {
@@ -30,7 +34,7 @@ export class Veteraner {
     if (stille) return;
     bus.emit('effekt', { type: 'veteran', x: s.x, z: s.z });
     bus.emit('flydetekst', { enhed: s, tekst: 'Veteran!', klasse: 'level' });
-    bus.emit('besked', s.type === 'grunt' ? 'A grunt has become a veteran — select it to choose its path' : `A ${s.navn} has become a veteran`);
+    bus.emit('besked', s.type === VET_TYPE ? `A ${SOLDATER[VET_TYPE].navn.toLowerCase()} has become a veteran — select it to choose its path` : `A ${s.navn} has become a veteran`);
   }
 
   // Grenen er billig, hvis den passer til spillestilen (eller stilen er blandet)
@@ -42,11 +46,11 @@ export class Veteraner {
 
   passer(id) { const d = this.stil.dominant(); return !d || d === GRENE[id].stil; }
 
-  kanSpecialiseres(s) { return s.type === 'grunt' && s.vet.veteran && !s.vet.gren && !s.vet.påVej; }
+  kanSpecialiseres(s) { return s.type === VET_TYPE && s.vet.veteran && !s.vet.gren && !s.vet.påVej; }
 
   // Betal og send grunten hen til Krigerlejren, hvor den bliver specialiseret
   specialisér(s, id) {
-    if (!this.kanSpecialiseres(s)) return 'Only veteran grunts can be specialised';
+    if (!this.kanSpecialiseres(s)) return `Only veteran ${SOLDATER[VET_TYPE].navn.toLowerCase()}s can be specialised`;
     const lejr = this.spil.base.bygninger.filter((b) => b.type === 'krigerlejr' && b.færdig).sort((a, b) => s.afstand(a) - s.afstand(b))[0];
     if (!lejr) return 'Build a War Camp first';
     const pris = this.pris(id), øko = this.spil.økonomi;
@@ -55,7 +59,7 @@ export class Veteraner {
     øko.betal(pris);
     s.vet.påVej = id; s.vet.betalt = pris;
     const ok = s.kommandoHen(lejr.x, lejr.z, lejr.radius + 4, () => this.anvend(s, id));
-    if (!ok) { s.vet.påVej = null; øko.refunder(pris); return 'The grunt cannot reach the War Camp'; }
+    if (!ok) { s.vet.påVej = null; øko.refunder(pris); return `It cannot reach the ${BYGNINGER.krigerlejr.navn}`; }
     return null;
   }
 
@@ -65,11 +69,11 @@ export class Veteraner {
     s.maxHp += g.hp; s.hp = Math.max(1, Math.min(s.maxHp, s.hp + Math.max(0, g.hp)));
     s.skadeBonus += g.skade; s.rustning += g.rustning; s.fart += g.fart;
     s.model.scale.multiplyScalar(g.skala);
-    s.navn = `${g.navn} Grunt`;
+    s.navn = `${g.navn} ${SOLDATER[VET_TYPE].navn}`;
     farv(s, g.farve);
     if (stille) return;
     bus.emit('effekt', { type: 'veteran', x: s.x, z: s.z });
-    bus.emit('besked', `Your grunt has become a ${g.navn}! ${g.evne}: ${g.evneTekst}`);
+    bus.emit('besked', `Your ${SOLDATER[VET_TYPE].navn.toLowerCase()} has become a ${g.navn}! ${g.evne}: ${g.evneTekst}`);
   }
 
   // Hvis grunten blev afbrudt på vej til Krigerlejren, får spilleren pengene tilbage

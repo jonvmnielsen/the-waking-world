@@ -1,7 +1,8 @@
 // The Tides soldater (M4): grunts og spydkastere. Går, angriber, angriber selv det der truer dem
 // eller deres allierede, og bliver veteraner ved at overleve (veteran.js). Grenenes evner: soldatevner.js.
 import { Unit } from './unit.js';
-import { gørOrkGrøn } from './orkhud.js';
+import { gørOrkGrøn, holdSkær } from './orkhud.js';
+import { HOLD_FARVE, SPILLER_FARVE } from './racer.js';
 import { SOLDATER } from './soldatdata.js';
 import { ENHEDER } from './bygningsdata.js';
 import { reducérSkade, tilfældig } from './config.js';
@@ -14,6 +15,7 @@ export class Soldat extends Unit {
     const d = SOLDATER[type];
     super(verden, d.model, { skala: d.skala, skjul: d.skjul, våben: d.våben ?? {}, våbenSkala: d.våbenSkala ?? 1, radius: d.radius });
     if (!d.menneske) gørOrkGrøn(this.model);
+    else if (d.hold) holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], 0.42);
     Object.assign(this, { base, type, data: d, navn: d.navn, side: 'egen' });
     this.maxHp = this.hp = d.hp;
     this.fart = d.fart; this.rustning = d.rustning; this.skadeBonus = 0;

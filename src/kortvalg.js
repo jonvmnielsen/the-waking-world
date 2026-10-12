@@ -47,7 +47,8 @@ const NØGLE = 'tww-kort', VALG = 'tww-verden';
 
 // Verdensvalget (M10): kort, biom, årstid, størrelse og om verden skal være ny hver gang.
 // 'tilfældig' trækkes, når siden indlæses (så baggrunden bag menuen allerede viser det trukne).
-export const VALG_STD = { kort: 'askeø', biom: 'tilfældig', årstid: 'tilfældig', størrelse: 'normal', nyVerden: true };
+export const VALG_STD = { kort: 'askeø', biom: 'tilfældig', årstid: 'tilfældig', størrelse: 'normal', nyVerden: true, race: 'tide' };
+const RACER_IDER = ['tide', 'arkitekter'];   // racer.js
 
 function læsValg() {
   let v = { ...VALG_STD };
@@ -56,7 +57,7 @@ function læsValg() {
     if (KORT_TYPER[gl]) v.kort = gl;
     Object.assign(v, JSON.parse(localStorage.getItem(VALG) ?? '{}'));
     const url = new URLSearchParams(location.search);
-    for (const k of ['kort', 'biom', 'årstid', 'størrelse']) if (url.get(k)) v[k] = url.get(k);
+    for (const k of ['kort', 'biom', 'årstid', 'størrelse', 'race', 'fjende']) if (url.get(k)) v[k] = url.get(k);
     if (url.get('seed')) { v.nyVerden = false; v.seed = +url.get('seed'); }
   } catch { /* ingen lagring */ }
   if (!KORT_TYPER[v.kort]) v.kort = 'askeø';
@@ -82,6 +83,9 @@ export const AKTIVT_KORT = {
   seed: TVANG?.seed ?? (v.seed || (VERDENSVALG.nyVerden ? 1 + Math.floor(Math.random() * 99999) : KORT_TYPER[AKTIVT_ID].seed)),
 };
 AKTIVT_KORT.felter = STØRRELSER[AKTIVT_KORT.størrelse].felter;
+// Racerne: spilleren vælger selv; modstanderen trækkes (eller kommer fra det gemte spil)
+AKTIVT_KORT.race = RACER_IDER.includes(v.race) ? v.race : 'tide';
+AKTIVT_KORT.fjendeRace = RACER_IDER.includes(TVANG?.fjendeRace ?? v.fjende) ? (TVANG?.fjendeRace ?? v.fjende) : træk(RACER_IDER);
 // Biom + årstid: jordens farver, træer, vand, himmel og vejr (biomdata.js)
 export const UDSEENDE = udseende(AKTIVT_KORT.biom, AKTIVT_KORT.årstid);
 
@@ -94,16 +98,17 @@ export const skiftKort = (id) => gemValg({ kort: id });
 
 // Fortsæt et gemt spil: byg præcis dets verden og fortsæt med det samme
 export function fortsætGem(g) {
-  try { sessionStorage.setItem('tww-tving', JSON.stringify({ kort: g.kort ?? 'askeø', biom: g.biom ?? 'tempereret', årstid: g.årstid ?? 'sommer', størrelse: g.størrelse ?? 'normal', seed: g.seed })); } catch { /* ingen lagring */ }
+  try { sessionStorage.setItem('tww-tving', JSON.stringify({ kort: g.kort ?? 'askeø', biom: g.biom ?? 'tempereret', årstid: g.årstid ?? 'sommer', størrelse: g.størrelse ?? 'normal', seed: g.seed, race: g.race ?? 'tide', fjendeRace: g.fjendeRace ?? 'tide' })); } catch { /* ingen lagring */ }
   genindlæs();
 }
 // Er det gemte spil fra præcis den verden, der er bygget nu?
 export const sammeVerden = (g) => g && g.seed === AKTIVT_KORT.seed && (g.kort ?? 'askeø') === AKTIVT_ID && (g.biom ?? 'tempereret') === AKTIVT_KORT.biom
-  && (g.årstid ?? 'sommer') === AKTIVT_KORT.årstid && (g.størrelse ?? 'normal') === AKTIVT_KORT.størrelse;
+  && (g.årstid ?? 'sommer') === AKTIVT_KORT.årstid && (g.størrelse ?? 'normal') === AKTIVT_KORT.størrelse
+  && (g.race ?? 'tide') === AKTIVT_KORT.race && (g.fjendeRace ?? 'tide') === AKTIVT_KORT.fjendeRace;
 
 function genindlæs() {
   const u = new URL(location.href);
-  for (const k of ['kort', 'biom', 'årstid', 'størrelse', 'seed']) u.searchParams.delete(k);
+  for (const k of ['kort', 'biom', 'årstid', 'størrelse', 'seed', 'race', 'fjende']) u.searchParams.delete(k);
   location.replace(u.toString());
 }
 

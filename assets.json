@@ -436,6 +436,28 @@
     "forge-lowpoly/crystal_star_c",
     "forge-lowpoly/campfire",
     "kaykit-halloween/shrine",
-    "forge-lowpoly/wagon_covered"
+    "forge-lowpoly/wagon_covered",
+    "kaykit-hexagon/buildings/blue/*",
+    "kaykit-adventurers/shield_badge",
+    "kaykit-adventurers/crossbow_2handed",
+    {
+      "id": "kaykit-adventurers/characters/knight",
+      "as": "units/hero_arkitekt",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block"
+      ]
+    }
   ]
 }

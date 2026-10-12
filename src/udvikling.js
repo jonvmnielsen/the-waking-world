@@ -4,9 +4,10 @@ import * as THREE from 'three';
 import { bus } from './events.js';
 import { kopi } from './assets.js';
 import { FORSKNING, HAL, TÅRN_TRIN, UDVIKLINGER } from './udviklingdata.js';
+import { SPILLER_FARVE } from './racer.js';
 
 const PROPS = 'kaykit-hexagon/decoration/props/';
-const G = 'kaykit-hexagon/buildings/green/';
+const G = `kaykit-hexagon/buildings/${SPILLER_FARVE}/`;
 
 export class Udvikling {
   constructor(spil) {
@@ -105,11 +106,11 @@ export class Udvikling {
     const g = new THREE.Group();
     g.name = 'tier-pynt';
     const læg = (sti, x, z, skala, rot = 0) => { const m = kopi(sti, { skygge: true }); m.position.set(x, 0, z); m.scale.setScalar(skala); m.rotation.y = rot; g.add(m); };
-    læg(PROPS + 'flag_green', 0.95, 0.75, 0.75); læg(PROPS + 'flag_green', -0.95, 0.75, 0.75);
+    læg(PROPS + `flag_${SPILLER_FARVE}`, 0.95, 0.75, 0.75); læg(PROPS + `flag_${SPILLER_FARVE}`, -0.95, 0.75, 0.75);
     læg(PROPS + 'weaponrack', 0.4, 1.05, 0.6, Math.PI);
     if (this.hal >= 3) {
-      læg(G + 'building_tower_a_green', 1.15, -0.55, 0.32); læg(G + 'building_tower_a_green', -1.15, -0.55, 0.32);
-      læg(PROPS + 'flag_green', 0, -1.1, 0.8);
+      læg(G + `building_tower_a_${SPILLER_FARVE}`, 1.15, -0.55, 0.32); læg(G + `building_tower_a_${SPILLER_FARVE}`, -1.15, -0.55, 0.32);
+      læg(PROPS + `flag_${SPILLER_FARVE}`, 0, -1.1, 0.8);
     }
     b.rod.add(g);
   }

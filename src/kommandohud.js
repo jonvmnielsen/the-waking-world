@@ -7,6 +7,7 @@ import { RES_NAVN } from './okonomi.js';
 import { prisHtml, udviklingsKnapper, udviklingsStatus, markérUdvikling, ofringsKnapper } from './udviklinghud.js';
 import { ikon } from './ikoner.js';
 import { bus } from './events.js';
+import { SPILLER } from './racer.js';
 
 const $ = (id) => document.getElementById(id);
 const RES = ['guld', 'træ', 'sten'];
@@ -103,9 +104,9 @@ export class KommandoHud {
     const vet = this.spil.veteraner;
     if (en && vet.kanSpecialiseres(en)) {
       for (const id of Object.keys(GRENE)) {
-        const b = this.knap(knapper, ikon('enhed-grunt'), GRENE[id].navn, prisHtml(vet.pris(id)), () => {
+        const b = this.knap(knapper, ikon(ENHEDER[SPILLER.kriger].ikon), GRENE[id].navn, prisHtml(vet.pris(id)), () => {
           const fejl = vet.specialisér(en, id);
-          bus.emit('besked', fejl ?? `The grunt heads to the War Camp for ${GRENE[id].navn} training`);
+          bus.emit('besked', fejl ?? `It heads to the ${BYGNINGER.krigerlejr.navn} for ${GRENE[id].navn} training`);
           this.byg();
         }, `gren-${id}`);
         b.classList.add(vet.passer(id) ? 'passer' : 'dobbelt');

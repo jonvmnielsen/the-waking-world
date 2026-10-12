@@ -2,6 +2,7 @@
 // (hold fingeren stille et øjeblik og træk en firkant, dobbelttryk på en soldat, eller Hær-knappen).
 import { Arbejder } from './arbejder.js';
 import { GRENE, VETERAN } from './soldatdata.js';
+import { SPILLER } from './racer.js';
 
 const AFSTAND = 2.5;   // mellem soldaterne i formationen
 
@@ -75,7 +76,7 @@ export function gruppeStatus(g) {
     const s = g[0], liv = `${Math.ceil(s.hp)}/${s.maxHp} health`;
     if (s.vet.gren) return `${liv} · ${s.vet.gren.evne}: ${s.vet.gren.evneTekst}`;
     if (s.vet.påVej) return `${liv} · On the way to the War Camp for ${GRENE[s.vet.påVej].navn} training`;
-    if (s.vet.veteran) return s.type === 'grunt' ? `${liv} · Veteran — choose a path (green edge = suits your way of fighting)` : `${liv} · Veteran`;
+    if (s.vet.veteran) return s.type === SPILLER.kriger ? `${liv} · Veteran — choose a path (green edge = suits your way of fighting)` : `${liv} · Veteran`;
     return `${liv} · Veteran XP ${s.vet.xp}/${VETERAN.tærskel} (survive battles)`;
   }
   const antal = {};

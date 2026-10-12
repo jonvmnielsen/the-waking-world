@@ -1,7 +1,8 @@
 // Opgraderinger og forskning (M7, Jons ønske): bygningerne forsker i bedre våben, rustning og redskaber,
 // Storlejren opgraderes i tre tiers, og vagttårne kan bygges om til Guard Towers og derefter Cannon Towers.
 // Forskningens level 2 kræver Citadel og level 3 kræver Fortress (som WC3's tiers).
-const G = 'kaykit-hexagon/buildings/green/';
+import { SPILLER, SPILLER_FARVE } from './racer.js';
+const G = `kaykit-hexagon/buildings/${SPILLER_FARVE}/`;   // spillerens holdfarve
 const P = (guld, træ, sten, tid) => ({ pris: { guld, træ, ...(sten ? { sten } : {}) }, tid });
 
 // Storlejrens tiers (index = tier - 1)
@@ -14,12 +15,12 @@ export const HAL = [
 // Vagttårnets opgraderinger, ét trin ad gangen: Guard Tower (Citadel) → Cannon Tower (Fortress)
 export const TÅRN_TRIN = [
   {
-    navn: 'Guard Tower', ikon: 'udv-vagttårn', model: G + 'building_tower_b_green', ...P(150, 60, 120, 35), hal: 2, hp: 500, rustning: 2,
+    navn: 'Guard Tower', ikon: 'udv-vagttårn', model: G + `building_tower_b_${SPILLER_FARVE}`, ...P(150, 60, 120, 35), hal: 2, hp: 500, rustning: 2,
     angreb: { rækkevidde: 22, skade: [36, 48], tid: 1.3 },
     tekst: 'Upgrade to a Guard Tower: more damage, range and health. Needs a Citadel.',
   },
   {
-    navn: 'Cannon Tower', ikon: 'udv-kanontårn', model: G + 'building_tower_catapult_green', ...P(250, 120, 220, 45), hal: 3, hp: 600, rustning: 2,
+    navn: 'Cannon Tower', ikon: 'udv-kanontårn', model: G + `building_tower_catapult_${SPILLER_FARVE}`, ...P(250, 120, 220, 45), hal: 3, hp: 600, rustning: 2,
     angreb: { rækkevidde: 24, skade: [62, 82], tid: 2.4, område: 4.5 },
     tekst: 'Upgrade to a Cannon Tower: heavy shots that also hit every enemy close to the target. Needs a Fortress.',
   },
@@ -79,8 +80,11 @@ export const UDVIKLINGER = {
 // Ikoner tegnet fra modeller (ikoner.js)
 export const UDVIKLINGS_IKONER = [
   { id: 'udv-våben', sti: 'kaykit-adventurers/axe_2handed', vinkel: [0.2, -0.6, -0.6] },
-  { id: 'udv-mur', sti: G + 'building_tower_base_green' },
-  { id: 'udv-hal', sti: G + 'building_castle_green' },
+  { id: 'udv-mur', sti: G + `building_tower_base_${SPILLER_FARVE}` },
+  { id: 'udv-hal', sti: G + `building_castle_${SPILLER_FARVE}` },
   { id: 'udv-vagttårn', sti: TÅRN_TRIN[0].model },
   { id: 'udv-kanontårn', sti: TÅRN_TRIN[1].model },
 ];
+
+// Forskningens navne følger spillerens race (racer.js)
+for (const [id, navn] of Object.entries(SPILLER.forskning)) if (FORSKNING[id]) FORSKNING[id].navn = navn;

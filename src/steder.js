@@ -10,6 +10,7 @@ import { trækMine, mineMængde, MINE_STR } from './minedata.js';
 import { FAMILIE_I_REGION, SAMMENSÆTNING } from './creepdata.js';
 import { lejrPynt, stedPynt } from './pynt.js';
 import { fjendeBase } from './fjendeplads.js';
+import { SPILLER_FARVE } from './racer.js';
 
 const BYG = 'kaykit-hexagon/buildings/';
 
@@ -44,7 +45,7 @@ export function placérSteder(k, tilf) {
   };
   const spawnFelt = k.hent(b.q + 1, b.r + 1);
   spawnFelt.optaget = true;
-  spawnFelt.pynt.push({ model: 'kaykit-hexagon/decoration/props/flag_green', dx: 1.6, dz: 1.2, rot: 0, skala: 1.4 });
+  spawnFelt.pynt.push({ model: `kaykit-hexagon/decoration/props/flag_${SPILLER_FARVE}`, dx: 1.6, dz: 1.2, rot: 0, skala: 1.4 });
 
   // Startminen: et frit felt tre skridt mod øst/sydøst for basen
   const c0 = hexTilVerden(b.q, b.r);

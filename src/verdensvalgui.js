@@ -2,6 +2,7 @@
 // Et nyt valg gemmes og bygger verden forfra (kortvalg.js). Tilfældig trækkes ved hver indlæsning.
 import { KORT_TYPER, AKTIVT_ID, AKTIVT_KORT, VERDENSVALG, STØRRELSER, gemValg } from './kortvalg.js';
 import { BIOMER, ÅRSTIDER } from './biomdata.js';
+import { RACER } from './racer.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -25,6 +26,7 @@ export function visVerdensvalg() {
     }
     boks.appendChild(r);
   };
+  række('Your race', 'race', RACER, false);
   række('Biome', 'biom', BIOMER);
   række('Season', 'årstid', ÅRSTIDER);
   række('Size', 'størrelse', STØRRELSER, false);
@@ -36,7 +38,7 @@ export function visVerdensvalg() {
   boks.appendChild(ny);
   const nu = document.createElement('p');
   nu.className = 'denne-verden';
-  nu.textContent = `This world: ${BIOMER[AKTIVT_KORT.biom].navn} · ${ÅRSTIDER[AKTIVT_KORT.årstid].navn} · ${STØRRELSER[AKTIVT_KORT.størrelse].navn} · seed ${AKTIVT_KORT.seed}`;
+  nu.textContent = `Your opponent: a random race · This world: ${BIOMER[AKTIVT_KORT.biom].navn} · ${ÅRSTIDER[AKTIVT_KORT.årstid].navn} · ${STØRRELSER[AKTIVT_KORT.størrelse].navn} · seed ${AKTIVT_KORT.seed}`;
   boks.appendChild(nu);
 }
 

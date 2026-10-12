@@ -37,7 +37,7 @@ function lavGem(spil) {
   const { helt, økonomi: ø, base, lejre, genstande, taage, rig, stil, memory: m } = spil;
   const inv = helt.inventar;
   return {
-    version: GEM_VERSION, seed: KORT.seed, kort: KORT.id, biom: AKTIVT_KORT.biom, årstid: AKTIVT_KORT.årstid, størrelse: AKTIVT_KORT.størrelse, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
+    version: GEM_VERSION, seed: KORT.seed, kort: KORT.id, biom: AKTIVT_KORT.biom, årstid: AKTIVT_KORT.årstid, størrelse: AKTIVT_KORT.størrelse, race: AKTIVT_KORT.race, fjendeRace: AKTIVT_KORT.fjendeRace, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
     økonomi: { guld: ø.guld, træ: ø.træ, sten: ø.sten, forsyning: ø.forsyning, forsyningMaks: ø.forsyningMaks },
     helt: {
       essens: helt.evner.essens, x: r1(helt.x), z: r1(helt.z), hp: Math.ceil(helt.død ? helt.maxHp : helt.hp), mana: Math.floor(helt.mana),

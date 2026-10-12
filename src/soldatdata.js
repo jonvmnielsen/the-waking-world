@@ -2,6 +2,7 @@
 // Tallene kommer fra balance-dokumentet; fart er i verdensenheder pr. sekund (helten løber 5).
 
 import { CREEP_TYPER } from './creepdata.js';
+import { SPILLER } from './racer.js';
 
 const SKJUL_BARBAR = ['1H_Axe_Offhand', 'Mug'];
 const SKJUL_ROGUE = ['Knife', 'Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Throwable'];
@@ -19,6 +20,20 @@ export const SOLDATER = {
     angreb: ['Throw'], slag: 0.42, idle: 'Idle', løb: 'Running_A', projektil: 'spyd',
   },
 };
+
+// The Architects (racer.js): fodsoldater med sværd og skjold, armbrøstskytter. Mennesker i holdfarve.
+Object.assign(SOLDATER, {
+  fodsoldat: {
+    navn: 'Footman', model: 'units/bandit_lejesoldat', skala: 0.95, skjul: ['1H_Sword_Offhand', 'Rectangle_Shield', 'Spike_Shield', '2H_Sword'], radius: 0.7, menneske: true, hold: true,
+    hp: 250, skade: [16, 22], rustning: 3, fart: 4.3, rækkevidde: 2.1, angrebsTid: 1.6,
+    angreb: ['1H_Melee_Attack_Slice_Diagonal'], slag: 0.45, idle: 'Idle', løb: 'Running_A',
+  },
+  armbrøst: {
+    navn: 'Marksman', model: 'units/bandit_skytte', skala: 0.92, skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', 'Throwable'], radius: 0.6, menneske: true, hold: true,
+    hp: 160, skade: [17, 23], rustning: 0, fart: 4.5, rækkevidde: 12, angrebsTid: 2.1,
+    angreb: ['2H_Ranged_Shoot'], slag: 0.4, idle: 'Idle', løb: 'Running_A', projektil: 'bolt', projektilFarve: 0xbfe0ff,
+  },
+});
 
 // Lejesoldater fra kroen (neutrale mennesker, ingen grøn ork-hud)
 const BANDIT = (t) => ({ model: `units/${CREEP_TYPER[t].model}`, skjul: CREEP_TYPER[t].skjul ?? [], angreb: [CREEP_TYPER[t].angreb], idle: 'Idle', løb: 'Running_A', menneske: true });
@@ -54,3 +69,6 @@ export const GRENE = {
     tekst: 'Chaos. Damage in every direction, unpredictable.',
   },
 };
+
+// Grenenes navne følger spillerens race (racer.js)
+for (const [id, navn] of Object.entries(SPILLER.grene)) if (GRENE[id]) GRENE[id].navn = navn;
