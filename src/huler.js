@@ -15,7 +15,7 @@ export class Huler {
       const h = this.liste.find((x) => x.bossId === creep.lejr?.data?.id);
       if (!h || this.ryddet.has(h.id) || creep.lejr.creeps.some((c) => !c.død)) return;
       this.ryddet.add(h.id);
-      bus.emit('krønike', { titel: `${h.navn} is cleared`, tekst: 'Its master is dead. The golden chest by the throne is yours to open.', farve: '#ffd36b', varighed: 16 });
+      bus.emit('krønike', { titel: `${h.navn} is cleared`, tekst: 'Its master is dead. The golden chest by the throne is yours to open.', farve: '#ffd36b', varighed: 16, vigtig: true });
     });
   }
 

@@ -122,20 +122,24 @@ export class InventarHud {
     return ud;
   }
 
+  // Købmanden tager mere efter et plyndret karavanetog og mindre efter en eskorte (verden.mod.pris)
+  pris(id) { return Math.round(ITEMS[id].pris * (this.butikSted?.type === 'marked' ? (this.spil.verden.mod?.pris ?? 1) : 1)); }
+
   itemVare(id) {
     const d = ITEMS[id];
     return {
-      ikon: ikon(id), navn: d.navn, farve: SJÆLDENHED[d.sjældenhed].farve, tekst: beskriv(id)[0], pris: d.pris,
-      kan: () => this.inv.guld >= d.pris && (!this.inv.fuld || d.type === 'opsamling'),
+      ikon: ikon(id), navn: d.navn, farve: SJÆLDENHED[d.sjældenhed].farve, tekst: beskriv(id)[0], pris: this.pris(id),
+      kan: () => this.inv.guld >= this.pris(id) && (!this.inv.fuld || d.type === 'opsamling'),
       køb: () => this.køb(id),
     };
   }
 
   køb(id) {
     const d = ITEMS[id];
-    if (this.inv.guld < d.pris) return bus.emit('besked', 'Not enough gold');
+    const pris = this.pris(id);
+    if (this.inv.guld < pris) return bus.emit('besked', 'Not enough gold');
     if (this.inv.fuld && d.type !== 'opsamling') return bus.emit('besked', 'Your inventory is full');
-    this.inv.guld -= d.pris;
+    this.inv.guld -= pris;
     this.inv.modtag(id);
     bus.emit('effekt', { type: 'samlet', x: this.spil.helt.x, z: this.spil.helt.z, farve: 0xffd36b });
   }

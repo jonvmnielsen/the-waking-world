@@ -94,6 +94,7 @@
       "as": "units/bandit_slagsbror",
       "animations": [
         "Idle",
+        "Walking_A",
         "Running_A",
         "Hit_A",
         "Death_A",
@@ -106,6 +107,7 @@
       "as": "units/bandit_skytte",
       "animations": [
         "Idle",
+        "Walking_A",
         "Running_A",
         "Hit_A",
         "Death_A",
@@ -119,6 +121,7 @@
       "as": "units/bandit_lejesoldat",
       "animations": [
         "Idle",
+        "Walking_A",
         "Running_A",
         "Hit_A",
         "Death_A",
@@ -432,6 +435,7 @@
     "forge-lowpoly/crystal_star_b",
     "forge-lowpoly/crystal_star_c",
     "forge-lowpoly/campfire",
-    "kaykit-halloween/shrine"
+    "kaykit-halloween/shrine",
+    "forge-lowpoly/wagon_covered"
   ]
 }

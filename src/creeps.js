@@ -76,7 +76,7 @@ export class Creep extends Unit {
     this.cooldown -= dt;
 
     // Vågner når en af spillerens figurer kommer for tæt på lejren
-    if (this.tilstand === 'hvile') {
+    if (this.tilstand === 'hvile' && !this.fredelig) {   // karavanens vagter angriber kun, hvis de selv angribes
       const aggro = CREEP_AI.aggro * (1 - 0.45 * (this.verden.nat ?? 0));   // om natten sover de tungere
       const ind = this.egne().find((u) => this.afstand(u) < aggro || Math.hypot(u.x - this.lejr.x, u.z - this.lejr.z) < aggro * 0.7);
       if (ind) {

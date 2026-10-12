@@ -9,14 +9,14 @@ const LEJESOLDATER = ['slagsbror', 'skytte', 'lejesoldat'];
 export function kroVarer(spil, sted) {
   const øko = spil.økonomi;
   return LEJESOLDATER.map((type) => {
-    const e = ENHEDER[type];
+    const e = ENHEDER[type], pris = { guld: Math.round(e.pris.guld * (spil.verden.mod?.pris ?? 1)) };   // karavanen ændrer prisen
     return {
-      ikon: ikon(e.ikon), navn: e.navn, farve: '#e9d6a8', tekst: `${e.tekst} Supply ${e.forsyning}.`, pris: e.pris.guld,
-      kan: () => !øko.mangler(e.pris, e.forsyning),
+      ikon: ikon(e.ikon), navn: e.navn, farve: '#e9d6a8', tekst: `${e.tekst} Supply ${e.forsyning}.`, pris: pris.guld,
+      kan: () => !øko.mangler(pris, e.forsyning),
       køb: () => {
-        const fejl = øko.mangler(e.pris, e.forsyning);
+        const fejl = øko.mangler(pris, e.forsyning);
         if (fejl) return bus.emit('besked', fejl);
-        øko.betal(e.pris);
+        øko.betal(pris);
         øko.forsyning += e.forsyning;
         const v = Math.random() * Math.PI * 2;
         spil.base.nySoldat(type, sted.x + Math.cos(v) * 8, sted.z + Math.sin(v) * 8, null);

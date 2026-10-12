@@ -14,7 +14,7 @@ export const FASER = [
   { id: 'fald', navn: 'The Fall', fra: 12 * 60, tekst: 'The land grows weary. Mines yield less, and hungry creeps from camps near your base will raid it.' },
   { id: 'opvågning', navn: 'The Awakening', fra: 25 * 60, tekst: 'The world remembers enough. The Unnamed wakes at the stones in the heart of the land — and its servants hunt everyone.' },
 ];
-const PLYNDRING = 110;   // sekunder mellem plyndringer i Fald
+const PLYNDRING = 240;   // sekunder mellem plyndringer i Fald
 const MAKS_VÆKNING = 360; // ekkoer kan højst fremskynde Opvågningen 6 minutter
 
 export class Verdenstilstand {
@@ -65,7 +65,7 @@ export class Verdenstilstand {
       const f = FASER[this.fase];
       bus.emit('verdenstilstand', { fase: f });
       bus.emit('banner', { titel: f.navn, tekst: f.tekst, lang: true });
-      bus.emit('krønike', { titel: f.navn, tekst: f.tekst, farve: f.id === 'fald' ? '#e8a05a' : '#a070ff', varighed: 22, ...(f.id === 'opvågning' ? { x: this.midte.x, z: this.midte.z } : {}) });
+      bus.emit('krønike', { titel: f.navn, tekst: f.tekst, farve: f.id === 'fald' ? '#e8a05a' : '#a070ff', varighed: 22, vigtig: true, ...(f.id === 'opvågning' ? { x: this.midte.x, z: this.midte.z } : {}) });
       if (f.id === 'opvågning' && !this.opvågnet) this.vågn();
     }
     if (FASER[this.fase].id !== 'balance') {
@@ -90,7 +90,7 @@ export class Verdenstilstand {
       c.tilstand = 'jagt';
       c.mål = c.nærmesteBygning();
     }
-    bus.emit('krønike', { titel: 'Raiders from the wilds!', tekst: `The Fall has made the camps hungry. ${lejr.creeps.filter((c) => !c.død).length} creeps are coming for your base — kill them to win back the gold they carry.`, x: lejr.x, z: lejr.z, farve: '#f08a35', varighed: 18 });
+    bus.emit('krønike', { titel: 'Raiders from the wilds!', tekst: `The Fall has made the camps hungry. ${lejr.creeps.filter((c) => !c.død).length} creeps are coming for your base — kill them to win back the gold they carry.`, x: lejr.x, z: lejr.z, farve: '#f08a35', varighed: 18, vigtig: true });
   }
 
   vågn(gendan = null) {

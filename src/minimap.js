@@ -152,6 +152,12 @@ export class Minimap {
       ctx.fillStyle = '#bfe4ff'; ctx.font = `800 ${9 * this.k}px system-ui, sans-serif`; ctx.textAlign = 'center';
       ctx.fillText('Erevoss', ex, ey - 13 * this.k);
     }
+    // Begivenheder der bevæger sig (karavanen): en lille vogn-firkant
+    for (const b of spil.begivenheder?.aktive ?? []) {
+      if (!b.prik) continue;
+      const [bx, by] = this.px(b.prik.x, b.prik.z), r = 3 * this.k;
+      ctx.fillStyle = b.prik.farve; ctx.strokeStyle = '#000'; ctx.lineWidth = this.k; ctx.fillRect(bx - r, by - r * 0.7, r * 2, r * 1.4); ctx.strokeRect(bx - r, by - r * 0.7, r * 2, r * 1.4);
+    }
     if (this.fuld.classList.contains('vis')) this.stor.getContext('2d').drawImage(this.c, 0, 0);
   }
 }

@@ -44,6 +44,7 @@ export function gendanVerdensliv(spil, v) {
   spil.ekkoer.gendan(v?.ekko);
   spil.minder.gendan(v?.minder);
   spil.huler.gendan(v?.huler);
+  spil.begivenheder.gendan(v?.begivenheder);
 }
 
 const FLOKKE = [['hjort', 'hind', 'hind'], ['hind', 'hind'], ['hjort', 'hind', 'hind', 'hind'], ['hind', 'hind', 'hind']];

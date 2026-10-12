@@ -148,6 +148,6 @@ export class Memory {
     this.bølge += 1;
     this.næsteAngreb = this.tid + this.s.mellemrum * 60;
     bus.emit('fjende_angreb', { antal: sendes.length, bølge: this.bølge });
-    bus.emit('krønike', { titel: 'The Memory marches from Erevoss', tekst: `${sendes.length} spirit soldiers are coming for your ${mål.data.navn}, from the far north-east.`, x: this.samling.x, z: this.samling.z, farve: '#ff7a6a', varighed: 18 });
+    bus.emit('krønike', { titel: 'The Memory marches from Erevoss', tekst: `${sendes.length} spirit soldiers are coming for your ${mål.data.navn}, from the far north-east.`, x: this.samling.x, z: this.samling.z, farve: '#ff7a6a', varighed: 18, vigtig: true });
   }
 }

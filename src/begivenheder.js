@@ -9,24 +9,25 @@ import { PLAN, BEGIVENHEDER } from './begivenhedsdata.js';
 import { hexTilVerden } from './hexgrid.js';
 import { blodmåne, formørkelse, stjerneskud, guldfeber } from './himmelbegivenheder.js';
 import { helligdom, lejesvende, baghold } from './stedbegivenheder.js';
+import { karavane } from './karavane.js';
 
 const til = ([a, b]) => a + Math.random() * (b - a);
-const LAV = { blodmåne, formørkelse, stjerneskud, guldfeber, helligdom, lejesvende, baghold };
+const LAV = { blodmåne, formørkelse, stjerneskud, guldfeber, helligdom, lejesvende, baghold, karavane };
 
 export class Begivenheder {
   constructor(spil) {
     this.spil = spil;
     this.aktive = [];
     this.nedtælling = til(PLAN.først);
-    spil.verden.mod = { creepSkade: 0, creepXp: 0, memorySkade: 0, ekko: 1 };
+    spil.verden.mod = { creepSkade: 0, creepXp: 0, memorySkade: 0, ekko: 1, pris: 1 };   // pris: købmanden og kroen (karavanen)
     bus.on('nat', ({ døgn }) => {
-      if (døgn >= 2 && !this.aktive.some((b) => b.verden) && Math.random() < PLAN.blodmåneChance) this.start('blodmåne');
+      if (døgn >= 2 && !this.aktive.length && Math.random() < PLAN.blodmåneChance) this.start('blodmåne');
     });
   }
 
   opdater(dt) {
     if (this.spil.slut) return;
-    this.nedtælling -= dt;
+    if (!this.aktive.length) this.nedtælling -= dt;   // én begivenhed ad gangen; pausen tæller først, når den forrige er slut
     if (this.nedtælling <= 0) { this.nedtælling = til(PLAN.mellem); this.træk(); }
     this.aktive = this.aktive.filter((b) => {
       b.tid += dt;
@@ -75,6 +76,31 @@ export class Begivenheder {
     }
     return kand.length ? kand[Math.floor(Math.random() * kand.length)] : null;
   }
+
+  // Karavanens rute: fra kanten af verden forbi kroen til den modsatte kant (langt fra baserne)
+  findRute(kro) {
+    const { verden, helt, memory } = this.spil, kort = verden.kort, base = helt.spawn, hal = memory?.hal;
+    const kant = [];
+    for (const f of kort.felter.values()) {
+      if (!f.gåbar || f.optaget || f.type === 'hule' || f.type === 'vand') continue;
+      const p = hexTilVerden(f.q, f.r);
+      if (Math.hypot(p.x - base.x, p.z - base.z) < 80 || (hal && Math.hypot(p.x - hal.x, p.z - hal.z) < 80)) continue;
+      if (this.spil.lejre.some((l) => Math.hypot(l.x - p.x, l.z - p.z) < (l.data.niveau >= 5 ? 60 : 22))) continue;   // ikke ved bosser og De Ældgamle
+      kant.push({ x: p.x, z: p.z, r: Math.hypot(p.x, p.z) });
+    }
+    kant.sort((a, b) => b.r - a.r);
+    const yderst = kant.slice(0, Math.max(12, Math.floor(kant.length * 0.15)));
+    const start = yderst[Math.floor(Math.random() * yderst.length)];
+    const modsat = yderst.filter((p) => p.x * start.x + p.z * start.z < 0);
+    if (!start || !modsat.length) return null;
+    const slut = modsat[Math.floor(Math.random() * Math.min(6, modsat.length))];
+    const mf = kro && kort.nærmesteGåbare(kro.x, kro.z + 14), midt = mf ? hexTilVerden(mf.q, mf.r) : { x: 0, z: 0 };
+    const a = kort.findVej(start, midt), b = kort.findVej(midt, slut);
+    return a.length && b.length ? [start, ...a, ...b] : null;
+  }
+
+  gem() { return { pris: this.spil.verden.mod.pris }; }
+  gendan(g) { if (g?.pris) this.spil.verden.mod.pris = g.pris; }
 
   // Tryk på et begivenhedssted: med helten valgt går han derhen (og bruger det); ellers vises en mærkat
   tryk(px, py, skærm, medHelt) {

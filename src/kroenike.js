@@ -2,9 +2,11 @@
 // bus.emit('krønike', { titel, tekst, x, z, farve, varighed }) viser en post under uret i højre side
 // i ca. 15 sekunder. Har posten et sted, blinker minimappet der i postens farve, og et tryk på posten
 // flytter kameraet derhen. Menuen viser de seneste 30 poster.
+// Jon: for meget tekst på den lille skærm — kun vigtige poster (vigtig: true) vises på skærmen, én ad gangen;
+// resten står kun i krøniken i menuen og blinker på minimappet.
 import { bus } from './events.js';
 
-const MAKS_SYNLIGE = 2, MAKS_LOG = 30, PING_TID = 12;
+const MAKS_SYNLIGE = 1, MAKS_LOG = 30, PING_TID = 12;
 
 export class Krønike {
   constructor(spil) {
@@ -16,8 +18,9 @@ export class Krønike {
     bus.on('krønike', (p) => this.ny(p));
   }
 
-  ny({ titel, tekst = '', x = null, z = null, farve = '#e8c66a', varighed = 15 }) {
+  ny({ titel, tekst = '', x = null, z = null, farve = '#e8c66a', varighed = 15, vigtig = false }) {
     const nu = this.spil.ur?.tid ?? 0;
+    if (!vigtig) { if (x != null) this.pings.push({ x, z, farve, tid: nu }); return this.tilLog(nu, titel, tekst, farve); }
     const post = document.createElement('div');
     post.className = 'post' + (x != null ? ' sted' : '');
     post.style.setProperty('--f', farve);
@@ -35,8 +38,12 @@ export class Krønike {
     }
     this.el.prepend(post);
     while (this.el.children.length > MAKS_SYNLIGE) this.el.lastChild.remove();
-    setTimeout(() => { post.classList.add('væk'); setTimeout(() => post.remove(), 600); }, varighed * 1000);
-    // Til menuen
+    setTimeout(() => { post.classList.add('væk'); setTimeout(() => post.remove(), 600); }, Math.max(varighed, 18) * 1000);
+    this.tilLog(nu, titel, tekst, farve);
+  }
+
+  // Til menuen
+  tilLog(nu, titel, tekst, farve) {
     const min = Math.floor(nu / 60), sek = String(Math.floor(nu % 60)).padStart(2, '0');
     this.log.unshift({ tid: `${min}:${sek}`, titel, tekst, farve });
     this.log.length = Math.min(this.log.length, MAKS_LOG);

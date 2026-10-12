@@ -78,7 +78,7 @@ export function lejesvende(spil, ctl) {
   });
   bus.emit('krønike', { ...TEKST.lejesvende, x, z, varighed: 18 });
   const varer = () => figurer.map((u) => {
-    const e = ENHEDER[u.type], pris = { guld: Math.round(e.pris.guld * RABAT) };
+    const e = ENHEDER[u.type], pris = { guld: Math.round(e.pris.guld * RABAT * (verden.mod?.pris ?? 1)) };
     return {
       ikon: ikon(e.ikon), navn: e.navn, farve: '#e9d6a8', tekst: `${e.tekst} Supply ${e.forsyning}. (Tavern price ${e.pris.guld})`, pris: pris.guld,
       kan: () => !spil.økonomi.mangler(pris, e.forsyning),
