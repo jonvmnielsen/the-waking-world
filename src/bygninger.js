@@ -20,6 +20,7 @@ export class Bygning {
     this.kø = [];                  // træning: [{ type, tid }]
     this.cooldown = 0;
     this.død = false;
+    bus.emit('bygning_ny', { bygning: this });   // fx fjerner bunddækket under den
     // Liv: en byggeplads starter med 10 % og vokser mens den bygges (som i WC3)
     this.grundHp = this.data.hp ?? 900; this.ekstraHp = 0;
     this.grundRustning = this.type === 'storlejr' || this.type === 'borg' ? 5 : this.type === 'tårn' ? 4 : 3;

@@ -145,10 +145,10 @@ export class HexKort {
     return ud;
   }
 
-  // Første gåbare punkt fra et blokeret mål mod et andet punkt
+  // Første gåbare punkt fra et blokeret mål mod et andet punkt (højst et felt væk, så man ikke ender på den anden side af en flod)
   frieKant(til, fra) {
     const d = Math.hypot(fra.x - til.x, fra.z - til.z);
-    for (let t = 0.6; t < Math.min(d, 30); t += 0.6) {
+    for (let t = 0.6; t < Math.min(d, 12); t += 0.6) {   // kun lige ved målet; ellers det nærmeste frie felt
       const x = til.x + ((fra.x - til.x) / d) * t, z = til.z + ((fra.z - til.z) / d) * t;
       if (this.erGåbar(x, z)) return { x: x + ((fra.x - til.x) / d) * 0.5, z: z + ((fra.z - til.z) / d) * 0.5 };
     }

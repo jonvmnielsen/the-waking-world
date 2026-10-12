@@ -1,5 +1,6 @@
 // Balance- og verdenskonstanter. Værdier fra docs/balance/*_v1.md,
 // omregnet fra Godot-pixels til verdensenheder (40 px = 1 enhed).
+import { AKTIVT_KORT } from './kortvalg.js';
 
 export const VERDEN = {
   hexSkala: 5,          // KayKit hex-fliser er 2 enheder brede — skaleres så bygninger og natur er meget større end helten
@@ -7,7 +8,8 @@ export const VERDEN = {
 
 export const KORT = {
   størrelse: 48,        // kortet er størrelse × størrelse hex-felter
-  seed: 11,
+  seed: AKTIVT_KORT.seed,   // hvert kort har sit eget frø (kortvalg.js)
+  id: AKTIVT_KORT.id,
 };
 
 // Grundværdier før egenskaberne (heltstats.js) lægges oven i.

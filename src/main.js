@@ -40,7 +40,7 @@ import { HelteKort } from './heltekort.js';
 import { ESSENSER } from './abilities.js';
 import { lavUdvikling, lavFremskridtsHud } from './fremskridt.js';
 import { Krønike } from './kroenike.js';
-import { lavVerdensliv } from './livet.js';
+import { lavVerdensliv, gendanVerdensliv } from './livet.js';
 import { visIntro } from './fortaelling.js';
 
 const lærred = document.getElementById('spil');
@@ -49,7 +49,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const scene = new THREE.Scene();
 
 async function start() {
-  const { kort, heltSpawn, steder, lejre: lejrData, kister, storlejr, fjende, tilf, grænser } = lavKort();
+  const { kort, heltSpawn, steder, lejre: lejrData, kister, storlejr, fjende, minder, tilf, grænser } = lavKort();
   const bar = document.getElementById('lade-bar');
   await hentAlle([...MODELLER, ...kortModeller(kort)], (p) => { bar.style.width = `${Math.round(p * 100)}%`; });
   lavIkoner(renderer, EKSTRA_IKONER);   // før tåge-shaderen sættes på materialerne
@@ -57,7 +57,7 @@ async function start() {
 
   const taage = new Taage(grænser);
   const verden = { scene, kort, creeps: [], helt: null, taage, lejrFelter: lejrData };
-  const verdensObj = bygVerden(scene, kort, grænser, steder, fjende.hal);
+  const verdensObj = bygVerden(scene, kort, grænser, steder, fjende.hal, lejrData);
   verden.natur = verdensObj;
   const lys = lavLys(scene, renderer);
   const { økonomi, base } = startBase(verden, { storlejr, steder, verdensObj });
@@ -142,7 +142,7 @@ async function start() {
   spil.ur = { tid: 0 };
   spil.dagNat = new DagNat(spil, lys);
   spil.verdenstilstand = new Verdenstilstand(spil, steder.find((s) => s.type === 'kro') ?? { x: 0, z: 0 });
-  const verdensliv = lavVerdensliv(spil, steder);
+  const verdensliv = lavVerdensliv(spil, steder, minder);
   verden.spillerBygninger = () => base.bygninger.filter((b) => !b.død);
   spil.lyd = lyd;
   forbindLyd(lyd, spil);
@@ -154,7 +154,7 @@ async function start() {
     helt.tid = gemt.spilTid;
     spil.ur.tid = gemt.verden?.tid ?? gemt.spilTid;
     spil.verdenstilstand.gendan(gemt.verden);
-    spil.ekkoer.gendan(gemt.verden?.ekko);
+    gendanVerdensliv(spil, gemt.verden);
     taage.patchScene(scene);
     taage.opdater(1, [{ x: helt.x, z: helt.z, radius: 28 }]);
     setTimeout(() => overlay.toast('Welcome back — your game continues where you left off'), 600);

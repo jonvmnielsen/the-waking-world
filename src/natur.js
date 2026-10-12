@@ -36,9 +36,10 @@ export function lavNatur(scene, kort) {
       Object.assign(pynt, { x, y, z });
       if (pynt.instans) {
         const nøgle = `${pynt.model}|${Math.floor(f.kol / BID)},${Math.floor(f.ræk / BID)}`;
-        if (!grupper.has(nøgle)) grupper.set(nøgle, { sti: pynt.model, matricer: [], skygge: pynt.skygge });
+        if (!grupper.has(nøgle)) grupper.set(nøgle, { sti: pynt.model, matricer: [], farver: [], skygge: pynt.skygge });
         const g = grupper.get(nøgle);
         g.matricer.push(m);
+        g.farver.push(pynt.farve ?? null);   // egen farvetone pr. træ
         pynt.ref = { nøgle, i: g.matricer.length - 1 };
       } else {
         const obj = kopi(pynt.model, { skygge: pynt.skygge });
@@ -59,7 +60,7 @@ export function lavNatur(scene, kort) {
   }
   const meshGrupper = new Map();
   for (const [nøgle, g] of grupper) {
-    const grp = instanser(g.sti, g.matricer, { skygge: g.skygge });
+    const grp = instanser(g.sti, g.matricer, { skygge: g.skygge, farver: g.farver });
     meshGrupper.set(nøgle, grp);
     scene.add(grp);
   }

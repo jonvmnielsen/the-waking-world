@@ -496,3 +496,12 @@ body.altid-evner:not(.altid-rygsæk):not(.rygsæk-åben) #sti-evner { right: cal
 .intro-knapper { display: flex; gap: 10px; justify-content: center; }
 .intro-knapper button { padding: 11px 22px; border-radius: 10px; font-weight: 800; border: 1px solid rgba(201, 163, 90, 0.5); background: rgba(255, 255, 255, 0.08); }
 #intro-næste { background: linear-gradient(#c9a35a, #8a6a2e); color: #1a120a; border-color: #ffd36b; }
+
+/* M9: kortvalget på startskærmen */
+#kortvalg { box-sizing: border-box; width: calc(100% + 2 * var(--kant)); max-width: 100vw; align-self: stretch; min-width: 0; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 10px; margin: 0 calc(-1 * var(--kant)) 6px; padding-left: var(--kant); padding-right: var(--kant); -webkit-overflow-scrolling: touch; }
+.kortkort { flex: 0 0 min(74vw, 280px); scroll-snap-align: center; display: grid; gap: 4px; text-align: left; padding: 11px 13px; border-radius: 14px; border: 1px solid rgba(201, 163, 90, 0.35); background: rgba(30, 22, 14, 0.82); }
+.kortkort b { font-family: var(--display); font-size: 17px; color: var(--messing-lys); }
+.kortkort span { font-size: 12px; line-height: 1.35; color: var(--tekst); }
+.kortkort small { font-size: 10px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--dæmpet); }
+.kortkort.valgt { border: 2px solid var(--messing-lys); background: linear-gradient(rgba(122, 90, 42, 0.55), rgba(30, 22, 14, 0.9)); box-shadow: 0 0 14px rgba(255, 211, 107, 0.25); }
+.mærkat .replik { font-size: 13px; font-weight: 700; }

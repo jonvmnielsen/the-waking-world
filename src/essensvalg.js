@@ -4,6 +4,8 @@
 import { ESSENSER, EVNER, SLOTS, OPLÅS } from './abilities.js';
 import { EGENSKABER } from './heltstats.js';
 import { beskrivGem } from './gem.js';
+import { KORT_TYPER, AKTIVT_ID, skiftKort, fortsætEfterSkift } from './kortvalg.js';
+import { KORT } from './config.js';
 
 const $ = (id) => document.getElementById(id);
 const VOKSER = {
@@ -16,11 +18,15 @@ const VOKSER = {
 export function vælgEssens(gemt) {
   return new Promise((løs) => {
     const luk = (svar) => { $('essensvalg').classList.remove('vis'); løs(svar); };
+    const sammeKort = gemt && gemt.seed === KORT.seed;
+    if (sammeKort && fortsætEfterSkift()) return løs('fortsæt');   // kortet er lige skiftet for at fortsætte
     if (gemt) {
       $('fortsaet').hidden = false;
       $('fortsaet-tekst').textContent = beskrivGem(gemt);
-      $('fortsaet').onclick = () => luk('fortsæt');
+      // Et gemt spil fra et andet kort: skift kortet først, og fortsæt så
+      $('fortsaet').onclick = () => (sammeKort ? luk('fortsæt') : (visSkift(), skiftKort(gemt.kort ?? 'askeø', true)));
     }
+    visKort();
     let valgt = null, sværhed = 'normal';
     for (const k of document.querySelectorAll('#svaerhed button')) {
       k.onclick = () => { sværhed = k.dataset.s; for (const x of document.querySelectorAll('#svaerhed button')) x.classList.toggle('valgt', x === k); };
@@ -42,6 +48,31 @@ export function vælgEssens(gemt) {
     $('essens-start').onclick = () => { if (valgt) luk({ essens: valgt, sværhed }); };
     $('essensvalg').classList.add('vis');
   });
+}
+
+// Kortvalget: et kort pr. kort; et nyt valg bygger verden forfra
+function visKort() {
+  const boks = $('kortvalg');
+  boks.innerHTML = '';
+  for (const [id, k] of Object.entries(KORT_TYPER)) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'kortkort' + (id === AKTIVT_ID ? ' valgt' : '');
+    b.innerHTML = `<b></b><span></span><small></small>`;
+    b.querySelector('b').textContent = k.navn;
+    b.querySelector('span').textContent = k.kort;
+    b.querySelector('small').textContent = k.træk.join(' · ');
+    b.onclick = () => { if (id !== AKTIVT_ID) { visSkift(); skiftKort(id); } };
+    boks.appendChild(b);
+  }
+  // Vis det valgte kort (kun kortrækken ruller, ikke hele skærmen)
+  requestAnimationFrame(() => { const v = boks.querySelector('.valgt'); if (v) boks.scrollLeft = v.offsetLeft - (boks.clientWidth - v.clientWidth) / 2; });
+}
+
+function visSkift() {
+  $('lade-tekst').textContent = 'The world reshapes…';
+  $('lader').style.zIndex = 60;
+  $('lader').classList.remove('færdig');
 }
 
 function visDetaljer(id) {

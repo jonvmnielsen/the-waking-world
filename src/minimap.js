@@ -119,6 +119,14 @@ export class Minimap {
       ctx.beginPath(); ctx.arc(px, py, 8 * this.k, 0, Math.PI * 2); ctx.stroke();
       ctx.globalAlpha = 1;
     }
+    // Opdagede mindesmærker: små ruder (lilla for Navnestenene)
+    for (const m of spil.minder?.liste ?? []) {
+      if (!m.opdaget) continue;
+      const [mx, my] = this.px(m.x, m.z), r = 3.2 * this.k;
+      ctx.fillStyle = m.slags === 'navnesten' ? (m.læst ? '#c8a8ff' : '#7a5cc0') : '#f2e2b8';
+      ctx.strokeStyle = '#000'; ctx.lineWidth = this.k * 0.8;
+      ctx.beginPath(); ctx.moveTo(mx, my - r); ctx.lineTo(mx + r, my); ctx.lineTo(mx, my + r); ctx.lineTo(mx - r, my); ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
     // Erevoss (The Memorys hjem) er altid markeret, så man ved hvor de kommer fra
     const hal = spil.memory?.hal;
     if (hal && !hal.død) {

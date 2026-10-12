@@ -76,6 +76,27 @@ Hver bygningsmodel får sin egen skalafaktor, fordi KayKit-modellerne ikke har e
 | Skirmish stor | ca. 72 × 72 | 2–4 |
 | Udforskning | ca. 160 × 160, indlæses i bidder | 1 + fjender der vågner |
 
+### 4.2.1 Kortene (M9)
+
+Spilleren vælger verden på startskærmen (*Choose your world*). Alle kort er 48×48, med spilleren og The Memory i hver sin ende og kroen imellem; hvert kort har sit eget frø, sin form og sin historie (vises som første intro-kort). Valget huskes i telefonen. Et gemt spil fra et andet kort skifter kortet, når man trykker *Continue*.
+
+| Kort | Form | Historie |
+|---|---|---|
+| **The Ashen Isle** | Ø, balanceret (det klassiske kort) | Askemarken brændte den nat The Unnamed blev glemt |
+| **The Sundered Vale** | En flod skærer landet over; tre vadesteder, kroen ved det midterste | Floden Aun glemte sin vej, da navnene gik tabt |
+| **The Spine of Khal'dur** | En bjergryg på tværs; tre pas; meget sten | The Tides hjemland; ryggen er noget enormt, der sover |
+| **The Drowned Marches** | Søer, siv og snoede stier | Regnen glemte at holde op; druknede klokker ringer om natten |
+
+Alt land hænger sammen: ø-stykker man ikke kan nå bliver skov, og lommer som bygninger lukker inde, åbnes gennem den nærmeste skov eller det nærmeste stenbrud.
+
+### 4.2.2 Jorden og detaljerne (M9)
+
+- **Jorden** har håndtegnede teksturer (græsstrå, jord med småsten, skovbund, sand, klippe), der blandes efter region, med store lyse og mørke pletter. Trådte stier forbinder basen, kroen, købmanden, brøndene, tårnene og minerne, og jorden er trådt omkring basen, stederne og lejrene.
+- **Bunddække**: græstotter, blomster, bregner, svampe, buske, småsten og trædesten efter region (pynt, man går igennem; forsvinder under nye bygninger).
+- **Træer**: fyrretræer blandes med løvtræer og knudrede sumptræer, og hvert træ har sin egen grønne tone (gyldne efterårstoner i Askemarken).
+- **Vand** med bølger der glider og glimter, og skum langs kysten.
+- **Liv omkring stederne**: kærrer, tønder, sække, bænke, hegn og flag ved kroen, markedet, brøndene, tårnene og minerne.
+
 ### 4.3 Hvad findes på kortet
 
 - **Startbaser** med egen guldmine og skov tæt på.
@@ -437,7 +458,13 @@ Det forhindrer, at spillet går i stå, og giver et klimaks.
 
 **Plyndringer forklaret.** I Faldet er de vilde lejre sultne: en lejr nær basen sender sine creeps mod spillerens bygninger. Krøniken siger det og viser lejren; hver plyndrer bærer en pose stjålet guld.
 
-**Intro.** Et nyt spil begynder med tre korte kort: Vaelthar og den glemte femte kraft, The Memory og ekkoerne, og hvad The Tide skal gøre.
+**Mindesmærker (M9).** Hvert kort har syv *Name-stones* og fire andre minder (en gammel mur, en grav, to forladte lejre). Når et minde kommer inden for synsvidde, fortæller krøniken dets historie, det får et navneskilt og en markering på minimappet (+25 XP). Navnestenene skal helten gå hen til og læse: +40 XP og en stump af navnet — men verden husker lidt mere (Opvågningen 20 s tidligere). Alle syv giver 300 guld og en Tome of Power. Første gang helten går ind i en region, fortæller krøniken om den. Tryk på et minde (med intet valgt) for at læse det igen.
+
+**Navngivne lejre (M9).** Hver lejr har et navn på skiltet (fx *Ashfang Raiders*, *The Sleepless Watch*, *The Grave King's Hall*), og første gang man ser den, fortæller krøniken hvad det er for en lejr.
+
+**Heltens replikker (M9).** Korte ork-sætninger over helten ved level op, en dræbt boss, det første fangede ekko, ved Erevoss, ved Opvågningen og når han rejser sig igen.
+
+**Intro.** Et nyt spil begynder med kortets egen historie og tre korte kort: Vaelthar og den glemte femte kraft, The Memory og ekkoerne, og hvad The Tide skal gøre.
 
 ### 12.2 Liv i verden (M8)
 
@@ -501,7 +528,8 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M6 ✅** | **Liv i verden** | Dag og nat, verdenstilstand (Balance/Fald/Opvågning), kroen hyrer lejesoldater, syntetisk lyd |
 | **M7 ✅** | **Fremskridt** | Ascension ved level 10 med tre stier og level 11–20, XP efter level-forskel, upkeep, forskning (Forge, Lumber Mill, War Camp, Great Hall) og opgraderinger (Stronghold/Fortress, Guard Tower) |
 | **M8 ✅** | **En levende verden** | Dyr, fugle og pilgrimme; ekkoer og The Memory som ånder; De Vågnende Sten; krøniken, fase-mærket, intro og verdenssiden; skilte over lejrene og De Ældgamle med nye legendariske items |
-| M9+ | Flere helte, en helt til The Memory, flere racer, udforskning, kampagne | |
+| **M9 ✅** | **Verdener og detaljer** | Fire kort med hver sin form og historie; teksturer og stier i jorden, bunddække, blandede træer, bølgende vand med kystskum, liv omkring stederne; Navnesten, mindesmærker, navngivne lejre, regionernes historie og heltens replikker |
+| M10+ | Flere helte, en helt til The Memory, flere racer, udforskning, kampagne | |
 
 ---
 

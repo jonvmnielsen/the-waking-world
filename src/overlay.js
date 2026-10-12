@@ -20,6 +20,7 @@ export class Overlay {
     bus.on('level_op', ({ helt, level }) => this.tal(helt, `Level ${level}!`, 'level', 1.2));
     bus.on('besked', (tekst) => this.toast(tekst));
     bus.on('flydetekst', ({ enhed, tekst, klasse }) => this.tal(enhed, tekst, klasse, 0.4));
+    bus.on('replik', ({ enhed, tekst }) => this.mærkat(enhed, `<i class="replik">“${tekst}”</i>`, '#f2e2b8', 3400));
   }
 
   skærm(x, y, z) {
@@ -60,7 +61,7 @@ export class Overlay {
 
   opdater() {
     if (this.mærkatEl) {
-      const s = this.skærm(this.mærkatTing.x, 1.6, this.mærkatTing.z);
+      const s = this.skærm(this.mærkatTing.x, (this.mærkatTing.højde ?? 0.2) + 1.4, this.mærkatTing.z);   // over helten (replikker) eller over et item
       this.mærkatEl.style.transform = `translate(${s.x}px, ${s.y}px) translate(-50%, -100%)`;
     }
     const enheder = [this.verden.helt, ...this.verden.creeps, ...this.ekstra()];

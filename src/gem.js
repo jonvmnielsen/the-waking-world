@@ -3,16 +3,17 @@
 // helten, økonomien, basen, hæren, høstede træer og sten, døde creeps, items, kister og udforsket land.
 // Spillet gemmes automatisk hvert minut og når appen lægges væk. Gendannelse: gendan.js.
 import { KORT } from './config.js';
+import { KORT_TYPER } from './kortvalg.js';
 import { nøgle } from './hexgrid.js';
 
 const NØGLE = 'tww-gem-1';
-export const GEM_VERSION = 2;   // 2: M8 (De Ældgamles lejre ændrer kortet)
+export const GEM_VERSION = 3;   // 3: M9 (flere kort, mindesmærker)
 const r1 = (v) => Math.round(v * 10) / 10;
 
 export function hentGem() {
   try {
     const g = JSON.parse(localStorage.getItem(NØGLE));
-    return g && g.version === GEM_VERSION && g.seed === KORT.seed ? g : null;
+    return g && g.version === GEM_VERSION ? g : null;   // et gemt spil fra et andet kort skifter kortet (essensvalg.js)
   } catch { return null; }
 }
 
@@ -35,7 +36,7 @@ function lavGem(spil) {
   const { helt, økonomi: ø, base, lejre, genstande, taage, rig, stil, memory: m } = spil;
   const inv = helt.inventar;
   return {
-    version: GEM_VERSION, seed: KORT.seed, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
+    version: GEM_VERSION, seed: KORT.seed, kort: KORT.id, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
     økonomi: { guld: ø.guld, træ: ø.træ, sten: ø.sten, forsyning: ø.forsyning, forsyningMaks: ø.forsyningMaks },
     helt: {
       essens: helt.evner.essens, x: r1(helt.x), z: r1(helt.z), hp: Math.ceil(helt.død ? helt.maxHp : helt.hp), mana: Math.floor(helt.mana),
@@ -62,7 +63,7 @@ function lavGem(spil) {
     udvikling: spil.udvikling.gem(),
     ødelagte: (spil.konstruktioner ?? []).filter((k) => k.død).map((k) => k.id),
     kamera: { x: r1(rig.fokus.x), z: r1(rig.fokus.z), afstand: rig.afstand },
-    verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem(), ekko: spil.ekkoer?.gem() },
+    verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem(), ekko: spil.ekkoer?.gem(), minder: spil.minder?.gem() },
     memory: {
       sværhed: m.sværhed, ekkoer: m.ekkoer, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
       bygninger: m.bygninger.map((b) => ({ id: b.id, hp: Math.ceil(b.hp), fremskridt: b.fremskridt, død: b.død })),
@@ -101,5 +102,6 @@ export function beskrivGem(g) {
   const min = Math.floor(g.spilTid / 60);
   const siden = Math.round((Date.now() - g.tidspunkt) / 60000);
   const hvornår = siden < 1 ? 'saved just now' : siden < 60 ? `saved ${siden} min ago` : siden < 1440 ? `saved ${Math.round(siden / 60)} h ago` : `saved ${Math.round(siden / 1440)} days ago`;
-  return `${g.memory ? `${g.memory.sværhed[0].toUpperCase()}${g.memory.sværhed.slice(1)} · ` : ''}Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? 'soldier' : 'soldiers'} · ${min} min played · ${hvornår}`;
+  const kort = KORT_TYPER[g.kort ?? 'askeø']?.navn ?? '';
+  return `${kort} · ${g.memory ? `${g.memory.sværhed[0].toUpperCase()}${g.memory.sværhed.slice(1)} · ` : ''}Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? 'soldier' : 'soldiers'} · ${min} min played · ${hvornår}`;
 }

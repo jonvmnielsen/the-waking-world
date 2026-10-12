@@ -2,7 +2,11 @@
 // og fase-mærket under uret, der viser hvor verden er, og hvor længe til den næste fase.
 import { bus } from './events.js';
 import { FASER } from './verdenstilstand.js';
-import { INTRO, VERDEN_HTML } from './verdenslore.js';
+import { INTRO as GRUND_INTRO, VERDEN_HTML } from './verdenslore.js';
+import { AKTIVT_KORT } from './kortvalg.js';
+
+// Introen begynder med kortets egen historie
+const INTRO = [{ titel: AKTIVT_KORT.navn, tekst: AKTIVT_KORT.lore }, ...GRUND_INTRO];
 
 const $ = (id) => document.getElementById(id);
 const tid = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;

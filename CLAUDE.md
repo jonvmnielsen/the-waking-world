@@ -73,7 +73,11 @@ the-waking-world/
 │   ├── vaekkesten.js / aand.js # De Vågnende Sten; ånde-udseende, glød og tågen over Erevoss
 │   ├── ekko.js               # Ekkoer fra de faldne driver til Erevoss (helten kan fange dem)
 │   ├── kroenike.js / fortaelling.js / verdenslore.js # Krøniken; intro, fase-mærke og verdenssiden; al lore-tekst
-│   ├── lejrskilt.js          # Skilte over lejrene (sværhedsgrad og level)
+│   ├── lejrskilt.js          # Skilte over lejrene (navn, sværhedsgrad og level); krøniken fortæller om nye lejre
+│   ├── kortvalg.js           # De fire kort (form, frø, historie), valget og skift af kort
+│   ├── grund.js / stier.js / bunddaekke.js # Jordens teksturer; trådte stier; græs, blomster og småting
+│   ├── mindested.js / mindesmaerker.js / stedlore.js # Navnesten og minder: placering; opdagelse og læsning; tekst
+│   ├── heltreplik.js         # Heltens korte replikker ved vigtige øjeblikke
 │   ├── kro.js                # Kroen hyrer lejesoldater
 │   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
@@ -370,7 +374,14 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Skilte over lejrene; De Ældgamle (level 20) i to hjørner med tre nye legendariske items
 - [x] Plyndrere bærer stjålet guld; bannere og beskeder står længere
 
-### 📋 Næste: M9+
+### ✅ M9 — "Verdener og detaljer" (oktober 2026)
+- [x] Fire kort: The Ashen Isle, The Sundered Vale (flod), The Spine of Khal'dur (bjergryg), The Drowned Marches (søer) — valg på startskærmen, egen historie i introen
+- [x] Jorden: håndtegnede teksturer pr. region, trådte stier og pletter, bunddække (græs, blomster, bregner, småsten)
+- [x] Blandede træer med egne farvetoner; bølgende vand med kystskum; ting omkring kro, marked, brønde, tårne og miner
+- [x] Navnesten (7 pr. kort), mindesmærker, regionernes historie, navngivne lejre, heltens replikker
+- [x] Alt kan nås fra basen (lommer åbnes); gem-version 3
+
+### 📋 Næste: M10+
 Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer. Se `docs/GDD.md` afsnit 16.
 
 ---
@@ -404,6 +415,9 @@ Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer
 | 2026-10-12 | The Memory er ånder, ikke død jord | Jon. Ekkoer fra de faldne driver til Erevoss og fremskynder Opvågningen; helten kan fange dem |
 | 2026-10-12 | Lore: The Unnamed blev glemt, og hvert minde rummer en stump af navnet | Jon: "lad os bare gå med det, jeg vil gerne overraskes" |
 | 2026-10-12 | Dyr fra Quaternius (CC0) via en offentlig kopi med Quaternius' egen licensfil | Den officielle zip ligger på Google Drive; game-assets D-013 |
+| 2026-10-12 | Fire kort med hver sin form og historie, valgt på startskærmen | Jons ønske: forskellige maps. Alle 48×48 med baserne i hver sin ende |
+| 2026-10-12 | Jorden får håndtegnede teksturer, stier og bunddække; træer blandes | Jon: jorden var for simpel og ensfarvet, grafikken manglede personlighed |
+| 2026-10-12 | Gem-version 3 (M9) | Kortene og mindesmærkerne ændrer placeringen af lejre og kister |
 | 2026-10-12 | Gem-version 2 | De Ældgamles lejre ændrer kortet, så gemte spil fra før M8 kan ikke fortsættes |
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
 | 2026-10-10 | Dag og nat med | Rytme og taktik (GDD 4.6) |

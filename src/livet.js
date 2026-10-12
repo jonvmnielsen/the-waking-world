@@ -12,13 +12,22 @@ import { GAVE_ORD } from './verdenslore.js';
 import { Ekkoer } from './ekko.js';
 import { Fortælling } from './fortaelling.js';
 import { LejrSkilte } from './lejrskilt.js';
+import { Mindesmærker } from './mindesmaerker.js';
+import { HeltReplikker } from './heltreplik.js';
 
 // Sætter M8-systemerne op: ekkoer, livet, fortællingen og lejrenes skilte. opdater() kører med tegningen.
-export function lavVerdensliv(spil, steder) {
+export function lavVerdensliv(spil, steder, minder = []) {
   spil.ekkoer = new Ekkoer(spil);
+  spil.minder = new Mindesmærker(spil, minder);
   spil.livet = new Livet(spil, steder);
-  const fortælling = new Fortælling(spil), skilte = new LejrSkilte(spil);
-  return { opdater(dt) { fortælling.opdater(dt); skilte.opdater(dt); } };
+  const fortælling = new Fortælling(spil), skilte = new LejrSkilte(spil), replikker = new HeltReplikker(spil);
+  return { opdater(dt) { fortælling.opdater(dt); skilte.opdater(dt); replikker.opdater(); } };
+}
+
+// Gendan ekkoer og mindesmærker fra et gemt spil
+export function gendanVerdensliv(spil, v) {
+  spil.ekkoer.gendan(v?.ekko);
+  spil.minder.gendan(v?.minder);
 }
 
 const FLOKKE = [['hjort', 'hind', 'hind'], ['hind', 'hind'], ['hjort', 'hind', 'hind', 'hind'], ['hind', 'hind', 'hind']];

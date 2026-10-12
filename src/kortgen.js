@@ -3,6 +3,7 @@
 import { HexKort, RETNINGER, hexTilVerden, hexAfstand } from './hexgrid.js';
 import { støj } from './stoej.js';
 import { KORT } from './config.js';
+import { T, formFelt, SØ_FAKTOR, AKTIVT_KORT } from './kortvalg.js';
 
 // Kystfliser: hvilke kanter er vand ved rotation 0 (målt i probe)
 const KYST = { 1: ['a', 1], 2: ['b', 1], 3: ['c', 0], 4: ['d', 5] };
@@ -29,10 +30,12 @@ export const tilAksial = (kol, ræk) => ({ q: kol - Math.floor(ræk / 2), r: ræ
 export function lavTerræn(seed) {
   const k = new HexKort();
   const N = KORT.størrelse, H = N / 2;
-  const base = tilAksial(Math.round(-0.55 * H), Math.round(0.55 * H));
+  const sted = (nx, nz) => { const [x, z] = T(nx, nz); return tilAksial(Math.round(x * H), Math.round(z * H)); };
+  const base = sted(-0.55, 0.55);
   k.base = base;
   // The Memory (AI-modstanderen) har sin base i det modsatte hjørne
-  const fjende = tilAksial(Math.round(0.55 * H), Math.round(-0.55 * H));
+  const fjende = sted(0.55, -0.55);
+  const formStøj = (a, b, s) => støj(a, b, seed + s, 1.5);
   k.fjendeBase = fjende;
 
   for (let ræk = -H; ræk < H; ræk++) {
@@ -48,9 +51,10 @@ export function lavTerræn(seed) {
       const dEgen = hexAfstand(f, base), dFjende = hexAfstand(f, fjende);
       const dBase = Math.min(dEgen, dFjende);
       const vedBase = dBase <= 6;
-      if (!vedBase && støj(kol, ræk, seed + 2, 4) > tæt.sø) { f.type = 'vand'; f.gåbar = false; continue; }
+      const form = vedBase ? null : formFelt(nx, nz, formStøj);   // flod eller bjergryg (kortvalg.js)
+      if (form === 'vand' || (!vedBase && støj(kol, ræk, seed + 2, 4) > tæt.sø * SØ_FAKTOR)) { f.type = 'vand'; f.gåbar = false; continue; }
       if (vedBase) { baseOmegn(f, dEgen <= 6 ? base : fjende, dBase); continue; }
-      if (støj(kol, ræk, seed + 3, 4.5) > tæt.bjerg) blokér(f, 'bjerg');
+      if (form === 'bjerg' || støj(kol, ræk, seed + 3, 4.5) > tæt.bjerg) blokér(f, 'bjerg');
       else if (støj(kol, ræk, seed + 4, 3.5) > tæt.skov) blokér(f, 'skov');
     }
   }
@@ -75,7 +79,8 @@ function nærmesteRegion(nx, nz, seed) {
   const jz = (støj(nz * 20, nx * 20, seed + 10, 6) - 0.5) * 0.35;
   let bedst = null, bd = Infinity;
   for (const [id, reg] of Object.entries(REGIONER)) {
-    for (const [sx, sz] of reg.frø) {
+    for (const [fx, fz] of AKTIVT_KORT.regioner?.[id] ?? reg.frø) {
+      const [sx, sz] = T(fx, fz);   // regionerne drejes med kortet
       const d = (nx + jx - sx) ** 2 + (nz + jz - sz) ** 2;
       if (d < bd) { bd = d; bedst = id; }
     }
@@ -120,6 +125,32 @@ function sikrSammenhæng(k) {
   for (const f of k.felter.values()) {
     if (!f.gåbar || set.has(f)) continue;
     if (f.type === 'græs') blokér(f, 'skov'); else f.gåbar = false;
+  }
+}
+
+// Efter stederne er sat: lommer af frit land, som bygninger og lejre har lukket inde, åbnes gennem den
+// nærmeste skov eller det nærmeste stenbrud (før naturen lægges ud), så alt kan nås fra basen
+export function åbnLommer(k) {
+  const nået = new Set(), kø = [k.hent(k.base.q, k.base.r)];
+  nået.add(kø[0]);
+  while (kø.length) { const f = kø.pop(); for (const n of k.naboer(f)) if (n.gåbar && !nået.has(n)) { nået.add(n); kø.push(n); } }
+  for (const f of k.felter.values()) {
+    if (!f.gåbar || nået.has(f)) continue;
+    // Bredde-først gennem skov og stenbrud til det nåede land
+    const forrige = new Map([[f, null]]), bfs = [f];
+    let mål = null;
+    while (bfs.length && !mål) {
+      const a = bfs.shift();
+      for (const n of k.naboer(a)) {
+        if (forrige.has(n)) continue;
+        if (nået.has(n)) { mål = a; break; }
+        if (n.gåbar || (n.blok && !n.optaget)) { forrige.set(n, a); bfs.push(n); }
+      }
+    }
+    for (let a = mål; a; a = forrige.get(a)) { if (a.blok) { a.blok = undefined; a.gåbar = true; } nået.add(a); }
+    // Resten af lommen hører nu med
+    const fyld = [f];
+    while (fyld.length) { const a = fyld.pop(); for (const n of k.naboer(a)) if (n.gåbar && !nået.has(n)) { nået.add(n); fyld.push(n); } }
   }
 }
 

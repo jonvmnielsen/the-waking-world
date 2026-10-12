@@ -3,20 +3,32 @@ import { lavTerrænMesh } from './terraen.js';
 import { lavNatur, STUBBE } from './natur.js';
 import { lavGuldårer, GULD_MODELLER } from './guldaarer.js';
 import * as THREE from 'three';
+import { hexTilVerden } from './hexgrid.js';
+import { lavStier } from './stier.js';
+import { lavGrund } from './grund.js';
+import { lavBunddække, BUNDDÆKKE_MODELLER } from './bunddaekke.js';
 
 // Alle modelstier kortet bruger (til forudindlæsning)
 export function kortModeller(kort) {
-  const s = new Set([...STUBBE, ...GULD_MODELLER]);
+  const s = new Set([...STUBBE, ...GULD_MODELLER, ...BUNDDÆKKE_MODELLER]);
   for (const f of kort.felter.values()) for (const p of f.pynt) s.add(p.model);
   return [...s];
 }
 
-export function bygVerden(scene, kort, grænser, steder, ødeland) {
+export function bygVerden(scene, kort, grænser, steder, ødeland, lejre = []) {
   const miner = steder.filter((s) => s.type === 'mine');
-  for (const m of lavTerrænMesh(kort, grænser, miner, ødeland)) scene.add(m);
+  // Stier mellem stederne og trådt jord omkring basen, stederne og lejrene
+  const base = hexTilVerden(kort.base.q, kort.base.r);
+  const mål = ['kro', 'marked', 'kilde', 'udkig', 'mine'];
+  const stier = lavStier(kort, [base, ...steder.filter((s) => mål.includes(s.type)), ...(ødeland ? [ødeland] : [])]);
+  const pletter = [{ ...base, r: 16 }, ...steder.filter((s) => s.type !== 'mine').map((s) => ({ x: s.x, z: s.z, r: 9 })),
+    ...lejre.map((l) => ({ ...hexTilVerden(l.q, l.r), r: 7 + l.niveau, styrke: 0.7 }))];
+  const terræn = lavTerrænMesh(kort, grænser, { miner, ødeland, stier, pletter, grund: lavGrund() });
+  for (const m of terræn) scene.add(m);
+  lavBunddække(scene, kort, { stier, pletter });
   const natur = lavNatur(scene, kort);
   const guld = lavGuldårer(scene, miner);
-  return { ...natur, opdater: (dt) => guld.opdater(dt) };
+  return { ...natur, opdater: (dt) => { guld.opdater(dt); terræn.tid.value += dt; } };
 }
 
 export function lavLys(scene, renderer) {

@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "1b1fd70",
-  "synced": "2026-10-12T05:25:11.963Z",
+  "synced": "2026-10-12T12:25:05.465Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -1878,6 +1878,270 @@
       "file": "kaykit-adventurers/shield_square_color.glb",
       "bytes": 12192,
       "sha": "301859e932d0",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/flower_3_group": {
+      "id": "quaternius-nature/flower_3_group",
+      "file": "quaternius-nature/flower_3_group.glb",
+      "bytes": 124976,
+      "sha": "d806ef30dea4",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/flower_4_group": {
+      "id": "quaternius-nature/flower_4_group",
+      "file": "quaternius-nature/flower_4_group.glb",
+      "bytes": 126120,
+      "sha": "f9ba8dec6c68",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/flower_3_single": {
+      "id": "quaternius-nature/flower_3_single",
+      "file": "quaternius-nature/flower_3_single.glb",
+      "bytes": 122684,
+      "sha": "ea6e0f9ccdfb",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/grass_wispy_short": {
+      "id": "quaternius-nature/grass_wispy_short",
+      "file": "quaternius-nature/grass_wispy_short.glb",
+      "bytes": 7900,
+      "sha": "1c70c86a950a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/grass_wispy_tall": {
+      "id": "quaternius-nature/grass_wispy_tall",
+      "file": "quaternius-nature/grass_wispy_tall.glb",
+      "bytes": 7232,
+      "sha": "c3b298c148bb",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/mushroom_common": {
+      "id": "quaternius-nature/mushroom_common",
+      "file": "quaternius-nature/mushroom_common.glb",
+      "bytes": 53124,
+      "sha": "45a0acbf73b7",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/fern_1": {
+      "id": "quaternius-nature/fern_1",
+      "file": "quaternius-nature/fern_1.glb",
+      "bytes": 68952,
+      "sha": "47cab175a08a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/clover_2": {
+      "id": "quaternius-nature/clover_2",
+      "file": "quaternius-nature/clover_2.glb",
+      "bytes": 69092,
+      "sha": "8f291cfc70e5",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/plant_7": {
+      "id": "quaternius-nature/plant_7",
+      "file": "quaternius-nature/plant_7.glb",
+      "bytes": 66628,
+      "sha": "080e72068186",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/rockpath_round_small_1": {
+      "id": "quaternius-nature/rockpath_round_small_1",
+      "file": "quaternius-nature/rockpath_round_small_1.glb",
+      "bytes": 61796,
+      "sha": "a738da2c3a79",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/rockpath_round_small_2": {
+      "id": "quaternius-nature/rockpath_round_small_2",
+      "file": "quaternius-nature/rockpath_round_small_2.glb",
+      "bytes": 63784,
+      "sha": "5e846d732c38",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/pebble_round_1": {
+      "id": "quaternius-nature/pebble_round_1",
+      "file": "quaternius-nature/pebble_round_1.glb",
+      "bytes": 39816,
+      "sha": "d2c3f30517db",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/pebble_round_3": {
+      "id": "quaternius-nature/pebble_round_3",
+      "file": "quaternius-nature/pebble_round_3.glb",
+      "bytes": 39120,
+      "sha": "640c255a7a54",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/grass_1_c_singlesided_color1": {
+      "id": "kaykit-forest/grass_1_c_singlesided_color1",
+      "file": "kaykit-forest/grass_1_c_singlesided_color1.glb",
+      "bytes": 13472,
+      "sha": "17afebda7cb9",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/grass_2_c_singlesided_color1": {
+      "id": "kaykit-forest/grass_2_c_singlesided_color1",
+      "file": "kaykit-forest/grass_2_c_singlesided_color1.glb",
+      "bytes": 13692,
+      "sha": "9100a7842770",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/grass_1_b_singlesided_color1": {
+      "id": "kaykit-forest/grass_1_b_singlesided_color1",
+      "file": "kaykit-forest/grass_1_b_singlesided_color1.glb",
+      "bytes": 11840,
+      "sha": "2dd7bf4e093e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/grass_2_b_singlesided_color1": {
+      "id": "kaykit-forest/grass_2_b_singlesided_color1",
+      "file": "kaykit-forest/grass_2_b_singlesided_color1.glb",
+      "bytes": 11804,
+      "sha": "de2cccf2a69e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/bush_1_e_color1": {
+      "id": "kaykit-forest/bush_1_e_color1",
+      "file": "kaykit-forest/bush_1_e_color1.glb",
+      "bytes": 14336,
+      "sha": "149c64ac7661",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/bush_3_a_color1": {
+      "id": "kaykit-forest/bush_3_a_color1",
+      "file": "kaykit-forest/bush_3_a_color1.glb",
+      "bytes": 13060,
+      "sha": "08dd7d5d948a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/bush_4_c_color1": {
+      "id": "kaykit-forest/bush_4_c_color1",
+      "file": "kaykit-forest/bush_4_c_color1.glb",
+      "bytes": 12016,
+      "sha": "ac7c375b54c3",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/rock_1_a_color1": {
+      "id": "kaykit-forest/rock_1_a_color1",
+      "file": "kaykit-forest/rock_1_a_color1.glb",
+      "bytes": 11832,
+      "sha": "c46fb128f4a1",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/rock_1_d_color1": {
+      "id": "kaykit-forest/rock_1_d_color1",
+      "file": "kaykit-forest/rock_1_d_color1.glb",
+      "bytes": 12552,
+      "sha": "52205b8dc17c",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/rock_3_a_color1": {
+      "id": "kaykit-forest/rock_3_a_color1",
+      "file": "kaykit-forest/rock_3_a_color1.glb",
+      "bytes": 12956,
+      "sha": "6751b29e88f0",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_1_b_color1": {
+      "id": "kaykit-forest/tree_1_b_color1",
+      "file": "kaykit-forest/tree_1_b_color1.glb",
+      "bytes": 18792,
+      "sha": "ed386f6acb5d",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_1_c_color1": {
+      "id": "kaykit-forest/tree_1_c_color1",
+      "file": "kaykit-forest/tree_1_c_color1.glb",
+      "bytes": 29516,
+      "sha": "7cd19e5caa0e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_2_c_color1": {
+      "id": "kaykit-forest/tree_2_c_color1",
+      "file": "kaykit-forest/tree_2_c_color1.glb",
+      "bytes": 16996,
+      "sha": "eb0cb7a1adc3",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_3_b_color1": {
+      "id": "kaykit-forest/tree_3_b_color1",
+      "file": "kaykit-forest/tree_3_b_color1.glb",
+      "bytes": 22708,
+      "sha": "926f5cc6235a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_3_c_color1": {
+      "id": "kaykit-forest/tree_3_c_color1",
+      "file": "kaykit-forest/tree_3_c_color1.glb",
+      "bytes": 39240,
+      "sha": "49f95deac6b2",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_4_b_color1": {
+      "id": "kaykit-forest/tree_4_b_color1",
+      "file": "kaykit-forest/tree_4_b_color1.glb",
+      "bytes": 17400,
+      "sha": "78019df04929",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_bare_1_c_color1": {
+      "id": "kaykit-forest/tree_bare_1_c_color1",
+      "file": "kaykit-forest/tree_bare_1_c_color1.glb",
+      "bytes": 25232,
+      "sha": "43d22679aff0",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_bare_2_c_color1": {
+      "id": "kaykit-forest/tree_bare_2_c_color1",
+      "file": "kaykit-forest/tree_bare_2_c_color1.glb",
+      "bytes": 19864,
+      "sha": "ff628ff3ce8a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_2_b_color1": {
+      "id": "kaykit-forest/tree_2_b_color1",
+      "file": "kaykit-forest/tree_2_b_color1.glb",
+      "bytes": 15408,
+      "sha": "23b8a39c3212",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/bench": {
+      "id": "kaykit-halloween/bench",
+      "file": "kaykit-halloween/bench.glb",
+      "bytes": 11216,
+      "sha": "cce95ffdbabe",
       "license": "CC0-1.0",
       "kind": "model"
     }

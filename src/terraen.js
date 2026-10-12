@@ -10,17 +10,6 @@ const TRIN = 2.5;                 // afstand mellem terrænets punkter
 const R = HEX_BREDDE;             // hvor langt et felt "smitter" af på naboerne
 export const VAND_Y = -0.55;
 
-const SRGB = THREE.SRGBColorSpace;
-const FARVE = {
-  græs: new THREE.Color().setRGB(0.70, 0.75, 0.33, SRGB),
-  sand: new THREE.Color().setRGB(0.86, 0.77, 0.55, SRGB),
-  bund: new THREE.Color().setRGB(0.55, 0.49, 0.36, SRGB),
-  klippe: new THREE.Color().setRGB(0.56, 0.53, 0.47, SRGB),
-  guld: new THREE.Color().setRGB(0.80, 0.62, 0.30, SRGB),
-  mørk: new THREE.Color().setRGB(0.45, 0.62, 0.26, SRGB),
-  øde: new THREE.Color().setRGB(0.6, 0.68, 0.7, SRGB),   // Erevoss: stille, sølvblegt græs
-  lys: new THREE.Color().setRGB(0.82, 0.80, 0.42, SRGB),
-};
 const glat = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 
 // Felternes egenskaber blødt fordelt omkring et punkt
@@ -61,13 +50,25 @@ function højdeOgPrøve(kort, x, z, seed) {
 }
 export const terrænHøjde = (kort, x, z, seed = 3) => højdeOgPrøve(kort, x, z, seed).y;
 
-export function lavTerrænMesh(kort, grænser, miner = [], ødeland = null, seed = 3) {
+// Hvor meget bar jord og tørt græs hver region har (M9: hver region sin karakter)
+const REGION_GRUND = {
+  askemarken: { jord: 0.5, tør: 0.55 },
+  skoven: { jord: 0.15, tør: 0 },
+  gravlandet: { jord: 0.55, tør: 0.85 },
+  bjergene: { jord: 0.45, tør: 0.35, klippe: 0.25 },
+  sumpen: { jord: 0.6, tør: 0, mudder: 1 },
+};
+const TØR = new THREE.Color(1.18, 1.04, 0.62), MUDDER = new THREE.Color(0.62, 0.66, 0.5);
+
+// Terrænet: højde fra felterne, jordtyper (splat) og en farvetone pr. punkt. Teksturerne kommer fra grund.js.
+// stier = lavStier(...) (eller null), pletter = [{ x, z, r }] trådt jord omkring lejre, steder og basen
+export function lavTerrænMesh(kort, grænser, { miner = [], ødeland = null, stier = null, pletter = [], grund, seed = 3 } = {}) {
   const b = Math.ceil((grænser.maxX - grænser.minX) / TRIN), h = Math.ceil((grænser.maxZ - grænser.minZ) / TRIN);
   const geo = new THREE.PlaneGeometry(b * TRIN, h * TRIN, b, h).rotateX(-Math.PI / 2);
   geo.translate((grænser.minX + grænser.maxX) / 2, 0, (grænser.minZ + grænser.maxZ) / 2);
   const pos = geo.attributes.position;
-  const farver = new Float32Array(pos.count * 3);
-  const c = new THREE.Color(), t = new THREE.Color();
+  const farver = new Float32Array(pos.count * 3), splat = new Float32Array(pos.count * 4), ekstra = new Float32Array(pos.count * 2);
+  const c = new THREE.Color();
   for (let i = 0; i < pos.count; i++) {
     // Lidt forskydning af punkterne giver et håndlavet lav-poly udtryk
     let x = pos.getX(i), z = pos.getZ(i);
@@ -75,35 +76,54 @@ export function lavTerrænMesh(kort, grænser, miner = [], ødeland = null, seed
     z += (støj(z, x, seed + 22, 3) - 0.5) * TRIN * 0.6;
     const { y, L, K, F, tone } = højdeOgPrøve(kort, x, z, seed);
     pos.setXYZ(i, x, y, z);
+    const f = kort.felt(x, z), rg = REGION_GRUND[f?.region] ?? REGION_GRUND.askemarken;
 
-    // Farve: græs i regionens tone, sand ved kysten, mørk skovbund, grå jord under klipper, gylden jord ved miner
-    c.copy(FARVE.græs).multiply(t.setRGB(tone[0], tone[1], tone[2]));
-    const plet = støj(x, z, seed + 27, 14);
-    c.lerp(plet > 0.5 ? FARVE.mørk : FARVE.lys, Math.abs(plet - 0.5) * 0.9);
-    c.lerp(FARVE.bund, glat(0.3, 0.9, F) * 0.35);
-    c.lerp(FARVE.klippe, glat(0.3, 0.8, K));
+    // Jordtyper: jord (pletter, stier, trådt jord), skovbund, klippe, sand
+    let jord = glat(0.6, 0.75, støj(x, z, seed + 30, 6) * (0.75 + rg.jord * 0.5));
+    jord = Math.max(jord, (stier?.styrke(x, z) ?? 0) * 0.95);
+    for (const p of pletter) {
+      const d = Math.hypot(p.x - x, p.z - z) + (støj(x, z, seed + 31, 3) - 0.5) * 3;
+      if (d < p.r) jord = Math.max(jord, glat(p.r, p.r * 0.45, d) * (p.styrke ?? 0.85));
+    }
+    let guld = 0;
     for (const m of miner) {
       const d = Math.hypot(m.x - x, m.z - z);
-      if (d < 10) c.lerp(FARVE.guld, (1 - d / 10) ** 1.2 * 0.75);
+      if (d < 11) { jord = Math.max(jord, glat(11, 5, d)); guld = Math.max(guld, glat(11, 3, d) * 0.6); }
     }
-    // Erevoss: The Memorys land er stille og sølvblegt omkring deres trone (M8: ånder, ikke død jord)
+    const sand = 1 - glat(0.6, 0.88, L);
+    const klippe = Math.max(glat(0.3, 0.8, K), (rg.klippe ?? 0) * glat(0.62, 0.8, støj(x, z, seed + 32, 7)));
+    const skov = glat(0.25, 0.8, F) * 0.95;
+    splat.set([jord * (1 - sand), skov * (1 - sand), klippe, sand], i * 4);
+
+    // Farvetone: regionens tone, tørt græs, mudder i sumpen og lidt lys/skygge
+    c.setRGB(tone[0], tone[1], tone[2]);
+    c.lerp(TØR, rg.tør * glat(0.3, 0.7, støj(x, z, seed + 33, 16)) * 0.6);
+    if (rg.mudder) c.lerp(MUDDER, jord * 0.7);
+    c.multiplyScalar(0.92 + støj(x, z, seed + 25, 9) * 0.16);
+    farver.set([c.r, c.g, c.b], i * 3);
+
+    // Erevoss: The Memorys land er stille og sølvblegt omkring deres trone (ånder, ikke død jord)
+    let sølv = 0;
     if (ødeland) {
       const d = Math.hypot(ødeland.x - x, ødeland.z - z) + (støj(x, z, seed + 28, 5) - 0.5) * 14;
-      c.lerp(FARVE.øde, (1 - glat(20, 42, d)) * 0.55);
+      sølv = (1 - glat(20, 42, d)) * 0.75;
     }
-    c.lerp(FARVE.sand, (1 - glat(0.6, 0.88, L)) * 0.9);
-    const lys = 0.92 + støj(x, z, seed + 25, 9) * 0.14 + (støj(x * 3, z * 3, seed + 26, 2) - 0.5) * 0.05;
-    c.multiplyScalar(lys);
-    farver[i * 3] = c.r; farver[i * 3 + 1] = c.g; farver[i * 3 + 2] = c.b;
+    ekstra.set([sølv, guld], i * 2);
   }
   geo.setAttribute('color', new THREE.BufferAttribute(farver, 3));
+  geo.setAttribute('splat', new THREE.BufferAttribute(splat, 4));
+  geo.setAttribute('ekstra', new THREE.BufferAttribute(ekstra, 2));
   geo.computeVertexNormals();
-  const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.95, metalness: 0 }));
+  const mat = new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.95, metalness: 0 });
+  const tid = { value: 0 };   // til kystskummet og vandets bølger (world.js tæller den op)
+  if (grund) grundShader(mat, grund, tid);
+  const mesh = new THREE.Mesh(geo, mat);
   mesh.receiveShadow = true;
 
-  // Vandoverflade over hele verden
-  const vand = new THREE.Mesh(new THREE.CircleGeometry(800, 64).rotateX(-Math.PI / 2),
-    new THREE.MeshStandardMaterial({ color: 0x3f9ac9, roughness: 0.3, metalness: 0, transparent: true, opacity: 0.86 }));
+  // Vandoverflade over hele verden: lyse og mørke bølgepletter der glider, og glimt i solen
+  const vandMat = new THREE.MeshStandardMaterial({ color: 0x3f9ac9, roughness: 0.25, metalness: 0, transparent: true, opacity: 0.8 });
+  if (grund) vandShader(vandMat, grund, tid);
+  const vand = new THREE.Mesh(new THREE.CircleGeometry(800, 64).rotateX(-Math.PI / 2), vandMat);
   vand.position.y = VAND_Y;
   vand.receiveShadow = true;
 
@@ -111,5 +131,58 @@ export function lavTerrænMesh(kort, grænser, miner = [], ødeland = null, seed
   const bund = new THREE.Mesh(new THREE.CircleGeometry(800, 32).rotateX(-Math.PI / 2),
     new THREE.MeshStandardMaterial({ color: 0x2f6f8f, roughness: 1 }));
   bund.position.y = -2.5;
-  return [bund, mesh, vand];
+  const dele = [bund, mesh, vand];
+  dele.tid = tid;
+  return dele;
+}
+
+// Vandets shader: to lag støj der glider hver sin vej giver bølger; de lyseste toppe glimter
+function vandShader(mat, g, tid) {
+  const u = { tStoej: { value: g.støj }, uTid: tid };
+  mat.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, u);
+    shader.vertexShader = 'varying vec2 vVandXZ;\n' + shader.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>
+        vVandXZ = ( modelMatrix * vec4( transformed, 1.0 ) ).xz;`);
+    shader.fragmentShader = 'uniform sampler2D tStoej;\nuniform float uTid;\nvarying vec2 vVandXZ;\n' + shader.fragmentShader.replace('#include <map_fragment>', `#include <map_fragment>
+        float b1 = texture2D( tStoej, vVandXZ / 23.0 + vec2( uTid * 0.012, uTid * 0.007 ) ).r;
+        float b2 = texture2D( tStoej, vVandXZ / 13.0 - vec2( uTid * 0.009, -uTid * 0.011 ) ).r;
+        float bolge = b1 * 0.6 + b2 * 0.4;
+        diffuseColor.rgb *= 0.82 + bolge * 0.36;
+        diffuseColor.rgb += vec3( 0.9, 0.95, 1.0 ) * smoothstep( 0.74, 0.86, b1 * b2 * 1.45 ) * 0.35;`);
+  };
+  mat.customProgramCacheKey = () => 'vand';
+}
+
+// Shaderen blander jordens teksturer efter splat-vægtene, med uregelmæssige kanter og store lyse/mørke pletter
+function grundShader(mat, g, tid) {
+  const u = { tGraes: { value: g.græs }, tJord: { value: g.jord }, tSkov: { value: g.skov }, tKlippe: { value: g.klippe }, tSand: { value: g.sand }, tStoej: { value: g.støj }, uTid: tid };
+  mat.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, u);
+    shader.vertexShader = 'attribute vec4 splat;\nattribute vec2 ekstra;\nvarying vec4 vSplat;\nvarying vec2 vEkstra;\nvarying vec2 vGrundXZ;\nvarying float vGrundY;\n'
+      + shader.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>
+        vSplat = splat; vEkstra = ekstra; vGrundXZ = ( modelMatrix * vec4( transformed, 1.0 ) ).xz; vGrundY = ( modelMatrix * vec4( transformed, 1.0 ) ).y;`);
+    shader.fragmentShader = 'uniform sampler2D tGraes, tJord, tSkov, tKlippe, tSand, tStoej;\nuniform float uTid;\nvarying vec4 vSplat;\nvarying vec2 vEkstra;\nvarying vec2 vGrundXZ;\nvarying float vGrundY;\n'
+      + shader.fragmentShader.replace('#include <map_fragment>', `#include <map_fragment>
+        vec2 uvG = vGrundXZ / 6.5;
+        float nStor = texture2D( tStoej, vGrundXZ / 41.0 ).r;
+        float nKant = texture2D( tStoej, vGrundXZ / 9.0 + 0.37 ).r;
+        vec3 cG = mix( texture2D( tGraes, uvG ).rgb, texture2D( tGraes, uvG * 0.41 + vec2( 0.37, 0.11 ) ).rgb, 0.4 );
+        vec3 cJ = texture2D( tJord, uvG * 1.15 ).rgb;
+        vec3 cS = texture2D( tSkov, uvG ).rgb;
+        vec3 cK = texture2D( tKlippe, uvG * 0.8 ).rgb;
+        vec3 cA = texture2D( tSand, uvG ).rgb;
+        vec4 w = smoothstep( 0.3, 0.7, vSplat * ( 0.6 + nKant * 0.8 ) );
+        float wG = max( 0.0, 1.0 - w.x - w.y - w.z - w.w );
+        vec3 alb = ( cG * wG + cJ * w.x + cS * w.y + cK * w.z + cA * w.w ) / max( 0.001, wG + w.x + w.y + w.z + w.w );
+        alb *= 0.86 + nStor * 0.28;
+        float lum = dot( alb, vec3( 0.3, 0.55, 0.15 ) );
+        alb = mix( alb, vec3( lum ) * vec3( 0.9, 1.0, 1.1 ) * 1.1, vEkstra.x * 0.75 );
+        alb = mix( alb, alb * vec3( 1.4, 1.1, 0.5 ), vEkstra.y );
+        // Kystskum (lys stribe ved vandkanten, der boelger frem og tilbage)
+        float kant = ${VAND_Y.toFixed(2)} + 0.12 + sin( uTid * 1.3 + nKant * 9.0 ) * 0.1;
+        float skum = smoothstep( 0.32, 0.0, abs( vGrundY - kant ) ) * smoothstep( 0.25, 0.6, texture2D( tStoej, vGrundXZ / 3.0 + uTid * 0.02 ).r );
+        alb = mix( alb, vec3( 0.95, 0.97, 0.95 ), skum * 0.75 );
+        diffuseColor.rgb *= alb;`);
+  };
+  mat.customProgramCacheKey = () => 'grund';
 }

@@ -3,8 +3,10 @@
 // Vises når lejren er udforsket og nogen af dens creeps lever.
 import * as THREE from 'three';
 import { NIVEAUER } from './creepdata.js';
+import { bus } from './events.js';
+import { LEJR_LORE, BOSS_NAVNE } from './stedlore.js';
 
-const B = 256, H = 64;
+const B = 256, H = 64, NH = 30;   // NH: plads til lejrens navn over pladen
 const teksturer = new Map();
 
 function dødningehoved(ctx, x, y, r, farve) {
@@ -29,11 +31,17 @@ function stjerne(ctx, x, y, r, farve) {
   ctx.closePath(); ctx.fill();
 }
 
-function tekstur(niveau) {
-  if (teksturer.has(niveau)) return teksturer.get(niveau);
+function tekstur(niveau, navn) {
+  const nøgle = `${niveau}|${navn}`;
+  if (teksturer.has(nøgle)) return teksturer.get(nøgle);
   const n = NIVEAUER[niveau];
-  const c = document.createElement('canvas'); c.width = B; c.height = H;
+  const c = document.createElement('canvas'); c.width = B; c.height = H + NH;
   const ctx = c.getContext('2d');
+  // Lejrens navn over pladen
+  ctx.font = '700 21px Georgia, serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(15,10,6,0.9)'; ctx.strokeText(navn, B / 2, NH / 2);
+  ctx.fillStyle = '#f2e2b8'; ctx.fillText(navn, B / 2, NH / 2);
+  ctx.translate(0, NH);
   ctx.fillStyle = 'rgba(20, 14, 10, 0.82)'; ctx.strokeStyle = n.farve; ctx.lineWidth = 5;
   ctx.beginPath(); ctx.roundRect(4, 6, B - 8, H - 12, 16); ctx.fill(); ctx.stroke();
   // Ikoner til venstre, navn og level til højre
@@ -49,7 +57,7 @@ function tekstur(niveau) {
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   t.anisotropy = 4;
-  teksturer.set(niveau, t);
+  teksturer.set(nøgle, t);
   return t;
 }
 
@@ -57,15 +65,21 @@ export class LejrSkilte {
   constructor(spil) {
     this.spil = spil;
     this.tid = 0;
+    const tæl = {};
     this.skilte = spil.lejre.map((l) => {
-      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tekstur(l.data.niveau), transparent: true, depthWrite: false, fog: false }));
-      const stor = l.data.niveau >= 5;
-      s.scale.set(stor ? 8.4 : 7, stor ? 2.1 : 1.75, 1);
+      // Lejrens navn og linje (stedlore.js): bosser har deres eget navn
+      const fam = l.data.familie, lore = LEJR_LORE[fam] ?? LEJR_LORE.plyndrere, i = (tæl[fam] = (tæl[fam] ?? -1) + 1);
+      const navn = l.data.niveau === 5 ? BOSS_NAVNE[fam] : lore.navne[i % lore.navne.length];
+      const linje = l.data.niveau === 5 ? 'A boss guards a locked golden chest here.' : lore.linjer[i % lore.linjer.length];
+      l.navn = navn;
+      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tekstur(l.data.niveau, navn), transparent: true, depthWrite: false, fog: false }));
+      const stor = l.data.niveau >= 5, k = (H + NH) / H;
+      s.scale.set(stor ? 8.4 : 7, (stor ? 2.1 : 1.75) * k, 1);
       s.position.set(l.x, stor ? 9.5 : 7, l.z);
       s.renderOrder = 5;
       s.visible = false;
       spil.verden.scene.add(s);
-      return { s, l };
+      return { s, l, linje, kendt: spil.taage.erUdforsket(l.x, l.z) };
     });
   }
 
@@ -74,6 +88,15 @@ export class LejrSkilte {
     if (this.tid > 0) return;
     this.tid = 0.4;
     const t = this.spil.taage;
-    for (const { s, l } of this.skilte) s.visible = t.erUdforsket(l.x, l.z) && l.creeps.some((c) => !c.død);
+    for (const sk of this.skilte) {
+      const { s, l } = sk;
+      s.visible = t.erUdforsket(l.x, l.z) && l.creeps.some((c) => !c.død);
+      // Første gang lejren ses: fortæl om den
+      if (s.visible && !sk.kendt && t.erSynlig(l.x, l.z)) {
+        sk.kendt = true;
+        const n = NIVEAUER[l.data.niveau];
+        bus.emit('krønike', { titel: l.navn, tekst: `${n.navn} camp, level ${n.level}. ${sk.linje}`, x: l.x, z: l.z, farve: n.farve, varighed: 12 });
+      }
+    }
   }
 }

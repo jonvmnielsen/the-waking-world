@@ -76,7 +76,9 @@ export class Taage {
     if (this.patchet.has(m) || !m.isMeshStandardMaterial) return;
     this.patchet.add(m);
     const u = this.uniforms;
-    m.onBeforeCompile = (shader) => {
+    const før = m.onBeforeCompile, førNøgle = m.customProgramCacheKey?.call(m) ?? '';
+    m.onBeforeCompile = (shader, r) => {
+      før?.call(m, shader, r);   // fx terrænets jord-shader (terraen.js)
       Object.assign(shader.uniforms, u);
       shader.vertexShader = 'varying vec2 vTaageXZ;\n' + shader.vertexShader.replace('#include <project_vertex>', `#include <project_vertex>
         vec4 taagePos = vec4( transformed, 1.0 );
@@ -89,7 +91,7 @@ export class Taage {
         float taage = texture2D( uTaage, ( vTaageXZ - uTaageMin ) / uTaageStr ).r;
         gl_FragColor.rgb *= taage;`);
     };
-    m.customProgramCacheKey = () => 'taage';
+    m.customProgramCacheKey = () => 'taage' + førNøgle;
     m.needsUpdate = true;
   }
 }

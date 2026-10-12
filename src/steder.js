@@ -1,9 +1,11 @@
 // Placerer basen, neutrale steder og creep-lejre på det genererede terræn.
 import { hexAfstand, hexTilVerden } from './hexgrid.js';
-import { tilAksial } from './kortgen.js';
+import { tilAksial, åbnLommer } from './kortgen.js';
 import { KORT } from './config.js';
+import { T } from './kortvalg.js';
+import { placérMinder } from './mindested.js';
 import { FAMILIE_I_REGION, SAMMENSÆTNING } from './creepdata.js';
-import { lejrPynt } from './pynt.js';
+import { lejrPynt, stedPynt } from './pynt.js';
 import { fjendeBase } from './fjendeplads.js';
 
 const BYG = 'kaykit-hexagon/buildings/';
@@ -15,7 +17,8 @@ export function placérSteder(k, tilf) {
   const H = KORT.størrelse / 2;
   const optag = (f, pynt, blokér = true) => { f.optaget = true; if (blokér) f.gåbar = false; if (pynt) f.pynt.push(pynt); return f; };
   const fri = (f) => f && f.type === 'græs' && f.gåbar && !f.optaget && k.naboer(f).filter((n) => n.gåbar).length >= 5;
-  const nærmesteFri = (nx, nz) => {
+  const nærmesteFri = (gx, gz) => {
+    const [nx, nz] = T(gx, gz);   // grundopstillingen drejet til det aktive kort (kortvalg.js)
     const mål = tilAksial(Math.round(nx * H), Math.round(nz * H));
     let bedst = null, bd = Infinity;
     for (const f of k.felter.values()) {
@@ -56,6 +59,7 @@ export function placérSteder(k, tilf) {
     if (!f) return;
     optag(f, { model: BYG + model, rot: Math.floor(tilf() * 6) * 60, skala, skygge: true }, blokér);
     steder.push({ type, q: f.q, r: f.r, ...hexTilVerden(f.q, f.r) });
+    stedPynt(k, f, type, tilf);
   };
   sted('kro', 0.0, 0.0, 'yellow/building_tavern_yellow', 1.5);
   sted('marked', 0.42, 0.22, 'yellow/building_market_yellow', 1.15);
@@ -132,6 +136,10 @@ export function placérSteder(k, tilf) {
     if (n) { optag(n, { model: BYG + 'yellow/building_mine_yellow', rot: Math.floor(tilf() * 6) * 60, skala: 1.1, skygge: true }); steder.push({ type: 'mine', q: n.q, r: n.r, ...hexTilVerden(n.q, n.r) }); }
   }
 
+  // 5) Mindesmærker: Navnestenene og andre minder man finder ved at udforske (mindested.js)
+  const minder = placérMinder(k, tilf, { optag, fri, steder, lejre, base: b, fjende: k.fjendeBase });
+
+  åbnLommer(k);   // intet må være lukket inde
   const p = hexTilVerden(spawnFelt.q, spawnFelt.r);
-  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre, kister, storlejr, fjende };
+  return { heltSpawn: { x: p.x, z: p.z }, steder, lejre, kister, storlejr, fjende, minder };
 }
