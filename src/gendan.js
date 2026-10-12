@@ -71,6 +71,7 @@ export function gendanSpil(spil, g) {
     if (!r) continue;
     if (mængde <= 0) verden.natur.fjern(r); else r[r.type] = mængde;
   }
+  spil.prospekt?.gendan(g.prospekt);   // fundne miner først, så minernes guld passer
   g.miner.forEach((guld, i) => { if (base.kilder.miner[i]) base.kilder.miner[i].guld = guld; });
   (g.brud ?? []).forEach((sten, i) => { if (base.kilder.brud[i]) base.kilder.brud[i].sten = sten; });
 

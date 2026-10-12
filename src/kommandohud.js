@@ -8,12 +8,14 @@ import { prisHtml, udviklingsKnapper, udviklingsStatus, markérUdvikling, ofring
 import { ikon } from './ikoner.js';
 import { bus } from './events.js';
 import { SPILLER } from './racer.js';
+import { PROSPEKT } from './prospekt.js';
 
 const $ = (id) => document.getElementById(id);
 const RES = ['guld', 'træ', 'sten'];
 const STATUS = {
   ledig: () => 'Idle', gå: () => 'Walking', tilKilde: (a) => `Heading for ${RES_NAVN[a.kilde?.type]}`, høster: (a) => `Gathering ${RES_NAVN[a.kilde?.type]}`,
   iMine: () => 'Mining gold', tilAflevering: (a) => `Carrying ${RES_NAVN[a.bærer?.type]} home`,
+  tilLeder: () => 'Heading for the mountains to prospect', leder: () => 'Searching the mountain for a vein…',
   tilByg: (a) => `On the way to ${a.bygning?.færdig ? 'repair' : 'build'} ${a.bygning?.data.navn}`, bygger: (a) => `${a.bygning?.færdig ? 'Repairing' : 'Building'} ${a.bygning?.data.navn}`,
 };
 
@@ -60,6 +62,7 @@ export class KommandoHud {
       if (!this.byggeListe) {
         for (const r of RES) this.knap(knapper, ikon('res-' + r), `Get ${RES_NAVN[r]}`, '', () => v.høstNærmeste(r));
         this.knap(knapper, ikon('byg-hytte'), 'Build', '', () => { this.byggeListe = true; this.byg(); }, 'bygmenu');
+        this.knap(knapper, ikon('res-guld'), 'Prospect', prisHtml(PROSPEKT.pris), () => { const f = this.spil.prospekt.led(v); bus.emit('besked', f ?? 'Your worker heads for the mountains to search for a vein'); });
         return this.opdater(1);
       }
       this.knap(knapper, ikon('økse'), 'Back', '', () => { this.byggeListe = false; this.byg(); });

@@ -43,7 +43,7 @@ export class Arbejder extends Unit {
 
   kommandoByg(b) { this.nulstil(); this.bygning = b; this.tilstand = 'tilByg'; this.gåTilBygning(b); }
 
-  nulstil() { this.kilde = null; this.bygning = null; this.rod.visible = true; this.stop(); }
+  nulstil() { this.kilde = null; this.bygning = null; this.prospekt = null; this.rod.visible = true; this.stop(); }
 
   // --- Hjælpere ---
   sætByrde(b) {
@@ -114,6 +114,10 @@ export class Arbejder extends Unit {
         if (this.vedBygning(b)) { this.stop(); this.tilstand = 'bygger'; this.vend(b.x, b.z); this.spil('1H_Melee_Attack_Chop', { fart: 0.9 }); }
         break;
       }
+      case 'tilLeder':
+      case 'leder':
+        if (this.prospekt) this.prospekt.styr.opdater(this, dt); else this.tilstand = 'ledig';   // prospekt.js
+        break;
       case 'bygger':
         this.bygning.byg(dt);
         if (this.bygning.død || (this.bygning.færdig && !this.bygning.skadet)) { this.tilstand = 'ledig'; this.bygning = null; this.spil('Cheer', { loop: false, gentag: true }); this.timer = 1.5; }
