@@ -22,14 +22,14 @@ export const BEGIVENHEDER = {
 export const KARAVANE = { fart: 3.2, hp: 1400, eskorteAfstand: 16, eskorteTid: 30, løn: [300, 450], loot: [500, 700], prisNed: 0.9, prisOp: 1.25, prisMin: 0.75, prisMaks: 1.6 };
 
 export const BLODMÅNE = { creepSkade: 0.25, creepXp: 0.5, farve: 0xff2a14, styrke: 0.5 };
-export const FORMØRKELSE = { memorySkade: 0.25, ekko: 2, farve: 0x4a3a88, styrke: 0.8, lys: 0.25 };
+export const FORMØRKELSE = { memorySkade: 0, ekko: 2, farve: 0x4a3a88, styrke: 0.8, lys: 0.25 };
 export const STJERNE = { krystaller: 4, guld: [90, 130], storGuld: [160, 220], itemChance: 0.5 };
 export const RABAT = 0.7;   // lejesvende tager 70 % af kroens pris
 
 export const TEKST = {
   blodmåne: { vigtig: true, titel: 'Blood Moon', tekst: 'The moon rises red. Creeps hit harder tonight — and give half again as much experience.', farve: '#ff5a3a' },
   blodmåneSlut: { titel: 'The Blood Moon sets', tekst: 'The red light fades with the dawn.', farve: '#ff8a6a' },
-  formørkelse: { vigtig: true, titel: 'Eclipse', tekst: 'Something passes before the sun. The Memory grows bold, and every echo weighs twice as much.', farve: '#a08aff' },
+  formørkelse: { vigtig: true, titel: 'Eclipse', tekst: 'Something passes before the sun. The dead stir: every echo that reaches Erevoss weighs twice as much.', farve: '#a08aff' },
   formørkelseSlut: { titel: 'The sun returns', tekst: 'The shadow slides away from the sun.', farve: '#d8c8ff' },
   stjerneskud: { vigtig: true, titel: 'Starfall', tekst: 'A star fell from the sky and broke on the land. Its glowing shards are worth a fortune — for a while.', farve: '#8fe0ff' },
   stjerneSlut: { titel: 'The star-shards fade', tekst: 'What was left of the fallen star has gone dark.', farve: '#8fe0ff' },

@@ -30,7 +30,8 @@ import { lavBoksValg } from './haer.js';
 import { hentGem, startAutogem } from './gem.js';
 import { gendanSpil } from './gendan.js';
 import { lavTrin, lavRøntgen } from './spilloop.js';
-import { Memory } from './fjendeai.js';
+import { Modstander } from './fjendeai.js';
+import { Memory } from './erevoss.js';
 import { Sejr } from './sejr.js';
 import { kroVarer } from './kro.js';
 import { Lyd, forbindLyd } from './lyd.js';
@@ -85,7 +86,7 @@ async function start() {
   const valgtEssens = await vælgEssens(gemt);
   const fortsæt = valgtEssens === 'fortsæt';
   const essens = fortsæt ? gemt.helt.essens : valgtEssens.essens;
-  const sværhed = fortsæt ? (gemt.memory?.sværhed ?? 'normal') : valgtEssens.sværhed;
+  const sværhed = fortsæt ? (gemt.modstander?.sværhed ?? 'normal') : valgtEssens.sværhed;
   if (!fortsæt) await visIntro();
   document.body.classList.add('i-spil');
   const helt = new Helt(verden, heltSpawn, essens);
@@ -138,7 +139,8 @@ async function start() {
   const helteKort = new HelteKort(spil);
   const fremskridt = lavFremskridtsHud(spil, overlay);
   rig.onBoks = lavBoksValg(spil, (x, y, z) => overlay.skærm(x, y, z));
-  spil.memory = new Memory(spil, fjende, sværhed);
+  spil.modstander = new Modstander(spil, fjende, sværhed);   // AI-modstanderen (en tilfældig race)
+  spil.memory = new Memory(spil, spil.modstander.hal, steder.find((s) => s.type === 'kro') ?? { x: 0, z: 0 });   // The Memory: neutral
   const sejr = new Sejr(spil);
   spil.ur = { tid: 0 };
   spil.dagNat = new DagNat(spil, lys);
@@ -161,8 +163,6 @@ async function start() {
     setTimeout(() => overlay.toast('Welcome back — your game continues where you left off'), 600);
   } else {
     setTimeout(() => overlay.toast('Tap a worker to build — tap the ground to move your hero'), 600);
-    const hal = spil.memory.hal;
-    setTimeout(() => bus.emit('krønike', { titel: 'The Memory stirs in Erevoss', tekst: 'Far to the north-east. Raze all of its buildings to win — and catch the silver echoes before they reach it.', x: hal.x, z: hal.z, farve: '#bfe4ff', varighed: 20 }), 5000);
   }
   spil.gem = startAutogem(spil);
 

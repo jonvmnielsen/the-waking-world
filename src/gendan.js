@@ -94,10 +94,11 @@ export function gendanSpil(spil, g) {
     verden.scene.remove(k.rod);   // åbnede kister er væk
   });
 
-  // The Memory: bygninger (samme pladser hver gang), guld, bølger og hæren
-  const m = spil.memory, gm = g.memory;
+  // Modstanderen: bygninger (samme pladser hver gang), guld, bølger, arbejdere og hæren
+  const m = spil.modstander, gm = g.modstander;
   if (gm) {
-    Object.assign(m, { tid: gm.tid, guld: gm.guld, bølge: gm.bølge, næsteAngreb: gm.næsteAngreb, ekkoer: gm.ekkoer ?? 0 });
+    Object.assign(m, { tid: gm.tid, guld: gm.guld, bølge: gm.bølge, næsteAngreb: gm.næsteAngreb });
+    m.arbejdere.slice(gm.arbejdere ?? m.arbejdere.length).forEach((a) => { a.død = true; a.fjernet = true; a.fjern(); });
     while (m.byggePlan < gm.byggePlan) { m.byg(4 + m.byggePlan); m.byggePlan += 1; }
     for (const d of gm.bygninger) {
       const b = m.bygninger.find((x) => x.id === d.id);
@@ -105,7 +106,7 @@ export function gendanSpil(spil, g) {
       if (d.død) { b.ødelæg(null, true); continue; }
       b.fremskridt = d.fremskridt; b.hp = d.hp;
       // Vis den rigtige model: færdige bygninger må ikke beholde byggepladsens udseende
-      b.vis(b.færdig ? b.data.model : STADIER[Math.min(2, Math.floor(b.fremskridt * 3))], b.færdig ? b.data.skala : 1);
+      b.vis(b.færdig ? b.data.model : STADIER[Math.min(2, Math.floor(b.fremskridt * 3))], b.færdig ? b.data.skala : b.pladsSkala);
     }
     for (const d of gm.enheder) {
       const e = m.nyEnhed(d.type, { x: d.x, z: d.z, radius: -1.5 });
@@ -114,6 +115,7 @@ export function gendanSpil(spil, g) {
     }
   }
 
+  spil.memory?.gendan(g.erevoss);   // The Memorys ekkoer og vogtere
   for (const id of g.ødelagte ?? []) spil.konstruktioner?.[id]?.ødelæg(null, true);
 
   // Udforsket land, spillestil, økonomi og kamera

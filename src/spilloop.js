@@ -5,7 +5,7 @@ import { SOLDAT_SYN } from './soldat.js';
 import { Røntgen } from './rontgen.js';
 
 export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, sætEgne }) {
-  const { helt, base, taage, verden, lejre, stil, valg, rig, memory } = spil;
+  const { helt, base, taage, verden, lejre, stil, valg, rig, modstander } = spil;
   const heltSyn = { x: 0, z: 0, radius: 28 };
   const SYN_HELT = 28;
   let patchTid = 0;
@@ -28,7 +28,7 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
     for (const l of lejre) l.opdater(dt);
     base.opdater(dt);
     spil.udvikling.opdater(dt);
-    memory.opdater(dt);
+    modstander.opdater(dt);
     spil.verdenstilstand.opdater(dt);
     spil.begivenheder?.opdater(dt);
     spil.champions?.opdater(dt);   // tilfældige begivenheder (begivenheder.js)
@@ -51,14 +51,14 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
   };
 }
 
-// Omrids af figurer og bygninger der står bag en bygning (egne, neutrale og The Memorys)
+// Omrids af figurer og bygninger der står bag en bygning (egne, neutrale og modstanderens)
 export function lavRøntgen(spil, renderer, verdensObj) {
-  const { helt, base, verden, rig, memory } = spil;
+  const { helt, base, verden, rig, modstander } = spil;
   return new Røntgen(renderer, verden.scene, rig.kamera, {
     enheder: () => [helt, ...base.arbejdere, ...base.soldater, ...verden.creeps].filter((e) => !e.død && !e.erBygning && e.rod.visible).map((e) => ({ rod: e.rod, egen: e === helt || e.side === 'egen' })),
     bygninger: () => [
       ...base.bygninger.map((b) => ({ rod: b.rod, egen: true })),
-      ...memory.bygninger.filter((b) => !b.død).map((b) => ({ rod: b.rod, egen: false })),
+      ...modstander.bygninger.filter((b) => !b.død).map((b) => ({ rod: b.rod, egen: false })),
       ...verdensObj.bygninger,
     ],
   });

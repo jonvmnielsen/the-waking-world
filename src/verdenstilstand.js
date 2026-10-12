@@ -1,7 +1,7 @@
 // Verdenstilstand i skirmish (GDD 12):
 //   Balance   (0–12 min)  normalt spil
 //   Fald      (12–25 min) guldminerne giver mindre, og creeps fra vildmarken plyndrer spillerens base
-//   Opvågning (fra 25 min) Den Unavngivnes tjenere dukker op ved De Vågnende Sten midt på kortet og angriber alle.
+//   Opvågning (fra 25 min) Den Unavngivnes tjenere dukker op ved De Vågnende Sten midt på kortet og vogter dem.
 //                          Besejres de, efterlader de de bedste items. Ekkoer der når Erevoss (ekko.js),
 //                          får Opvågningen til at komme tidligere (højst 6 min).
 // Alt vigtigt skrives i krøniken (kroenike.js), så spilleren kan se hvad der sker og hvor.
@@ -12,7 +12,7 @@ import { DROP, træk } from './itemdata.js';
 export const FASER = [
   { id: 'balance', navn: 'Balance', fra: 0 },
   { id: 'fald', navn: 'The Fall', fra: 12 * 60, tekst: 'The land grows weary. Mines yield less, and hungry creeps from camps near your base will raid it.' },
-  { id: 'opvågning', navn: 'The Awakening', fra: 25 * 60, tekst: 'The world remembers enough. The Unnamed wakes at the stones in the heart of the land — and its servants hunt everyone.' },
+  { id: 'opvågning', navn: 'The Awakening', fra: 25 * 60, tekst: 'The world remembers enough. The Unnamed wakes at the stones in the heart of the land. Its servants guard them — whoever defeats them claims the greatest treasures.' },
 ];
 const PLYNDRING = 240;   // sekunder mellem plyndringer i Fald
 const MAKS_VÆKNING = 360; // ekkoer kan højst fremskynde Opvågningen 6 minutter
@@ -54,7 +54,6 @@ export class Verdenstilstand {
   }
 
   get guldFaktor() { return this.fase >= 1 ? 0.75 : 1; }
-  get memory() { return this.spil.memory; }
   spillerBygninger() { return this.spil.base.bygninger.filter((b) => !b.død); }
 
   opdater(dt) {
@@ -95,20 +94,20 @@ export class Verdenstilstand {
 
   vågn(gendan = null) {
     this.opvågnet = true;
-    const m = this.midte, spillerHal = this.spillerBygninger()[0], memoryHal = this.memory.hal;
+    const m = this.midte;
     const typer = gendan ?? [['kaptajn'], ['lejesoldat'], ['lejesoldat'], ['heks'], ['lejesoldat'], ['heks'], ['lejesoldat']].map(([t], i) => ({ type: t, i }));
     for (const d of typer) {
       const v = (d.i ?? 0) * 0.9;
       const x = d.x ?? m.x + Math.cos(v) * 10, z = d.z ?? m.z + Math.sin(v) * 10;
-      // Halvdelen går mod spilleren, halvdelen mod The Memory
-      const mod = (d.i ?? 0) % 2 === 0 ? (spillerHal ?? memoryHal) : (memoryHal.død ? spillerHal : memoryHal);
-      const t = new Tjener(this.verden, d.type, this, x, z, mod ? { x: mod.x, z: mod.z } : null);
+      // De vogter stenene (Jon: The Unnamed er ikke en fjende, der går efter nogen)
+      const t = new Tjener(this.verden, d.type, this, x, z, null);
+      t.ordre = 'vagt'; t.post = { x, z };
       if (d.hp) t.hp = Math.min(t.maxHp, d.hp);
       this.tjenere.push(t);
       this.verden.creeps.push(t);
     }
     if (!gendan) bus.emit('effekt', { type: 'portal', x: m.x, z: m.z });
-    if (!gendan) bus.emit('krønike', { titel: 'The servants of The Unnamed', tekst: 'Hollow Knights and Void Witches march from the stones — half toward you, half toward Erevoss. Defeat them all for the greatest treasures.', x: m.x, z: m.z, farve: '#a070ff', varighed: 22 });
+    if (!gendan) bus.emit('krønike', { titel: 'The servants of The Unnamed', tekst: 'Hollow Knights and Void Witches stand guard at the stones. They will not come for you — but defeat them all for the greatest treasures.', x: m.x, z: m.z, farve: '#a070ff', varighed: 22, vigtig: true });
   }
 
   beløn() {

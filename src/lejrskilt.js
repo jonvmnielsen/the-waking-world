@@ -77,8 +77,8 @@ export class LejrSkilte {
     this.skilte = spil.lejre.map((l) => {
       // Lejrens navn og linje (stedlore.js): bosser har deres eget navn
       const fam = l.data.familie, lore = LEJR_LORE[fam] ?? LEJR_LORE.plyndrere, i = (tæl[fam] = (tæl[fam] ?? -1) + 1);
-      const navn = l.data.niveau === 5 ? BOSS_NAVNE[fam] : lore.navne[i % lore.navne.length];
-      const linje = l.data.niveau === 5 ? 'A boss guards a locked golden chest here.' : lore.linjer[i % lore.linjer.length];
+      const navn = l.data.navn ?? (l.data.niveau === 5 ? BOSS_NAVNE[fam] : lore.navne[i % lore.navne.length]);
+      const linje = l.data.navn === 'Erevoss' ? 'The Memory: spirits who cannot forget. They guard their own and nothing else.' : l.data.niveau === 5 ? 'A boss guards a locked golden chest here.' : lore.linjer[i % lore.linjer.length];
       l.navn = navn;
       const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tekstur(l.data.niveau, navn, l.champion), transparent: true, depthWrite: false, fog: false }));
       const stor = l.data.niveau >= 5, k = (H + NH) / H;

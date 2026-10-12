@@ -1,8 +1,8 @@
-// Pladserne til The Memorys base (GDD 11): hallen på tre felter i det modsatte hjørne af kortet,
+// Pladserne til modstanderens base (GDD 11): hallen på ét felt i det modsatte hjørne af kortet,
 // en guldmine og pladser til de andre bygninger. Pladserne nærmest kortets midte (mod spilleren) kommer først.
 import { hexAfstand, hexTilVerden } from './hexgrid.js';
 
-const HAL_FELTER = [[0, 0], [1, -1], [0, -1]];
+const HAL_FELTER = [[0, 0]];
 const BYG = 'kaykit-hexagon/buildings/';
 
 export function fjendeBase(k, optag, fri, steder) {
@@ -21,17 +21,19 @@ export function fjendeBase(k, optag, fri, steder) {
   }
 
   // Byggepladser: frie felter 2–4 skridt fra hallen, ikke ved siden af hinanden
-  const nærMidte = (f) => { const p = hexTilVerden(f.q, f.r); return Math.hypot(p.x, p.z); };
-  const kandidater = [...k.felter.values()].filter((f) => { const d = hexAfstand(f, E); return d >= 2 && d <= 4 && fri(f); }).sort((a, b) => nærMidte(a) - nærMidte(b));
+  // Tæt om hallen som spillerens base: først nabofelterne, dem mod kortets midte først
+  const nærMidte = (f) => { const p = hexTilVerden(f.q, f.r); return Math.hypot(p.x, p.z) * 0.02 + hexAfstand(f, E); };
+  const kandidater = [...k.felter.values()].filter((f) => { const d = hexAfstand(f, E); return d >= 1 && d <= 3 && fri(f) && f !== mine; }).sort((a, b) => nærMidte(a) - nærMidte(b));
+  // To små bygninger pr. felt (byggeplads.js), som spillerens
   const pladser = [];
   for (const f of kandidater) {
     if (pladser.length >= 8) break;
-    if (pladser.some((p) => hexAfstand(p, f) < 2) || felter.some((h) => hexAfstand(h, f) < 2)) continue;
-    f.optaget = true;
-    pladser.push(f);
+    if (pladser.some((p) => p.f === f)) continue;
+    f.optaget = true;   // reserveret til modstanderens bygninger
+    pladser.push({ f, i: 0 }, { f, i: 2 });
   }
   // Samlingssted for hæren: foran hallen mod kortets midte
   const retning = Math.atan2(-hal.z, -hal.x);
   const samling = { x: hal.x + Math.cos(retning) * 16, z: hal.z + Math.sin(retning) * 16 };
-  return { hal, pladser, samling };
+  return { hal, pladser, samling, mine: mine ? hexTilVerden(mine.q, mine.r) : { x: hal.x + 12, z: hal.z } };
 }

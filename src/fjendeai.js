@@ -1,21 +1,25 @@
-// The Memory som regelbaseret modstander (GDD 11):
-// - tjener guld så længe tronen står, og bygger nye bygninger efter en plan
-// - træner skeletter i krypterne; de bliver stærkere jo længere spillet varer
+// AI-modstanderen (GDD 11; Jon: en af standardracerne, trukket tilfældigt — racer.js):
+// - arbejdere bærer guld fra minen til hallen; indtægten følger hvor mange der lever. Bygger efter en plan
+// - træner racens soldater i kasernerne; de bliver stærkere jo længere spillet varer
 // - forsvarer basen og angriber spilleren i bølger, der vokser; trækker sig, hvis bølgen taber
 // - tilpasser sig spillestilen: mod en aggressiv spiller kommer tårnene tidligere,
 //   mod en forsigtig spiller kommer angrebene tidligere
 import { FjendeBygning } from './fjendebygning.js';
 import { Fjende } from './fjende.js';
-import { FJENDE_BYGNINGER, FJENDE_ENHEDER, LAYOUT, FRA_START, SVÆRHED, BYGGEPLAN, fjendeLevel } from './fjendedata.js';
+import { FjendeArbejder } from './fjendearbejder.js';
+import { FJENDE_BYGNINGER, FJENDE_ENHEDER, LAYOUT, FRA_START, SVÆRHED, BYGGEPLAN, ARBEJDERE, fjendeLevel } from './fjendedata.js';
 import { hexTilVerden } from './hexgrid.js';
+import { pladsPunkt } from './byggeplads.js';
+import { FJENDE } from './racer.js';
+import { FORTSÆT_NU } from './kortvalg.js';
 import { træk } from './itemdata.js';
 import { bus } from './events.js';
 
-export class Memory {
+export class Modstander {
   constructor(spil, plads, sværhed = 'normal') {
     this.spil = spil; this.verden = spil.verden; this.sværhed = sværhed;
     this.s = SVÆRHED[sværhed];
-    this.tid = 0; this.guld = 200; this.bølge = 0; this.ekkoer = 0;
+    this.tid = 0; this.guld = 200; this.bølge = 0; this.race = FJENDE; this.nyArbejderTid = 20;
     this.næsteAngreb = this.s.førsteAngreb * 60;
     this.angribere = []; this.bølgeStart = 0;
     this.kø = new Map();          // krypt -> { type, tid }
@@ -30,25 +34,29 @@ export class Memory {
     this.enheder = [];
     this.hal = this.bygninger[0];
     this.verden.creeps.push(...this.bygninger);
+    this.mine = plads.mine;
+    this.arbejdere = [];
+    for (let i = 0; i < ARBEJDERE; i++) this.nyArbejder();
+    const h = this.hal;
+    if (!FORTSÆT_NU) setTimeout(() => bus.emit('krønike', { titel: `Your enemy: ${FJENDE.navn}`, tekst: 'Their base lies at the far end of the world. Destroy all of their buildings to win.', x: h.x, z: h.z, farve: '#ff7a6a', varighed: 20, vigtig: true }), 5000);
+  }
+
+  nyArbejder() {
+    const v = Math.random() * Math.PI * 2, h = this.hal;
+    const a = new FjendeArbejder(this.verden, this, h.x + Math.cos(v) * 7, h.z + Math.sin(v) * 7, this.mine, h);
+    this.arbejdere.push(a); this.verden.creeps.push(a);
+    return a;
   }
 
   byg(i, færdig = false) {
-    const f = this.pladser[i];
-    if (!f) return null;
-    const p = hexTilVerden(f.q, f.r);
-    const b = new FjendeBygning(this.verden, LAYOUT[i], { x: p.x, z: p.z, felter: [f], rot: (i * Math.PI) / 3, færdig, id: `plads-${i}` });
+    const pl = this.pladser[i];
+    if (!pl) return null;
+    const p = pladsPunkt(pl.f, pl.i);
+    const b = new FjendeBygning(this.verden, LAYOUT[i], { x: p.x, z: p.z, felter: [pl.f], plads: pl.i, rot: (i * Math.PI) / 3, færdig, id: `plads-${i}` });
     this.bygninger.push(b);
     if (!færdig) this.verden.creeps.push(b);
     return b;
   }
-
-  // Ekkoer fra de faldne (ekko.js): guld, og soldaterne bliver stærkere for hver 20 ekkoer
-  modtagEkko(n) {
-    this.ekkoer += n;
-    this.guld += 10 * n;
-    if (Math.floor(this.ekkoer / 20) > Math.floor((this.ekkoer - n) / 20)) bus.emit('krønike', { titel: 'The Memory grows', tekst: `${this.ekkoer} echoes have reached Erevoss. Its soldiers rise stronger.`, x: this.hal.x, z: this.hal.z, farve: '#bfe4ff' });
-  }
-  ekkoLevel() { return Math.floor(this.ekkoer / 20); }
 
   spillerBygninger() { return this.spil.base.bygninger.filter((b) => !b.død); }
   get levende() { return this.enheder.filter((e) => !e.død); }
@@ -60,7 +68,12 @@ export class Memory {
   opdater(dt) {
     if (this.besejret) return;
     this.tid += dt;
-    if (!this.hal.død) this.guld += this.s.indtægt * dt;
+    // Indtægt: arbejderne bærer guld hjem (færre arbejdere = mindre guld); Faldet rammer begge spillere
+    if (this.arbejdere.some((a) => a.fjernet)) this.arbejdere = this.arbejdere.filter((a) => !a.fjernet);
+    const lever = this.arbejdere.filter((a) => !a.død).length;
+    if (!this.hal.død) this.guld += this.s.indtægt * (lever / ARBEJDERE) * (this.verden.guldFaktor ?? 1) * dt;
+    // Nye arbejdere fra hallen, når nogen er faldet
+    if (!this.hal.død && lever < ARBEJDERE && (this.nyArbejderTid -= dt) <= 0 && this.guld >= 50) { this.guld -= 50; this.nyArbejder(); this.nyArbejderTid = 20; }
     this.planlæg();
     this.træn(dt);
     this.forsvar();
@@ -82,9 +95,9 @@ export class Memory {
 
   // Hver krypt træner én soldat ad gangen, så længe der er guld og plads i hæren
   træn(dt) {
-    // Mod en kaotisk spiller flere magere, mod en forsigtig flere riddere
-    const stil = this.spil.stil.dominant();
-    const vægte = Object.fromEntries(Object.entries(FJENDE_ENHEDER).map(([t, d]) => [t, d.vægt + (stil === 'kaos' && t === 'mage' ? 2 : 0) + (stil === 'overlevelse' && t === 'warrior' ? 2 : 0)]));
+    // Mod en kaotisk spiller flere skytter, mod en forsigtig flere nærkæmpere
+    const stil = this.spil.stil.dominant(), skytte = `m_${this.race.skytte}`;
+    const vægte = Object.fromEntries(Object.entries(FJENDE_ENHEDER).map(([t, d]) => [t, d.vægt + (stil === 'kaos' && t === skytte ? 2 : 0) + (stil === 'overlevelse' && t !== skytte ? 2 : 0)]));
     for (const k of this.bygninger) {
       if (k.type !== 'krypt' || k.død || !k.færdig) continue;
       let job = this.kø.get(k);
@@ -104,7 +117,7 @@ export class Memory {
   nyEnhed(type, krypt) {
     const v = Math.random() * Math.PI * 2;
     const x = krypt.x + Math.cos(v) * (krypt.radius + 1.5), z = krypt.z + Math.sin(v) * (krypt.radius + 1.5);
-    const e = new Fjende(this.verden, type, fjendeLevel(this.sværhed, this.minutter()) + this.ekkoLevel(), this, x, z);
+    const e = new Fjende(this.verden, type, fjendeLevel(this.sværhed, this.minutter()), this, x, z);
     e.post = { x: this.samling.x + (Math.random() - 0.5) * 8, z: this.samling.z + (Math.random() - 0.5) * 8 };
     e.ordre = 'retur';
     this.enheder.push(e);
@@ -130,7 +143,7 @@ export class Memory {
       if (lever.length < this.bølgeStart * 0.35) {
         for (const e of lever) e.kommandoRetur();
         this.angribere = [];
-        bus.emit('krønike', { titel: 'The Memory pulls back', tekst: 'Its soldiers return to Erevoss to gather strength.', x: lever[0].x, z: lever[0].z, farve: '#bfe4ff' });
+        bus.emit('krønike', { titel: `${this.race.navn} pull back`, tekst: 'Their soldiers return home to gather strength.', x: lever[0].x, z: lever[0].z, farve: '#bfe4ff' });
       }
       return;
     }
@@ -148,6 +161,6 @@ export class Memory {
     this.bølge += 1;
     this.næsteAngreb = this.tid + this.s.mellemrum * 60;
     bus.emit('fjende_angreb', { antal: sendes.length, bølge: this.bølge });
-    bus.emit('krønike', { titel: 'The Memory marches from Erevoss', tekst: `${sendes.length} spirit soldiers are coming for your ${mål.data.navn}, from the far north-east.`, x: this.samling.x, z: this.samling.z, farve: '#ff7a6a', varighed: 18, vigtig: true });
+    bus.emit('krønike', { titel: `${this.race.navn} attack!`, tekst: `${sendes.length} soldiers are coming for your ${mål.data.navn}.`, x: this.samling.x, z: this.samling.z, farve: '#ff7a6a', varighed: 18, vigtig: true });
   }
 }

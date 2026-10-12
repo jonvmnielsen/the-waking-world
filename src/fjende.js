@@ -1,29 +1,30 @@
-// The Memorys soldater (GDD 11). Bygger på creeps (model, slag, projektiler), men har sin egen opførsel:
+// Modstanderens soldater (GDD 11; racens enheder, creepdata.js m_<type>). Bygger på creeps (model, slag, projektiler), men har sin egen opførsel:
 //   vagt   — står ved samlingsstedet og forsvarer basen
 //   angreb — marcherer mod spillerens base og angriber alt på vejen (figurer før bygninger)
 //   retur  — trækker sig tilbage til basen
 // Mens en soldat har et mål, er dens tilstand 'jagt', så spillerens figurer forsvarer sig og hinanden.
 import { Creep } from './creeps.js';
 import { Unit } from './unit.js';
-import { FJENDE_ENHEDER } from './fjendedata.js';
-import { åndeLook } from './aand.js';
+import { gørOrkGrøn, holdSkær } from './orkhud.js';
+import { HOLD_FARVE, FJENDE_FARVE } from './racer.js';
 
 const SE_UNITS = 11, SE_BYGNINGER = 14;
 
 export class Fjende extends Creep {
-  constructor(verden, type, level, base, x, z) {
+  constructor(verden, type, level, base, x, z, { skær = true } = {}) {
     const lejr = { fjende: true, data: { niveau: 2, id: 'memory' }, creeps: [], x, z };
     super(verden, type, level, lejr, { x, z });
     lejr.creeps.push(this);
     this.fjendeBase = base;
-    this.navn = FJENDE_ENHEDER[type]?.navn ?? this.navn;
+    this.navn = this.data.navn;
     this.side = 'fjende';
     this.ordre = 'vagt';
     this.post = { x, z };
     this.marchMål = null;
     this.søgTid = Math.random() * 0.5;
-    // The Memorys soldater er ånder (Jon: ikke døde, men ånder)
-    åndeLook(this.model);
+    // Orker får grøn hud; alle får et skær af modstanderens holdfarve
+    if (this.data.orkhud) gørOrkGrøn(this.model);
+    if (skær) holdSkær(this.model, HOLD_FARVE[FJENDE_FARVE], this.data.orkhud ? 0.25 : 0.4);
   }
 
   // Spillerens figurer og bygninger der kan angribes
@@ -41,7 +42,7 @@ export class Fjende extends Creep {
     return bedst;
   }
 
-  skadeFaktor() { return 1 + 0.2 * (this.verden.nat ?? 0) + (this.verden.mod?.memorySkade ?? 0); }   // stærkere om natten (GDD 4.6) og under en formørkelse
+  skadeFaktor() { return 1; }
 
   kommandoAngreb(x, z) { this.ordre = 'angreb'; this.marchMål = { x, z }; this.mål = null; this.stop(); }
   kommandoRetur() { this.ordre = 'retur'; this.mål = null; this.gåTil(this.post.x, this.post.z); }

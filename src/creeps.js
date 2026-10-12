@@ -181,6 +181,8 @@ export class Lejr {
     this.verden.creeps.push(...this.creeps);
   }
 
+  lavCreep(type, hjem) { const c = new Creep(this.verden, type, this.level, this, hjem); this.creeps.push(c); this.verden.creeps.push(c); return c; }
+
   opdater(dt) {
     if (CREEP_AI.respawn == null || this.creeps.some((c) => !c.død)) return;
     this.tomTid += dt;

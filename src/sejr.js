@@ -1,7 +1,8 @@
-// Sejr og nederlag (GDD 11): man vinder, når alle The Memorys bygninger er ødelagt,
+// Sejr og nederlag (GDD 11): man vinder, når alle modstanderens bygninger er ødelagt,
 // og taber, når man ikke har flere bygninger. Slutskærmen viser lidt statistik.
 import { bus } from './events.js';
 import { sletGem } from './gem.js';
+import { SPILLER } from './racer.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -24,7 +25,7 @@ export class Sejr {
     this.tid += dt;
     if (this.slut || this.tid < 1) return;
     this.tid = 0;
-    if (this.spil.memory.besejret) this.afslut(true);
+    if (this.spil.modstander.besejret) this.afslut(true);
     else if (!this.spil.base.bygninger.length) this.afslut(false);
   }
 
@@ -34,8 +35,8 @@ export class Sejr {
     const min = Math.floor(this.spil.helt.tid / 60), t = this.tal;
     $('slut-titel').textContent = vandt ? 'Victory' : 'Defeat';
     $('slut-under').textContent = vandt
-      ? 'The Memory crumbles to dust. The Tide endures.'
-      : 'Your last building has fallen. The Memory remembers your name.';
+      ? `${this.spil.modstander.race.navn} are no more. ${SPILLER.navn} endure.`
+      : `Your last building has fallen. ${this.spil.modstander.race.navn} have won — but The Memory remembers your name.`;
     $('slut-tal').innerHTML = [
       ['Time', `${min} min`], ['Hero level', this.spil.helt.level], ['Undead slain', t.dræbt],
       ['Enemy buildings razed', t.ødelagt], ['Soldiers trained', t.trænet], ['Soldiers lost', t.faldne],

@@ -23,6 +23,12 @@ export const CREEP_TYPER = {
   lejesoldat: { navn: 'Mercenary', model: 'bandit_lejesoldat', anim: MENNESKE_ANIM, hp: 240, skade: [18, 25], angrebsTid: 2.0, fart: 3.3, rækkevidde: 2.2, rustning: 3, skjul: ['1H_Sword_Offhand', 'Badge_Shield', 'Rectangle_Shield', 'Spike_Shield', '2H_Sword', 'Knight_Helmet'], angreb: '1H_Melee_Attack_Slice_Diagonal' },
   heks: { navn: 'Hexmaster', model: 'bandit_heks', anim: MENNESKE_ANIM, hp: 150, skade: [18, 26], angrebsTid: 2.6, fart: 3.2, rækkevidde: 9, rustning: 0, skjul: ['Spellbook', 'Spellbook_open', '1H_Wand'], angreb: 'Spellcast_Shoot', projektil: 0x5ad1ff },
   kaptajn: { navn: 'The Raider Captain', model: 'bandit_kaptajn', anim: MENNESKE_ANIM, hp: 950, skade: [42, 58], angrebsTid: 2.2, fart: 3.4, rækkevidde: 2.8, rustning: 4, skjul: ['1H_Axe', '1H_Axe_Offhand', 'Barbarian_Round_Shield', 'Mug'], angreb: '2H_Melee_Attack_Chop', skala: 1.6, boss: true },
+  // Modstanderens soldater og arbejdere (fjendeai.js): racernes enheder som creep-typer (orkhud = grøn ork-hud)
+  m_grunt: { navn: 'Grunt', model: 'grunt', anim: MENNESKE_ANIM, hp: 150, skade: [14, 19], angrebsTid: 1.6, fart: 4.2, rækkevidde: 2.1, rustning: 1, skjul: ['1H_Axe_Offhand', 'Mug'], angreb: '1H_Melee_Attack_Chop', orkhud: true, skala: 0.92 },
+  m_spydkaster: { navn: 'Spear Thrower', model: 'spydkaster', anim: MENNESKE_ANIM, hp: 105, skade: [13, 18], angrebsTid: 2.0, fart: 4.3, rækkevidde: 11, rustning: 0, skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Throwable'], angreb: 'Throw', projektil: 0xd8c8a0, orkhud: true, skala: 0.88 },
+  m_fodsoldat: { navn: 'Footman', model: 'bandit_lejesoldat', anim: MENNESKE_ANIM, hp: 155, skade: [13, 18], angrebsTid: 1.6, fart: 4.1, rækkevidde: 2.1, rustning: 2, skjul: ['1H_Sword_Offhand', 'Rectangle_Shield', 'Spike_Shield', '2H_Sword'], angreb: '1H_Melee_Attack_Slice_Diagonal', skala: 0.95 },
+  m_armbrøst: { navn: 'Marksman', model: 'bandit_skytte', anim: MENNESKE_ANIM, hp: 100, skade: [14, 19], angrebsTid: 2.1, fart: 4.3, rækkevidde: 12, rustning: 0, skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', 'Throwable'], angreb: '2H_Ranged_Shoot', projektil: 0xbfe0ff, skala: 0.92 },
+  m_arbejder: { navn: 'Worker', model: 'arbejder', anim: MENNESKE_ANIM, hp: 110, skade: [4, 6], angrebsTid: 2.0, fart: 3.8, rækkevidde: 1.8, rustning: 0, skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Throwable'], angreb: '1H_Melee_Attack_Chop' },
 };
 
 // Fem sværhedsgrader: farve på kort/minimap og creeps' level

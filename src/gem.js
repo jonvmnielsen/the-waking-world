@@ -8,7 +8,7 @@ import { BIOMER, ÅRSTIDER } from './biomdata.js';
 import { nøgle } from './hexgrid.js';
 
 const NØGLE = 'tww-gem-1';
-export const GEM_VERSION = 6;   // 6: mindre bygninger og byggepladser (hallen fylder ét felt)
+export const GEM_VERSION = 7;   // 7: AI-modstander med race; The Memory er neutral i Erevoss
 const r1 = (v) => Math.round(v * 10) / 10;
 
 export function hentGem() {
@@ -34,7 +34,7 @@ export function gemSpil(spil) {
 }
 
 function lavGem(spil) {
-  const { helt, økonomi: ø, base, lejre, genstande, taage, rig, stil, memory: m } = spil;
+  const { helt, økonomi: ø, base, lejre, genstande, taage, rig, stil, modstander: m } = spil;
   const inv = helt.inventar;
   return {
     version: GEM_VERSION, seed: KORT.seed, kort: KORT.id, biom: AKTIVT_KORT.biom, årstid: AKTIVT_KORT.årstid, størrelse: AKTIVT_KORT.størrelse, race: AKTIVT_KORT.race, fjendeRace: AKTIVT_KORT.fjendeRace, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
@@ -66,8 +66,10 @@ function lavGem(spil) {
     ødelagte: (spil.konstruktioner ?? []).filter((k) => k.død).map((k) => k.id),
     kamera: { x: r1(rig.fokus.x), z: r1(rig.fokus.z), afstand: rig.afstand },
     verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem(), ekko: spil.ekkoer?.gem(), minder: spil.minder?.gem(), huler: spil.huler?.gem(), begivenheder: spil.begivenheder?.gem() },
-    memory: {
-      sværhed: m.sværhed, ekkoer: m.ekkoer, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
+    erevoss: spil.memory?.gem(),
+    modstander: {
+      arbejdere: m.arbejdere.filter((a) => !a.død).length,
+      sværhed: m.sværhed, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
       bygninger: m.bygninger.map((b) => ({ id: b.id, hp: Math.ceil(b.hp), fremskridt: b.fremskridt, død: b.død })),
       enheder: m.levende.map((e) => ({ type: e.type, x: r1(e.x), z: r1(e.z), hp: Math.ceil(e.hp), level: e.level })),
     },
@@ -105,5 +107,5 @@ export function beskrivGem(g) {
   const siden = Math.round((Date.now() - g.tidspunkt) / 60000);
   const hvornår = siden < 1 ? 'saved just now' : siden < 60 ? `saved ${siden} min ago` : siden < 1440 ? `saved ${Math.round(siden / 60)} h ago` : `saved ${Math.round(siden / 1440)} days ago`;
   const kort = [KORT_TYPER[g.kort ?? 'askeø']?.navn, BIOMER[g.biom]?.navn, ÅRSTIDER[g.årstid]?.navn, g.størrelse && g.størrelse !== 'normal' ? STØRRELSER[g.størrelse]?.navn : null].filter(Boolean).join(', ');
-  return `${kort} · ${g.memory ? `${g.memory.sværhed[0].toUpperCase()}${g.memory.sværhed.slice(1)} · ` : ''}Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? 'soldier' : 'soldiers'} · ${min} min played · ${hvornår}`;
+  return `${kort} · ${g.modstander ? `${g.modstander.sværhed[0].toUpperCase()}${g.modstander.sværhed.slice(1)} · ` : ''}Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? 'soldier' : 'soldiers'} · ${min} min played · ${hvornår}`;
 }
