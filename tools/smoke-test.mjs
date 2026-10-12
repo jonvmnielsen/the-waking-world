@@ -135,7 +135,7 @@ await page.screenshot({ path: path.join(UD, '6-hus.png') });
 // Oversigt over hele øen
 await page.evaluate(() => { window.spil.visHeleKortet(); window.spil.simuler(0.3); const r = window.spil.rig; r.følger = false; r.fokus.set(0, 0, 10); r.afstand = 260; r.kamera.far = 900; r.kamera.updateProjectionMatrix(); window.spil.verden.scene.fog = null; });
 await page.waitForTimeout(3000);
-await page.screenshot({ path: path.join(UD, '5-oversigt.png') });
+await page.screenshot({ path: path.join(UD, '5-oversigt.png'), timeout: 180000 });   // hele øen på én gang er tungt i software-rendering
 
 console.log(fejl.length ? `FEJL:\n${fejl.join('\n')}` : 'Ingen fejl i konsollen');
 await browser.close();
