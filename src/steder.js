@@ -5,6 +5,7 @@ import { KORT } from './config.js';
 import { T } from './kortvalg.js';
 import { placérMinder } from './mindested.js';
 import { placérKæmpeårer } from './kaempeaare.js';
+import { lavHuler } from './hulegen.js';
 import { trækMine, mineMængde, MINE_STR } from './minedata.js';
 import { FAMILIE_I_REGION, SAMMENSÆTNING } from './creepdata.js';
 import { lejrPynt, stedPynt } from './pynt.js';
@@ -144,6 +145,7 @@ export function placérSteder(k, tilf) {
 
   // 5) Kæmpeårer og Deep Quarry: værdifulde steder midt mellem baserne, som man må kæmpe om
   placérKæmpeårer(k, tilf, { optag, fri, nærmesteFri, steder, lejre, lavLejr, kister });
+  lavHuler(k, tilf, { optag, fri, steder, lejre, kister, lavLejr });   // huler med rum, lejre og en boss (hulegen.js)
 
   // 6) Mindesmærker: Navnestenene og andre minder man finder ved at udforske (mindested.js)
   const minder = placérMinder(k, tilf, { optag, fri, steder, lejre, base: b, fjende: k.fjendeBase });

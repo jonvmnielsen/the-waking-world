@@ -17,6 +17,7 @@ import { HeltReplikker } from './heltreplik.js';
 import { Vejr } from './vejr.js';
 import { MineVisning } from './minevisning.js';
 import { lavFund } from './fund.js';
+import { Huler } from './huler.js';
 import { UDSEENDE } from './kortvalg.js';
 
 // Sætter M8-systemerne op: ekkoer, livet, fortællingen og lejrenes skilte. opdater() kører med tegningen.
@@ -29,6 +30,8 @@ export function lavVerdensliv(spil, steder, minder = []) {
   spil.vejr = vejr;
   spil.minevisning = new MineVisning(spil);
   lavFund(spil);
+  spil.huler = new Huler(spil, spil.verden.kort.huler ?? []);
+  spil.rig.særGrænser = () => spil.huler.grænser();
   return { opdater(dt) { fortælling.opdater(dt); skilte.opdater(dt); replikker.opdater(); vejr.opdater(dt, spil.rig.fokus); spil.minevisning.opdater(dt); } };
 }
 
@@ -36,6 +39,7 @@ export function lavVerdensliv(spil, steder, minder = []) {
 export function gendanVerdensliv(spil, v) {
   spil.ekkoer.gendan(v?.ekko);
   spil.minder.gendan(v?.minder);
+  spil.huler.gendan(v?.huler);
 }
 
 const FLOKKE = [['hjort', 'hind', 'hind'], ['hind', 'hind'], ['hjort', 'hind', 'hind', 'hind'], ['hind', 'hind', 'hind']];

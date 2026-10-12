@@ -34,6 +34,7 @@ export const MINDER = {
 
 // Hvad man ser, når helten første gang går ind i en region
 export const REGION_LORE = {
+  hule: 'Cold stone and old air. The world above feels very far away.',
   askemarken: 'Grey soil that still remembers fire. Good land, if you do not dig too deep.',
   skoven: 'The trees grow close here, as if to keep a secret between them.',
   gravlandet: 'No names on any stone. The Memory walk here and disturb nothing.',

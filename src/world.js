@@ -7,12 +7,13 @@ import { hexTilVerden } from './hexgrid.js';
 import { lavStier } from './stier.js';
 import { lavGrund } from './grund.js';
 import { lavLavasøer } from './lava.js';
+import { lavHulevisning, HULE_MODELLER } from './hulevisning.js';
 import { UDSEENDE } from './kortvalg.js';
 import { lavBunddække, BUNDDÆKKE_MODELLER } from './bunddaekke.js';
 
 // Alle modelstier kortet bruger (til forudindlæsning)
 export function kortModeller(kort) {
-  const s = new Set([...STUBBE, ...GULD_MODELLER, ...BUNDDÆKKE_MODELLER]);
+  const s = new Set([...STUBBE, ...GULD_MODELLER, ...BUNDDÆKKE_MODELLER, ...(kort.huler?.length ? HULE_MODELLER : [])]);
   for (const f of kort.felter.values()) for (const p of f.pynt) s.add(p.model);
   return [...s];
 }
@@ -32,7 +33,8 @@ export function bygVerden(scene, kort, grænser, steder, ødeland, lejre = []) {
   lavBunddække(scene, kort, { stier, pletter, u: UDSEENDE });
   const natur = lavNatur(scene, kort);
   const guld = lavGuldårer(scene, miner, natur.bygninger);
-  return { ...natur, opdater: (dt) => { guld.opdater(dt); terræn.tid.value += dt; } };
+  const huler = lavHulevisning(scene, kort, kort.huler ?? []);
+  return { ...natur, opdater: (dt) => { guld.opdater(dt); huler.opdater(dt); terræn.tid.value += dt; } };
 }
 
 export function lavLys(scene, renderer) {

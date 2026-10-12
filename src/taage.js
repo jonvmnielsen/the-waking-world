@@ -3,6 +3,7 @@
 // Tågen er en tekstur over kortet, som alle materialer læser i deres shader.
 import * as THREE from 'three';
 import { UDSEENDE } from './kortvalg.js';
+import { HULE_X } from './hulegen.js';
 
 const SNE = UDSEENDE.sne ?? 0;   // sne på træer, sten og tage (vinter): hvidt på de opadvendte flader
 
@@ -33,8 +34,9 @@ export class Taage {
   tilføjKilde(x, z, radius) { this.kilder.push({ x, z, radius }); }
 
   // Er et punkt i fuldt udsyn lige nu?
-  erSynlig(x, z) { return this.synlig[this.celle(x, z)] === 1; }
-  erUdforsket(x, z) { return this.udforsket[this.celle(x, z)] === 1; }
+  // Under jorden (hulerne, x > 3000) er der ingen tåge: man ser hulen, når man er der
+  erSynlig(x, z) { return x > HULE_X || this.synlig[this.celle(x, z)] === 1; }
+  erUdforsket(x, z) { return x > HULE_X || this.udforsket[this.celle(x, z)] === 1; }
 
   celle(x, z) {
     const cx = Math.min(this.b - 1, Math.max(0, Math.floor((x - this.minX) / OPL)));
@@ -102,7 +104,7 @@ export class Taage {
       }
       shader.fragmentShader = 'varying vec2 vTaageXZ;\nuniform sampler2D uTaage;\nuniform vec2 uTaageMin;\nuniform vec2 uTaageStr;\n'
         + shader.fragmentShader.replace('#include <dithering_fragment>', `#include <dithering_fragment>
-        float taage = texture2D( uTaage, ( vTaageXZ - uTaageMin ) / uTaageStr ).r;
+        float taage = vTaageXZ.x > ${HULE_X.toFixed(1)} ? 1.0 : texture2D( uTaage, ( vTaageXZ - uTaageMin ) / uTaageStr ).r;
         gl_FragColor.rgb *= taage;`);
     };
     m.customProgramCacheKey = () => 'taage' + (sne ? 'sne' : '') + førNøgle;

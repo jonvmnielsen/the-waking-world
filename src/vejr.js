@@ -61,7 +61,7 @@ export class Vejr {
     }
     this.styrke += Math.sign(this.mål - this.styrke) * Math.min(Math.abs(this.mål - this.styrke), dt * 0.15);
     this.mat.opacity = (d.linje ? 0.45 : 0.85) * this.styrke;
-    this.obj.visible = this.styrke > 0.01;
+    this.obj.visible = this.styrke > 0.01 && fokus.x < 3000;   // intet vejr under jorden
     if (!this.obj.visible) return;
     const pos = this.obj.geometry.attributes.position, a = pos.array, n = d.antal, trin = d.linje ? 6 : 3;
     const hx = KASSE.x / 2, hz = KASSE.z / 2;

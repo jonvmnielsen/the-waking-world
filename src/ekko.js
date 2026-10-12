@@ -5,6 +5,7 @@
 import * as THREE from 'three';
 import { bus } from './events.js';
 import { glød } from './aand.js';
+import { erIHule } from './hulegen.js';
 import { EKKO_STUMPER } from './verdenslore.js';
 
 const FART = 4.5, FANG = 3.8, KREDS_MAKS = 24;   // fanges først når ekkoet er på vej (efter 3 s), så det kræver at gå efter det
@@ -23,7 +24,7 @@ export class Ekkoer {
   get hal() { const m = this.spil.memory; return m && !m.hal.død ? m.hal : null; }
 
   ny(x, z, vægt) {
-    if (!this.hal) return;
+    if (!this.hal || erIHule(x)) return;   // minder under jorden når ikke op til Erevoss
     const rod = new THREE.Group();
     rod.add(glød(0x8fc8ff, 1.1 + vægt * 0.35, 0.85), glød(0xe8f4ff, 0.45 + vægt * 0.12));
     rod.position.set(x, 1.2, z);

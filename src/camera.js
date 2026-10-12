@@ -74,7 +74,7 @@ export class KameraRig {
   zoom(f) { this.afstand = THREE.MathUtils.clamp(this.afstand * f, 12, 56); }
 
   begræns() {
-    const g = this.grænser;
+    const g = this.særGrænser?.() ?? this.grænser;   // fx hulens grænser, når helten er i en hule
     this.fokus.x = THREE.MathUtils.clamp(this.fokus.x, g.minX, g.maxX);
     this.fokus.z = THREE.MathUtils.clamp(this.fokus.z, g.minZ, g.maxZ);
   }

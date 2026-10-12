@@ -14,6 +14,7 @@ export const REGIONER = {
   gravlandet: { navn: 'Gravelands', frø: [[0.6, -0.55]], farve: [0.72, 0.74, 0.66] },
   bjergene: { navn: 'Highlands', frø: [[0.18, -0.72], [0.78, 0.02]], farve: [0.93, 0.93, 0.86] },
   sumpen: { navn: 'The Marsh', frø: [[0.52, 0.62]], farve: [0.74, 0.86, 0.7] },
+  hule: { navn: 'The Deep', frø: [], farve: [0.6, 0.55, 0.5] },   // hulerne under jorden (hulegen.js)
 };
 
 // Hvor ofte hver region har skov og bjerge (tærskel for støj; lavere = mere)

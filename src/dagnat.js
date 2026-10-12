@@ -49,6 +49,8 @@ export class DagNat {
     renderer.toneMappingExposure = 1.05 - 0.1 * n;
     const h = this.spil.helt;
     this.lygte.intensity = 40 * n;
+    // Under jorden (hulerne): mørkt, helten bærer lygten
+    if (this.spil.rig.fokus.x > 3000) { scene.background.set(0x070504); scene.fog?.color.set(0x070504); sol.intensity = 0.55; hemi.intensity = 0.45; this.lygte.intensity = 55; }
     this.lygte.position.set(h.x, 5, h.z);
 
     const erNat = n > 0.5;

@@ -412,6 +412,21 @@
     "kaykit-halloween/tree_pine_orange_large",
     "kaykit-halloween/tree_pine_orange_medium",
     "kaykit-halloween/tree_pine_yellow_large",
-    "kaykit-halloween/tree_pine_yellow_medium"
+    "kaykit-halloween/tree_pine_yellow_medium",
+    "kaykit-dungeon/floor_dirt_large_gltf",
+    "kaykit-dungeon/floor_dirt_large_rocky_gltf",
+    "kaykit-dungeon/floor_tile_large_gltf",
+    "kaykit-dungeon/floor_tile_large_rocks_gltf",
+    "kaykit-dungeon/torch_lit_gltf",
+    "kaykit-dungeon/torch_mounted_gltf",
+    "kaykit-dungeon/pillar_gltf",
+    "kaykit-dungeon/pillar_decorated_gltf",
+    "kaykit-dungeon/rubble_large_gltf",
+    "kaykit-dungeon/rubble_half_gltf",
+    "kaykit-dungeon/barrel_large_gltf",
+    "kaykit-dungeon/crates_stacked_gltf",
+    "kaykit-dungeon/column_gltf",
+    "kaykit-dungeon/candle_lit_gltf",
+    "kaykit-dungeon/stairs_gltf"
   ]
 }

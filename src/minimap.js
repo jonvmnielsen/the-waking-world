@@ -50,7 +50,7 @@ export class Minimap {
     for (const f of kort.felter.values()) {
       const p = hexTilVerden(f.q, f.r);
       const [x, y] = this.px(p.x, p.z);
-      if (f.type === 'vand') continue;
+      if (f.type === 'vand' || f.type === 'hule') continue;
       const [cr, cg] = REGIONER[f.region].farve;
       let farve = hsl(j.græs, (cg - cr) * 20 - 4);
       if (f.type === 'kyst') farve = hsl(j.sand, -4);
@@ -109,15 +109,16 @@ export class Minimap {
     for (const e of spil.memory?.levende ?? []) if (e.rod.visible) prik(e.x, e.z, '#ff7a6a', 1.8);
 
     // Helten og kameraets udsnit
-    const h = spil.helt;
-    const [hx, hy] = this.px(h.x, h.z);
+    const h = spil.helt, hule = spil.huler?.hvor();
+    const [hx, hy] = hule ? this.px(hule.indgang.x, hule.indgang.z) : this.px(h.x, h.z);   // i en hule: ved indgangen
     ctx.fillStyle = '#7dff6a'; ctx.strokeStyle = '#000';
     ctx.lineWidth = this.k;
     ctx.beginPath(); ctx.arc(hx, hy, 3.2 * this.k, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    if (hule) { ctx.strokeStyle = '#e8c690'; ctx.lineWidth = 1.4 * this.k; ctx.beginPath(); ctx.arc(hx, hy, (6 + Math.sin(performance.now() / 300) * 1.5) * this.k, 0, Math.PI * 2); ctx.stroke(); }
     const f = spil.rig.fokus, a = spil.rig.synsAfstand / 1.25;
     const [fx, fy] = this.px(f.x - a * 0.55, f.z - a * 0.7);
     ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-    ctx.strokeRect(fx, fy, a * 1.1 * this.skala, a * 1.0 * this.skala);
+    if (f.x < 3000) ctx.strokeRect(fx, fy, a * 1.1 * this.skala, a * 1.0 * this.skala);
     // Angreb: røde blinkende pletter
     for (const p of spil.advarsel?.aktive() ?? []) {
       const [px, py] = this.px(p.x, p.z);

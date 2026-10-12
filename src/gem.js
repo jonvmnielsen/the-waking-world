@@ -8,7 +8,7 @@ import { BIOMER, ÅRSTIDER } from './biomdata.js';
 import { nøgle } from './hexgrid.js';
 
 const NØGLE = 'tww-gem-1';
-export const GEM_VERSION = 4;   // 4: M10 (biomer, årstider, størrelser, nye frø)
+export const GEM_VERSION = 5;   // 5: M11 (huler ændrer kortet)
 const r1 = (v) => Math.round(v * 10) / 10;
 
 export function hentGem() {
@@ -65,7 +65,7 @@ function lavGem(spil) {
     udvikling: spil.udvikling.gem(),
     ødelagte: (spil.konstruktioner ?? []).filter((k) => k.død).map((k) => k.id),
     kamera: { x: r1(rig.fokus.x), z: r1(rig.fokus.z), afstand: rig.afstand },
-    verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem(), ekko: spil.ekkoer?.gem(), minder: spil.minder?.gem() },
+    verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem(), ekko: spil.ekkoer?.gem(), minder: spil.minder?.gem(), huler: spil.huler?.gem() },
     memory: {
       sværhed: m.sværhed, ekkoer: m.ekkoer, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
       bygninger: m.bygninger.map((b) => ({ id: b.id, hp: Math.ceil(b.hp), fremskridt: b.fremskridt, død: b.død })),

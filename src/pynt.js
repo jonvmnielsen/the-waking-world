@@ -108,7 +108,7 @@ export function lejrPynt(f, familie, tilf, boss) {
   } else {
     const PROP = 'kaykit-hexagon/decoration/props/';
     const ting = [['crate_a_big', 1.3], ['barrel', 1.4], ['sack', 1.4], ['crate_long_a', 1.2], ['resource_lumber', 1.2]];
-    f.pynt.push({ model: PROP + 'tent', ...ring(0, 1, RI * 0.7), rot: tilf() * 360, skala: 2.0, skygge: true });
+    if (f.type !== 'hule') f.pynt.push({ model: PROP + 'tent', ...ring(0, 1, RI * 0.7), rot: tilf() * 360, skala: 2.0, skygge: true });   // intet telt i en hule
     for (let i = 1; i < 5; i++) {
       const { dx, dz } = ring(i, 5, RI * 0.8);
       const [navn, sk] = vælg(tilf, ting);
