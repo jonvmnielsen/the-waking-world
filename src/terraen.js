@@ -18,7 +18,7 @@ const FARVE = {
   klippe: new THREE.Color().setRGB(0.56, 0.53, 0.47, SRGB),
   guld: new THREE.Color().setRGB(0.80, 0.62, 0.30, SRGB),
   mørk: new THREE.Color().setRGB(0.45, 0.62, 0.26, SRGB),
-  øde: new THREE.Color().setRGB(0.33, 0.30, 0.36, SRGB),
+  øde: new THREE.Color().setRGB(0.6, 0.68, 0.7, SRGB),   // Erevoss: stille, sølvblegt græs
   lys: new THREE.Color().setRGB(0.82, 0.80, 0.42, SRGB),
 };
 const glat = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
@@ -86,10 +86,10 @@ export function lavTerrænMesh(kort, grænser, miner = [], ødeland = null, seed
       const d = Math.hypot(m.x - x, m.z - z);
       if (d < 10) c.lerp(FARVE.guld, (1 - d / 10) ** 1.2 * 0.75);
     }
-    // The Memorys ødelagte land breder sig om deres base (GDD 5.5)
+    // Erevoss: The Memorys land er stille og sølvblegt omkring deres trone (M8: ånder, ikke død jord)
     if (ødeland) {
       const d = Math.hypot(ødeland.x - x, ødeland.z - z) + (støj(x, z, seed + 28, 5) - 0.5) * 14;
-      c.lerp(FARVE.øde, (1 - glat(22, 44, d)) * 0.8);
+      c.lerp(FARVE.øde, (1 - glat(20, 42, d)) * 0.55);
     }
     c.lerp(FARVE.sand, (1 - glat(0.6, 0.88, L)) * 0.9);
     const lys = 0.92 + støj(x, z, seed + 25, 9) * 0.14 + (støj(x * 3, z * 3, seed + 26, 2) - 0.5) * 0.05;

@@ -165,7 +165,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       overlay.mærkat(ting.ting, `<b>${d.navn}</b><small>${sj.navn}</small>`, sj.farve);
       if (!valg.erHelt) return;
     }
-    if (valg.ingen) return;   // intet valgt: tryk på jorden gør ingenting
+    if (valg.ingen) { spil.livet?.tryk(px, py, skærm); return; }   // intet valgt: pilgrimme og sten kan svare; ellers ingenting
     heltTryk(px, py);
   };
 }

@@ -24,6 +24,7 @@ export class Tjener extends Fjende {
       o.material.color.multiplyScalar(0.55);
       o.material.emissive = new THREE.Color(0x6a2cff);
       o.material.emissiveIntensity = 0.12;
+      o.material.transparent = false; o.material.opacity = 1;
     });
   }
 

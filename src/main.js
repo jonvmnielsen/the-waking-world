@@ -39,6 +39,9 @@ import { Verdenstilstand } from './verdenstilstand.js';
 import { HelteKort } from './heltekort.js';
 import { ESSENSER } from './abilities.js';
 import { lavUdvikling, lavFremskridtsHud } from './fremskridt.js';
+import { Krønike } from './kroenike.js';
+import { lavVerdensliv } from './livet.js';
+import { visIntro } from './fortaelling.js';
 
 const lærred = document.getElementById('spil');
 const renderer = new THREE.WebGLRenderer({ canvas: lærred, antialias: true, powerPreference: 'high-performance' });
@@ -83,6 +86,7 @@ async function start() {
   const fortsæt = valgtEssens === 'fortsæt';
   const essens = fortsæt ? gemt.helt.essens : valgtEssens.essens;
   const sværhed = fortsæt ? (gemt.memory?.sværhed ?? 'normal') : valgtEssens.sværhed;
+  if (!fortsæt) await visIntro();
   document.body.classList.add('i-spil');
   const helt = new Helt(verden, heltSpawn, essens);
   verden.helt = helt;
@@ -107,21 +111,16 @@ async function start() {
       const fejl = helt.evner.brug(i);
       if (fejl) overlay.toast(fejl);
     },
-    // Kroen: hyr lejesoldater
-    hyrVed(s) {
+    // Send helten hen til en butik: købmanden, egen markedsplads, eller kroen (hyr lejesoldater)
+    handlVed(s, kro = false) {
       if (helt.død) return;
       valg.vælg(null);
-      helt.kommandoInteraktion(s.x, s.z, 13, () => invHud.åbnButik(s, kroVarer(spil, s), 'Tavern — hire mercenaries'));
+      helt.kommandoInteraktion(s.x, s.z, 13, () => (kro ? invHud.åbnButik(s, kroVarer(spil, s), 'Tavern — hire mercenaries') : invHud.åbnButik(s)));
       effekter.markør(s.x, s.z, 0xffe08a);
     },
-    // Send helten hen til en butik (købmanden eller egen markedsplads)
-    handlVed(s) {
-      if (helt.død) return;
-      valg.vælg(null);
-      helt.kommandoInteraktion(s.x, s.z, 13, () => invHud.åbnButik(s));
-      effekter.markør(s.x, s.z, 0xffe08a);
-    },
+    hyrVed(s) { this.handlVed(s, true); },
   };
+  spil.krønike = new Krønike(spil);
   rig.fokus.set(heltSpawn.x, 0, heltSpawn.z);
   rig.afstand = 40;   // start lidt ude, så basen og arbejderne er i billedet
   rig.centrér();
@@ -143,6 +142,7 @@ async function start() {
   spil.ur = { tid: 0 };
   spil.dagNat = new DagNat(spil, lys);
   spil.verdenstilstand = new Verdenstilstand(spil, steder.find((s) => s.type === 'kro') ?? { x: 0, z: 0 });
+  const verdensliv = lavVerdensliv(spil, steder);
   verden.spillerBygninger = () => base.bygninger.filter((b) => !b.død);
   spil.lyd = lyd;
   forbindLyd(lyd, spil);
@@ -154,12 +154,14 @@ async function start() {
     helt.tid = gemt.spilTid;
     spil.ur.tid = gemt.verden?.tid ?? gemt.spilTid;
     spil.verdenstilstand.gendan(gemt.verden);
+    spil.ekkoer.gendan(gemt.verden?.ekko);
     taage.patchScene(scene);
     taage.opdater(1, [{ x: helt.x, z: helt.z, radius: 28 }]);
     setTimeout(() => overlay.toast('Welcome back — your game continues where you left off'), 600);
   } else {
     setTimeout(() => overlay.toast('Tap a worker to build — tap the ground to move your hero'), 600);
-    setTimeout(() => overlay.toast('The Memory stirs in the far north-east. Raze all of its buildings to win.'), 6000);
+    const hal = spil.memory.hal;
+    setTimeout(() => bus.emit('krønike', { titel: 'The Memory stirs in Erevoss', tekst: 'Far to the north-east. Raze all of its buildings to win — and catch the silver echoes before they reach it.', x: hal.x, z: hal.z, farve: '#bfe4ff', varighed: 20 }), 5000);
   }
   spil.gem = startAutogem(spil);
 
@@ -183,6 +185,7 @@ async function start() {
     kmdHud.opdater(dt);
     helteKort.opdater(dt);
     fremskridt.opdater();
+    verdensliv.opdater(dt);
   });
 
   // Til test: vis hele kortet uden tåge

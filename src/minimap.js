@@ -78,7 +78,7 @@ export class Minimap {
       if (!l.creeps.some((cr) => !cr.død) || !t.erUdforsket(l.x, l.z)) continue;
       const [x, y] = this.px(l.x, l.z);
       ctx.fillStyle = NIVEAUER[l.data.niveau].farve;
-      ctx.beginPath(); ctx.arc(x, y, (l.data.niveau === 5 ? 4 : 2.6) * this.k, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y, (l.data.niveau >= 5 ? 4 : 2.6) * this.k, 0, Math.PI * 2); ctx.fill();
     }
     // Bygninger og figurer: egne i grønt, The Memory i rødt (bygninger når de er set, figurer når de ses)
     const prik = (x, z, farve, r, firkant) => {
@@ -110,6 +110,23 @@ export class Minimap {
       ctx.strokeStyle = '#ff2a1a'; ctx.fillStyle = 'rgba(255,40,20,0.45)'; ctx.lineWidth = 2 * this.k;
       ctx.beginPath(); ctx.arc(px, py, 7 * this.k, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.globalAlpha = 1;
+    }
+    // Krønikens steder blinker i postens farve
+    for (const p of spil.krønike?.aktive() ?? []) {
+      const [px, py] = this.px(p.x, p.z);
+      ctx.globalAlpha = p.styrke;
+      ctx.strokeStyle = p.farve; ctx.lineWidth = 2.5 * this.k;
+      ctx.beginPath(); ctx.arc(px, py, 8 * this.k, 0, Math.PI * 2); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    // Erevoss (The Memorys hjem) er altid markeret, så man ved hvor de kommer fra
+    const hal = spil.memory?.hal;
+    if (hal && !hal.død) {
+      const [ex, ey] = this.px(hal.x, hal.z);
+      ctx.strokeStyle = '#bfe4ff'; ctx.lineWidth = 1.6 * this.k; ctx.setLineDash([3 * this.k, 2 * this.k]);
+      ctx.beginPath(); ctx.arc(ex, ey, 11 * this.k, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#bfe4ff'; ctx.font = `800 ${9 * this.k}px system-ui, sans-serif`; ctx.textAlign = 'center';
+      ctx.fillText('Erevoss', ex, ey - 13 * this.k);
     }
     if (this.fuld.classList.contains('vis')) this.stor.getContext('2d').drawImage(this.c, 0, 0);
   }

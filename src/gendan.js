@@ -94,7 +94,7 @@ export function gendanSpil(spil, g) {
   // The Memory: bygninger (samme pladser hver gang), guld, bølger og hæren
   const m = spil.memory, gm = g.memory;
   if (gm) {
-    Object.assign(m, { tid: gm.tid, guld: gm.guld, bølge: gm.bølge, næsteAngreb: gm.næsteAngreb });
+    Object.assign(m, { tid: gm.tid, guld: gm.guld, bølge: gm.bølge, næsteAngreb: gm.næsteAngreb, ekkoer: gm.ekkoer ?? 0 });
     while (m.byggePlan < gm.byggePlan) { m.byg(4 + m.byggePlan); m.byggePlan += 1; }
     for (const d of gm.bygninger) {
       const b = m.bygninger.find((x) => x.id === d.id);

@@ -229,6 +229,73 @@
     "kaykit-dungeon/bottle_b_green_gltf",
     "kaykit-dungeon/coin_stack_small_gltf",
     "kaykit-dungeon/coin_stack_large_gltf",
-    "kaykit-dungeon/chest"
+    "kaykit-dungeon/chest",
+    {
+      "id": "quaternius-animals/characters/doe",
+      "as": "dyr/doe",
+      "animations": [
+        "idle",
+        "walk",
+        "run",
+        "eat"
+      ]
+    },
+    {
+      "id": "quaternius-animals/characters/stag",
+      "as": "dyr/stag",
+      "animations": [
+        "idle",
+        "walk",
+        "run",
+        "eat"
+      ]
+    },
+    {
+      "id": "quaternius-animals/characters/fox",
+      "as": "dyr/fox",
+      "animations": [
+        "idle",
+        "walk",
+        "run",
+        "eat"
+      ]
+    },
+    {
+      "id": "forge-lowpoly/crow",
+      "as": "dyr/crow"
+    },
+    {
+      "id": "forge-lowpoly/finch",
+      "as": "dyr/finch"
+    },
+    {
+      "id": "forge-lowpoly/gull",
+      "as": "dyr/gull"
+    },
+    {
+      "id": "forge-lowpoly/butterfly_blue",
+      "as": "dyr/butterfly_blue"
+    },
+    {
+      "id": "forge-lowpoly/butterfly_orange",
+      "as": "dyr/butterfly_orange"
+    },
+    "kaykit-halloween/pillar",
+    "kaykit-halloween/arch",
+    "kaykit-halloween/plaque_candles",
+    "kaykit-halloween/candle_triple",
+    {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "as": "units/pilgrim",
+      "animations": [
+        "Idle",
+        "Walking_A",
+        "Interact",
+        "Sit_Floor_Idle",
+        "Cheer",
+        "Running_A"
+      ]
+    },
+    "kaykit-adventurers/shield_square_color"
   ]
 }

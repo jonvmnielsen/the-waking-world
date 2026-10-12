@@ -6,7 +6,7 @@ import { KORT } from './config.js';
 import { nøgle } from './hexgrid.js';
 
 const NØGLE = 'tww-gem-1';
-export const GEM_VERSION = 1;
+export const GEM_VERSION = 2;   // 2: M8 (De Ældgamles lejre ændrer kortet)
 const r1 = (v) => Math.round(v * 10) / 10;
 
 export function hentGem() {
@@ -62,9 +62,9 @@ function lavGem(spil) {
     udvikling: spil.udvikling.gem(),
     ødelagte: (spil.konstruktioner ?? []).filter((k) => k.død).map((k) => k.id),
     kamera: { x: r1(rig.fokus.x), z: r1(rig.fokus.z), afstand: rig.afstand },
-    verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem() },
+    verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem(), ekko: spil.ekkoer?.gem() },
     memory: {
-      sværhed: m.sværhed, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
+      sværhed: m.sværhed, ekkoer: m.ekkoer, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
       bygninger: m.bygninger.map((b) => ({ id: b.id, hp: Math.ceil(b.hp), fremskridt: b.fremskridt, død: b.død })),
       enheder: m.levende.map((e) => ({ type: e.type, x: r1(e.x), z: r1(e.z), hp: Math.ceil(e.hp), level: e.level })),
     },

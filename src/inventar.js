@@ -4,7 +4,7 @@ import { ITEMS, salgsPris } from './itemdata.js';
 import { bus } from './events.js';
 
 export const PLADSER = 6;
-const TOM = { str: 0, agi: 0, int: 0, skade: 0, rustning: 0, hp: 0, mana: 0, angrebsfart: 0, hpRegen: 0, manaRegen: 0, livsstjæl: 0, retur: 0, blok: 0, lynChance: 0 };
+const TOM = { str: 0, agi: 0, int: 0, skade: 0, rustning: 0, hp: 0, mana: 0, angrebsfart: 0, hpRegen: 0, manaRegen: 0, livsstjæl: 0, retur: 0, blok: 0, lynChance: 0, ekko: 0 };
 
 export class Inventar {
   constructor(helt) {

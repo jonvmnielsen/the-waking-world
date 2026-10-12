@@ -2,7 +2,7 @@
 
 > Samlet beskrivelse af hele spillet. Hvor intet er besluttet endnu, står der **Forslag**, og de åbne valg er samlet i afsnit 17.
 > Detaljer om helte- og unit-progression står i `DESIGN_PROGRESSION.md`. Verdenens lore står i `agents/AGENT_LORE.md`.
-> Sidst opdateret: 2026-10-09
+> Sidst opdateret: 2026-10-12
 
 ---
 
@@ -191,7 +191,7 @@ Priser og tider står i `src/udviklingdata.js`.
 Hver race får sin egen økonomiske særhed, når de bygges:
 
 - **The Architects:** Stærke mure og tårne, bygninger kan opgraderes på stedet.
-- **The Memory:** Ødelagt land spreder sig om deres base, og de høster ånder fra faldne units.
+- **The Memory:** Ånder der ikke kan glemme. De høster *ekkoer* fra alt der dør (afsnit 12.1); deres land, Erevoss, er stille og sølvblegt — ingen død jord der breder sig (Jon, M8).
 - **The Dreaming:** Bygninger kan gå og flytte sig, og de høster uden at fælde skoven.
 
 Den første AI-modstander er **The Memory**. Vi har allerede skeletmodellerne.
@@ -266,6 +266,11 @@ Farverne vises på minimap og over lejren:
 | 3 | Orange | 7–10 | Helt + lille hær | Sjældent item |
 | 4 | Rød | 11–15 | 2 helte + hær | Episk item |
 | 5 | Lilla (boss) | 16–20 | Stor hær, flere helte | Legendarisk item |
+| 6 | Isblå (Ancient) | 20 | Helt i tier 2 + stor, opgraderet hær | To af De Ældgamles skatte + Tome of Power |
+
+**Skilte (M8):** Over hver udforsket lejr står et skilt i sværhedsgradens farve: 1–4 dødningehoveder (Easy–Deadly), en krone for bosser og en stjerne for De Ældgamle, plus creeps' level.
+
+**De Ældgamle (M8):** To lejre i verdens fjerneste hjørner (nordvest og sydøst) med *The First Warden*, *Ancient Revenants* og *Ancient Seers* — erindringer så gamle at de har fået krop igen, med en bleg, isblå glød. De står i en ring af søjler. Skattene: *Namebreaker* (+26 skade, +8 STR, lyn), *Aegis of the First Wall* (+9 rustning, +250 liv, returnerer 30 % nærkampsskade) og *Lantern of Echoes* (+12 INT, +150 mana, livsstjæl, fanger ekkoer på dobbelt afstand). En gylden kiste ved lejren låses op når de er faldet.
 
 ### 7.2 Creep-familier
 
@@ -400,7 +405,7 @@ Regelbaseret, ingen sprogmodel.
 - **Tilpasser sig** ud fra spillerens adfærdsmålere. Mod en aggressiv spiller bygger den flere tårne, og mod en, der creeper meget, angriber den tidligt.
 
 **Sådan er det bygget (M5):**
-- The Memory har basen i det modsatte hjørne (Gravelands, nordøst), og jorden omkring den er grå og død. Bygninger i rødt: *Bone Throne* (hal), *Crypt* (træner), *Grave Spire* (skyder), *Haunt*. Nye bygninger rejser sig efter en plan (4, 8, 12 og 16 min).
+- The Memory har basen i det modsatte hjørne (Erevoss, nordøst). Jorden omkring tronen er sølvbleg, og en lys tåge driver over den (M8). Soldaterne er ånder: blege, sølvblå og en smule gennemsigtige. Minimappet viser altid Erevoss, så man ved hvor de kommer fra. Bygninger i rødt: *Bone Throne* (hal), *Crypt* (træner), *Grave Spire* (skyder), *Haunt*. Nye bygninger rejser sig efter en plan (4, 8, 12 og 16 min).
 - Den tjener guld så længe tronen står, og træner *Risen*, *Bone Stalker*, *Grave Knight* og *Bone Mage*. Soldaternes level stiger hvert 4. minut — The Memory bliver stærkere jo længere spillet varer.
 - Hæren vokser med tiden. Første angreb: Easy 10 min, Normal 7 min, Hard 5 min; derefter med 4,5 / 3,5 / 2,5 minutters mellemrum, og bølgerne bliver større. En bølge trækker sig, hvis den mister to tredjedele.
 - Den forsvarer basen med alle hjemme, når spillerens figurer kommer tæt på.
@@ -420,7 +425,28 @@ Regelbaseret, ingen sprogmodel.
 
 Det forhindrer, at spillet går i stå, og giver et klimaks.
 
-**Sådan er det bygget (M6):** Faserne skifter med et banner og et dybt horn. I *Fald* giver guldminerne 25 % mindre, og hvert ~2. minut sender en vågen creep-lejr nær basen sine creeps ud for at plyndre (de giver ikke op ved leash og går efter bygninger). I *Opvågning* dukker Den Unavngivnes tjenere op ved kroen midt på kortet: en *Herald of the Unnamed*, *Hollow Knights* og *Void Witches* med lilla glød. Halvdelen marcherer mod spilleren, halvdelen mod The Memory, og de angriber alle. Når de alle er faldet, efterlader de en Tome of Power, et stærkt item og et legendarisk artefakt.
+### 12.1 Ekkoer og fortællingen (M8)
+
+**The Memory og The Unnamed.** The Memory er ét af de fire folk: ånder der ikke kan glemme. The Unnamed er den femte kraft, der holdt de fire i balance — den døde ikke, den blev *glemt*, og noget uden navn har ingen kanter. The Memory samler ekkoer, fordi hvert minde rummer en stump af det glemte navn: de tror, at hvis de husker det helt, bliver verden hel igen. Men jo mere de husker, jo nærmere kommer Opvågningen — og det der vågner, har været navnløst i tusind år (hule riddere og tomhedens hekse).
+
+**Ekkoer.** Når noget dør (creeps, The Memorys og spillerens soldater, helten), stiger et sølvblåt lys op og driver mod Erevoss. Når det når frem, får The Memory 10 guld, dens nye soldater stiger et level for hver 20 ekkoer, og Opvågningen rykker 4 sekunder nærmere (højst 6 minutter). Lysene kredser om tronen, så man kan se hvor meget de har samlet. Helten kan fange ekkoer, når de er på vej (efter 3 sekunder): +18 mana og +8 XP pr. ekko, og hvert 25. sekund en stump af hvad ekkoet husker. The Memory får så ikke ekkoet.
+
+**De Vågnende Sten.** En ring af fem søjler om kroen midt på kortet. De gløder svagt lilla efterhånden som verden husker, og brænder når Opvågningen kommer; tjenerne rejser sig ved dem. Tryk på en sten (med intet valgt) for at høre hvor længe der er.
+
+**Krøniken.** Det vigtige der sker i verden (faser, plyndringer, The Memorys bølger, Opvågningen, ekkoernes stumper, pilgrimme, De Ældgamle) vises som poster under uret i ca. 15 sekunder. Posten fortæller hvorfor og hvad man kan gøre; minimappet blinker stedet i postens farve, og tryk på posten flytter kameraet derhen. Menuen viser de seneste 30 poster (*Chronicle*) og en side om verden (*The World*). Under uret viser et fase-mærke hvor længe der er til næste fase.
+
+**Plyndringer forklaret.** I Faldet er de vilde lejre sultne: en lejr nær basen sender sine creeps mod spillerens bygninger. Krøniken siger det og viser lejren; hver plyndrer bærer en pose stjålet guld.
+
+**Intro.** Et nyt spil begynder med tre korte kort: Vaelthar og den glemte femte kraft, The Memory og ekkoerne, og hvad The Tide skal gøre.
+
+### 12.2 Liv i verden (M8)
+
+- **Dyr:** flokke af hjorte og hinder (Quaternius, CC0) der græsser, vandrer og flygter samlet fra alt der kommer tæt på; ræve der lusker alene. Kan ikke angribes.
+- **Fugle** (egne low-poly-modeller med vinger der slår): krager der kredser over skovene og samles hvor der har været kamp, finker der hopper i græsset og letter når nogen nærmer sig, måger langs kysten.
+- **Pilgrimme** i grå kutter vandrer mellem kroen, købmanden, brøndene, udkigstårnene og stenene. Tryk på en (med intet valgt), og de siger noget om verden.
+- **Livet følger verdenstilstanden:** i Faldet drager tre flokke bort, kragerne bliver flere, og to pilgrimme søger ly ved spillerens hal og giver 60 guld og 40 træ. I Opvågningen samles pilgrimmene ved stenene, og kragerne kredser over dem; når tjenerne er faldet, jubler de.
+
+**Sådan er det bygget (M6):** Faserne skifter med et banner og et dybt horn. I *Fald* giver guldminerne 25 % mindre, og hvert ~2. minut sender en vågen creep-lejr nær basen sine creeps ud for at plyndre (de giver ikke op ved leash og går efter bygninger). I *Opvågning* dukker Den Unavngivnes tjenere op ved De Vågnende Sten om kroen midt på kortet: en *Herald of the Unnamed*, *Hollow Knights* og *Void Witches* med lilla glød. Halvdelen marcherer mod spilleren, halvdelen mod The Memory, og de angriber alle. Når de alle er faldet, efterlader de en Tome of Power, et stærkt item og et legendarisk artefakt.
 
 **Kroen (M6):** Helten kan gå til kroen og hyre lejesoldater for guld: *Brawler* (nærkamp), *Crossbowman* (afstand) og *Sellsword* (tung). De kræver forsyning og kæmper som spillerens egne soldater.
 
@@ -474,7 +500,8 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M5 ✅** | **Modstander** | The Memory som regelbaseret AI: base i nordøst med ødeland, krypter der træner skeletter, spir der skyder, bølger mod spillerens base, sejr og nederlag, tre sværhedsgrader. Bygninger har liv og kan repareres |
 | **M6 ✅** | **Liv i verden** | Dag og nat, verdenstilstand (Balance/Fald/Opvågning), kroen hyrer lejesoldater, syntetisk lyd |
 | **M7 ✅** | **Fremskridt** | Ascension ved level 10 med tre stier og level 11–20, XP efter level-forskel, upkeep, forskning (Forge, Lumber Mill, War Camp, Great Hall) og opgraderinger (Stronghold/Fortress, Guard Tower) |
-| M8+ | Flere helte, en helt til The Memory, flere racer, udforskning, kampagne | |
+| **M8 ✅** | **En levende verden** | Dyr, fugle og pilgrimme; ekkoer og The Memory som ånder; De Vågnende Sten; krøniken, fase-mærket, intro og verdenssiden; skilte over lejrene og De Ældgamle med nye legendariske items |
+| M9+ | Flere helte, en helt til The Memory, flere racer, udforskning, kampagne | |
 
 ---
 

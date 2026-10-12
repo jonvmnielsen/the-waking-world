@@ -1,7 +1,7 @@
 // Items på jorden og kister (GDD 8.4). Items får en lysstribe i sjældenhedens farve.
 import * as THREE from 'three';
 import { kopi } from './assets.js';
-import { ITEMS, SJÆLDENHED, DROP, BOSS_DROP, træk } from './itemdata.js';
+import { OLDTID_DROP, ITEMS, SJÆLDENHED, DROP, BOSS_DROP, træk } from './itemdata.js';
 import { bus } from './events.js';
 
 const STRÅLE_GEO = new THREE.CylinderGeometry(0.18, 0.5, 6, 12, 1, true).translate(0, 3, 0);
@@ -67,7 +67,12 @@ export class Genstande {
       helt.inventar.tilføjGuld(Math.round(4 + creep.level * 2.2 + Math.random() * 4) * (creep.boss ? 5 : 1), creep);
       const lejr = creep.lejr;
       if (!lejr || lejr.fjende || lejr.creeps.some((c) => !c.død)) return;
-      if (lejr.data.niveau === 5) {
+      if (lejr.data.niveau === 6) {
+        // De Ældgamle: to af de tre gamle skatte og en Tome of Power
+        const [a, b] = [...OLDTID_DROP].sort(() => this.tilf() - 0.5);
+        this.læg(a, creep.x, creep.z); this.læg(b, creep.x + 1.6, creep.z + 0.6); this.læg('kraftensSkrift', creep.x - 1.4, creep.z + 1);
+        bus.emit('krønike', { titel: 'The Ancients are laid to rest', tekst: 'They remembered the world before names. Their treasures are yours.', x: creep.x, z: creep.z, farve: '#7fe8ff' });
+      } else if (lejr.data.niveau === 5) {
         const [unik, ekstra] = BOSS_DROP[lejr.data.familie];
         this.læg(unik, creep.x, creep.z);
         this.læg(this.tilf() < 0.5 ? ekstra : træk(DROP[4]), creep.x + 1.5, creep.z + 1);

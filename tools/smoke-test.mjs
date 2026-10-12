@@ -38,6 +38,8 @@ await page.waitForSelector('#essensvalg.vis', { timeout: 90000 });
 await page.screenshot({ path: path.join(UD, '1-essens.png') });
 await page.click('.essens.vold');
 await page.click('#essens-start');
+await page.waitForSelector('#intro.vis', { timeout: 60000 }).catch(() => {});
+await page.click('#intro-spring').catch(() => {});
 await page.waitForFunction(() => window.klar === true);
 await page.waitForTimeout(2500);
 await page.screenshot({ path: path.join(UD, '2-start.png') });

@@ -91,6 +91,17 @@ export function vandPynt(f, tilf) {
 // Lejrens udseende afhænger af familien
 export function lejrPynt(f, familie, tilf, boss) {
   const ring = (i, n, r) => { const v = (i / n) * Math.PI * 2 + tilf() * 0.5; return { dx: Math.cos(v) * r, dz: Math.sin(v) * r, v }; };
+  if (familie === 'oldtid') {
+    // En ring af ældgamle søjler med lys, og en port mod midten
+    for (let i = 0; i < 6; i++) {
+      const { dx, dz, v } = ring(i, 6, RI * 0.9);
+      f.pynt.push({ model: HAL + 'pillar', dx, dz, rot: (-v * 180) / Math.PI, skala: 1.5, skygge: true });
+    }
+    f.pynt.push({ model: HAL + 'arch', dx: 0, dz: -RI * 0.82, rot: 0, skala: 1.3, skygge: true });
+    f.pynt.push({ model: HAL + 'plaque_candles', dx: RI * 0.35, dz: RI * 0.5, rot: 200, skala: 1.2, skygge: true });
+    f.pynt.push({ model: HAL + 'candle_triple', dx: -RI * 0.4, dz: RI * 0.45, rot: 0, skala: 1.6 });
+    return;
+  }
   if (familie === 'skeletter') {
     const grave = [['grave_a', 0.6], ['gravestone', 0.75], ['gravemarker_a', 0.9], ['grave_b', 0.6], ['gravemarker_b', 0.9], ['ribcage', 0.8], ['skull', 0.6]];
     for (let i = 0; i < 6; i++) {

@@ -12,6 +12,11 @@ export const CREEP_TYPER = {
   warrior: { navn: 'Grave Warden', model: 'skeleton_warrior', anim: SKELET_ANIM, hp: 280, skade: [20, 28], angrebsTid: 2.3, fart: 3.1, rækkevidde: 2.2, rustning: 2, våben: { r: 'skeleton_axe', l: 'skeleton_shield_large_a' }, angreb: '1H_Melee_Attack_Chop', skala: 1.15 },
   gravkonge: { navn: 'The Grave King', model: 'skeleton_warrior', anim: SKELET_ANIM, hp: 900, skade: [40, 55], angrebsTid: 2.4, fart: 3.0, rækkevidde: 2.8, rustning: 5, våben: { r: 'skeleton_axe', l: 'skeleton_shield_large_a' }, angreb: '1H_Melee_Attack_Chop', skala: 1.7, boss: true },
 
+  // De Ældgamle (M8) — erindringer så gamle, at de har fået krop igen. Vogter de fjerneste hjørner af verden.
+  oldkriger: { navn: 'Ancient Revenant', model: 'skeleton_warrior', anim: SKELET_ANIM, hp: 260, skade: [20, 27], angrebsTid: 2.1, fart: 3.3, rækkevidde: 2.4, rustning: 3, våben: { r: 'skeleton_axe', l: 'skeleton_shield_large_a' }, angreb: '1H_Melee_Attack_Chop', skala: 1.35, ånd: true },
+  oldseer: { navn: 'Ancient Seer', model: 'skeleton_mage', anim: SKELET_ANIM, hp: 170, skade: [18, 24], angrebsTid: 2.5, fart: 3.2, rækkevidde: 10, rustning: 1, våben: { r: 'skeleton_staff' }, angreb: 'Spellcast_Shoot', projektil: 0x9fe8ff, skala: 1.25, ånd: true },
+  oldvogter: { navn: 'The First Warden', model: 'skeleton_warrior', anim: SKELET_ANIM, hp: 900, skade: [40, 52], angrebsTid: 2.4, fart: 3.1, rækkevidde: 3.2, rustning: 6, våben: { r: 'skeleton_axe', l: 'skeleton_shield_large_a' }, angreb: '1H_Melee_Attack_Chop', skala: 2.1, boss: true, ånd: true },
+
   // Plyndrere — Askemarken, Skoven, Bjergene
   slagsbror: { navn: 'Brawler', model: 'bandit_slagsbror', anim: MENNESKE_ANIM, hp: 130, skade: [12, 17], angrebsTid: 1.6, fart: 3.6, rækkevidde: 2.0, rustning: 0, skjul: ['1H_Crossbow', '2H_Crossbow', 'Throwable'], angreb: 'Dualwield_Melee_Attack_Slice' },
   skytte: { navn: 'Crossbowman', model: 'bandit_skytte', anim: MENNESKE_ANIM, hp: 110, skade: [15, 21], angrebsTid: 2.2, fart: 3.4, rækkevidde: 10, rustning: 0, skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', 'Throwable'], angreb: '2H_Ranged_Shoot', projektil: 0xffd27a },
@@ -28,6 +33,7 @@ export const NIVEAUER = [
   { navn: 'Hard', farve: '#f08a35', level: 8 },
   { navn: 'Deadly', farve: '#e8473c', level: 12 },
   { navn: 'Boss', farve: '#b05cff', level: 16 },
+  { navn: 'Ancient', farve: '#7fe8ff', level: 20 },
 ];
 
 // Lejrsammensætning pr. familie og niveau (der vælges tilfældigt blandt mulighederne)
@@ -38,6 +44,9 @@ export const SAMMENSÆTNING = {
     3: [['warrior', 'mage', 'minion'], ['warrior', 'rogue', 'rogue']],
     4: [['warrior', 'warrior', 'mage', 'mage'], ['warrior', 'mage', 'rogue', 'rogue']],
     5: [['gravkonge', 'warrior', 'mage', 'mage']],
+  },
+  oldtid: {
+    6: [['oldvogter', 'oldkriger', 'oldkriger', 'oldseer', 'oldseer']],
   },
   plyndrere: {
     1: [['slagsbror', 'slagsbror'], ['slagsbror', 'skytte']],

@@ -5,6 +5,7 @@ import { CREEP_AI, tilfældig } from './config.js';
 import { creepStats, NIVEAUER } from './creepdata.js';
 import { hexTilVerden } from './hexgrid.js';
 import { bus } from './events.js';
+import { åndeLook } from './aand.js';
 
 export class Creep extends Unit {
   constructor(verden, type, level, lejr, hjem) {
@@ -16,6 +17,7 @@ export class Creep extends Unit {
     this.maxHp = d.hp; this.hp = d.hp; this.fart = d.fart; this.rustning = d.rustning;
     this.tilstand = 'vågner';
     this.mål = null; this.cooldown = 0; this.sving = null; this.lammet = 0; this.forsvind = 0;
+    if (d.ånd) åndeLook(this.model, { farve: 0x7fe8ff, styrke: 0.5, gennemsigtig: 0.9 });
     this.rod.position.set(hjem.x, 0, hjem.z);
     this.rod.rotation.y = this.vinkelMål = Math.random() * Math.PI * 2;
     this.vågenTid = (this.anim.vågn && this.spil(this.anim.vågn, { loop: false })) || (this.spil(this.anim.idle), 0.3);

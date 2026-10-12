@@ -19,6 +19,8 @@ For årtusinder siden eksisterede en femte kraft — **The Unnamed** — der hol
 
 **The Waking** er hvad de kalder det øjeblik der nærmer sig — når The Unnamed vender tilbage, eller noget i dens sted.
 
+**Ekkoerne (M8, kanon):** The Unnamed døde ikke — den blev *glemt*, og en ting uden navn har ingen kanter. Hvert minde i verden rummer en stump af navnet. The Memory, som ikke kan glemme, samler ekkoerne fra alt der dør, fordi de tror at verden bliver hel, hvis navnet huskes helt. Men jo mere der huskes, jo nærmere kommer The Waking — og det der vågner, har været navnløst i tusind år. Derfor er dens tjenere hule (*Hollow Knights*, *Void Witches*). De Vågnende Sten midt i verden lyser, efterhånden som verden husker.
+
 ### De fire kræfter og deres folk
 
 **The Architects (Humans → "Bygmestre af orden")**

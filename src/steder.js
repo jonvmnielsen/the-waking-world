@@ -100,6 +100,17 @@ export function placérSteder(k, tilf) {
     lejrPynt(f, familie, tilf, niveau === 5);
     return { id: `lejr-${f.q}-${f.r}`, q: f.q, r: f.r, niveau, familie, creeps: valg[Math.floor(tilf() * valg.length)] };
   };
+  // De Ældgamle (M8): to meget svære lejre i verdens fjerneste hjørner
+  const oldtid = (nx, nz) => {
+    const f = nærmesteFri(nx, nz);
+    if (!f) return;
+    const l = lavLejr(f, 6, 'oldtid');
+    lejre.push(l);
+    const p = hexTilVerden(f.q, f.r);
+    kister.push({ x: p.x - 3.2, z: p.z + 2.8, rot: 0.6, niveau: 4, guld: true, lejrId: l.id });
+  };
+  oldtid(-0.86, -0.8);
+  oldtid(0.84, 0.86);
   boss(0.12, -0.84, 'skeletter');
   boss(0.82, -0.05, 'plyndrere');
 

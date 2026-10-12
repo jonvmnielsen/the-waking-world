@@ -15,7 +15,7 @@ export class Memory {
   constructor(spil, plads, sværhed = 'normal') {
     this.spil = spil; this.verden = spil.verden; this.sværhed = sværhed;
     this.s = SVÆRHED[sværhed];
-    this.tid = 0; this.guld = 200; this.bølge = 0;
+    this.tid = 0; this.guld = 200; this.bølge = 0; this.ekkoer = 0;
     this.næsteAngreb = this.s.førsteAngreb * 60;
     this.angribere = []; this.bølgeStart = 0;
     this.kø = new Map();          // krypt -> { type, tid }
@@ -41,6 +41,14 @@ export class Memory {
     if (!færdig) this.verden.creeps.push(b);
     return b;
   }
+
+  // Ekkoer fra de faldne (ekko.js): guld, og soldaterne bliver stærkere for hver 20 ekkoer
+  modtagEkko(n) {
+    this.ekkoer += n;
+    this.guld += 10 * n;
+    if (Math.floor(this.ekkoer / 20) > Math.floor((this.ekkoer - n) / 20)) bus.emit('krønike', { titel: 'The Memory grows', tekst: `${this.ekkoer} echoes have reached Erevoss. Its soldiers rise stronger.`, x: this.hal.x, z: this.hal.z, farve: '#bfe4ff' });
+  }
+  ekkoLevel() { return Math.floor(this.ekkoer / 20); }
 
   spillerBygninger() { return this.spil.base.bygninger.filter((b) => !b.død); }
   get levende() { return this.enheder.filter((e) => !e.død); }
@@ -96,7 +104,7 @@ export class Memory {
   nyEnhed(type, krypt) {
     const v = Math.random() * Math.PI * 2;
     const x = krypt.x + Math.cos(v) * (krypt.radius + 1.5), z = krypt.z + Math.sin(v) * (krypt.radius + 1.5);
-    const e = new Fjende(this.verden, type, fjendeLevel(this.sværhed, this.minutter()), this, x, z);
+    const e = new Fjende(this.verden, type, fjendeLevel(this.sværhed, this.minutter()) + this.ekkoLevel(), this, x, z);
     e.post = { x: this.samling.x + (Math.random() - 0.5) * 8, z: this.samling.z + (Math.random() - 0.5) * 8 };
     e.ordre = 'retur';
     this.enheder.push(e);
@@ -122,7 +130,7 @@ export class Memory {
       if (lever.length < this.bølgeStart * 0.35) {
         for (const e of lever) e.kommandoRetur();
         this.angribere = [];
-        bus.emit('besked', 'The Memory pulls back its forces');
+        bus.emit('krønike', { titel: 'The Memory pulls back', tekst: 'Its soldiers return to Erevoss to gather strength.', x: lever[0].x, z: lever[0].z, farve: '#bfe4ff' });
       }
       return;
     }
@@ -140,6 +148,6 @@ export class Memory {
     this.bølge += 1;
     this.næsteAngreb = this.tid + this.s.mellemrum * 60;
     bus.emit('fjende_angreb', { antal: sendes.length, bølge: this.bølge });
-    bus.emit('besked', `The Memory marches on your base! (${sendes.length} undead)`);
+    bus.emit('krønike', { titel: 'The Memory marches from Erevoss', tekst: `${sendes.length} spirit soldiers are coming for your ${mål.data.navn}, from the far north-east.`, x: this.samling.x, z: this.samling.z, farve: '#ff7a6a', varighed: 18 });
   }
 }

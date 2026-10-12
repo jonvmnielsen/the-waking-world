@@ -41,6 +41,11 @@ export const ITEMS = {
   gravkongensSkjold: { navn: "Grave King's Shield", type: 'artefakt', sjældenhed: 'legendarisk', model: SKEL + 'skeleton_shield_large_a', bonus: { rustning: 8, str: 8, blok: 0.25 }, ekstra: '25% chance to block 40 damage.' },
   kaptajnensKlinge: { navn: "Captain's Blade", type: 'artefakt', sjældenhed: 'legendarisk', model: ADV + 'sword_2handed_color', bonus: { skade: 24, agi: 6, livsstjæl: 0.12 }, ekstra: 'Heals the hero for 12% of the damage dealt.' },
 
+  // De Ældgamles skatte (M8) — kun fra Ancient-lejrene
+  navnebrækkeren: { navn: 'Namebreaker', type: 'artefakt', sjældenhed: 'legendarisk', model: ADV + 'sword_2handed_color', farve: [0.7, 1.15, 1.35], bonus: { skade: 26, str: 8, lynChance: 0.15 }, ekstra: 'Forged before names existed. 15% chance to call lightning on the target and two nearby enemies.' },
+  førsteMur: { navn: 'Aegis of the First Wall', type: 'artefakt', sjældenhed: 'legendarisk', model: ADV + 'shield_square_color', farve: [0.75, 1.1, 1.3], bonus: { rustning: 9, str: 6, hp: 250, retur: 0.3 }, ekstra: 'Returns 30% of melee damage to the attacker.' },
+  ekkolygten: { navn: 'Lantern of Echoes', type: 'artefakt', sjældenhed: 'legendarisk', model: 'kaykit-halloween/lantern_standing', farve: [0.7, 1.1, 1.4], bonus: { int: 12, mana: 150, manaRegen: 3, livsstjæl: 0.1, ekko: 1 }, ekstra: 'Heals 10% of damage dealt. Echoes drift to you from twice as far.' },
+
   // Opsamling — bruges straks. Bøgerne øger egenskaberne permanent.
   guldpose: { navn: 'Pouch of Gold', type: 'opsamling', sjældenhed: 'almindelig', model: DUN + 'coin_stack_small_gltf', tekst: 'Gold.', brug: { guld: 40 } },
   styrkensSkrift: { navn: 'Tome of Strength', type: 'opsamling', sjældenhed: 'episk', model: ADV + 'spellbook_closed', farve: RØD, tekst: 'Permanently +2 Strength.', brug: { bog: { str: 2 } }, pris: 350 },
@@ -69,8 +74,10 @@ export const DROP = {
   1: { livseliksir: 30, manaeliksir: 12, kroensKrus: 12, guldpose: 18, rustenDolk: 14, træskjold: 14 },
   2: { storLivseliksir: 12, manaeliksir: 8, røgbombe: 10, hjemkald: 10, rustenDolk: 8, træskjold: 8, jernsværd: 12, ridderskjold: 12, koggeret: 10, magerensBog: 10, styrkensSkrift: 4, smidighedensSkrift: 4, klogskabensSkrift: 4 },
   3: { jernsværd: 14, ridderskjold: 14, koggeret: 14, magerensBog: 12, lynstav: 16, styrkensSkrift: 8, smidighedensSkrift: 8, klogskabensSkrift: 8, visdommensSkrift: 12, storLivseliksir: 8 },
+  6: { navnebrækkeren: 1, førsteMur: 1, ekkolygten: 1 },
   4: { krigsøkse: 22, pigskjold: 22, stormstav: 20, lynstav: 12, styrkensSkrift: 10, smidighedensSkrift: 10, klogskabensSkrift: 10, kraftensSkrift: 6, visdommensSkrift: 10 },
 };
+export const OLDTID_DROP = ['navnebrækkeren', 'førsteMur', 'ekkolygten'];
 export const BOSS_DROP = { skeletter: ['gravkongensSkjold', 'tordenøksen'], plyndrere: ['kaptajnensKlinge', 'tordenøksen'] };
 
 // Hvad købmanden sælger

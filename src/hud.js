@@ -20,14 +20,15 @@ export class Hud {
     });
     bus.on('helt_død', () => $('dødsskærm').classList.add('vis'));
     bus.on('helt_genoplivet', () => $('dødsskærm').classList.remove('vis'));
-    bus.on('banner', ({ titel, tekst }) => this.banner(titel, tekst));
+    bus.on('banner', ({ titel, tekst, lang }) => this.banner(titel, tekst, lang));
     bus.on('level_op', ({ level }) => this.banner(`Level ${level}`, [3, 6, 14].includes(level) ? 'New ability unlocked!' : level === 10 && !spil.helt.sti.id ? 'Ascension awaits' : 'Your hero grows stronger'));
   }
 
-  banner(titel, under) {
+  banner(titel, under, meget = false) {
     const b = $('banner');
     b.innerHTML = `<b>${titel}</b><span>${under}</span>`;
     b.classList.toggle('lang', under.length > 40);
+    b.classList.toggle('meget', !!meget);
     b.classList.remove('vis'); void b.offsetWidth; b.classList.add('vis');
   }
 

@@ -68,6 +68,12 @@ the-waking-world/
 │   ├── sejr.js / spilloop.js # Sejr/nederlag + slutskærm; ét tidstrin i spillet og omrids-tegningen
 │   ├── dagnat.js             # Dag og nat: lys, himmel, udsyn, ur
 │   ├── verdenstilstand.js / tjener.js # Balance → Fald → Opvågning; Den Unavngivnes tjenere
+│   ├── livet.js              # Livet i verden: sætter dyr, fugle, pilgrimme, sten og ekkoer op og følger faserne
+│   ├── dyr.js / fugle.js / pilgrimme.js # Hjorte, hinder og ræve; krager, finker og måger (vingeslag); pilgrimme
+│   ├── vaekkesten.js / aand.js # De Vågnende Sten; ånde-udseende, glød og tågen over Erevoss
+│   ├── ekko.js               # Ekkoer fra de faldne driver til Erevoss (helten kan fange dem)
+│   ├── kroenike.js / fortaelling.js / verdenslore.js # Krøniken; intro, fase-mærke og verdenssiden; al lore-tekst
+│   ├── lejrskilt.js          # Skilte over lejrene (sværhedsgrad og level)
 │   ├── kro.js                # Kroen hyrer lejesoldater
 │   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
@@ -356,7 +362,15 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Byg flere Strongholds (ekstra haller); tier 2 hedder Citadel
 - [x] Kompakte bjælker over helten; heltens knapper tættere sammen
 
-### 📋 Næste: M8+
+### ✅ M8 — "En levende verden" (oktober 2026)
+- [x] Dyr (hjorte, hinder, ræve — Quaternius CC0) der græsser, vandrer og flygter; krager, finker og måger med vingeslag; pilgrimme der taler
+- [x] The Memory er ånder (ingen død jord): sølvblege soldater, Erevoss med tåge; ekkoer fra de faldne driver dertil og fremskynder Opvågningen — helten kan fange dem
+- [x] De Vågnende Sten midt i verden lyser efterhånden som verden vågner
+- [x] Krøniken: verdens begivenheder med årsag, sted (tryk = kig) og minimap-blink; fase-mærke med nedtælling; intro; "The World" og "Chronicle" i menuen
+- [x] Skilte over lejrene; De Ældgamle (level 20) i to hjørner med tre nye legendariske items
+- [x] Plyndrere bærer stjålet guld; bannere og beskeder står længere
+
+### 📋 Næste: M9+
 Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer. Se `docs/GDD.md` afsnit 16.
 
 ---
@@ -387,6 +401,10 @@ Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer
 | 2026-10-11 | Ny skærm: helteknap i stedet for heltepanel, HUD efter valg, indstillinger | Jon: for meget UI på skærmen og for tæt zoom; heltens ting kun når helten er valgt |
 | 2026-10-11 | Høst inden for 2 hex (først 1,5), ellers ledig; tilbagevenden efter jagt (10 s) | Jons regler |
 | 2026-10-11 | Valg låst indtil Deselect; Strongholds kan bygges; tier 2 omdøbt til Citadel | Jons ønsker; Citadel undgår to ting med samme navn |
+| 2026-10-12 | The Memory er ånder, ikke død jord | Jon. Ekkoer fra de faldne driver til Erevoss og fremskynder Opvågningen; helten kan fange dem |
+| 2026-10-12 | Lore: The Unnamed blev glemt, og hvert minde rummer en stump af navnet | Jon: "lad os bare gå med det, jeg vil gerne overraskes" |
+| 2026-10-12 | Dyr fra Quaternius (CC0) via en offentlig kopi med Quaternius' egen licensfil | Den officielle zip ligger på Google Drive; game-assets D-013 |
+| 2026-10-12 | Gem-version 2 | De Ældgamles lejre ændrer kortet, så gemte spil fra før M8 kan ikke fortsættes |
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |
 | 2026-10-10 | Dag og nat med | Rytme og taktik (GDD 4.6) |
 | 2026-10-10 | Lyd syntetiseres med WebAudio indtil videre | Ingen lydfiler i asset-biblioteket endnu; virker uden downloads |
@@ -451,4 +469,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-10-11*
+*Sidst opdateret: 2026-10-12*

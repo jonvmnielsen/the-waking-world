@@ -19,6 +19,8 @@ export const MODELLER = [...new Set([
   'kaykit-hexagon/decoration/nature/trees_a_cut', 'kaykit-hexagon/decoration/nature/trees_b_cut',
   ...TÅRN_TRIN.map((t) => t.model), 'kaykit-hexagon/decoration/props/flag_green', 'kaykit-hexagon/decoration/props/weaponrack',
   'kaykit-hexagon/buildings/green/building_tower_a_green', 'kaykit-hexagon/buildings/green/building_tower_base_green',
+  // Livet i verden (M8)
+  'dyr/doe', 'dyr/stag', 'dyr/fox', 'dyr/crow', 'dyr/finch', 'dyr/gull', 'units/pilgrim', 'kaykit-halloween/pillar',
 ])];
 
 export const EKSTRA_IKONER = [

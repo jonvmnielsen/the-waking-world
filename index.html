@@ -25,6 +25,8 @@
     </div>
 
     <div id="ur" aria-live="polite"></div>
+    <div id="fase" role="button" aria-label="World phase"></div>
+    <div id="krønike" aria-live="polite"></div>
     <button id="helteknap" type="button" aria-label="Hero overview"><b id="level">1</b><small>Hero</small></button>
     <button id="ascend" type="button" hidden><b>Ascend</b><small>Your hero is ready</small></button>
     <div id="tælle-knapper">
@@ -93,6 +95,8 @@
     <label class="indst skifter"><span>Always show abilities<small>Off: one Hero button opens abilities and inventory</small></span><input id="ind-evner" type="checkbox" /></label>
     <label class="indst skifter"><span>Always show inventory<small>Off: an Inventory button opens it</small></span><input id="ind-rygsæk" type="checkbox" /></label>
     <button id="test-level" type="button">Level up (test)</button>
+    <details class="hjælp"><summary>The World</summary><div id="verden-tekst"></div></details>
+    <details class="hjælp"><summary>Chronicle</summary><div id="krønike-log"></div></details>
     <details class="hjælp"><summary>How to play</summary>
       <p><b>Hero:</b> tap the Hero button (top left) for your hero's overview, or tap the hero. With the hero selected, tap the ground to walk, an enemy to attack, an item or chest to pick it up. Health, mana and experience show above your hero.</p>
       <p><b>Deselect:</b> tap ✕ Deselect (bottom left) so nothing is selected — then you can look around without moving anyone.</p>
@@ -168,6 +172,15 @@
       <div id="svaerhed" role="radiogroup" aria-label="Opponent"><span>Opponent: The Memory</span><button type="button" data-s="easy">Easy</button><button type="button" data-s="normal" class="valgt">Normal</button><button type="button" data-s="hard">Hard</button></div>
       <button id="essens-start" type="button" hidden>Begin</button>
       <p class="essens-note">How you actually play matters too: the way you fight keeps shaping your path, long after this choice.</p>
+    </div>
+  </div>
+
+  <div id="intro" role="dialog" aria-label="Story">
+    <div class="intro-kort">
+      <h2></h2>
+      <p></p>
+      <div class="prikker"></div>
+      <div class="intro-knapper"><button id="intro-spring" type="button">Skip</button><button id="intro-næste" type="button">Next</button></div>
     </div>
   </div>
 

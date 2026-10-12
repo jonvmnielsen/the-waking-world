@@ -6,6 +6,7 @@
 import { Creep } from './creeps.js';
 import { Unit } from './unit.js';
 import { FJENDE_ENHEDER } from './fjendedata.js';
+import { åndeLook } from './aand.js';
 
 const SE_UNITS = 11, SE_BYGNINGER = 14;
 
@@ -21,6 +22,8 @@ export class Fjende extends Creep {
     this.post = { x, z };
     this.marchMål = null;
     this.søgTid = Math.random() * 0.5;
+    // The Memorys soldater er ånder (Jon: ikke døde, men ånder)
+    åndeLook(this.model);
   }
 
   // Spillerens figurer og bygninger der kan angribes

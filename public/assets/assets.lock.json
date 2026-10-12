@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
-  "libraryCommit": "26a3e52",
-  "synced": "2026-10-11T10:10:13.210Z",
+  "libraryCommit": "1b1fd70",
+  "synced": "2026-10-12T05:25:11.963Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -1740,6 +1740,144 @@
       "file": "kaykit-dungeon/chest.glb",
       "bytes": 24092,
       "sha": "7b374746d0c6",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "dyr/doe": {
+      "id": "quaternius-animals/characters/doe",
+      "file": "dyr/doe.glb",
+      "bytes": 186868,
+      "sha": "39fb616af783",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "idle",
+        "walk",
+        "run",
+        "eat"
+      ]
+    },
+    "dyr/stag": {
+      "id": "quaternius-animals/characters/stag",
+      "file": "dyr/stag.glb",
+      "bytes": 181388,
+      "sha": "a676e0e0d552",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "idle",
+        "walk",
+        "run",
+        "eat"
+      ]
+    },
+    "dyr/fox": {
+      "id": "quaternius-animals/characters/fox",
+      "file": "dyr/fox.glb",
+      "bytes": 190944,
+      "sha": "3bf396d08f19",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "idle",
+        "walk",
+        "run",
+        "eat"
+      ]
+    },
+    "dyr/crow": {
+      "id": "forge-lowpoly/crow",
+      "file": "dyr/crow.glb",
+      "bytes": 9208,
+      "sha": "1d486ce67f8a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "dyr/finch": {
+      "id": "forge-lowpoly/finch",
+      "file": "dyr/finch.glb",
+      "bytes": 9552,
+      "sha": "7648ac8088ce",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "dyr/gull": {
+      "id": "forge-lowpoly/gull",
+      "file": "dyr/gull.glb",
+      "bytes": 9892,
+      "sha": "689509e92ab8",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "dyr/butterfly_blue": {
+      "id": "forge-lowpoly/butterfly_blue",
+      "file": "dyr/butterfly_blue.glb",
+      "bytes": 4532,
+      "sha": "4c44f8464bbb",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "dyr/butterfly_orange": {
+      "id": "forge-lowpoly/butterfly_orange",
+      "file": "dyr/butterfly_orange.glb",
+      "bytes": 4540,
+      "sha": "bd3c924cf955",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/pillar": {
+      "id": "kaykit-halloween/pillar",
+      "file": "kaykit-halloween/pillar.glb",
+      "bytes": 9616,
+      "sha": "9383bc2de804",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/arch": {
+      "id": "kaykit-halloween/arch",
+      "file": "kaykit-halloween/arch.glb",
+      "bytes": 17044,
+      "sha": "e8237f17a5d9",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/plaque_candles": {
+      "id": "kaykit-halloween/plaque_candles",
+      "file": "kaykit-halloween/plaque_candles.glb",
+      "bytes": 15492,
+      "sha": "9a9bc614f80c",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/candle_triple": {
+      "id": "kaykit-halloween/candle_triple",
+      "file": "kaykit-halloween/candle_triple.glb",
+      "bytes": 11476,
+      "sha": "af469d88239f",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "units/pilgrim": {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "file": "units/pilgrim.glb",
+      "bytes": 323992,
+      "sha": "2456540a4615",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "Walking_A",
+        "Interact",
+        "Sit_Floor_Idle",
+        "Cheer",
+        "Running_A"
+      ]
+    },
+    "kaykit-adventurers/shield_square_color": {
+      "id": "kaykit-adventurers/shield_square_color",
+      "file": "kaykit-adventurers/shield_square_color.glb",
+      "bytes": 12192,
+      "sha": "301859e932d0",
       "license": "CC0-1.0",
       "kind": "model"
     }
