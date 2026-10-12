@@ -84,6 +84,10 @@ the-waking-world/
 │   ├── minedata.js / kaempeaare.js / minevisning.js # Minernes størrelser og stadier; Motherlode og Deep Quarry; målere
 │   ├── fund.js               # Heldige fund i miner og stenbrud
 │   ├── kro.js                # Kroen hyrer lejesoldater
+│   ├── hulegen.js / hulevisning.js / huler.js # Huler: rum, lejre og boss (logik); gulv, vægge og fakler (3D); ind og ud, ryddet
+│   ├── begivenheder.js / begivenhedsdata.js # Tilfældige begivenheder: planlægning, steder, tryk; tal og tekster
+│   ├── himmelbegivenheder.js / stedbegivenheder.js # Blood Moon, Eclipse, Starfall, Gold rush; helligdom, lejesvende, baghold
+│   ├── champion.js           # Champion-creeps: egenskaber, ring og skær, ekstra drop
 │   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
@@ -392,8 +396,15 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Miner på 10/15/20 tusind guld; Motherlode 30–50 tusind og Deep Quarry (sten), vogtet; måler med fem (seks) stadier; årerne svinder; heldige fund
 - [x] Forslag til RNG, huler, begivenheder og WC3-følelsen i GDD 17a–b; gem-version 4
 
-### 📋 Næste: M11+
-Verdensbegivenheder, champion-creeps, huler, flere helte, en helt til The Memory, musik. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M11 — "Huler, begivenheder og championer" (oktober 2026)
+- [x] Rettelser: kaktusser fra vores egen generator (ingen potter), lavasøer inde i landet og askehav, minernes stadier kun som synlige tegn (tryk = tal)
+- [x] Huler: indgang i bjergene, 5–7 rum med lejre, skattekiste, boss og låst guldkiste; mørke, lygte, kamera- og minimapgrænser; gem-version 5
+- [x] Begivenheder: Blood Moon, Eclipse, Starfall (stjernekrystaller), Gold rush, Hidden shrine, Wandering sellswords, Ambush (krager) — tegn først, krønike bagefter
+- [x] Championer: Fiery, Swift, Vampiric, Shielded med ring, skær, skiltets ruder og ekstra drop
+- [x] game-assets: krystaller og lejrbål i vores generator
+
+### 📋 Næste: M12+
+Flere helte, en helt til The Memory, karavanen, prospektering, items med rul, træer der gror igen, musik. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 
@@ -430,6 +441,9 @@ Verdensbegivenheder, champion-creeps, huler, flere helte, en helt til The Memory
 | 2026-10-12 | Jorden får håndtegnede teksturer, stier og bunddække; træer blandes | Jon: jorden var for simpel og ensfarvet, grafikken manglede personlighed |
 | 2026-10-12 | Biom, årstid og størrelse vælges eller trækkes; ny verden (frø) hver gang som standard | Jons ønske: genspilning og RNG |
 | 2026-10-12 | Minestørrelser 10/15/20 tusind, Motherlode 30–50 tusind, Deep Quarry for sten | Jons tal; kæmpeårerne ligger midt mellem baserne og bliver kampområder |
+| 2026-10-12 | Huler ligger langt øst i hex-gitteret (q ≥ 400, x > 3000) | Stifinding virker derinde uden at blande sig med kortet; ingen tåge og intet vejr derinde. Gem-version 5 |
+| 2026-10-12 | Begivenheder gemmes ikke | De varer få minutter; efter "fortsæt" starter nedtællingen forfra |
+| 2026-10-12 | Championer trækkes med lejrens eget frø | Kortet ændres ikke, og gemte spil får de samme championer |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
 | 2026-10-12 | Gem-version 3 (M9) | Kortene og mindesmærkerne ændrer placeringen af lejre og kister |
 | 2026-10-12 | Gem-version 2 | De Ældgamles lejre ændrer kortet, så gemte spil fra før M8 kan ikke fortsættes |

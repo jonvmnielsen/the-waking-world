@@ -111,6 +111,26 @@ Et gemt spil husker hele verden (kort, biom, årstid, størrelse, frø) og bygge
 
 Man ser på selve minen hvor meget der er tilbage (Jon: visuelle tegn frem for tekst): *Full* (>75 %) har store guldkrystaller på toppen, mange årer i klippen, en stor guldbunke og to trillebøre fulde af guld; *Half full* og *Half empty* har færre årer, en mindre bunke og én trillebør; *Running low* (≤25 %) har kun få årer og en væltet, tom trillebør; *Empty* er grå med brædder for indgangen. Et sjette stadie, *Overflowing*, er for en Motherlode med mere end 25.000: krystaller rundt om, en ekstra bunke og en lysstribe mod himlen. Deep Quarry er en klippeformation, der skrumper. Tryk på en mine (med intet valgt) for et lille skilt med det præcise tal. Når man arbejder i en mine eller et stenbrud, er der en lille chance for et *heldigt fund* (en guldpose eller et item), oftere i Motherloden.
 
+### 4.2.1d Huler, begivenheder og championer (M11)
+
+**Huler.** Hvert kort har en huleindgang (to på store kort): en klippeåbning med fakler i bjergene eller gravlandet. Helten går ind med de soldater, der står tæt på eller er valgt. Hulen er 5–7 rum forbundet af gange (KayKit Dungeon: jord- og flisegulv, klippevægge, fakler, tønder, søjler, knogler), med lejre der bliver sværere jo længere ind man kommer, en skattekiste undervejs og en boss med en låst guldkiste i det inderste rum. Derinde er der mørkt (helten bærer en lygte), intet vejr og ingen tåge; minimappet viser en pulserende ring ved indgangen, og kameraet kan ikke panorere ud af hulen. Trappen ved indgangsrummet fører op igen. Når bossen er død, er hulen *cleared*.
+
+**Begivenheder.** Hvert 2½–4. minut sker der noget — aldrig det samme to gange i træk. Tegnet kommer først, krøniken bagefter:
+
+| Begivenhed | Tegn | Virkning |
+|---|---|---|
+| *Blood Moon* (en tilfældig nat fra nat 2, 30 %) | Rødt lys, creeps får røde øjne | Creeps slår 25 % hårdere og giver 50 % mere XP resten af natten |
+| *Eclipse* (kun om dagen) | Verden bliver mørk og violet i 90 s | The Memory slår 25 % hårdere, ekkoerne vejer dobbelt |
+| *Starfall* | En stjerne falder med en lysende hale, brag, lyssøjle, landet lyses op | Fire glødende stjernekrystaller (90–220 guld hver, den store kan give et item) i 4 min |
+| *Gold rush* | Guld springer op af en mine, gylden lyssøjle | Minen giver dobbelt guld i 2 min |
+| *Hidden shrine* | Gylden lyssøjle over en glemt helligdom | Helten får en velsignelse: liv og mana, XP eller guld (3 min) |
+| *Wandering sellswords* | Et bål med tre lejesvende | Hyr dem for 70 % af kroens pris (3½ min) |
+| *Ambush* | Krager kredser lavt over et sted | Plyndrere springer frem, når nogen kommer tæt på |
+
+Lyssøjler og bål ses også gennem tågen; selve tingene ses først, når stedet er udforsket. Tryk på et begivenhedssted med helten valgt, og han går derhen.
+
+**Championer.** Omkring hver syvende lejr (sværhedsgrad 1–4) føres af en champion: større, 80 % mere liv, 25 % mere skade og en egenskab — *Fiery* (brænder figurer tæt på), *Swift* (hurtig og slår ofte), *Vampiric* (heler af den skade den gør) eller *Shielded* (+5 rustning). Den har en drejende ring om fødderne og et skær i egenskabens farve, og lejrens skilt får to ruder i samme farve. En champion giver 2½ gange XP, ekstra guld og et ekstra item én sværhedsgrad højere.
+
 ### 4.2.2 Jorden og detaljerne (M9)
 
 - **Jorden** har håndtegnede teksturer (græsstrå, jord med småsten, skovbund, sand, klippe), der blandes efter region, med store lyse og mørke pletter. Trådte stier forbinder basen, kroen, købmanden, brøndene, tårnene og minerne, og jorden er trådt omkring basen, stederne og lejrene.
@@ -552,7 +572,8 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M8 ✅** | **En levende verden** | Dyr, fugle og pilgrimme; ekkoer og The Memory som ånder; De Vågnende Sten; krøniken, fase-mærket, intro og verdenssiden; skilte over lejrene og De Ældgamle med nye legendariske items |
 | **M9 ✅** | **Verdener og detaljer** | Fire kort med hver sin form og historie; teksturer og stier i jorden, bunddække, blandede træer, bølgende vand med kystskum, liv omkring stederne; Navnesten, mindesmærker, navngivne lejre, regionernes historie og heltens replikker |
 | **M10 ✅** | **Biomer, årstider og miner** | Seks biomer, fire årstider, tre størrelser og nye verdener hver gang; miner i fire størrelser med fem (seks) stadier, Motherlode og Deep Quarry; heldige fund; vejr |
-| M11+ | Flere helte, en helt til The Memory, verdensbegivenheder, huler, flere racer, kampagne | |
+| **M11 ✅** | **Huler, begivenheder og championer** | Huler med rum, lejre, boss og kister; syv tilfældige begivenheder med synlige tegn; champion-creeps med fire egenskaber. Desuden: kaktusser fra vores generator, lavasøer inde i landet, minernes stadier kun som synlige tegn |
+| M12+ | Flere helte, en helt til The Memory, karavanen, prospektering, items med rul, træer der gror igen, flere racer, kampagne | |
 
 ---
 
@@ -565,11 +586,11 @@ Hvor RNG kan gøre hvert spil anderledes. ✅ = bygget i M10.
 3. ✅ **Minernes størrelse** trækkes; Motherloden har 30–50.000 guld og ligger på en tilfældig side.
 4. ✅ **Heldige fund** i miner og stenbrud.
 5. ✅ **Vejret** kommer i byger på tilfældige tidspunkter (regn, støv, blæst).
-6. **Verdensbegivenheder** (hele kortet): *Blood Moon* (creeps stærkere, mere XP), *Starfall* (en meteor slår ned og efterlader en midlertidig åre af stjernemalm), *Eclipse* (The Memory stærkere, dobbelte ekkoer), *Gold Rush* (en mine giver mere i to minutter), en *karavane* der krydser kortet (beskyt den eller plyndr den).
-7. **Områdebegivenheder**: en lejr får en *champion*, en vandrende lejesoldatflok kan hyres, et skjult alter dukker op i tre minutter, en flok krager varsler et baghold.
-8. **Champion-creeps**: 10 % af lejrene har en elite med en egenskab (*Fiery*, *Swift*, *Vampiric*, *Shielded*) og et bedre drop.
+6. ✅ (M11, undtagen karavanen) **Verdensbegivenheder** (hele kortet): *Blood Moon* (creeps stærkere, mere XP), *Starfall* (en meteor slår ned og efterlader en midlertidig åre af stjernemalm), *Eclipse* (The Memory stærkere, dobbelte ekkoer), *Gold Rush* (en mine giver mere i to minutter), en *karavane* der krydser kortet (beskyt den eller plyndr den).
+7. ✅ (M11) **Områdebegivenheder**: en lejr får en *champion*, en vandrende lejesoldatflok kan hyres, et skjult alter dukker op i tre minutter, en flok krager varsler et baghold.
+8. ✅ (M11) **Champion-creeps**: 10 % af lejrene har en elite med en egenskab (*Fiery*, *Swift*, *Vampiric*, *Shielded*) og et bedre drop.
 9. **Items med rul**: tal i et spænd (fx Iron Sword +8–11 skade) og sjældne navngivne varianter.
-10. **Huler / dungeons**: 1–2 huleindgange pr. kort, der fører til et lille kort under jorden sat sammen af tilfældige rum (KayKit Dungeon), med en boss og en kiste — kun for helten og en lille gruppe.
+10. ✅ (M11) **Huler / dungeons**: 1–2 huleindgange pr. kort, der fører til et lille kort under jorden sat sammen af tilfældige rum (KayKit Dungeon), med en boss og en kiste — kun for helten og en lille gruppe.
 11. **Kroens og købmandens udvalg** skifter fra spil til spil.
 12. **Prospektering**: arbejdere kan lede efter nye guld- og stenårer i bjergene (chance for at finde en skjult mine).
 
