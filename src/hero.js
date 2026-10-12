@@ -1,10 +1,11 @@
-// Helten (The Tide — Orc Warrior): bevægelse, angreb, level og genoplivning.
+// Helten (heltedata.js: tre pr. race): bevægelse, angreb (nær eller på afstand), level og genoplivning.
 import { Unit } from './unit.js';
 import { HELT, reducérSkade, tilfældig } from './config.js';
 import { Evner } from './abilities.js';
 import { bus } from './events.js';
 import { gørOrkGrøn, holdSkær } from './orkhud.js';
 import { SPILLER, HOLD_FARVE, SPILLER_FARVE } from './racer.js';
+import { HELTE, helteFor } from './heltedata.js';
 import { Inventar } from './inventar.js';
 import { levelMetoder } from './heltlevel.js';
 import { interaktionMetoder } from './heltinteraktion.js';
@@ -12,19 +13,17 @@ import { findTrussel, jagtMetoder } from './trussel.js';
 import { egenskabsMetoder, EGENSKABER } from './heltstats.js';
 import { Ascension } from './ascension.js';
 
-const SKJUL = ['1H_Axe', '1H_Axe_Offhand', 'Barbarian_Round_Shield', 'Mug', 'Barbarian_Hat'];
-const SVING = [
-  { anim: '2H_Melee_Attack_Chop', slag: 0.48 },
-  { anim: '2H_Melee_Attack_Slice', slag: 0.42 },
-];
 
 export class Helt extends Unit {
-  constructor(verden, spawn, essens) {
-    super(verden, SPILLER.helt.model, { skjul: SPILLER.helt.skjul ?? SKJUL, radius: 0.75 });
-    if (SPILLER.orkhud) gørOrkGrøn(this.model); else holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], 0.2);
+  constructor(verden, spawn, essens, heltId) {
+    const def = HELTE[heltId]?.race === SPILLER.id ? HELTE[heltId] : helteFor(SPILLER.id)[0];
+    super(verden, def.model, { skjul: def.skjul, radius: 0.75, våben: def.kamp.projektil === 'spyd' ? { r: 'kaykit-skeletons/skeleton_arrow' } : {}, våbenSkala: 2.4 });
+    this.def = def; this.type = HELTE[heltId] === def ? heltId : Object.keys(HELTE).find((k) => HELTE[k] === def);
+    if (SPILLER.orkhud) gørOrkGrøn(this.model);
+    holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], SPILLER.orkhud ? 0.15 : 0.22);   // holdfarve, så to ens modeller kan skelnes
     this.spawn = spawn;
-    this.stats = { ...HELT };
-    this.startEgenskaber(essens);
+    this.stats = { ...HELT, rækkevidde: def.kamp.rækkevidde, angrebsTid: def.kamp.angrebsTid ?? HELT.angrebsTid, fart: HELT.fart + (def.fart ?? 0), grundHp: HELT.grundHp + (def.hp ?? 0) };
+    this.startEgenskaber(essens, def);
     this.inventar = new Inventar(this);
     this.handling = null;          // gå hen og gør noget: { x, z, radius, udfør }
     this.skjult = 0;               // sekunder hvor creeps ikke ser helten (røgbombe)
@@ -72,7 +71,7 @@ export class Helt extends Unit {
 
   angrebsTid() { return this.stats.angrebsTid / (1 + this.evner.angrebsBonus() + this.angrebsfartBonus()); }
 
-  slagSkade() { return tilfældig(this.stats.skadeMin, this.stats.skadeMax) + this.egenskabsSkade() + this.inventar.bonus.skade; }
+  slagSkade() { return Math.round((tilfældig(this.stats.skadeMin, this.stats.skadeMax) + this.egenskabsSkade() + this.inventar.bonus.skade) * (this.def.kamp.type === 'fjern' ? 0.85 : 1)); }   // afstand: lidt mindre skade
 
   opdater(dt) {
     this.tid += dt;
@@ -100,7 +99,7 @@ export class Helt extends Unit {
 
     if (!this.sving) {
       if (this.bevæger) this.spil('Running_A', { fart: 1.1 });
-      else if (!this.mål) this.spil(this.iKamp ? '2H_Melee_Idle' : 'Idle');
+      else if (!this.mål) this.spil(this.iKamp ? this.def.kamp.kampIdle : 'Idle');
     }
   }
 
@@ -115,11 +114,11 @@ export class Helt extends Unit {
     this.stop();
     this.vend(this.mål.x, this.mål.z);
     if (this.cooldown <= 0) this.startSving();
-    else this.spil('2H_Melee_Idle');
+    else this.spil(this.def.kamp.kampIdle);
   }
 
   startSving() {
-    const s = SVING[Math.floor(Math.random() * SVING.length)];
+    const sv = this.def.kamp.sving, s = sv[Math.floor(Math.random() * sv.length)];
     const varighed = Math.min(1.1, this.angrebsTid() * 0.75);
     const klip = this.handlinger.get(s.anim).getClip().duration;
     this.spil(s.anim, { loop: false, fart: klip / varighed, gentag: true, fade: 0.08 });
@@ -136,7 +135,9 @@ export class Helt extends Unit {
       s.ramt = true;
       if (s.mål && !s.mål.død && this.afstand(s.mål) - s.mål.radius <= this.stats.rækkevidde * 1.5) {
         const skade = reducérSkade(this.evner.slagMultiplikator(this.slagSkade() * this.sti.skadeFaktor()), s.mål.rustning ?? 0);
-        s.mål.tagSkade(skade, this);
+        // Helte på afstand skyder (lyn, spyd, bolt); skaden lander når skuddet rammer
+        if (this.def.kamp.type === 'fjern') { const p = this.def.kamp.projektil; bus.emit('projektil', { fra: this, mål: s.mål, skade, farve: p === 'spyd' ? undefined : p, model: p === 'spyd' ? 'spyd' : undefined }); }
+        else s.mål.tagSkade(skade, this);
         this.inventar.vedSlag(s.mål, skade);
         this.sti.vedSlag(s.mål, skade);
         bus.emit('slag', { kilde: this, mål: s.mål });

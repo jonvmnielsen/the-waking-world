@@ -4,19 +4,15 @@
 // Er begge spillere samme race, får modstanderen rødt.
 import { AKTIVT_KORT } from './kortvalg.js';
 
-const KNIGHT_SKJUL_HELT = ['1H_Sword', '1H_Sword_Offhand', 'Badge_Shield', 'Rectangle_Shield', 'Spike_Shield'];
-
 export const RACER = {
   tide: {
     id: 'tide', navn: 'The Tide', kort: 'Orcs of the storm coast — tough, wild and hard to stop.',
     farve: 'green', orkhud: true, kriger: 'grunt', skytte: 'spydkaster',
-    helt: { model: 'units/hero_tide', skjul: ['1H_Axe', '1H_Axe_Offhand', 'Barbarian_Round_Shield', 'Mug', 'Barbarian_Hat'], navn: 'Orc Warrior' },
     arbejder: 'Worker', bygninger: {}, modeller: {}, grene: {}, forskning: {},
   },
   arkitekter: {
     id: 'arkitekter', navn: 'The Architects', kort: 'Builders of order — stone halls, knights and crossbows.',
     farve: 'blue', orkhud: false, kriger: 'fodsoldat', skytte: 'armbrøst',
-    helt: { model: 'units/hero_arkitekt', skjul: KNIGHT_SKJUL_HELT, navn: 'Knight Commander' },
     arbejder: 'Peasant',
     bygninger: { storlejr: 'Town Hall', borg: 'Keep', hytte: 'Farm', savværk: 'Lumber Yard', tårn: 'Scout Tower', marked: 'Market Square', alter: 'Chapel of Kings', smedje: 'Blacksmith', krigerlejr: 'Barracks' },
     korte: { hytte: 'Farm', tårn: 'Tower', marked: 'Market', alter: 'Chapel' },

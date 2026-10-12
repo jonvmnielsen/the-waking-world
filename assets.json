@@ -18,7 +18,9 @@
         "Spellcast_Raise",
         "Spellcast_Shoot",
         "Jump_Full_Long",
-        "Block"
+        "Block",
+        "Dualwield_Melee_Attack_Slice",
+        "Dualwield_Melee_Attack_Chop"
       ]
     },
     {
@@ -457,6 +459,84 @@
         "Spellcast_Shoot",
         "Jump_Full_Long",
         "Block"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/mage",
+      "as": "units/hero_tide_shaman",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "as": "units/hero_tide_hunter",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "Throw"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/mage",
+      "as": "units/hero_ark_mage",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block"
+      ]
+    },
+    {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "as": "units/hero_ark_ranger",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "2H_Ranged_Shoot"
       ]
     }
   ]

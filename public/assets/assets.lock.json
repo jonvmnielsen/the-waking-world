@@ -1,13 +1,13 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "e984e32",
-  "synced": "2026-10-12T22:44:57.565Z",
+  "synced": "2026-10-12T23:23:37.623Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
       "file": "units/hero_tide.glb",
-      "bytes": 561560,
-      "sha": "3120cbeb6ff2",
+      "bytes": 621636,
+      "sha": "a7b6ea6563dc",
       "license": "CC0-1.0",
       "kind": "model",
       "animations": [
@@ -23,7 +23,9 @@
         "Spellcast_Raise",
         "Spellcast_Shoot",
         "Jump_Full_Long",
-        "Block"
+        "Block",
+        "Dualwield_Melee_Attack_Slice",
+        "Dualwield_Melee_Attack_Chop"
       ]
     },
     "units/arbejder": {
@@ -2873,6 +2875,100 @@
         "Spellcast_Shoot",
         "Jump_Full_Long",
         "Block"
+      ]
+    },
+    "units/hero_tide_shaman": {
+      "id": "kaykit-adventurers/characters/mage",
+      "file": "units/hero_tide_shaman.glb",
+      "bytes": 553716,
+      "sha": "b04797edcdb2",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block"
+      ]
+    },
+    "units/hero_tide_hunter": {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "file": "units/hero_tide_hunter.glb",
+      "bytes": 588828,
+      "sha": "23f9a4a39efb",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "Throw"
+      ]
+    },
+    "units/hero_ark_mage": {
+      "id": "kaykit-adventurers/characters/mage",
+      "file": "units/hero_ark_mage.glb",
+      "bytes": 553716,
+      "sha": "b04797edcdb2",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block"
+      ]
+    },
+    "units/hero_ark_ranger": {
+      "id": "kaykit-adventurers/characters/rogue_hooded",
+      "file": "units/hero_ark_ranger.glb",
+      "bytes": 590728,
+      "sha": "184569eb006d",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "2H_Ranged_Shoot"
       ]
     }
   }

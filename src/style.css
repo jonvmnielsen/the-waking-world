@@ -154,6 +154,8 @@ body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: non
 #essensvalg.vis { display: flex; }
 #essensvalg h2 { margin: 0; font-family: var(--display); font-size: 30px; color: var(--messing-lys); text-shadow: 0 2px 0 #000; }
 #essensvalg p { margin: 6px 0 18px; color: var(--dæmpet); font-size: 14px; }
+#helte { display: grid; grid-template-columns: repeat(3, minmax(0, 200px)); gap: 10px; width: 100%; justify-content: center; }
+.essens.helt small { font-size: 11px; color: var(--messing-lys); letter-spacing: 0.04em; text-transform: uppercase; }
 #essenser { display: grid; grid-template-columns: repeat(3, minmax(0, 200px)); gap: 10px; width: 100%; justify-content: center; }
 .essens { display: grid; gap: 6px; padding: 18px 14px; border-radius: 14px; border: 1px solid rgba(201, 163, 90, 0.5); background: var(--træ-lys); text-align: left; transition: transform 0.15s, border-color 0.15s; }
 .essens:active, .essens:hover { transform: translateY(-2px); border-color: var(--messing-lys); }

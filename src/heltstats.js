@@ -23,8 +23,10 @@ export const ofringsPris = (n) => ({ guld: 120 + 40 * n, sten: 30 + 15 * n });
 export const OFRINGS_IKON = { str: 'styrkensSkrift', agi: 'smidighedensSkrift', int: 'klogskabensSkrift' };
 
 export const egenskabsMetoder = {
-  startEgenskaber(essens) {
-    this.egenskaber = { ...EGENSKABER.start };
+  // Heltens egne startværdier og hovedegenskab (heltedata.js); hovedegenskaben giver skaden og vokser mest
+  startEgenskaber(essens, def) {
+    this.egenskaber = { ...(def?.start ?? EGENSKABER.start) };
+    this.primær = def?.primær ?? 'str';
     this.essensEgenskab = EGENSKABER.essens[essens];
     this.egenskaber[this.essensEgenskab] += 2;
   },
@@ -38,14 +40,14 @@ export const egenskabsMetoder = {
   egenskabBonus(n) { const inv = this.inventar; return (inv?.bonus[n] ?? 0) + (inv?.permanent[n] ?? 0); },
 
   vækstEgenskaber() {
-    for (const n of ['str', 'agi', 'int']) this.egenskaber[n] += EGENSKABER.prLevel[n] + (n === this.essensEgenskab ? 1 : 0);
+    for (const n of ['str', 'agi', 'int']) this.egenskaber[n] += (n === this.primær ? 3 : 1.5) + (n === this.essensEgenskab ? 1 : 0);
   },
 
   // Afledte værdier
   rustning() { return HELT.rustning + this.egenskab('agi') * P.rustning + (this.inventar?.bonus.rustning ?? 0) + (this.sti?.rustning() ?? 0); },
   hpRegen() { return (HELT.hpRegen + this.egenskab('str') * P.hpRegen + this.inventar.bonus.hpRegen) * (this.sti?.hpRegenFaktor() ?? 1); },
   manaRegen() { return (HELT.manaRegen + this.egenskab('int') * P.manaRegen + this.inventar.bonus.manaRegen) * (this.sti?.manaRegenFaktor() ?? 1); },
-  egenskabsSkade() { return Math.round(this.egenskab('str') * P.skade); },
+  egenskabsSkade() { return Math.round(this.egenskab(this.primær ?? 'str') * P.skade); },
   evneStyrke() { return 1 + this.egenskab('int') * P.evne; },
   angrebsfartBonus() { return this.egenskab('agi') * P.angrebsfart + this.inventar.bonus.angrebsfart; },
 };

@@ -89,7 +89,7 @@ async function start() {
   const sværhed = fortsæt ? (gemt.modstander?.sværhed ?? 'normal') : valgtEssens.sværhed;
   if (!fortsæt) await visIntro();
   document.body.classList.add('i-spil');
-  const helt = new Helt(verden, heltSpawn, essens);
+  const helt = new Helt(verden, heltSpawn, essens, fortsæt ? gemt.helt.type : valgtEssens.helt);
   verden.helt = helt;
   const lejre = lejrData.map((d) => new Lejr(verden, d));
   const effekter = new Effekter(verden);

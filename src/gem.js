@@ -40,7 +40,7 @@ function lavGem(spil) {
     version: GEM_VERSION, seed: KORT.seed, kort: KORT.id, biom: AKTIVT_KORT.biom, årstid: AKTIVT_KORT.årstid, størrelse: AKTIVT_KORT.størrelse, race: AKTIVT_KORT.race, fjendeRace: AKTIVT_KORT.fjendeRace, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
     økonomi: { guld: ø.guld, træ: ø.træ, sten: ø.sten, forsyning: ø.forsyning, forsyningMaks: ø.forsyningMaks },
     helt: {
-      essens: helt.evner.essens, x: r1(helt.x), z: r1(helt.z), hp: Math.ceil(helt.død ? helt.maxHp : helt.hp), mana: Math.floor(helt.mana),
+      essens: helt.evner.essens, type: helt.type, x: r1(helt.x), z: r1(helt.z), hp: Math.ceil(helt.død ? helt.maxHp : helt.hp), mana: Math.floor(helt.mana),
       level: helt.level, xp: helt.xp, spawn: helt.spawn, pladser: inv.pladser, rygsæk: inv.rygsæk, permanent: inv.permanent, sti: helt.sti.id,
     },
     bygninger: base.bygninger.map((b) => ({

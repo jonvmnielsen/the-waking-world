@@ -306,13 +306,26 @@ Ved level 10 lyser knappen **Ascend** op. Spilleren vælger én af tre stier; va
 
 Stiens to evner ligger i en ekstra række over de tre essens-evner.
 
-### 6.3 The Tide — helte (Forslag)
+### 6.3 Heltene — tre pr. race
 
-| Helt | Rolle | Status |
-|---|---|---|
-| **Ork-kriger** | Nærkamp, essens Vold/Tålmodighed/Ofring | Spilbar |
-| **Stormsanger** | Magiker, kædelyn, heling | Skrives |
-| **Vildspor** | Jæger med dyreledsager | Skrives |
+Man vælger sin race og én af racens tre helte ved start (sammen med essensen). AI-modstanderen får en tilfældig af sin races helte. Hver helt har sin egen model, hovedegenskab, kampform og første evne (*signatur*, låst op ved level 1); evne 2 og 3 kommer fra essensen som før, og Ascension ved level 10 gælder alle helte. Hovedegenskaben giver skaden (Strength, Agility eller Intelligence) og vokser mest pr. level.
+
+| Race | Helt | Rolle | Signatur |
+|---|---|---|---|
+| **The Tide** | **Warchief** (ork-kriger) | Nærkamp · Strength · tohåndsøkse | *Brute Strike* — 1,8× skade |
+| | **Stormsinger** (ork-shaman) | Afstand · Intelligence · lyn | *Stormlash* — lyn der springer til to fjender mere |
+| | **Wildtrack** (ork-jæger) | Afstand · Agility · spyd | *Hunter's Mark* — målet tager 50 % mere skade i 8 s |
+| **The Architects** | **Knight Commander** (ridder) | Nærkamp · Strength · tohåndssværd | *Shield Bash* — 1,5× skade og 1,5 s lammelse |
+| | **Lorewarden** (magiker) | Afstand · Intelligence · lys | *Mending Light* — heler helten og soldaterne omkring |
+| | **Ranger Captain** (skytte) | Afstand · Agility · armbrøst | *Piercing Bolt* — en bolt gennem alle fjender på en linje |
+| **The Dreaming** *(designet)* | **Thornwarden** | Nærkamp · Strength | *Entangling Roots* — rødder holder fjenderne fast |
+| | **Moonblade** | Nærkamp · Agility | *Blink Strike* — træder ud af måneskinnet bag målet |
+| | **Dreamweaver** | Afstand · Intelligence | *Sleep* — synger fjender i søvn |
+| **The Unmade** *(designet)* | **Patchwork Champion** | Nærkamp · Strength | *Graft* — tager en stump af hver fjende den dræber |
+| | **Fragment Seer** | Afstand · Intelligence | *Echo Shards* — kaster fangede ekkoer |
+| | **Stitched Stalker** | Nærkamp · Agility | *Unseen* — usynlig, næste slag gør dobbelt skade |
+
+The Memory og The Unnamed er ikke racer, men entiteter på kortet (afsnit 12), og har ingen helte.
 
 ---
 

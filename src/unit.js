@@ -115,6 +115,7 @@ export class Unit {
   // Påfør skade. Returnerer true hvis enheden døde.
   tagSkade(mængde, kilde) {
     if (this.død) return false;
+    if (this.mærket > 0) mængde = Math.round(mængde * 1.5);   // Hunter's Mark (heltevner.js)
     this.hp = Math.max(0, this.hp - mængde);
     bus.emit('skade', { mål: this, mængde, kilde });
     if (this.hp <= 0) { this.dø(kilde); return true; }

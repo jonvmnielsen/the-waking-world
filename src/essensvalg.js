@@ -6,6 +6,8 @@ import { EGENSKABER } from './heltstats.js';
 import { beskrivGem } from './gem.js';
 import { FORTSÆT_NU, sammeVerden, fortsætGem } from './kortvalg.js';
 import { visVerdensvalg, visSkift } from './verdensvalgui.js';
+import { helteFor } from './heltedata.js';
+import { SPILLER } from './racer.js';
 
 const $ = (id) => document.getElementById(id);
 const VOKSER = {
@@ -14,7 +16,7 @@ const VOKSER = {
   int: 'Intelligence — more mana and stronger abilities',
 };
 
-// Returnerer { essens, sværhed }, eller 'fortsæt' hvis spilleren fortsætter et gemt spil
+// Returnerer { essens, sværhed, helt }, eller 'fortsæt' hvis spilleren fortsætter et gemt spil
 export function vælgEssens(gemt) {
   return new Promise((løs) => {
     const luk = (svar) => { $('essensvalg').classList.remove('vis'); løs(svar); };
@@ -31,6 +33,19 @@ export function vælgEssens(gemt) {
     for (const k of document.querySelectorAll('#svaerhed button')) {
       k.onclick = () => { sværhed = k.dataset.s; for (const x of document.querySelectorAll('#svaerhed button')) x.classList.toggle('valgt', x === k); };
     }
+    // Heltene: racens tre (den første er valgt fra start)
+    const helte = helteFor(SPILLER.id);
+    let helt = helte[0].id;
+    const hb = $('helte');
+    hb.innerHTML = '';
+    for (const h of helte) {
+      const kort = document.createElement('button');
+      kort.type = 'button';
+      kort.className = 'essens helt' + (h.id === helt ? ' valgt' : '');
+      kort.innerHTML = `<small>${h.rolle}</small><b>${h.navn}</b><span>${h.tekst}</span>`;
+      kort.addEventListener('click', () => { helt = h.id; for (const k of hb.children) k.classList.toggle('valgt', k === kort); if (valgt) visDetaljer(valgt, helt); });
+      hb.appendChild(kort);
+    }
     const boks = $('essenser');
     boks.innerHTML = '';
     for (const [id, e] of Object.entries(ESSENSER)) {
@@ -41,18 +56,19 @@ export function vælgEssens(gemt) {
       kort.addEventListener('click', () => {
         valgt = id;
         for (const k of boks.children) k.classList.toggle('valgt', k === kort);
-        visDetaljer(id);
+        visDetaljer(id, helt);
       });
       boks.appendChild(kort);
     }
-    $('essens-start').onclick = () => { if (valgt) luk({ essens: valgt, sværhed }); };
+    $('essens-start').onclick = () => { if (valgt) luk({ essens: valgt, sværhed, helt }); };
     $('essensvalg').classList.add('vis');
   });
 }
 
-function visDetaljer(id) {
+function visDetaljer(id, helt) {
   const e = ESSENSER[id], eg = EGENSKABER.essens[id];
-  const evner = SLOTS[id].map((ev, i) => `<li><i>${EVNER[ev].ikon}</i><div><b>${EVNER[ev].navn}</b> <small>level ${OPLÅS[i]}</small><span>${EVNER[ev].tekst}</span></div></li>`).join('');
+  const signatur = helteFor(SPILLER.id).find((h) => h.id === helt)?.signatur ?? SLOTS[id][0];
+  const evner = [signatur, ...SLOTS[id].slice(1)].map((ev, i) => `<li><i>${EVNER[ev].ikon}</i><div><b>${EVNER[ev].navn}</b> <small>level ${OPLÅS[i]}</small><span>${EVNER[ev].tekst}</span></div></li>`).join('');
   const d = $('essens-detalje');
   d.className = `vis ${id}`;
   d.innerHTML = `

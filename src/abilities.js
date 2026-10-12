@@ -1,7 +1,8 @@
-// Heltens tre evner. Slot 0 for alle, slot 1 og 2 afhænger af valgt essens.
+// Heltens tre evner. Slot 0 er heltens egen (signatur, heltedata.js), slot 1 og 2 afhænger af valgt essens.
 // Værdier fra docs/balance/ability_values_v1.md
 import { bus } from './events.js';
 import { STI_EVNER, STIER, STI_OPLÅS } from './ascensiondata.js';
+import { HELT_EVNER, heltEvneMetoder } from './heltevner.js';
 
 // Essenserne (GDD 6): hvordan helten kæmper nu, hvilken egenskab der vokser mest, og et vink om hvad valget
 // kan betyde senere (Ascension ved level 10 og hærens veteran-grene) — uden at afsløre det hele.
@@ -55,7 +56,7 @@ export class Evner {
       const id = STIER[sti].evner[slot - 3], lv = STI_OPLÅS[slot - 3];
       return { id, ...STI_EVNER[id], sti: true, oplåsLevel: lv, oplåst: this.helt.level >= lv, cd: this.cooldowns[slot], cdMax: STI_EVNER[id].cd };
     }
-    const id = SLOTS[this.essens][slot];
+    const id = slot === 0 ? (this.helt.def?.signatur ?? 'bruteStrike') : SLOTS[this.essens][slot];   // slot 0: heltens signatur
     return { id, ...EVNER[id], oplåsLevel: OPLÅS[slot], oplåst: this.helt.level >= OPLÅS[slot], cd: this.cooldowns[slot], cdMax: EVNER[id].cd };
   }
 
@@ -65,6 +66,7 @@ export class Evner {
     this.tIronSkin = Math.max(0, this.tIronSkin - dt);
     this.tUdødelig = Math.max(0, this.tUdødelig - dt);
     this.helt.sti?.opdater(dt);
+    this.opdaterMærker?.(dt);
   }
 
   angrebsBonus() { return (this.tWarCry > 0 ? 0.3 : 0) + (this.helt.sti?.angrebsBonus() ?? 0); }
@@ -158,3 +160,7 @@ export class Evner {
     h.sving = { tid: 0, varighed: 1.0, slagTid: 99, ramt: true };
   }
 }
+
+// Heltenes signatur-evner (heltevner.js)
+Object.assign(EVNER, HELT_EVNER);
+Object.assign(Evner.prototype, heltEvneMetoder);

@@ -6,10 +6,11 @@ import { BYGNINGER, STADIER } from './bygningsdata.js';
 import { SOLDATER, SPYD_MODEL } from './soldatdata.js';
 import { FJENDE_BYGNINGER } from './fjendedata.js';
 import { TÅRN_TRIN, UDVIKLINGS_IKONER } from './udviklingdata.js';
-import { SPILLER, SPILLER_FARVE } from './racer.js';
+import { SPILLER, FJENDE, SPILLER_FARVE } from './racer.js';
+import { helteFor } from './heltedata.js';
 
 export const MODELLER = [...new Set([
-  SPILLER.helt.model, 'units/arbejder', ...Object.values(SOLDATER).map((s) => s.model), SPYD_MODEL,
+  ...helteFor(SPILLER.id).map((h) => h.model), ...helteFor(FJENDE.id).map((h) => h.model), 'units/arbejder', ...Object.values(SOLDATER).map((s) => s.model), SPYD_MODEL,
   'kaykit-adventurers/shield_round_barbarian', 'kaykit-adventurers/axe_2handed', 'kaykit-adventurers/shield_badge', 'kaykit-adventurers/crossbow_2handed',
   ...Object.values(CREEP_TYPER).map((t) => `units/${t.model}`),
   ...Object.values(CREEP_TYPER).flatMap((t) => Object.values(t.våben ?? {}).map((v) => `kaykit-skeletons/${v}`)),
