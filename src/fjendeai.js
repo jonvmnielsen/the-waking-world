@@ -7,6 +7,7 @@
 import { FjendeBygning } from './fjendebygning.js';
 import { Fjende } from './fjende.js';
 import { FjendeArbejder } from './fjendearbejder.js';
+import { FjendeHelt, fjendeHeltId } from './fjendehelt.js';
 import { FJENDE_BYGNINGER, FJENDE_ENHEDER, LAYOUT, FRA_START, SVÆRHED, BYGGEPLAN, ARBEJDERE, fjendeLevel } from './fjendedata.js';
 import { hexTilVerden } from './hexgrid.js';
 import { pladsPunkt } from './byggeplads.js';
@@ -37,8 +38,18 @@ export class Modstander {
     this.mine = plads.mine;
     this.arbejdere = [];
     for (let i = 0; i < ARBEJDERE; i++) this.nyArbejder();
+    this.heltId = fjendeHeltId(); this.heltTid = 0;
+    this.nyHelt();
     const h = this.hal;
     if (!FORTSÆT_NU) setTimeout(() => bus.emit('krønike', { titel: `Your enemy: ${FJENDE.navn}`, tekst: 'Their base lies at the far end of the world. Destroy all of their buildings to win.', x: h.x, z: h.z, farve: '#ff7a6a', varighed: 20, vigtig: true }), 5000);
+  }
+
+  // Helten rejser sig ved hallen (også når den er faldet: efter 35 sekunder)
+  nyHelt() {
+    const h = this.hal;
+    this.helt = new FjendeHelt(this.verden, this, this.heltId, fjendeLevel(this.sværhed, this.minutter()) + 2, h.x + 6, h.z + 6);
+    this.helt.post = { ...this.samling }; this.helt.ordre = 'retur';
+    this.verden.creeps.push(this.helt);
   }
 
   nyArbejder() {
@@ -72,6 +83,7 @@ export class Modstander {
     if (this.arbejdere.some((a) => a.fjernet)) this.arbejdere = this.arbejdere.filter((a) => !a.fjernet);
     const lever = this.arbejdere.filter((a) => !a.død).length;
     if (!this.hal.død) this.guld += this.s.indtægt * (lever / ARBEJDERE) * (this.verden.guldFaktor ?? 1) * dt;
+    if (this.helt.død && !this.hal.død && (this.heltTid += dt) > 35) { this.heltTid = 0; this.nyHelt(); }
     // Nye arbejdere fra hallen, når nogen er faldet
     if (!this.hal.død && lever < ARBEJDERE && (this.nyArbejderTid -= dt) <= 0 && this.guld >= 50) { this.guld -= 50; this.nyArbejder(); this.nyArbejderTid = 20; }
     this.planlæg();
@@ -130,7 +142,7 @@ export class Modstander {
     for (const u of this.verden.egne()) {
       const ved = this.bygninger.some((b) => !b.død && b.afstand(u) < 22);
       if (!ved) continue;
-      for (const e of this.levende) e.kommandoForsvar(u);
+      for (const e of [...this.levende, this.helt]) if (!e.død) e.kommandoForsvar(u);
       return;
     }
   }
@@ -156,6 +168,7 @@ export class Modstander {
     const mål = this.spil.base.bygninger.find((b) => !b.død && b.type === 'storlejr') ?? this.spillerBygninger()[0];
     if (!mål) return;
     const sendes = klar.slice(this.s.hjemme, this.s.hjemme + størrelse);
+    if (!this.helt.død) sendes.push(this.helt);   // helten går med i bølgen
     for (const e of sendes) e.kommandoAngreb(mål.x, mål.z);
     this.angribere = sendes; this.bølgeStart = sendes.length;
     this.bølge += 1;

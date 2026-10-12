@@ -110,6 +110,7 @@ export class Minimap {
     for (const s of spil.base.soldater) if (!s.død) prik(s.x, s.z, EGEN, 1.6);
     for (const b of spil.modstander?.bygninger ?? []) if (!b.død && t.erUdforsket(b.x, b.z)) prik(b.x, b.z, FJENDE_CSS, b.type === 'hal' ? 4 : 2.6, true);
     for (const e of [...(spil.modstander?.levende ?? []), ...(spil.modstander?.arbejdere ?? [])]) if (!e.død && e.rod.visible) prik(e.x, e.z, FJENDE_CSS, 1.8);
+    const fh = spil.modstander?.helt; if (fh && !fh.død && fh.rod.visible) prik(fh.x, fh.z, FJENDE_CSS, 3.2);   // modstanderens helt
 
     // Helten og kameraets udsnit
     const h = spil.helt, hule = spil.huler?.hvor();
