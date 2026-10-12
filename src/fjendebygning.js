@@ -32,7 +32,7 @@ export class FjendeBygning {
     this.rod = kopi(sti, { skygge: true });
     this.rod.position.set(this.x, 0, this.z);
     this.rod.rotation.y = this.rot;
-    this.rod.scale.setScalar(S * skala);
+    this.rod.scale.setScalar(S * skala * 0.75);   // Jon: mindre bygninger
     this.rod.visible = this.verden.taage.erUdforsket(this.x, this.z);
     this.verden.scene.add(this.rod);
     this.model = sti;

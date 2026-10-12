@@ -6,6 +6,7 @@ import { hexTilVerden, hexAfstand } from './hexgrid.js';
 import { Arbejder } from './arbejder.js';
 import { Soldat } from './soldat.js';
 import { bus } from './events.js';
+import { pladsPunkt, pladsFejl, optag } from './byggeplads.js';
 
 export class Base {
   constructor(verden, økonomi, kilder) {
@@ -22,6 +23,7 @@ export class Base {
   // Storlejren står der fra start (færdig)
   startBygning(data) {
     const b = new Bygning(this, 'storlejr', { ...data, færdig: true });
+    for (const f of b.felter) optag(f, -1, b);
     this.bygninger.push(b);
     this.økonomi.forsyningMaks = b.data.forsyning;
     return b;
@@ -45,24 +47,25 @@ export class Base {
   }
 
   // Må bygningen stå på feltet? Returnerer en fejltekst eller null
-  kanPlacere(type, f) {
+  kanPlacere(type, f, i) {
     if (!f) return 'Outside the map';
     if (f.type !== 'græs' || f.blok) return 'Needs flat grass';
-    if (f.optaget || !f.gåbar) return 'The spot is taken';
+    const optaget = pladsFejl(f, type, i);
+    if (optaget) return optaget;
     if (!this.verden.taage.erUdforsket(...Object.values(hexTilVerden(f.q, f.r)))) return 'You have not explored this place';
     if (this.verden.lejrFelter?.some((l) => hexAfstand(l, f) < 2)) return 'Too close to a creep camp';
     return null;
   }
 
   // Betal og lav en byggeplads. Returnerer [bygning, null] eller [null, fejl]
-  placér(type, f) {
-    const fejl = this.kanPlacere(type, f) ?? this.økonomi.mangler(BYGNINGER[type].pris);
+  placér(type, f, i) {
+    const fejl = this.kanPlacere(type, f, i) ?? this.økonomi.mangler(BYGNINGER[type].pris);
     if (fejl) return [null, fejl];
     this.økonomi.betal(BYGNINGER[type].pris);
-    f.optaget = true; f.gåbar = false;
     this.verden.natur?.ryd(f);
-    const p = hexTilVerden(f.q, f.r);
-    const b = new Bygning(this, type, { x: p.x, z: p.z, felter: [f], rot: (Math.floor(Math.random() * 6) * Math.PI) / 3 });
+    const p = pladsPunkt(f, i);
+    const b = new Bygning(this, type, { x: p.x, z: p.z, felter: [f], plads: i, rot: (Math.floor(Math.random() * 6) * Math.PI) / 3 });
+    optag(f, i, b);
     this.bygninger.push(b);
     return [b, null];
   }
@@ -96,8 +99,8 @@ export class Base {
     if (bedst) return bedst;
     bd = Infinity;
     for (const b of this.bygninger) {
-      const s = skærm(b.x, b.felter.length > 1 ? 9 : 4, b.z), d = Math.hypot(s.x - px, s.y - py);
-      if (d < (b.felter.length > 1 ? 95 : 58) && d < bd) { bd = d; bedst = { type: 'bygning', ting: b }; }
+      const s = skærm(b.x, b.højde * 0.6, b.z), d = Math.hypot(s.x - px, s.y - py);
+      if (d < (b.stor ? 80 : 46) && d < bd) { bd = d; bedst = { type: 'bygning', ting: b }; }
     }
     return bedst;
   }

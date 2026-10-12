@@ -111,7 +111,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
   rig.onTræk = (sx, sy) => {
     const b = r(), p = jordpunkt(sx - b.left, sy - b.top);
     const f = p && verden.kort.felt(p.x, p.z);
-    if (f && f !== valg.placering?.felt) valg.vælgFelt(f);
+    if (f) valg.vælgFelt(f, p.x, p.z);
   };
 
   const forrige = { s: null, t: 0 };
@@ -121,7 +121,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     // Placering af en ny bygning: trykket vælger feltet
     if (valg.placering) {
       const p = jordpunkt(px, py);
-      valg.vælgFelt(p && verden.kort.felt(p.x, p.z));
+      valg.vælgFelt(p && verden.kort.felt(p.x, p.z), p?.x, p?.z);
       return;
     }
     // Egen helt, arbejder eller bygning. Er noget allerede valgt, vælges intet andet ved et tryk (Jons ønske):

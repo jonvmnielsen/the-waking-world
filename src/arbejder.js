@@ -6,6 +6,7 @@ import { gørOrkGrøn } from './orkhud.js';
 import { RES_NAVN } from './okonomi.js';
 import { høstMetoder } from './hoest.js';
 import { bus } from './events.js';
+import { rundtOm } from './byggeplads.js';
 
 const SKJUL = ['Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Knife', 'Throwable'];
 const BÆRE_MODEL = {
@@ -52,7 +53,7 @@ export class Arbejder extends Unit {
   // Gå til en fri plads tæt op ad bygningen (eller minen). Pladsen vælges blandt de nærmeste, så mange
   // arbejdere spredes rundt om bygningen i stedet for at stå i kø samme sted; spærret vej → en anden side.
   gåTilBygning(b, felter = b.felter) {
-    const punkter = this.verden.kort.kantPunkter(felter, this).slice(0, 6);
+    const punkter = (b.stor === false ? rundtOm(this.verden.kort, b, this) : this.verden.kort.kantPunkter(felter, this)).slice(0, 6);
     if (punkter.length > 1) punkter.unshift(punkter.splice(Math.floor(Math.random() * Math.min(3, punkter.length)), 1)[0]);
     for (const p of punkter) if (this.gåTil(p.x, p.z)) { this.målPunkt = p; return true; }
     this.målPunkt = null;
@@ -62,6 +63,7 @@ export class Arbejder extends Unit {
   // Fremme ved bygningen: helt op ad et af dens felter (også når andre arbejdere skubber), eller ved pladsen
   vedBygning(b) {
     const k = this.verden.kort;
+    if (b.stor === false) return Math.hypot(b.x - this.x, b.z - this.z) < b.fod + 2.4 || (!!this.målPunkt && Math.hypot(this.målPunkt.x - this.x, this.målPunkt.z - this.z) < 1.5);
     if (b.felter.some((f) => { const c = k.centrum(f); return Math.hypot(c.x - this.x, c.z - this.z) < 9.5; })) return true;
     return !!this.målPunkt && Math.hypot(this.målPunkt.x - this.x, this.målPunkt.z - this.z) < (this.bevæger ? 1.5 : 3);
   }

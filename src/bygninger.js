@@ -4,16 +4,20 @@ import { kopi } from './assets.js';
 import { BYGNINGER, ENHEDER, STADIER } from './bygningsdata.js';
 import { VERDEN, tilfældig, reducérSkade } from './config.js';
 import { bus } from './events.js';
+import { BYG_SKALA, frigør } from './byggeplads.js';
 
 const S = VERDEN.hexSkala;
 
 export class Bygning {
-  constructor(base, type, { x, z, felter, rot = 0, færdig = false }) {
+  constructor(base, type, { x, z, felter, plads = -1, rot = 0, færdig = false }) {
     this.base = base; this.verden = base.verden;
     this.type = type; this.data = BYGNINGER[type];
-    this.x = x; this.z = z; this.felter = felter; this.rot = rot;
-    this.radius = felter.length > 1 ? 9 : 5.5;
-    this.højde = 7;
+    this.x = x; this.z = z; this.felter = felter; this.plads = plads; this.rot = rot;
+    this.stor = plads < 0;
+    this.radius = this.stor ? 5.5 : 3.2;   // til rækkevidde og valg
+    this.fod = this.stor ? 5 : 2.3;        // hvor meget den fylder (figurer går uden om)
+    this.højde = this.stor ? 6 : 4;
+    this.pladsSkala = this.stor ? 1.6 : 0.75;   // byggepladsens stadier og ruinen
     this.side = 'egen';
     this.fremskridt = færdig ? 1 : 0;
     this.færdig = false;
@@ -26,7 +30,7 @@ export class Bygning {
     this.grundRustning = this.type === 'storlejr' || this.type === 'borg' ? 5 : this.type === 'tårn' ? 4 : 3;
     this.hp = færdig ? this.maxHp : this.maxHp * 0.1;
     this.rod = null;
-    this.visModel(færdig ? this.data.model : STADIER[0], færdig ? this.data.skala : 1);
+    this.visModel(færdig ? this.data.model : STADIER[0], færdig ? this.data.skala : this.pladsSkala);
     if (færdig) this.bliverFærdig(true);
   }
 
@@ -41,7 +45,7 @@ export class Bygning {
     this.rod = kopi(sti, { skygge: true });
     this.rod.position.set(this.x, 0, this.z);
     this.rod.rotation.y = this.rot;
-    this.rod.scale.setScalar(S * skala);
+    this.rod.scale.setScalar(S * skala * BYG_SKALA);
     this.verden.scene.add(this.rod);
     this.stadie = sti;
     if (sti === this.data.model) this.verden.udvikling?.pynt(this);   // flag og tårne på opgraderede bygninger
@@ -54,7 +58,7 @@ export class Bygning {
     this.fremskridt = Math.min(1, this.fremskridt + dt / this.data.tid);
     this.hp = Math.min(this.maxHp, this.hp + (this.maxHp * 0.9 * dt) / this.data.tid);
     const stadie = STADIER[Math.min(2, Math.floor(this.fremskridt * 3))];
-    if (this.fremskridt < 1 && stadie !== this.stadie) this.visModel(stadie, 1);
+    if (this.fremskridt < 1 && stadie !== this.stadie) this.visModel(stadie, this.pladsSkala);
     if (this.fremskridt >= 1) this.bliverFærdig(false);
   }
 
@@ -90,10 +94,10 @@ export class Bygning {
     if (this.færdig && this.data.forsyning) øko.forsyningMaks -= this.data.forsyning;
     for (const k of this.kø) { øko.refunder(ENHEDER[k.type].pris, 0.5); øko.forsyning -= ENHEDER[k.type].forsyning; }
     this.kø = [];
-    for (const f of this.felter) { f.optaget = false; f.gåbar = true; }
+    for (const f of this.felter) frigør(f, this.plads);
     const kilder = this.verden.taage.kilder;
     if (kilder.includes(this.tågeKilde)) kilder.splice(kilder.indexOf(this.tågeKilde), 1);
-    this.visModel('kaykit-hexagon/buildings/neutral/building_destroyed', this.felter.length > 1 ? 1.8 : 1.15);
+    this.visModel('kaykit-hexagon/buildings/neutral/building_destroyed', this.pladsSkala);
     if (stille) return;
     bus.emit('effekt', { type: 'stomp', x: this.x, z: this.z, radius: this.radius + 2 });
     bus.emit('bygning_ødelagt', { bygning: this });
@@ -153,6 +157,6 @@ export class Bygning {
   // Projektiler fra tårnet starter oppe i tårnet
   skytte() {
     const b = this;
-    return { x: b.x, z: b.z, højde: 9, afstand: (m) => Math.hypot(m.x - b.x, m.z - b.z) };
+    return { x: b.x, z: b.z, højde: 5.5, afstand: (m) => Math.hypot(m.x - b.x, m.z - b.z) };
   }
 }

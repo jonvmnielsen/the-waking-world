@@ -8,7 +8,7 @@ import { BIOMER, ÅRSTIDER } from './biomdata.js';
 import { nøgle } from './hexgrid.js';
 
 const NØGLE = 'tww-gem-1';
-export const GEM_VERSION = 5;   // 5: M11 (huler ændrer kortet)
+export const GEM_VERSION = 6;   // 6: mindre bygninger og byggepladser (hallen fylder ét felt)
 const r1 = (v) => Math.round(v * 10) / 10;
 
 export function hentGem() {
@@ -44,7 +44,7 @@ function lavGem(spil) {
       level: helt.level, xp: helt.xp, spawn: helt.spawn, pladser: inv.pladser, rygsæk: inv.rygsæk, permanent: inv.permanent, sti: helt.sti.id,
     },
     bygninger: base.bygninger.map((b) => ({
-      type: b.type, felter: b.felter.map((f) => nøgle(f.q, f.r)), x: r1(b.x), z: r1(b.z), rot: b.rot,
+      type: b.type, felter: b.felter.map((f) => nøgle(f.q, f.r)), plads: b.plads, x: r1(b.x), z: r1(b.z), rot: b.rot,
       fremskridt: b.fremskridt, færdig: b.færdig, kø: b.kø, samling: b.samling ?? null, hp: Math.ceil(b.hp), opg: b.opg ?? 0, udv: b.udv ?? null,
     })),
     arbejdere: base.arbejdere.filter((a) => !a.død).map((a) => ({

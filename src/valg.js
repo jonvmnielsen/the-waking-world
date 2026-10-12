@@ -7,6 +7,7 @@ import { hexTilVerden, HEX_BREDDE } from './hexgrid.js';
 import { VERDEN } from './config.js';
 import { bus } from './events.js';
 import { Arbejder } from './arbejder.js';
+import { BYG_SKALA, vælgPlads, pladsPunkt, erStor } from './byggeplads.js';
 
 export class Valg {
   constructor(spil) {
@@ -58,7 +59,7 @@ export class Valg {
   startPlacering(type) {
     this.annullérPlacering();
     const spøgelse = kopi(BYGNINGER[type].model);
-    spøgelse.scale.setScalar(VERDEN.hexSkala * BYGNINGER[type].skala);
+    spøgelse.scale.setScalar(VERDEN.hexSkala * BYGNINGER[type].skala * BYG_SKALA);
     spøgelse.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = 0.6; } });
     spøgelse.visible = false;
     this.spil.verden.scene.add(spøgelse);
@@ -68,18 +69,21 @@ export class Valg {
     let bedst = kort.felt(f.x, f.z), bd = Infinity;
     for (const felt of kort.felter.values()) {
       const p = hexTilVerden(felt.q, felt.r), d = Math.hypot(p.x - f.x, p.z - f.z);
-      if (d < bd && d < 60 && !this.spil.base.kanPlacere(type, felt)) { bd = d; bedst = felt; }
+      if (d < bd && d < 60 && !this.spil.base.kanPlacere(type, felt, vælgPlads(felt, type))) { bd = d; bedst = felt; }
     }
     this.vælgFelt(bedst);
     if (!this.placering.felt) bus.emit('placering', this.placering);
   }
 
-  vælgFelt(f) {
+  // Vælg feltet og den plads på feltet, der er nærmest trykket (x, z)
+  vælgFelt(f, x, z) {
     const p = this.placering;
     if (!p || !f) return;
     p.felt = f;
-    p.fejl = this.spil.base.kanPlacere(p.type, f);
-    const pos = hexTilVerden(f.q, f.r);
+    p.plads = vælgPlads(f, p.type, x, z);
+    p.fejl = this.spil.base.kanPlacere(p.type, f, p.plads);
+    const pos = pladsPunkt(f, p.plads ?? 0);
+    this.felt.scale.setScalar(erStor(p.type) ? 1 : 0.45);
     p.spøgelse.position.set(pos.x, 0, pos.z);
     p.spøgelse.visible = true;
     const farve = p.fejl ? 0xff5040 : 0x7dff6a;
@@ -95,7 +99,7 @@ export class Valg {
   bekræftPlacering() {
     const p = this.placering;
     if (!p?.felt) return 'Tap a spot';
-    const [b, fejl] = this.spil.base.placér(p.type, p.felt);
+    const [b, fejl] = this.spil.base.placér(p.type, p.felt, p.plads);
     if (fejl) return fejl;
     const arbejder = this.erArbejder ? this.valgt : null;
     this.annullérPlacering();

@@ -2,6 +2,7 @@
 import { Bygning } from './bygninger.js';
 import { STADIER } from './bygningsdata.js';
 import { pakUd } from './gem.js';
+import { optag } from './byggeplads.js';
 
 export function gendanSpil(spil, g) {
   const { helt, base, verden, lejre, genstande, taage, rig, økonomi: ø } = spil;
@@ -31,9 +32,10 @@ export function gendanSpil(spil, g) {
   } else { start.ødelæg(true); base.bygninger.shift(); }
   for (const d of g.bygninger.slice(gemtStart ? 1 : 0)) {
     const felter = d.felter.map((n) => kort.felter.get(n)).filter(Boolean);
-    for (const f of felter) { f.optaget = true; f.gåbar = false; verden.natur.ryd(f); }
-    const b = new Bygning(base, d.type, { x: d.x, z: d.z, felter, rot: d.rot, færdig: d.færdig });
-    if (!d.færdig) { b.fremskridt = d.fremskridt; b.visModel(STADIER[Math.min(2, Math.floor(d.fremskridt * 3))], 1); }
+    for (const f of felter) verden.natur.ryd(f);
+    const b = new Bygning(base, d.type, { x: d.x, z: d.z, felter, plads: d.plads ?? -1, rot: d.rot, færdig: d.færdig });
+    for (const f of felter) optag(f, b.plads, b);
+    if (!d.færdig) { b.fremskridt = d.fremskridt; b.visModel(STADIER[Math.min(2, Math.floor(d.fremskridt * 3))], b.pladsSkala); }
     b.kø = d.kø ?? [];
     b.samling = d.samling;
     for (let i = 0; i < (d.opg ?? 0); i++) spil.udvikling.anvend(b, 'vagttårn');

@@ -1,9 +1,12 @@
 // Figurer går uden om træer og sten, der står frit (dem i skove og stenbrud spærrer hele feltet i stedet).
 // Kaldes efter hvert skridt: står figuren inde i en sten eller en stamme, skubbes den ud til kanten,
 // så den glider rundt om tingen i stedet for at gå igennem.
+import { undgåBygninger } from './byggeplads.js';
+
 export function undgåTing(kort, u) {
   const f = kort.felt(u.x, u.z);
   if (!f) return;
+  undgåBygninger(kort, f, u);   // små bygninger på et felt man kan gå på
   for (const g of [f, ...kort.naboer(f)]) {
     for (const r of g.ressourcer ?? []) {
       if (r.blokerer || !(r[r.type] > 0)) continue;

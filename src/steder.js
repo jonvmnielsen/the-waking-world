@@ -14,7 +14,7 @@ import { fjendeBase } from './fjendeplads.js';
 const BYG = 'kaykit-hexagon/buildings/';
 
 // Spilleren starter kun med Storlejren (M3), der fylder tre felter; resten bygger arbejderne.
-const STORLEJR_FELTER = [[0, 0], [1, -1], [0, -1]];
+const STORLEJR_FELTER = [[0, 0]];   // Jon: mindre bygninger — hallen fylder ét felt
 
 export function placérSteder(k, tilf) {
   const H = KORT.størrelse / 2;
