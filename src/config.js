@@ -7,9 +7,10 @@ export const VERDEN = {
 };
 
 export const KORT = {
-  størrelse: 48,        // kortet er størrelse × størrelse hex-felter
+  størrelse: AKTIVT_KORT.felter,   // kortet er størrelse × størrelse hex-felter (40, 48 eller 58 — kortvalg.js)
   seed: AKTIVT_KORT.seed,   // hvert kort har sit eget frø (kortvalg.js)
   id: AKTIVT_KORT.id,
+  str: AKTIVT_KORT.størrelse,   // 'lille' | 'normal' | 'stor'
 };
 
 // Grundværdier før egenskaberne (heltstats.js) lægges oven i.

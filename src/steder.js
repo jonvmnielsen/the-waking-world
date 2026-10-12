@@ -4,6 +4,8 @@ import { tilAksial, åbnLommer } from './kortgen.js';
 import { KORT } from './config.js';
 import { T } from './kortvalg.js';
 import { placérMinder } from './mindested.js';
+import { placérKæmpeårer } from './kaempeaare.js';
+import { trækMine, mineMængde, MINE_STR } from './minedata.js';
 import { FAMILIE_I_REGION, SAMMENSÆTNING } from './creepdata.js';
 import { lejrPynt, stedPynt } from './pynt.js';
 import { fjendeBase } from './fjendeplads.js';
@@ -52,13 +54,14 @@ export function placérSteder(k, tilf) {
   const steder = [];
   if (minefelt) {
     optag(minefelt, { model: BYG + 'yellow/building_mine_yellow', rot: 240, skala: 1.1, skygge: true });
-    steder.push({ type: 'mine', start: true, q: minefelt.q, r: minefelt.r, ...hexTilVerden(minefelt.q, minefelt.r) });
+    steder.push({ type: 'mine', start: true, størrelse: 'mellem', guld: mineMængde('mellem', tilf), q: minefelt.q, r: minefelt.r, ...hexTilVerden(minefelt.q, minefelt.r) });
   }
   const sted = (type, nx, nz, model, skala = 1, blokér = true) => {
     const f = nærmesteFri(nx, nz);
     if (!f) return;
     optag(f, { model: BYG + model, rot: Math.floor(tilf() * 6) * 60, skala, skygge: true }, blokér);
-    steder.push({ type, q: f.q, r: f.r, ...hexTilVerden(f.q, f.r) });
+    const mine = type === 'mine' ? (({ s }) => ({ størrelse: s, guld: mineMængde(s, tilf) }))({ s: trækMine(tilf, KORT.str) }) : {};
+    steder.push({ type, q: f.q, r: f.r, ...hexTilVerden(f.q, f.r), ...mine });
     stedPynt(k, f, type, tilf);
   };
   sted('kro', 0.0, 0.0, 'yellow/building_tavern_yellow', 1.5);
@@ -121,7 +124,7 @@ export function placérSteder(k, tilf) {
   const maxAfstand = Math.max(...[...k.felter.values()].filter((f) => f.gåbar).map((f) => hexAfstand(f, b)));
   const kandidater = [...k.felter.values()].filter(fri).sort(() => tilf() - 0.5);
   for (const f of kandidater) {
-    if (lejre.length >= 26) break;
+    if (lejre.length >= Math.round(26 * (KORT.størrelse / 48) ** 2)) break;   // flere lejre på store kort
     const d = hexAfstand(f, b);
     if (d < 6 || hexAfstand(f, k.fjendeBase) < 9) continue;
     if (lejre.some((l) => hexAfstand(l, f) < 6) || steder.some((s) => hexAfstand(s, f) < 3)) continue;
@@ -133,10 +136,16 @@ export function placérSteder(k, tilf) {
   // 4) Guldminer ved nogle af de mellemsvære lejre (ekspansioner)
   for (const l of lejre.filter((l) => l.niveau === 2 || l.niveau === 3).slice(0, 5)) {
     const n = k.naboer(k.hent(l.q, l.r)).find(fri);
-    if (n) { optag(n, { model: BYG + 'yellow/building_mine_yellow', rot: Math.floor(tilf() * 6) * 60, skala: 1.1, skygge: true }); steder.push({ type: 'mine', q: n.q, r: n.r, ...hexTilVerden(n.q, n.r) }); }
+    if (!n) continue;
+    const s = trækMine(tilf, KORT.str);
+    optag(n, { model: BYG + 'yellow/building_mine_yellow', rot: Math.floor(tilf() * 6) * 60, skala: MINE_STR[s].skala, skygge: true });
+    steder.push({ type: 'mine', størrelse: s, guld: mineMængde(s, tilf), q: n.q, r: n.r, ...hexTilVerden(n.q, n.r) });
   }
 
-  // 5) Mindesmærker: Navnestenene og andre minder man finder ved at udforske (mindested.js)
+  // 5) Kæmpeårer og Deep Quarry: værdifulde steder midt mellem baserne, som man må kæmpe om
+  placérKæmpeårer(k, tilf, { optag, fri, nærmesteFri, steder, lejre, lavLejr, kister });
+
+  // 6) Mindesmærker: Navnestenene og andre minder man finder ved at udforske (mindested.js)
   const minder = placérMinder(k, tilf, { optag, fri, steder, lejre, base: b, fjende: k.fjendeBase });
 
   åbnLommer(k);   // intet må være lukket inde

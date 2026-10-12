@@ -1,13 +1,15 @@
 // Dag og nat (GDD 4.6): et døgn varer 8 minutter (5 min dag, 3 min nat med skumring og daggry).
 // Om natten falder udsynet, creeps sover tungere (de opdager dig senere), og The Memory slår hårdere.
 import * as THREE from 'three';
+import { UDSEENDE } from './kortvalg.js';
 import { bus } from './events.js';
 
 export const DØGN = 480;
 const SKUMRING = 300, NAT = 330, DAGGRY = 450;   // sekunder inde i døgnet
 const glat = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 
-const DAG = { himmel: new THREE.Color(0x9fd3ea), sol: new THREE.Color(0xfff1d6), hemi: new THREE.Color(0xdff4ff) };
+// Dagens himmel og sol følger biomet (biomdata.js)
+const DAG = { himmel: new THREE.Color(UDSEENDE.himmel ?? 0x9fd3ea), sol: new THREE.Color(UDSEENDE.sol ?? 0xfff1d6), hemi: new THREE.Color(0xdff4ff) };
 const NATF = { himmel: new THREE.Color(0x141c33), sol: new THREE.Color(0x8fa8ff), hemi: new THREE.Color(0x6f86c8) };
 const MØRKE = new THREE.Color(0xff9a5a);   // skumringens varme skær
 

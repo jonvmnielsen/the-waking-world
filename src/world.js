@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { hexTilVerden } from './hexgrid.js';
 import { lavStier } from './stier.js';
 import { lavGrund } from './grund.js';
+import { UDSEENDE } from './kortvalg.js';
 import { lavBunddække, BUNDDÆKKE_MODELLER } from './bunddaekke.js';
 
 // Alle modelstier kortet bruger (til forudindlæsning)
@@ -23,21 +24,21 @@ export function bygVerden(scene, kort, grænser, steder, ødeland, lejre = []) {
   const stier = lavStier(kort, [base, ...steder.filter((s) => mål.includes(s.type)), ...(ødeland ? [ødeland] : [])]);
   const pletter = [{ ...base, r: 16 }, ...steder.filter((s) => s.type !== 'mine').map((s) => ({ x: s.x, z: s.z, r: 9 })),
     ...lejre.map((l) => ({ ...hexTilVerden(l.q, l.r), r: 7 + l.niveau, styrke: 0.7 }))];
-  const terræn = lavTerrænMesh(kort, grænser, { miner, ødeland, stier, pletter, grund: lavGrund() });
+  const terræn = lavTerrænMesh(kort, grænser, { miner, ødeland, stier, pletter, grund: lavGrund(11, UDSEENDE), u: UDSEENDE });
   for (const m of terræn) scene.add(m);
-  lavBunddække(scene, kort, { stier, pletter });
+  lavBunddække(scene, kort, { stier, pletter, u: UDSEENDE });
   const natur = lavNatur(scene, kort);
   const guld = lavGuldårer(scene, miner);
   return { ...natur, opdater: (dt) => { guld.opdater(dt); terræn.tid.value += dt; } };
 }
 
 export function lavLys(scene, renderer) {
-  scene.background = new THREE.Color(0x9fd3ea);
-  scene.fog = new THREE.Fog(0x9fd3ea, 85, 190);
-  const hemi = new THREE.HemisphereLight(0xdff4ff, 0x5a6b3a, 1.6);
+  scene.background = new THREE.Color(UDSEENDE.himmel);
+  scene.fog = new THREE.Fog(UDSEENDE.himmel, 85, 190);
+  const hemi = new THREE.HemisphereLight(0xdff4ff, UDSEENDE.hemiJord ?? 0x5a6b3a, 1.6);
   scene.add(hemi);
 
-  const sol = new THREE.DirectionalLight(0xfff1d6, 2.6);
+  const sol = new THREE.DirectionalLight(UDSEENDE.sol ?? 0xfff1d6, 2.6);
   sol.castShadow = true;
   sol.shadow.mapSize.set(2048, 2048);
   const c = sol.shadow.camera;

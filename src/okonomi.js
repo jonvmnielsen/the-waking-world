@@ -3,7 +3,7 @@
 import { bus } from './events.js';
 
 export const START = { guld: 300, træ: 150, sten: 80 };
-export const MÆNGDE = { mine: 8000 };   // træer og sten: se RESSOURCE i pynt.js
+export const MÆNGDE = { mine: 15000 };   // reserve; minerne har hver sin mængde (minedata.js)   // træer og sten: se RESSOURCE i pynt.js
 export const BÆR = { guld: 10, træ: 10, sten: 8 };          // pr. tur
 export const HØST_TID = { guld: 1.6, træ: 4.5, sten: 5.5 }; // sekunder pr. tur
 export const MAKS_FORSYNING = 100;
@@ -65,16 +65,19 @@ export class Økonomi {
 export class Kilder {
   constructor(steder, ressourcer) {
     this.ressourcer = ressourcer;
-    this.miner = steder.filter((s) => s.type === 'mine').map((s) => ({ ...s, guld: s.start ? MÆNGDE.mine * 1.5 : MÆNGDE.mine }));
+    // Hver mine har sin egen størrelse og mængde (minedata.js); start = mængden fra begyndelsen
+    this.miner = steder.filter((s) => s.type === 'mine').map((s) => { const guld = s.guld ?? MÆNGDE.mine; return Object.assign(s, { guld, startGuld: guld }); });
+    // Deep Quarry: et kæmpe stenbrud, der høstes som sten
+    this.brud = steder.filter((s) => s.type === 'brud').map((s) => Object.assign(s, { sten: s.sten, startSten: s.sten }));
   }
 
   // (miner har hex-koordinaten r, så deres radius sættes fast)
-  som(o) { const mine = o.type === 'mine'; return { type: mine ? 'guld' : o.type, kilde: o, x: o.x, z: o.z, r: mine ? 5 : o.r }; }
+  som(o) { const mine = o.type === 'mine'; return { type: mine ? 'guld' : o.type === 'brud' ? 'sten' : o.type, kilde: o, x: o.x, z: o.z, r: mine ? 5 : o.type === 'brud' ? 6 : o.r }; }
 
   // Nærmeste kilde af en type (når den gamle er brugt op)
   nærmeste(type, x, z, maks = 60, filter = null) {
     let bedst = null, bd = maks;
-    const liste = type === 'guld' ? this.miner : this.ressourcer;
+    const liste = type === 'guld' ? this.miner : type === 'sten' ? [...this.ressourcer, ...this.brud] : this.ressourcer;
     for (const o of liste) {
       if (!(o[type] > 0) || (filter && !filter(o))) continue;
       // Ressourcer inde i en skov tæller lidt længere væk, så kanten fældes først

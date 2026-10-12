@@ -89,6 +89,28 @@ Spilleren vælger verden på startskærmen (*Choose your world*). Alle kort er 4
 
 Alt land hænger sammen: ø-stykker man ikke kan nå bliver skov, og lommer som bygninger lukker inde, åbnes gennem den nærmeste skov eller det nærmeste stenbrud.
 
+### 4.2.1b Verdensvalget: biom, årstid, størrelse og nye verdener (M10)
+
+På startskærmen vælger man ud over kortet:
+- **Biom** (eller 🎲 tilfældig): *Temperate*, *Winter* (sne, frosne søer, kun nåletræer og nøgne træer), *Desert* (klitter, røde mesaer, saguaro-kaktusser og palmeoaser, støvstorme), *Tropical* (jungle, palmer, turkis vand, regnbyger), *Volcanic* (sort klippe, aske, forkullede træer, lavahav med glødende revner, askeregn) og *Heath* (lilla lyng, tørv, vindskæve fyrretræer, blæst). Biomet maler jordens teksturer, vælger træer, planter og sten, farver vand, himmel og sol og omdøber regionerne (fx *Dune Sea*, *Frostwood*, *Fire Peaks*) med deres egen linje i krøniken.
+- **Årstid** (eller 🎲): *Spring* (friskt grønt, flere blomster, regnbyger), *Summer*, *Autumn* (gult græs, røde og gule løvtræer, gule og orange lærketræer, faldende blade), *Winter* (sne på jorden, på træer, sten og tage; nøgne løvtræer; snefald). I varme biomer falder der ikke sne.
+- **Størrelse**: *Small* (40×40), *Normal* (48×48), *Large* (58×58). Store kort har flere lejre, flere store miner og to Motherlodes.
+- **New world every game**: et nyt frø ved hvert spil, så skove, søer, lejre, miner og minder ligger nye steder (kortets form bevares). Slået til som standard.
+
+Et gemt spil husker hele verden (kort, biom, årstid, størrelse, frø) og bygger den igen, når man fortsætter.
+
+### 4.2.1c Miner og stenbrud (M10)
+
+| Mine | Guld | Hvor |
+|---|---|---|
+| Small gold mine | 10.000 | Ekspansioner (flest på små kort) |
+| Gold mine | 15.000 | Startminen og ekspansioner |
+| Rich gold mine | 20.000 | Ekspansioner (flest på store kort) |
+| **The Motherlode** | 30.000–50.000 | 1 (2 på store kort) midt mellem baserne, vogtet af en dødbringende lejr |
+| **Deep Quarry** (sten) | 8.000–14.000 | På den anden side af midten, også vogtet |
+
+Over hver udforsket mine står en måler med fem felter og mængden; stadierne er *Full* (>75 %), *Half full*, *Half empty*, *Running low* (≤25 %) og *Empty*, og et sjette, *Overflowing*, for en Motherlode med mere end 25.000. Guldårerne ved minen svinder med stadiet, og Motherloden har en lysstribe mod himlen, så længe den er rig. Deep Quarry er en klippeformation, der skrumper. Tryk på en mine (med intet valgt) for at se tallene. Når man arbejder i en mine eller et stenbrud, er der en lille chance for et *heldigt fund* (en guldpose eller et item), oftere i Motherloden.
+
 ### 4.2.2 Jorden og detaljerne (M9)
 
 - **Jorden** har håndtegnede teksturer (græsstrå, jord med småsten, skovbund, sand, klippe), der blandes efter region, med store lyse og mørke pletter. Trådte stier forbinder basen, kroen, købmanden, brøndene, tårnene og minerne, og jorden er trådt omkring basen, stederne og lejrene.
@@ -529,9 +551,39 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M7 ✅** | **Fremskridt** | Ascension ved level 10 med tre stier og level 11–20, XP efter level-forskel, upkeep, forskning (Forge, Lumber Mill, War Camp, Great Hall) og opgraderinger (Stronghold/Fortress, Guard Tower) |
 | **M8 ✅** | **En levende verden** | Dyr, fugle og pilgrimme; ekkoer og The Memory som ånder; De Vågnende Sten; krøniken, fase-mærket, intro og verdenssiden; skilte over lejrene og De Ældgamle med nye legendariske items |
 | **M9 ✅** | **Verdener og detaljer** | Fire kort med hver sin form og historie; teksturer og stier i jorden, bunddække, blandede træer, bølgende vand med kystskum, liv omkring stederne; Navnesten, mindesmærker, navngivne lejre, regionernes historie og heltens replikker |
-| M10+ | Flere helte, en helt til The Memory, flere racer, udforskning, kampagne | |
+| **M10 ✅** | **Biomer, årstider og miner** | Seks biomer, fire årstider, tre størrelser og nye verdener hver gang; miner i fire størrelser med fem (seks) stadier, Motherlode og Deep Quarry; heldige fund; vejr |
+| M11+ | Flere helte, en helt til The Memory, verdensbegivenheder, huler, flere racer, kampagne | |
 
 ---
+
+## 17a. Tilfældighed og genspilning (forslag, M10)
+
+Hvor RNG kan gøre hvert spil anderledes. ✅ = bygget i M10.
+
+1. ✅ **Ny verden hver gang** — nyt frø: skove, søer, lejre, miner og minder flytter sig.
+2. ✅ **Biom og årstid** kan trækkes tilfældigt.
+3. ✅ **Minernes størrelse** trækkes; Motherloden har 30–50.000 guld og ligger på en tilfældig side.
+4. ✅ **Heldige fund** i miner og stenbrud.
+5. ✅ **Vejret** kommer i byger på tilfældige tidspunkter (regn, støv, blæst).
+6. **Verdensbegivenheder** (hele kortet): *Blood Moon* (creeps stærkere, mere XP), *Starfall* (en meteor slår ned og efterlader en midlertidig åre af stjernemalm), *Eclipse* (The Memory stærkere, dobbelte ekkoer), *Gold Rush* (en mine giver mere i to minutter), en *karavane* der krydser kortet (beskyt den eller plyndr den).
+7. **Områdebegivenheder**: en lejr får en *champion*, en vandrende lejesoldatflok kan hyres, et skjult alter dukker op i tre minutter, en flok krager varsler et baghold.
+8. **Champion-creeps**: 10 % af lejrene har en elite med en egenskab (*Fiery*, *Swift*, *Vampiric*, *Shielded*) og et bedre drop.
+9. **Items med rul**: tal i et spænd (fx Iron Sword +8–11 skade) og sjældne navngivne varianter.
+10. **Huler / dungeons**: 1–2 huleindgange pr. kort, der fører til et lille kort under jorden sat sammen af tilfældige rum (KayKit Dungeon), med en boss og en kiste — kun for helten og en lille gruppe.
+11. **Kroens og købmandens udvalg** skifter fra spil til spil.
+12. **Prospektering**: arbejdere kan lede efter nye guld- og stenårer i bjergene (chance for at finde en skjult mine).
+
+**Gro igen?** Fordele: lange spil løber ikke tør for træ, verden ser levende ud. Ulemper: mindre grund til at ekspandere, ryddede veje lukker til igen. Forslag: kun træer gror igen, langsomt, fra stubbe ved siden af levende skov (og hurtigere om foråret); sten gror ikke — ny sten kommer fra prospektering og Deep Quarry.
+
+## 17b. WC3-følelsen — uden at kopiere (forslag)
+
+Det der gør WC3 til WC3, og hvordan vi tager det:
+- **Helten bærer spillet**: creeping, items og levels — har vi. Næste: flere helte (kroen), heltens stemme.
+- **Neutralt land at kæmpe om**: lejre med drops, kroer, butikker, miner med vogtere — har vi; Motherlode og Deep Quarry giver nu et naturligt kampområde.
+- **Tempo og timing**: upkeep, tiers, ekspansioner, dag/nat hvor creeps sover — har vi.
+- **Læsbarhed og lyd**: tydelige silhuetter, holdfarver og korte replikker. Næste: enhedernes egne stemmelinjer ("job's done"-øjeblikke) med vores egne ord.
+- **Racer med hver deres økonomi**: The Memory høster ekkoer — originalt for os.
+- **Det vi gør anderledes**: verden vågner (faser, ekkoer, Navnesten), veteraner specialiseres efter spillestil, biomer, årstider og nye verdener hver gang.
 
 ## 17. Åbne beslutninger (Jon)
 

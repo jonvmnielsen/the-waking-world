@@ -1,8 +1,13 @@
+import * as THREE from 'three';
 // Minimap (GDD 4.5): terræn, tåge, lejre i sværhedsgradens farve, helten, kameraets udsnit og røde
 // blinkende pletter hvor man bliver angrebet (advarsel.js). Tryk flytter kameraet; ⤢ åbner kortet i fuld skærm.
 import { hexTilVerden, HEX_BREDDE } from './hexgrid.js';
 import { NIVEAUER } from './creepdata.js';
 import { REGIONER } from './kortgen.js';
+import { UDSEENDE } from './kortvalg.js';
+
+// Minimappets farver følger biomet (jordens HSL-farver i biomdata.js)
+const hsl = ([h, s, l], dl = 0) => `hsl(${h},${s}%,${Math.max(5, Math.min(95, l + dl))}%)`;
 
 export class Minimap {
   constructor(lærred, spil) {
@@ -39,17 +44,18 @@ export class Minimap {
     const c = document.createElement('canvas');
     c.width = this.c.width; c.height = this.c.height;
     const ctx = c.getContext('2d');
-    ctx.fillStyle = '#2f6f99'; ctx.fillRect(0, 0, c.width, c.height);
+    const u = UDSEENDE, j = u.jord;
+    ctx.fillStyle = u.lava ? '#6a2008' : '#' + new THREE.Color(u.vand).multiplyScalar(0.8).getHexString(); ctx.fillRect(0, 0, c.width, c.height);
     const r = (HEX_BREDDE / 2) * this.skala * 1.18;   // hex-prikker
     for (const f of kort.felter.values()) {
       const p = hexTilVerden(f.q, f.r);
       const [x, y] = this.px(p.x, p.z);
       if (f.type === 'vand') continue;
-      const [cr, cg, cb] = REGIONER[f.region].farve;
-      let farve = `rgb(${Math.round(150 * cr)},${Math.round(170 * cg)},${Math.round(80 * cb)})`;
-      if (f.type === 'kyst') farve = '#cdb57f';
-      if (f.blok === 'skov') farve = f.region === 'gravlandet' ? '#4a463c' : '#2f6b2c';
-      if (f.blok === 'bjerg') farve = '#7d7a72';
+      const [cr, cg] = REGIONER[f.region].farve;
+      let farve = hsl(j.græs, (cg - cr) * 20 - 4);
+      if (f.type === 'kyst') farve = hsl(j.sand, -4);
+      if (f.blok === 'skov') farve = f.region === 'gravlandet' || u.biom === 'vulkansk' ? hsl(j.skov, -4) : u.biom === 'vinter' ? '#5f7f6a' : u.biom === 'ørken' ? '#6f8a3a' : '#2f6b2c';
+      if (f.blok === 'bjerg') farve = hsl(j.klippe, 0);
       if (f.optaget && !f.gåbar && !f.blok) farve = '#d9c27a';
       ctx.fillStyle = farve;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
@@ -79,6 +85,15 @@ export class Minimap {
       const [x, y] = this.px(l.x, l.z);
       ctx.fillStyle = NIVEAUER[l.data.niveau].farve;
       ctx.beginPath(); ctx.arc(x, y, (l.data.niveau >= 5 ? 4 : 2.6) * this.k, 0, Math.PI * 2); ctx.fill();
+    }
+    // Guldminer (guld) og Deep Quarry (grå), når de er set; kæmpeårer større med en ring
+    for (const m of [...(spil.base.kilder.miner ?? []), ...(spil.base.kilder.brud ?? [])]) {
+      if (!t.erUdforsket(m.x, m.z)) continue;
+      const [x, y] = this.px(m.x, m.z), stor = m.størrelse === 'kæmpe' || m.type === 'brud', r = (stor ? 4.2 : 2.6) * this.k;
+      const tom = m.type === 'brud' ? m.sten <= 0 : m.guld <= 0;
+      ctx.fillStyle = tom ? '#6a6a6a' : m.type === 'brud' ? '#c8ccd2' : '#ffd36b';
+      ctx.beginPath(); ctx.moveTo(x, y - r); ctx.lineTo(x + r, y); ctx.lineTo(x, y + r); ctx.lineTo(x - r, y); ctx.closePath(); ctx.fill();
+      if (stor && !tom) { ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = this.k; ctx.beginPath(); ctx.arc(x, y, r * 1.9, 0, Math.PI * 2); ctx.stroke(); }
     }
     // Bygninger og figurer: egne i grønt, The Memory i rødt (bygninger når de er set, figurer når de ses)
     const prik = (x, z, farve, r, firkant) => {

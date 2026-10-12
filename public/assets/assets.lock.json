@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
-  "libraryCommit": "1b1fd70",
-  "synced": "2026-10-12T12:25:05.465Z",
+  "libraryCommit": "b863717",
+  "synced": "2026-10-12T13:29:46.131Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -2142,6 +2142,382 @@
       "file": "kaykit-halloween/bench.glb",
       "bytes": 11216,
       "sha": "cce95ffdbabe",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/palm_bent": {
+      "id": "forge-lowpoly/palm_bent",
+      "file": "forge-lowpoly/palm_bent.glb",
+      "bytes": 27980,
+      "sha": "cb9ed2184080",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/palm_medium": {
+      "id": "forge-lowpoly/palm_medium",
+      "file": "forge-lowpoly/palm_medium.glb",
+      "bytes": 25792,
+      "sha": "2c68573a289b",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/palm_tall_a": {
+      "id": "forge-lowpoly/palm_tall_a",
+      "file": "forge-lowpoly/palm_tall_a.glb",
+      "bytes": 30140,
+      "sha": "38a38288c1ce",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/palm_tall_b": {
+      "id": "forge-lowpoly/palm_tall_b",
+      "file": "forge-lowpoly/palm_tall_b.glb",
+      "bytes": 31696,
+      "sha": "e2e1e72aa0b8",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/palm_young": {
+      "id": "forge-lowpoly/palm_young",
+      "file": "forge-lowpoly/palm_young.glb",
+      "bytes": 17060,
+      "sha": "c00bc11ec2f9",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/banana_a": {
+      "id": "forge-lowpoly/banana_a",
+      "file": "forge-lowpoly/banana_a.glb",
+      "bytes": 24256,
+      "sha": "4f7b007bf37c",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/monstera": {
+      "id": "forge-lowpoly/monstera",
+      "file": "forge-lowpoly/monstera.glb",
+      "bytes": 14804,
+      "sha": "e2d5eb33ab19",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/heliconia": {
+      "id": "forge-lowpoly/heliconia",
+      "file": "forge-lowpoly/heliconia.glb",
+      "bytes": 12048,
+      "sha": "33045ea08639",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/fern_a": {
+      "id": "forge-lowpoly/fern_a",
+      "file": "forge-lowpoly/fern_a.glb",
+      "bytes": 9376,
+      "sha": "ff15f0048844",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/bush_hibiscus": {
+      "id": "forge-lowpoly/bush_hibiscus",
+      "file": "forge-lowpoly/bush_hibiscus.glb",
+      "bytes": 21632,
+      "sha": "cbabb073e6d7",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/flowers_purple": {
+      "id": "forge-lowpoly/flowers_purple",
+      "file": "forge-lowpoly/flowers_purple.glb",
+      "bytes": 8992,
+      "sha": "c8a439480ba3",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/flowers_white": {
+      "id": "forge-lowpoly/flowers_white",
+      "file": "forge-lowpoly/flowers_white.glb",
+      "bytes": 10856,
+      "sha": "65ffd7b31a8d",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/flowers_yellow": {
+      "id": "forge-lowpoly/flowers_yellow",
+      "file": "forge-lowpoly/flowers_yellow.glb",
+      "bytes": 8880,
+      "sha": "0384995919df",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/basalt_a": {
+      "id": "forge-lowpoly/basalt_a",
+      "file": "forge-lowpoly/basalt_a.glb",
+      "bytes": 7676,
+      "sha": "9ec9276a8df1",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/basalt_b": {
+      "id": "forge-lowpoly/basalt_b",
+      "file": "forge-lowpoly/basalt_b.glb",
+      "bytes": 10244,
+      "sha": "62549f993030",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/canopy_a": {
+      "id": "forge-lowpoly/canopy_a",
+      "file": "forge-lowpoly/canopy_a.glb",
+      "bytes": 49596,
+      "sha": "01b6918b3395",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/canopy_b": {
+      "id": "forge-lowpoly/canopy_b",
+      "file": "forge-lowpoly/canopy_b.glb",
+      "bytes": 33592,
+      "sha": "6abf43b260b2",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/rock_sand": {
+      "id": "forge-lowpoly/rock_sand",
+      "file": "forge-lowpoly/rock_sand.glb",
+      "bytes": 7816,
+      "sha": "6b254dd23021",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/grass_tall": {
+      "id": "forge-lowpoly/grass_tall",
+      "file": "forge-lowpoly/grass_tall.glb",
+      "bytes": 4604,
+      "sha": "e946fd6d512b",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/grass_beach": {
+      "id": "forge-lowpoly/grass_beach",
+      "file": "forge-lowpoly/grass_beach.glb",
+      "bytes": 4028,
+      "sha": "fa2cdd240ea4",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/log_mossy": {
+      "id": "forge-lowpoly/log_mossy",
+      "file": "forge-lowpoly/log_mossy.glb",
+      "bytes": 6116,
+      "sha": "537bac57c0f7",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/driftwood": {
+      "id": "forge-lowpoly/driftwood",
+      "file": "forge-lowpoly/driftwood.glb",
+      "bytes": 6128,
+      "sha": "4d7f08e66aa1",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/pine_1": {
+      "id": "quaternius-nature/pine_1",
+      "file": "quaternius-nature/pine_1.glb",
+      "bytes": 154148,
+      "sha": "5a1a0550122c",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/pine_2": {
+      "id": "quaternius-nature/pine_2",
+      "file": "quaternius-nature/pine_2.glb",
+      "bytes": 148244,
+      "sha": "0bfb06bcc62e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/pine_3": {
+      "id": "quaternius-nature/pine_3",
+      "file": "quaternius-nature/pine_3.glb",
+      "bytes": 177924,
+      "sha": "3b1330e82ee6",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/pine_4": {
+      "id": "quaternius-nature/pine_4",
+      "file": "quaternius-nature/pine_4.glb",
+      "bytes": 147544,
+      "sha": "0ac8e2d0e3ad",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/pine_5": {
+      "id": "quaternius-nature/pine_5",
+      "file": "quaternius-nature/pine_5.glb",
+      "bytes": 101636,
+      "sha": "0fb5c03fd05d",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/deadtree_1": {
+      "id": "quaternius-nature/deadtree_1",
+      "file": "quaternius-nature/deadtree_1.glb",
+      "bytes": 202772,
+      "sha": "fce8aa3a9f54",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/deadtree_2": {
+      "id": "quaternius-nature/deadtree_2",
+      "file": "quaternius-nature/deadtree_2.glb",
+      "bytes": 213112,
+      "sha": "060a92e03f45",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/deadtree_3": {
+      "id": "quaternius-nature/deadtree_3",
+      "file": "quaternius-nature/deadtree_3.glb",
+      "bytes": 197368,
+      "sha": "759c0d5db9cd",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/deadtree_4": {
+      "id": "quaternius-nature/deadtree_4",
+      "file": "quaternius-nature/deadtree_4.glb",
+      "bytes": 193804,
+      "sha": "08ad928b8e84",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "quaternius-nature/deadtree_5": {
+      "id": "quaternius-nature/deadtree_5",
+      "file": "quaternius-nature/deadtree_5.glb",
+      "bytes": 190720,
+      "sha": "dc3e00096d4b",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_bare_1_a_color1": {
+      "id": "kaykit-forest/tree_bare_1_a_color1",
+      "file": "kaykit-forest/tree_bare_1_a_color1.glb",
+      "bytes": 15744,
+      "sha": "387c6a2c6b2e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_bare_1_b_color1": {
+      "id": "kaykit-forest/tree_bare_1_b_color1",
+      "file": "kaykit-forest/tree_bare_1_b_color1.glb",
+      "bytes": 15568,
+      "sha": "ef82488273cb",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_bare_2_a_color1": {
+      "id": "kaykit-forest/tree_bare_2_a_color1",
+      "file": "kaykit-forest/tree_bare_2_a_color1.glb",
+      "bytes": 16912,
+      "sha": "65e54c0548ae",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/tree_bare_2_b_color1": {
+      "id": "kaykit-forest/tree_bare_2_b_color1",
+      "file": "kaykit-forest/tree_bare_2_b_color1.glb",
+      "bytes": 17520,
+      "sha": "5de56fd63d09",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/bush_2_a_color1": {
+      "id": "kaykit-forest/bush_2_a_color1",
+      "file": "kaykit-forest/bush_2_a_color1.glb",
+      "bytes": 11284,
+      "sha": "a96fd64002aa",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-forest/bush_4_a_color1": {
+      "id": "kaykit-forest/bush_4_a_color1",
+      "file": "kaykit-forest/bush_4_a_color1.glb",
+      "bytes": 11328,
+      "sha": "c9d5563e44e0",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/cactus_saguaro_a": {
+      "id": "forge-lowpoly/cactus_saguaro_a",
+      "file": "forge-lowpoly/cactus_saguaro_a.glb",
+      "bytes": 12696,
+      "sha": "095f9dfb3219",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/cactus_saguaro_b": {
+      "id": "forge-lowpoly/cactus_saguaro_b",
+      "file": "forge-lowpoly/cactus_saguaro_b.glb",
+      "bytes": 8164,
+      "sha": "43cc9a7c97fe",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/cactus_saguaro_c": {
+      "id": "forge-lowpoly/cactus_saguaro_c",
+      "file": "forge-lowpoly/cactus_saguaro_c.glb",
+      "bytes": 10584,
+      "sha": "06d63e4d62ed",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/cactus_barrel": {
+      "id": "forge-lowpoly/cactus_barrel",
+      "file": "forge-lowpoly/cactus_barrel.glb",
+      "bytes": 7460,
+      "sha": "d0f043da09ce",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/cactus_barrel_flower": {
+      "id": "forge-lowpoly/cactus_barrel_flower",
+      "file": "forge-lowpoly/cactus_barrel_flower.glb",
+      "bytes": 7676,
+      "sha": "176c85785853",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/tree_pine_orange_large": {
+      "id": "kaykit-halloween/tree_pine_orange_large",
+      "file": "kaykit-halloween/tree_pine_orange_large.glb",
+      "bytes": 15016,
+      "sha": "507908525b15",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/tree_pine_orange_medium": {
+      "id": "kaykit-halloween/tree_pine_orange_medium",
+      "file": "kaykit-halloween/tree_pine_orange_medium.glb",
+      "bytes": 14996,
+      "sha": "2667f4fb8a6e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/tree_pine_yellow_large": {
+      "id": "kaykit-halloween/tree_pine_yellow_large",
+      "file": "kaykit-halloween/tree_pine_yellow_large.glb",
+      "bytes": 15016,
+      "sha": "0371788a241e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-halloween/tree_pine_yellow_medium": {
+      "id": "kaykit-halloween/tree_pine_yellow_medium",
+      "file": "kaykit-halloween/tree_pine_yellow_medium.glb",
+      "bytes": 14996,
+      "sha": "9fbedd640fa5",
       "license": "CC0-1.0",
       "kind": "model"
     }

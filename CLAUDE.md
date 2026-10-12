@@ -78,6 +78,11 @@ the-waking-world/
 │   ├── grund.js / stier.js / bunddaekke.js # Jordens teksturer; trådte stier; græs, blomster og småting
 │   ├── mindested.js / mindesmaerker.js / stedlore.js # Navnesten og minder: placering; opdagelse og læsning; tekst
 │   ├── heltreplik.js         # Heltens korte replikker ved vigtige øjeblikke
+│   ├── biomdata.js / traevalg.js / vejr.js # Biomer og årstider; træer og sten pr. biom; sne, regn, støv, aske, blade
+│   ├── malehjaelp.js         # Hjælpere til at male jordens teksturer (og sne)
+│   ├── verdensvalgui.js      # Startskærmens valg af kort, biom, årstid, størrelse og ny verden
+│   ├── minedata.js / kaempeaare.js / minevisning.js # Minernes størrelser og stadier; Motherlode og Deep Quarry; målere
+│   ├── fund.js               # Heldige fund i miner og stenbrud
 │   ├── kro.js                # Kroen hyrer lejesoldater
 │   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
@@ -381,8 +386,14 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Navnesten (7 pr. kort), mindesmærker, regionernes historie, navngivne lejre, heltens replikker
 - [x] Alt kan nås fra basen (lommer åbnes); gem-version 3
 
-### 📋 Næste: M10+
-Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer. Se `docs/GDD.md` afsnit 16.
+### ✅ M10 — "Biomer, årstider og miner" (oktober 2026)
+- [x] Seks biomer (Temperate, Winter, Desert, Tropical, Volcanic, Heath) og fire årstider — valgt eller tilfældige; Small/Normal/Large; ny verden hver gang (nyt frø)
+- [x] Sne på jord, træer, sten og tage; lavahav; vejr (sne, regn, støv, aske, blade, blæst); egne kaktusser fra generatoren
+- [x] Miner på 10/15/20 tusind guld; Motherlode 30–50 tusind og Deep Quarry (sten), vogtet; måler med fem (seks) stadier; årerne svinder; heldige fund
+- [x] Forslag til RNG, huler, begivenheder og WC3-følelsen i GDD 17a–b; gem-version 4
+
+### 📋 Næste: M11+
+Verdensbegivenheder, champion-creeps, huler, flere helte, en helt til The Memory, musik. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 
@@ -417,6 +428,9 @@ Flere helte (kroen, alteret), en helt til The Memory, musik og vejr, flere racer
 | 2026-10-12 | Dyr fra Quaternius (CC0) via en offentlig kopi med Quaternius' egen licensfil | Den officielle zip ligger på Google Drive; game-assets D-013 |
 | 2026-10-12 | Fire kort med hver sin form og historie, valgt på startskærmen | Jons ønske: forskellige maps. Alle 48×48 med baserne i hver sin ende |
 | 2026-10-12 | Jorden får håndtegnede teksturer, stier og bunddække; træer blandes | Jon: jorden var for simpel og ensfarvet, grafikken manglede personlighed |
+| 2026-10-12 | Biom, årstid og størrelse vælges eller trækkes; ny verden (frø) hver gang som standard | Jons ønske: genspilning og RNG |
+| 2026-10-12 | Minestørrelser 10/15/20 tusind, Motherlode 30–50 tusind, Deep Quarry for sten | Jons tal; kæmpeårerne ligger midt mellem baserne og bliver kampområder |
+| 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
 | 2026-10-12 | Gem-version 3 (M9) | Kortene og mindesmærkerne ændrer placeringen af lejre og kister |
 | 2026-10-12 | Gem-version 2 | De Ældgamles lejre ændrer kortet, så gemte spil fra før M8 kan ikke fortsættes |
 | 2026-10-10 | Første AI-modstander er The Memory | Skeletmodellerne findes; regelbaseret AI med bølger, tilpasning og tre sværhedsgrader |

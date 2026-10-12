@@ -505,3 +505,13 @@ body.altid-evner:not(.altid-rygsæk):not(.rygsæk-åben) #sti-evner { right: cal
 .kortkort small { font-size: 10px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--dæmpet); }
 .kortkort.valgt { border: 2px solid var(--messing-lys); background: linear-gradient(rgba(122, 90, 42, 0.55), rgba(30, 22, 14, 0.9)); box-shadow: 0 0 14px rgba(255, 211, 107, 0.25); }
 .mærkat .replik { font-size: 13px; font-weight: 700; }
+
+/* M10: verdensvalget (biom, årstid, størrelse) */
+#verdensvalg { display: grid; gap: 8px; margin: 0 0 10px; text-align: left; }
+.valgrække { display: grid; gap: 4px; }
+.valgrække > span { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--dæmpet); }
+.valgrække > div { display: flex; flex-wrap: wrap; gap: 5px; }
+.valgrække button { padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; border: 1px solid rgba(201, 163, 90, 0.35); background: rgba(30, 22, 14, 0.82); }
+.valgrække button.valgt { border-color: var(--messing-lys); background: linear-gradient(rgba(122, 90, 42, 0.6), rgba(30, 22, 14, 0.9)); color: var(--messing-lys); }
+.valgrække.skift { grid-template-columns: 1fr auto; align-items: center; }
+.denne-verden { margin: 2px 0 0; font-size: 11px; color: var(--dæmpet); }

@@ -70,6 +70,7 @@ export function gendanSpil(spil, g) {
     if (mængde <= 0) verden.natur.fjern(r); else r[r.type] = mængde;
   }
   g.miner.forEach((guld, i) => { if (base.kilder.miner[i]) base.kilder.miner[i].guld = guld; });
+  (g.brud ?? []).forEach((sten, i) => { if (base.kilder.brud[i]) base.kilder.brud[i].sten = sten; });
 
   // Creeps: døde forsvinder, sårede beholder deres liv
   g.lejre.forEach((liste, i) => {

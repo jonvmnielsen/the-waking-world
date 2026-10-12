@@ -23,6 +23,6 @@ export function startBase(verden, { storlejr, steder, verdensObj }) {
   // Træning af nye arbejdere tæller allerede forsyning ved bestilling (bygninger.js)
 
   // Et fældet træ bliver til en stub, en brudt sten forsvinder
-  bus.on('kilde_tom', ({ type, kilde }) => { if (type !== 'guld') verdensObj.fjern(kilde); });
+  bus.on('kilde_tom', ({ type, kilde }) => { if (type !== 'guld' && kilde.type !== 'brud') verdensObj.fjern(kilde); });
   return { økonomi, kilder, base };
 }

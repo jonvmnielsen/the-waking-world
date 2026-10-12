@@ -132,6 +132,7 @@ export const høstMetoder = {
     this.rod.visible = true;
     if (m <= 0) return this.fortsætHøst(k.type);
     this.sætByrde({ type: k.type, mængde: m });
+    bus.emit('høstet', { type: k.type, kilde: k.kilde, arbejder: this });   // heldige fund (fund.js)
     this.spil('PickUp', { loop: false, gentag: true, fart: 1.6 });
     this.gåHjem();
   },

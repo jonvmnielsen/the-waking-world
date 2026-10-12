@@ -2,6 +2,9 @@
 // og kun det dine figurer og bygninger kan se, står i fuldt lys.
 // Tågen er en tekstur over kortet, som alle materialer læser i deres shader.
 import * as THREE from 'three';
+import { UDSEENDE } from './kortvalg.js';
+
+const SNE = UDSEENDE.sne ?? 0;   // sne på træer, sten og tage (vinter): hvidt på de opadvendte flader
 
 const OPL = 2;                 // verdensenheder pr. tågecelle
 const UDFORSKET = 110, SYNLIG = 255;
@@ -77,6 +80,7 @@ export class Taage {
     this.patchet.add(m);
     const u = this.uniforms;
     const før = m.onBeforeCompile, førNøgle = m.customProgramCacheKey?.call(m) ?? '';
+    const sne = SNE > 0 && m.userData.sne !== false;
     m.onBeforeCompile = (shader, r) => {
       før?.call(m, shader, r);   // fx terrænets jord-shader (terraen.js)
       Object.assign(shader.uniforms, u);
@@ -86,12 +90,22 @@ export class Taage {
           taagePos = instanceMatrix * taagePos;
         #endif
         vTaageXZ = ( modelMatrix * taagePos ).xz;`);
+      if (sne) {
+        shader.vertexShader = 'varying vec3 vSneN;\n' + shader.vertexShader.replace('#include <project_vertex>', `#include <project_vertex>
+          vec3 sneN = objectNormal;
+          #ifdef USE_INSTANCING
+            sneN = mat3( instanceMatrix ) * sneN;
+          #endif
+          vSneN = normalize( mat3( modelMatrix ) * sneN );`);
+        shader.fragmentShader = 'varying vec3 vSneN;\n' + shader.fragmentShader.replace('#include <map_fragment>', `#include <map_fragment>
+          diffuseColor.rgb = mix( diffuseColor.rgb, vec3( 0.93, 0.96, 1.0 ), smoothstep( 0.2, 0.65, vSneN.y ) * ${SNE.toFixed(2)} );`);
+      }
       shader.fragmentShader = 'varying vec2 vTaageXZ;\nuniform sampler2D uTaage;\nuniform vec2 uTaageMin;\nuniform vec2 uTaageStr;\n'
         + shader.fragmentShader.replace('#include <dithering_fragment>', `#include <dithering_fragment>
         float taage = texture2D( uTaage, ( vTaageXZ - uTaageMin ) / uTaageStr ).r;
         gl_FragColor.rgb *= taage;`);
     };
-    m.customProgramCacheKey = () => 'taage' + førNøgle;
+    m.customProgramCacheKey = () => 'taage' + (sne ? 'sne' : '') + førNøgle;
     m.needsUpdate = true;
   }
 }

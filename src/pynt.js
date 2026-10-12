@@ -2,6 +2,7 @@
 // Hvert træ og hver sten er sin egen ressource (GDD 5.1): træer giver træ, sten giver sten.
 // Skov-felter er tætte klynger af enkelte træer; stenbrud er store grå klippeblokke på en høj.
 import { HEX_BREDDE, hexTilVerden } from './hexgrid.js';
+import { træModel, stenModel } from './traevalg.js';
 
 const RI = HEX_BREDDE / 2;           // afstand fra hex-centrum til kant
 const NAT = 'kaykit-hexagon/decoration/nature/';
@@ -18,26 +19,6 @@ export const RESSOURCE = {
   sten: { mængde: 25, r: 1.3, h: 1.5 },
 };
 
-// Træer pr. region: [model, skala, farvetone]. Fyrretræer (hexagon-pakken) blandes med løvtræer og
-// knudrede træer fra skovpakken, og hvert træ får sin egen grønne tone (M9: mere personlighed)
-const KF = 'kaykit-forest/';
-const LØV = [[KF + 'tree_1_b_color1', 1.25], [KF + 'tree_3_b_color1', 1.35], [KF + 'tree_2_c_color1', 1.0], [KF + 'tree_2_b_color1', 1.15]];
-const SUMPTRÆ = [[KF + 'tree_4_b_color1', 1.2], [KF + 'tree_bare_1_c_color1', 1.4], [KF + 'tree_bare_2_c_color1', 1.1], [HAL + 'tree_dead_small', 1.3]];
-const LØVANDEL = { skoven: 0.22, askemarken: 0.4, bjergene: 0.1, sumpen: 0.2 };
-const tone = (tilf, varm = 0) => { const l = mellem(tilf, 0.82, 1.12); return [l * (1 + varm * 0.25), l, l * (1 - varm * 0.3)]; };
-function træModel(tilf, region) {
-  if (region === 'gravlandet') return [...vælg(tilf, [[HAL + 'tree_dead_large', 1.1], [HAL + 'tree_dead_medium', 1.3], [HAL + 'tree_dead_small', 1.5]]), null];
-  if (region === 'sumpen' && tilf() < 0.4) { const [m, s] = vælg(tilf, SUMPTRÆ); return [m, s * mellem(tilf, 0.85, 1.1), tone(tilf, -0.3)]; }
-  if (tilf() < (LØVANDEL[region] ?? 0.3)) {
-    // Løvtræer: i Askemarken lidt gyldne efterårstoner
-    const [m, s] = vælg(tilf, LØV);
-    const t = tone(tilf, region === 'askemarken' ? mellem(tilf, 0, 1) : 0);
-    return [m, s * mellem(tilf, 0.85, 1.15), t.map((v) => v * 0.8)];
-  }
-  const str = { skoven: [1.25, 1.6], sumpen: [1.0, 1.3] }[region] ?? [1.1, 1.4];
-  return [NAT + vælg(tilf, ['tree_single_a', 'tree_single_b']), mellem(tilf, ...str), tone(tilf)];
-}
-
 // Blokerede felter: skov og stenbrud
 export function blokPynt(f, tilf) {
   if (f.blok === 'bjerg') {
@@ -45,11 +26,12 @@ export function blokPynt(f, tilf) {
     const n = 3 + Math.floor(tilf() * 2);
     for (let i = 0; i < n; i++) {
       const v = (i / n) * Math.PI * 2 + tilf() * 0.8, r = RI * mellem(tilf, 0.15, 0.42);
-      f.pynt.push({ model: NAT + 'rock_single_' + vælg(tilf, ['c', 'e', 'c', 'b', 'd']), dx: Math.cos(v) * r, dz: Math.sin(v) * r,
-        rot: tilf() * 360, skala: mellem(tilf, 2.4, 3.4), y: -0.25, instans: true, skygge: true, ressource: 'blok' });
+      const [model, skala, farve] = stenModel(tilf, true);
+      f.pynt.push({ model, dx: Math.cos(v) * r, dz: Math.sin(v) * r, rot: tilf() * 360, skala, farve, y: -0.25, instans: true, skygge: true, ressource: 'blok' });
     }
     for (let i = 0; i < 2; i++) {
-      f.pynt.push({ model: NAT + 'rock_single_' + vælg(tilf, ['a', 'b', 'd']), ...spred(tilf, 0.7), rot: tilf() * 360, skala: 1.3, instans: true, skygge: true, ressource: 'sten' });
+      const [model, skala, farve] = stenModel(tilf, false);
+      f.pynt.push({ model, ...spred(tilf, 0.7), rot: tilf() * 360, skala, farve, instans: true, skygge: true, ressource: 'sten' });
     }
     return;
   }
@@ -67,7 +49,7 @@ export function friPynt(f, tilf) {
   const x = tilf();
   const p = (model, skala = 1, ressource = null, skygge = true, farve = null) => f.pynt.push({ model, ...spred(tilf), rot: tilf() * 360, skala, farve, instans: true, skygge, ressource });
   const træ = (sk = 1) => { const [m, s, t] = træModel(tilf, f.region); p(m, s * 0.75 * sk, 'træFrit', true, t); };
-  const sten = (sk = 1) => p(NAT + 'rock_single_' + vælg(tilf, ['b', 'c', 'e']), 1.25 * sk, 'sten');
+  const sten = (sk = 1) => { const [m, sk2, t] = stenModel(tilf, false); p(m, sk2 * 0.96 * sk, 'sten', true, t); };
   switch (f.region) {
     case 'skoven':
       if (x < 0.45) træ();

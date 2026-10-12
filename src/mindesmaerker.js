@@ -9,6 +9,8 @@ import { bus } from './events.js';
 import { glød } from './aand.js';
 import { NAVN_FÆRDIG, REGION_LORE } from './stedlore.js';
 import { REGIONER } from './kortgen.js';
+import { UDSEENDE } from './kortvalg.js';
+import { regionTekst } from './biomdata.js';
 
 const LÆS = 13;   // så tæt skal helten på en Navnesten
 
@@ -59,7 +61,8 @@ export class Mindesmærker {
     if (f?.region && !this.regioner.has(f.region)) {
       const første = this.regioner.size === 0;
       this.regioner.add(f.region);
-      if (!første) bus.emit('krønike', { titel: REGIONER[f.region].navn, tekst: REGION_LORE[f.region], farve: '#9fd08a', varighed: 12 });
+      const [navn, linje] = regionTekst(UDSEENDE, f.region) ?? [REGIONER[f.region].navn, REGION_LORE[f.region]];
+      if (!første) bus.emit('krønike', { titel: navn, tekst: linje, farve: '#9fd08a', varighed: 12 });
     }
   }
 

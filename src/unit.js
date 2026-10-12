@@ -9,6 +9,7 @@ export class Unit {
     this.verden = verden;
     this.rod = new THREE.Group();
     this.model = kopi(model, { skygge: true });
+    this.model.traverse((o) => { if (o.isMesh) o.material.userData.sne = false; });   // ingen sne på figurerne
     this.model.scale.setScalar(skala);
     this.rod.add(this.model);
     verden.scene.add(this.rod);

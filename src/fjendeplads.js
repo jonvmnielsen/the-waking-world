@@ -17,7 +17,7 @@ export function fjendeBase(k, optag, fri, steder) {
   const mine = [...k.felter.values()].filter((f) => hexAfstand(f, E) === 3 && fri(f)).sort((a, b) => væk(a) - væk(b))[0];
   if (mine) {
     optag(mine, { model: BYG + 'yellow/building_mine_yellow', rot: 60, skala: 1.1, skygge: true });
-    steder.push({ type: 'mine', q: mine.q, r: mine.r, ...hexTilVerden(mine.q, mine.r) });
+    steder.push({ type: 'mine', størrelse: 'mellem', guld: 15000, q: mine.q, r: mine.r, ...hexTilVerden(mine.q, mine.r) });
   }
 
   // Byggepladser: frie felter 2–4 skridt fra hallen, ikke ved siden af hinanden

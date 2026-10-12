@@ -3,11 +3,12 @@
 // helten, økonomien, basen, hæren, høstede træer og sten, døde creeps, items, kister og udforsket land.
 // Spillet gemmes automatisk hvert minut og når appen lægges væk. Gendannelse: gendan.js.
 import { KORT } from './config.js';
-import { KORT_TYPER } from './kortvalg.js';
+import { KORT_TYPER, AKTIVT_KORT, STØRRELSER } from './kortvalg.js';
+import { BIOMER, ÅRSTIDER } from './biomdata.js';
 import { nøgle } from './hexgrid.js';
 
 const NØGLE = 'tww-gem-1';
-export const GEM_VERSION = 3;   // 3: M9 (flere kort, mindesmærker)
+export const GEM_VERSION = 4;   // 4: M10 (biomer, årstider, størrelser, nye frø)
 const r1 = (v) => Math.round(v * 10) / 10;
 
 export function hentGem() {
@@ -36,7 +37,7 @@ function lavGem(spil) {
   const { helt, økonomi: ø, base, lejre, genstande, taage, rig, stil, memory: m } = spil;
   const inv = helt.inventar;
   return {
-    version: GEM_VERSION, seed: KORT.seed, kort: KORT.id, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
+    version: GEM_VERSION, seed: KORT.seed, kort: KORT.id, biom: AKTIVT_KORT.biom, årstid: AKTIVT_KORT.årstid, størrelse: AKTIVT_KORT.størrelse, tidspunkt: Date.now(), spilTid: Math.round(helt.tid),
     økonomi: { guld: ø.guld, træ: ø.træ, sten: ø.sten, forsyning: ø.forsyning, forsyningMaks: ø.forsyningMaks },
     helt: {
       essens: helt.evner.essens, x: r1(helt.x), z: r1(helt.z), hp: Math.ceil(helt.død ? helt.maxHp : helt.hp), mana: Math.floor(helt.mana),
@@ -55,6 +56,7 @@ function lavGem(spil) {
     })),
     ressourcer: base.kilder.ressourcer.filter((r) => r[r.type] < r.start).map((r) => [r.id, r[r.type]]),
     miner: base.kilder.miner.map((m) => m.guld),
+    brud: base.kilder.brud.map((m) => m.sten),
     lejre: lejre.map((l) => l.creeps.map((c) => (c.død ? -1 : Math.ceil(c.hp)))),
     items: genstande.liste.map((g) => ({ id: g.id, x: r1(g.x), z: r1(g.z), ladninger: g.ladninger ?? null })),
     kister: genstande.kister.map((k) => (k.åben ? 1 : 0)),
@@ -102,6 +104,6 @@ export function beskrivGem(g) {
   const min = Math.floor(g.spilTid / 60);
   const siden = Math.round((Date.now() - g.tidspunkt) / 60000);
   const hvornår = siden < 1 ? 'saved just now' : siden < 60 ? `saved ${siden} min ago` : siden < 1440 ? `saved ${Math.round(siden / 60)} h ago` : `saved ${Math.round(siden / 1440)} days ago`;
-  const kort = KORT_TYPER[g.kort ?? 'askeø']?.navn ?? '';
+  const kort = [KORT_TYPER[g.kort ?? 'askeø']?.navn, BIOMER[g.biom]?.navn, ÅRSTIDER[g.årstid]?.navn, g.størrelse && g.størrelse !== 'normal' ? STØRRELSER[g.størrelse]?.navn : null].filter(Boolean).join(', ');
   return `${kort} · ${g.memory ? `${g.memory.sværhed[0].toUpperCase()}${g.memory.sværhed.slice(1)} · ` : ''}Level ${g.helt.level} · ${g.soldater.length} ${g.soldater.length === 1 ? 'soldier' : 'soldiers'} · ${min} min played · ${hvornår}`;
 }
