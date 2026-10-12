@@ -25,6 +25,7 @@ export class Ekkoer {
 
   ny(x, z, vægt) {
     if (!this.hal || erIHule(x)) return;   // minder under jorden når ikke op til Erevoss
+    vægt *= this.spil.verden.mod?.ekko ?? 1;   // dobbelt så stærke under en formørkelse
     const rod = new THREE.Group();
     rod.add(glød(0x8fc8ff, 1.1 + vægt * 0.35, 0.85), glød(0xe8f4ff, 0.45 + vægt * 0.12));
     rod.position.set(x, 1.2, z);

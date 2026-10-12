@@ -49,6 +49,14 @@ export class DagNat {
     renderer.toneMappingExposure = 1.05 - 0.1 * n;
     const h = this.spil.helt;
     this.lygte.intensity = 40 * n;
+    // Begivenheder farver lyset (Blood Moon rødt, formørkelsen mørkt violet)
+    const tone = this.tone;
+    if (tone?.styrke > 0) {
+      sol.color.lerp(tone.farve, tone.styrke); hemi.color.lerp(tone.farve, tone.styrke * 0.8);
+      scene.background.lerp(tone.farve, tone.styrke * 0.5);
+      sol.intensity *= 1 - (1 - (tone.lys ?? 1)) * tone.styrke; hemi.intensity *= 1 - (1 - (tone.lys ?? 1)) * tone.styrke;
+      this.lygte.intensity = Math.max(this.lygte.intensity, 40 * tone.styrke * (tone.lygte ?? 0));
+    }
     // Under jorden (hulerne): mørkt, helten bærer lygten
     if (this.spil.rig.fokus.x > 3000) { scene.background.set(0x070504); scene.fog?.color.set(0x070504); sol.intensity = 0.55; hemi.intensity = 0.45; this.lygte.intensity = 55; }
     this.lygte.position.set(h.x, 5, h.z);

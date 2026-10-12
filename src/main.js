@@ -119,6 +119,7 @@ async function start() {
       effekter.markør(s.x, s.z, 0xffe08a);
     },
     hyrVed(s) { this.handlVed(s, true); },
+    butik(s, varer, titel) { if (s) invHud.åbnButik(s, varer, titel); else invHud.lukButik(); },   // begivenhedernes lejesvende
   };
   spil.krønike = new Krønike(spil);
   rig.fokus.set(heltSpawn.x, 0, heltSpawn.z);
@@ -166,7 +167,6 @@ async function start() {
   spil.gem = startAutogem(spil);
 
   tryk = lavTryk({ spil, lærred, overlay, effekter, genstande, steder });
-
   const trin = lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, sætEgne: (l) => { egne = l; } });
   const røntgen = lavRøntgen(spil, renderer, verdensObj);
 

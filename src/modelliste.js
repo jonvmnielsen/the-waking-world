@@ -21,6 +21,8 @@ export const MODELLER = [...new Set([
   'kaykit-hexagon/buildings/green/building_tower_a_green', 'kaykit-hexagon/buildings/green/building_tower_base_green',
   // Livet i verden (M8)
   'dyr/doe', 'dyr/stag', 'dyr/fox', 'dyr/crow', 'dyr/finch', 'dyr/gull', 'units/pilgrim', 'kaykit-halloween/pillar',
+  // Begivenheder (M11)
+  'forge-lowpoly/crystal_star_a', 'forge-lowpoly/crystal_star_b', 'forge-lowpoly/crystal_star_c', 'forge-lowpoly/campfire', 'kaykit-halloween/shrine',
 ])];
 
 export const EKSTRA_IKONER = [

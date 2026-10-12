@@ -18,6 +18,7 @@ import { Vejr } from './vejr.js';
 import { MineVisning } from './minevisning.js';
 import { lavFund } from './fund.js';
 import { Huler } from './huler.js';
+import { Begivenheder } from './begivenheder.js';
 import { UDSEENDE } from './kortvalg.js';
 
 // Sætter M8-systemerne op: ekkoer, livet, fortællingen og lejrenes skilte. opdater() kører med tegningen.
@@ -32,6 +33,7 @@ export function lavVerdensliv(spil, steder, minder = []) {
   lavFund(spil);
   spil.huler = new Huler(spil, spil.verden.kort.huler ?? []);
   spil.rig.særGrænser = () => spil.huler.grænser();
+  spil.begivenheder = new Begivenheder(spil);
   return { opdater(dt) { fortælling.opdater(dt); skilte.opdater(dt); replikker.opdater(); vejr.opdater(dt, spil.rig.fokus); spil.minevisning.opdater(dt); } };
 }
 

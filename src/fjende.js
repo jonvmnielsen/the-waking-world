@@ -41,7 +41,7 @@ export class Fjende extends Creep {
     return bedst;
   }
 
-  skadeFaktor() { return 1 + 0.2 * (this.verden.nat ?? 0); }   // stærkere om natten (GDD 4.6)
+  skadeFaktor() { return 1 + 0.2 * (this.verden.nat ?? 0) + (this.verden.mod?.memorySkade ?? 0); }   // stærkere om natten (GDD 4.6) og under en formørkelse
 
   kommandoAngreb(x, z) { this.ordre = 'angreb'; this.marchMål = { x, z }; this.mål = null; this.stop(); }
   kommandoRetur() { this.ordre = 'retur'; this.mål = null; this.gåTil(this.post.x, this.post.z); }

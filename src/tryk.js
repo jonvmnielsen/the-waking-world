@@ -88,6 +88,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     }
     if (fjende) { helt.kommandoAngrib(fjende); return effekter.markør(fjende.x, fjende.z, 0xff5a4a); }
     if (spil.huler?.tryk(px, py, skærm, true)) return;   // ind i eller ud af en hule
+    if (spil.begivenheder?.tryk(px, py, skærm, true)) return;   // helligdom, stjernekrystaller, lejesvende
     for (const s of steder) {
       if ((s.type !== 'marked' && s.type !== 'kro') || !verden.taage.erUdforsket(s.x, s.z)) continue;
       const q = skærm(s.x, 3, s.z);
@@ -166,7 +167,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       overlay.mærkat(ting.ting, `<b>${d.navn}</b><small>${sj.navn}</small>`, sj.farve);
       if (!valg.erHelt) return;
     }
-    if (valg.ingen) { if (!spil.livet?.tryk(px, py, skærm) && !spil.huler?.tryk(px, py, skærm) && !spil.minevisning?.tryk(px, py, skærm)) spil.minder?.tryk(px, py, skærm); return; }   // intet valgt: pilgrimme og sten kan svare; ellers ingenting
+    if (valg.ingen) { if (!spil.livet?.tryk(px, py, skærm) && !spil.huler?.tryk(px, py, skærm) && !spil.begivenheder?.tryk(px, py, skærm) && !spil.minevisning?.tryk(px, py, skærm)) spil.minder?.tryk(px, py, skærm); return; }   // intet valgt: pilgrimme og sten kan svare; ellers ingenting
     heltTryk(px, py);
   };
 }

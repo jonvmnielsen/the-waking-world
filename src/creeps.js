@@ -40,7 +40,7 @@ export class Creep extends Unit {
   }
 
   // Skade ganges med denne faktor (The Memory slår hårdere om natten, se fjende.js)
-  skadeFaktor() { return 1; }
+  skadeFaktor() { return 1 + (this.verden.mod?.creepSkade ?? 0); }   // Blood Moon (begivenheder.js)
 
   // Hold fast i målet; skift til den nærmeste der står og slår, hvis målet er langt væk (spot fra Ironhide låser målet)
   vælgMål(dt) {
@@ -69,7 +69,7 @@ export class Creep extends Unit {
     if (this.død) return this.opdaterDød(dt);
     if (this.tilstand === 'vågner') {
       this.vågenTid -= dt;
-      if (this.vågenTid <= 0) { this.tilstand = 'hvile'; this.spil(this.anim.idle); }
+      if (this.vågenTid <= 0) { this.tilstand = this.angrebEfterVågn && this.gyldigt(this.mål) ? 'jagt' : 'hvile'; this.spil(this.anim.idle); }   // baghold angriber straks
       return;
     }
     if (this.lammet > 0) { this.lammet -= dt; return; }
@@ -150,7 +150,7 @@ export class Creep extends Unit {
     this.sving = null;
     this.spil(this.anim.død, { loop: false, fade: 0.08 });
     this.forsvind = 5;
-    bus.emit('creep_død', { creep: this, xp: this.data.xp, kilde });
+    bus.emit('creep_død', { creep: this, xp: Math.round(this.data.xp * (1 + (this.verden.mod?.creepXp ?? 0))), kilde });
   }
 
   opdaterDød(dt) {

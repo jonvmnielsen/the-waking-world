@@ -127,7 +127,7 @@ export const høstMetoder = {
   færdigHøst() {
     const k = this.kilde;
     // I verdenstilstanden Fald giver minerne mindre (GDD 12); forskning giver mere (udvikling.js)
-    const bær = (k.type === 'guld' ? Math.round(BÆR.guld * (this.verden.guldFaktor ?? 1)) : BÆR[k.type]) + (this.verden.udvikling?.bær(k.type) ?? 0);
+    const bær = (k.type === 'guld' ? Math.round(BÆR.guld * (this.verden.guldFaktor ?? 1) * (k.kilde.feber ? 2 : 1)) : BÆR[k.type]) + (this.verden.udvikling?.bær(k.type) ?? 0);
     const m = this.base.kilder.høst(k, k.type, bær);
     this.rod.visible = true;
     if (m <= 0) return this.fortsætHøst(k.type);

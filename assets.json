@@ -427,6 +427,11 @@
     "kaykit-dungeon/crates_stacked_gltf",
     "kaykit-dungeon/column_gltf",
     "kaykit-dungeon/candle_lit_gltf",
-    "kaykit-dungeon/stairs_gltf"
+    "kaykit-dungeon/stairs_gltf",
+    "forge-lowpoly/crystal_star_a",
+    "forge-lowpoly/crystal_star_b",
+    "forge-lowpoly/crystal_star_c",
+    "forge-lowpoly/campfire",
+    "kaykit-halloween/shrine"
   ]
 }
