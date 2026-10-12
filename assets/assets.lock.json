@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
-  "libraryCommit": "b5dedfb",
-  "synced": "2026-10-12T17:50:09.956Z",
+  "libraryCommit": "e984e32",
+  "synced": "2026-10-12T22:06:20.753Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -117,12 +117,13 @@
     "units/bandit_slagsbror": {
       "id": "kaykit-adventurers/characters/rogue",
       "file": "units/bandit_slagsbror.glb",
-      "bytes": 324880,
-      "sha": "67afc2f85075",
+      "bytes": 358828,
+      "sha": "078e1a8719c3",
       "license": "CC0-1.0",
       "kind": "model",
       "animations": [
         "Idle",
+        "Walking_A",
         "Running_A",
         "Hit_A",
         "Death_A",
@@ -133,12 +134,13 @@
     "units/bandit_skytte": {
       "id": "kaykit-adventurers/characters/rogue_hooded",
       "file": "units/bandit_skytte.glb",
-      "bytes": 357868,
-      "sha": "cf82c25c294b",
+      "bytes": 391832,
+      "sha": "d25e6842f757",
       "license": "CC0-1.0",
       "kind": "model",
       "animations": [
         "Idle",
+        "Walking_A",
         "Running_A",
         "Hit_A",
         "Death_A",
@@ -150,12 +152,13 @@
     "units/bandit_lejesoldat": {
       "id": "kaykit-adventurers/characters/knight",
       "file": "units/bandit_lejesoldat.glb",
-      "bytes": 375844,
-      "sha": "dbd6b1e4355d",
+      "bytes": 409812,
+      "sha": "651f0978a213",
       "license": "CC0-1.0",
       "kind": "model",
       "animations": [
         "Idle",
+        "Walking_A",
         "Running_A",
         "Hit_A",
         "Death_A",
@@ -2678,6 +2681,14 @@
       "file": "kaykit-halloween/shrine.glb",
       "bytes": 9472,
       "sha": "6461de2b3e25",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/wagon_covered": {
+      "id": "forge-lowpoly/wagon_covered",
+      "file": "forge-lowpoly/wagon_covered.glb",
+      "bytes": 40840,
+      "sha": "902b351b48b1",
       "license": "CC0-1.0",
       "kind": "model"
     }
