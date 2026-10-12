@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
   "libraryCommit": "e984e32",
-  "synced": "2026-10-12T22:06:20.753Z",
+  "synced": "2026-10-12T22:44:57.565Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -2691,6 +2691,189 @@
       "sha": "902b351b48b1",
       "license": "CC0-1.0",
       "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_archeryrange_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_archeryrange_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_archeryrange_blue.glb",
+      "bytes": 67296,
+      "sha": "5c532621562c",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_barracks_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_barracks_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_barracks_blue.glb",
+      "bytes": 72396,
+      "sha": "053c8299f3f6",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_blacksmith_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_blacksmith_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_blacksmith_blue.glb",
+      "bytes": 46956,
+      "sha": "700b49687008",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_castle_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_castle_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_castle_blue.glb",
+      "bytes": 94540,
+      "sha": "3c617a524fe2",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_church_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_church_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_church_blue.glb",
+      "bytes": 33404,
+      "sha": "8a65ac90301b",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_home_a_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_home_a_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_home_a_blue.glb",
+      "bytes": 24628,
+      "sha": "3a66bf6a74ee",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_home_b_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_home_b_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_home_b_blue.glb",
+      "bytes": 31520,
+      "sha": "66bc1b611bba",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_lumbermill_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_lumbermill_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_lumbermill_blue.glb",
+      "bytes": 65084,
+      "sha": "1a46a5aad2ef",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_market_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_market_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_market_blue.glb",
+      "bytes": 54612,
+      "sha": "1d8c56214c6a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_mine_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_mine_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_mine_blue.glb",
+      "bytes": 28208,
+      "sha": "98f05f88db87",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_tavern_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_tavern_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_tavern_blue.glb",
+      "bytes": 62584,
+      "sha": "e9a024c39667",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_tower_a_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_tower_a_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_tower_a_blue.glb",
+      "bytes": 41468,
+      "sha": "2bd02dd3f6d6",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_tower_b_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_tower_b_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_tower_b_blue.glb",
+      "bytes": 46708,
+      "sha": "471a84650f09",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_tower_base_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_tower_base_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_tower_base_blue.glb",
+      "bytes": 30160,
+      "sha": "32d1e5ec8b29",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_tower_catapult_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_tower_catapult_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_tower_catapult_blue.glb",
+      "bytes": 53556,
+      "sha": "fedbee594a6e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_watermill_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_watermill_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_watermill_blue.glb",
+      "bytes": 41400,
+      "sha": "706ca779d7d3",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_well_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_well_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_well_blue.glb",
+      "bytes": 20556,
+      "sha": "e6bcada05435",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-hexagon/buildings/blue/building_windmill_blue": {
+      "id": "kaykit-hexagon/buildings/blue/building_windmill_blue",
+      "file": "kaykit-hexagon/buildings/blue/building_windmill_blue.glb",
+      "bytes": 56760,
+      "sha": "7edb523e145e",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-adventurers/shield_badge": {
+      "id": "kaykit-adventurers/shield_badge",
+      "file": "kaykit-adventurers/shield_badge.glb",
+      "bytes": 12132,
+      "sha": "904466d65729",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-adventurers/crossbow_2handed": {
+      "id": "kaykit-adventurers/crossbow_2handed",
+      "file": "kaykit-adventurers/crossbow_2handed.glb",
+      "bytes": 22924,
+      "sha": "f0ce33ed3274",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "units/hero_arkitekt": {
+      "id": "kaykit-adventurers/characters/knight",
+      "file": "units/hero_arkitekt.glb",
+      "bytes": 580344,
+      "sha": "43c1d44993d6",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block"
+      ]
     }
   }
 }
