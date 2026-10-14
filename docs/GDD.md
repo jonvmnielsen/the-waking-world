@@ -2,7 +2,7 @@
 
 > Samlet beskrivelse af hele spillet. Hvor intet er besluttet endnu, står der **Forslag**, og de åbne valg er samlet i afsnit 17.
 > Detaljer om helte- og unit-progression står i `DESIGN_PROGRESSION.md`. Verdenens lore står i `agents/AGENT_LORE.md`.
-> Sidst opdateret: 2026-10-12
+> Sidst opdateret: 2026-10-14
 
 ---
 
@@ -309,7 +309,7 @@ Stiens to evner ligger i en ekstra række over de tre essens-evner.
 
 ### 6.3 Heltene — tre pr. race
 
-Man vælger sin race og én af racens tre helte ved start (sammen med essensen). AI-modstanderen får en tilfældig af sin races helte. Hver helt har sin egen model, hovedegenskab, kampform og første evne (*signatur*, låst op ved level 1); evne 2 og 3 kommer fra essensen som før, og Ascension ved level 10 gælder alle helte. Hovedegenskaben giver skaden (Strength, Agility eller Intelligence) og vokser mest pr. level.
+Man vælger sin race og én af racens tre helte ved start (sammen med essensen). AI-modstanderen får en tilfældig af sin races helte. Hver helt har sin egen model, hovedegenskab, kampform og **tre egne evner** (level 1, 3 og 6 — Jon, M13: alle evner er heltens egne). Essensen giver ikke længere evner, kun egenskab, spillestil og retning. Ascension ved level 10 gælder alle helte (stiernes evner er endnu fælles). Hovedegenskaben giver skaden (Strength, Agility eller Intelligence) og vokser mest pr. level.
 
 | Race | Helt | Rolle | Signatur |
 |---|---|---|---|
@@ -319,6 +319,20 @@ Man vælger sin race og én af racens tre helte ved start (sammen med essensen).
 | **The Architects** | **Knight Commander** (ridder) | Nærkamp · Strength · tohåndssværd | *Shield Bash* — 1,5× skade og 1,5 s lammelse |
 | | **Lorewarden** (magiker) | Afstand · Intelligence · lys | *Mending Light* — heler helten og soldaterne omkring |
 | | **Ranger Captain** (skytte) | Afstand · Agility · armbrøst | *Piercing Bolt* — en bolt gennem alle fjender på en linje |
+
+**Heltenes evner (M13):**
+
+| Helt | Level 1 | Level 3 | Level 6 |
+|---|---|---|---|
+| Warchief | Brute Strike | War Cry (helten og soldaterne omkring) | Earth Stomp |
+| Stormsinger | Stormlash | Squall — 70 skade og 1,5 s lammelse om helten | Eye of the Storm — lyn på fjender omkring helten i 6 s |
+| Wildtrack | Hunter's Mark | Spear Volley — spyd mod op til fem fjender (1,3×) | Predator — 8 s: +60 % angrebsfart, +30 % fart, dobbelt skade på mærket bytte |
+| Knight Commander | Shield Bash | Shield Wall — 40 % mindre skade i 8 s, også soldaterne | Consecration — helliget jord i 6 s: skader fjender, heler egne |
+| Lorewarden | Mending Light | Binding Word — 80 skade og 2,5 s lammelse | Old Light — lyssøjle, 240 skade i et område |
+| Ranger Captain | Piercing Bolt | Rapid Fire — 80 % hurtigere skud i 6 s | Rain of Bolts — tre salver, 70 skade hver i et område |
+
+| Race | Helt | Rolle | Signatur |
+|---|---|---|---|
 | **The Dreaming** *(designet)* | **Thornwarden** | Nærkamp · Strength | *Entangling Roots* — rødder holder fjenderne fast |
 | | **Moonblade** | Nærkamp · Agility | *Blink Strike* — træder ud af måneskinnet bag målet |
 | | **Dreamweaver** | Afstand · Intelligence | *Sleep* — synger fjender i søvn |
@@ -327,6 +341,16 @@ Man vælger sin race og én af racens tre helte ved start (sammen med essensen).
 | | **Stitched Stalker** | Nærkamp · Agility | *Unseen* — usynlig, næste slag gør dobbelt skade |
 
 The Memory og The Unnamed er ikke racer, men entiteter på kortet (afsnit 12), og har ingen helte.
+
+### 6.5 Heltens personlighed og plads (M13)
+
+Jon: *heltene skal fylde meget mere, og spillet skal centreres om at bygge dem op.*
+
+- **Kan kendes på afstand:** helten er større end soldaterne og vokser lidt for hvert level (1,18 → 1,4 ved level 20), har en langsomt drejende **runecirkel** om fødderne og en **kappe i holdets farve**. Modstanderens helt har det samme i rødt.
+- **Udstyret kan ses:** våbnet i højre hånd, skjold/bog i venstre (koggeret på ryggen) og hjelmen på hovedet. Episk og legendarisk udstyr gløder svagt.
+- **Egen stemme:** hver helt har sine egne replikker (`heltreplikdata.js`) — når man trykker på den (højst hvert 20. s), ved angrebsordrer, lavt liv, bosser, modstanderens helt, legendariske fund, Ascension og nye tilnavne. Almindelige replikker højst hvert 12. sekund.
+- **Bedrifter og tilnavne:** helten tæller drab, bosser, faldne fjendehelte, skatte (episk/legendarisk), genoplivninger og ekkoer. Store bedrifter giver et tilnavn og en varig bonus: *the Bloodied* (25 drab, +3 hovedegenskab), *the Giantslayer* (2 bosser, +150 liv), *the Treasure-Seeker* (3 skatte, +3), *the Kingslayer* (fjendens helt, +3 til alle), *the Returned* (genoplivet 3 gange, +200 liv), *the Echo-Keeper* (10 ekkoer, +4 INT), *the Bonebreaker* (100 drab, +5). Det nyeste tilnavn står i titlen ("Warchief the Giantslayer"); heltekortet viser bedrifterne og det næste tilnavn.
+- **Heltekortet** viser titel, egenskaber, afledte værdier (inkl. kritisk, livsstjæl, kortere cooldowns, torne, guldfund, ekstra XP), udstyret, evnerne og bedrifterne.
 
 ---
 
@@ -372,9 +396,10 @@ Farverne vises på minimap og over lejren:
 
 ## 8. Items
 
-### 8.1 Inventar
-- Hver helt har **6 pladser**. Andre units har ingen.
-- Tryk på et item på jorden, så går helten hen og samler det op. Tryk i inventaret for at bruge, smide eller give et item videre.
+### 8.1 Inventar (M13)
+- **Seks udstyrspladser:** *Weapon, Off-hand, Head, Body, Feet, Trinket*. Kun udstyr på en plads giver bonusser. Tomme pladser viser et lille ikon for, hvad der hører til.
+- **Rygsæk med 6 pladser** til eliksirer, stave og ekstra udstyr. Eliksirer bruges fra rygsækken; udstyr fra rygsækken bytter med det, der sidder på pladsen.
+- Tryk på et item på jorden, så går helten hen og samler det op. Udstyr lægger sig selv på en ledig plads.
 
 ### 8.2 Typer
 
@@ -386,8 +411,14 @@ Farverne vises på minimap og over lejren:
 | **Artefakt** | Tordenhammer (5 % chance for lyn) | Unik evne |
 | **Opsamling** | Tome of Strength, guldpose | Bruges straks |
 
-### 8.3 Sjældenhed
+### 8.3 Sjældenhed og rul (M13)
 **Almindelig** (hvid) · **Sjælden** (blå) · **Episk** (lilla) · **Legendarisk** (orange). Farven vises som en lysstribe over item'et på jorden.
+
+Jon: *items skal være meget mere varierede.* Hvert stykke udstyr, der falder, **rulles** (`udstyr.js`): det får en sjældenhed efter kildens niveau (lejrens sværhedsgrad, kister +1 for guldkister) og 1–4 tilfældige **affikser** oven i grundtingens bonus (almindelig 1, sjælden 2, episk 3, legendarisk 4). Affikserne passer til pladsen og vokser med niveauet. Navnet følger affikserne: *Swift Iron Sword of Fury*, *Thorned Plate Cuirass of the Fox*; legendariske får et eget navn (*Dawnbreaker*, *Kingsbane* …). Artefakter rulles ikke.
+
+**Stats på udstyr:** Strength, Agility, Intelligence, skade, rustning, liv, mana, angrebsfart, liv/mana-regeneration, **kritisk chance** og **kritisk skade** (grund 175 %), **fart**, **livsstjæl**, **kortere cooldowns**, **evnestyrke**, **torne** (returneret skade), **guldfund** og **ekstra XP**.
+
+**Grundting (M13):** våben (dolk, håndøkse, sværd, storsværd, krigsøkse, jagtbue, armbrøst, gløderod, stormstav), off-hand (træskjold, rundskjold, ridderskjold, tårnskjold, pigskjold, kogger, magerens bog), hoved (jernhjelm, hornhjelm, hætte), krop (læderbrynje, pladebrynje), fødder (læderstøvler, jernstøvler), smykke (amulet, ring) — plus artefakterne. Hjelme, brynjer, støvler og smykker er egne modeller fra vores generator (forge-lowpoly). Salgsprisen stiger med rullets sjældenhed.
 
 ### 8.4 Drop
 - Alle creeps giver **guld**, når de dør (mere for højere level og 5× for bosser).
@@ -397,7 +428,7 @@ Farverne vises på minimap og over lejren:
 - Kister og ruiner har deres egne borde. Kisten ved en boss er låst, så længe bossens lejr lever.
 - **Butikker:** Markedspladsen (egen, M3) og Købmanden (neutral) sælger forbrug og simple permanente items. Tryk på købmanden, så går helten derhen, og butikken åbner.
 
-Alle items i spillet står i `src/itemdata.js` (22 items fordelt på fem typer og fire sjældenheder).
+Alle grundting står i `src/itemdata.js`; rul, affikser og navne i `src/udstyr.js`. Gemte spil husker hvert items rul (gem-version 8).
 
 ### 8.5 Modeller
 KayKit har våben, skjolde, flasker, kister, mønter og bøger, der kan ligge på jorden. Ikonerne i inventaret tegnes ud fra de samme modeller.
@@ -484,7 +515,7 @@ Regelbaseret, ingen sprogmodel.
 **Sådan er det bygget (M5, ændret i M12):**
 - Modstanderen er en af standardracerne (tilfældig) med basen i det modsatte hjørne: racens hal, kaserne, tårne og forsyningshytter i holdfarve, tæt om hallen som spillerens. Nye bygninger rejser sig efter en plan (4, 8, 12 og 16 min).
 - Fem arbejdere går mellem minen og hallen; indtægten følger hvor mange der lever, og nye trænes for guld. Den træner racens nærkæmpere og skytter, og soldaternes level stiger hvert 4. minut.
-- **Modstanderens helt** er en af racens tre (følger verdens frø). Den har en ring og et skær i holdfarven, går med i bølgerne, bruger sin signatur-evne og rejser sig i hallen 35 sekunder efter at være faldet. Den giver meget erfaring.
+- **Modstanderens helt** er en af racens tre (følger verdens frø). Den har en runecirkel, kappe og et skær i holdfarven (rød), går med i bølgerne, bruger sin signatur-evne og rejser sig i hallen 35 sekunder efter at være faldet. Den giver meget erfaring.
 - Hæren vokser med tiden. Første angreb: Easy 10 min, Normal 7 min, Hard 5 min; derefter med 4,5 / 3,5 / 2,5 minutters mellemrum, og bølgerne bliver større. En bølge trækker sig, hvis den mister to tredjedele.
 - Den forsvarer basen med alle hjemme, når spillerens figurer kommer tæt på.
 - Tilpasning: mod en aggressiv spiller kommer tårnene 1,5 min tidligere; mod en forsigtig spiller kommer angrebene 1 min tidligere og der trænes flere nærkæmpere; mod en kaotisk flere skytter.
@@ -551,7 +582,9 @@ Det forhindrer, at spillet går i stå, og giver et klimaks.
 
 - **Kort i bidder:** Fliser og natur tegnes med instancing og deles op i bidder på 16×16 hex, der kun tegnes, når de er tæt på kameraet.
 - **Units:** mål på højst 150 animerede figurer samtidig på en mellemklasse-telefon.
-- **Stifinding:** A* på hex-gitteret med fællesruter for grupper og formationer.
+- **Stifinding (M13):** A* i 8 retninger på et fint navigationsgitter (2 × 2 enheder) uden for hulerne (`navgitter.js`). Bygninger, frie træer og sten stemples ind og ud, når de bygges, fældes eller ryddes; ruten strammes til lige linjer. Hex-gitteret bruges stadig til byggeriet og i hulerne. Grupper og formationer får fællesruter.
+- **Højde:** figurerne følger terrænets højde (`terraen.js` højdeVed), så ingen forsvinder under sne eller bakker.
+- **Holdfarver (M13):** man spiller altid **blå**, modstanderen er altid **rød**. Vildmarkens creeps er **rav**, The Memory **sølv**, The Unnamed **violet** og neutrale (karavanen, lejesvende) **lyse**. Hver figur har en tynd ring i sin farve; helte en runecirkel (afsnit 6.5). Livsbjælkerne har kant i samme farve (`holdfarve.js`).
 - **Gem spil:** I udforskning og kampagne gemmes spillet lokalt på telefonen.
 
 ---
@@ -591,7 +624,8 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M10 ✅** | **Biomer, årstider og miner** | Seks biomer, fire årstider, tre størrelser og nye verdener hver gang; miner i fire størrelser med fem (seks) stadier, Motherlode og Deep Quarry; heldige fund; vejr |
 | **M11 ✅** | **Huler, begivenheder og championer** | Huler med rum, lejre, boss og kister; syv tilfældige begivenheder med synlige tegn; champion-creeps med fire egenskaber. Desuden: kaktusser fra vores generator, lavasøer inde i landet, minernes stadier kun som synlige tegn |
 | **M12 ✅** | **Racer, modstander og helte** | Ro på skærmen (én begivenhed ad gangen, færre tekster); karavanen; mindre bygninger med tre pladser pr. felt; racevalg og The Architects spilbar; AI-modstander med tilfældig race, arbejdere og helt; The Memory og The Unnamed neutrale; tre helte pr. race; prospektering |
-| M13+ | The Dreaming, items med rul, træer der gror igen, hvad Opvågningen betyder, kampagne | |
+| **M13 ✅** | **Helten i centrum** | Figurerne følger terrænet (ingen arbejdere under sneen); ordentlig stifinding på et fint gitter rundt om bygninger, træer og sten; holdfarver (blå spiller, rød modstander, rav vildmark, sølv The Memory, violet The Unnamed, lyse neutrale); alle evner er heltens egne; udstyrspladser og rullet udstyr med affikser og mange nye stats; helte med egen stemme, synligt udstyr, runecirkel, kappe i holdfarve, vækst med level, bedrifter og tilnavne |
+| M14+ | The Dreaming, Ascension-evner pr. helt, træer der gror igen, hvad Opvågningen betyder, kampagne | |
 
 ---
 

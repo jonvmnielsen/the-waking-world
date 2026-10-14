@@ -96,9 +96,15 @@ the-waking-world/
 │   ├── byggeplads.js         # Mindre bygninger: tre pladser pr. felt, figurer går uden om
 │   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
+│   ├── navgitter.js          # Fint navigationsgitter (2×2) med A* rundt om bygninger, træer og sten
+│   ├── holdfarve.js          # Holdfarver og ringene om fødderne (blå spiller, rød modstander, rav, sølv, violet, lys)
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud og holdfarve
-│   ├── heltedata.js / heltevner.js # Tre helte pr. race (model, egenskab, kampform); deres signatur-evner
+│   ├── heltedata.js / heltevner.js # Tre helte pr. race (model, egenskab, kampform, tre evner); signatur-evnerne
+│   ├── evnertide.js / evnerark.js  # Heltenes anden og tredje evne (The Tide / The Architects)
+│   ├── helteaura.js / heltudstyr.js # Runecirkel, kappe i holdfarve og vækst med level; synligt våben, skjold og hjelm
+│   ├── heltreplik.js / heltreplikdata.js # Heltenes egne stemmer (replikker) og hvornår de siges
+│   ├── bedrifter.js          # Heltens bedrifter og tilnavne ("the Giantslayer") med varige bonusser
 │   ├── ascension.js / ascensiondata.js / ascensionhud.js # Ascension ved level 10: stier, passiver, evner, valget
 │   ├── udvikling.js / udviklingdata.js / udviklinghud.js # Forskning, bygningsopgraderinger, upkeep-visning
 │   ├── fremskridt.js         # Sætter M7-systemerne, skærmen og advarslerne op
@@ -107,8 +113,9 @@ the-waking-world/
 │   ├── heltstats.js / heltekort.js # Heltens egenskaber (STR/AGI/INT), ofringer; heltekortet på skærmen
 │   ├── essensvalg.js         # Essensvalget ved start med forklaring og vink
 │   ├── heltlevel.js / heltinteraktion.js    # Heltens level-op og gå-hen-og-gør-noget
-│   ├── itemdata.js           # Alle items, sjældenhed, drop-borde, butikkens varer
-│   ├── inventar.js           # Heltens 6 pladser, bonusser, brug af items, guld
+│   ├── itemdata.js           # Alle grundting, sjældenhed, drop-borde, butikkens varer
+│   ├── udstyr.js             # Udstyrspladser, rul (sjældenhed, affikser, navn) og itemInfo
+│   ├── inventar.js           # Heltens 6 udstyrspladser + rygsæk, bonusser, brug af items, guld
 │   ├── genstande.js          # Items på jorden, kister, guld og drop fra creeps
 │   ├── ikoner.js             # Tegner item-ikoner ud fra 3D-modellerne
 │   ├── inventarhud.js        # Inventar, info-kort og købmandens butik på skærmen
@@ -420,8 +427,16 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Tre helte pr. race med heltevalg; designet tre til The Dreaming og The Unmade (GDD 6.3)
 - [x] Prospektering: arbejdere finder skjulte guldårer
 
-### 📋 Næste: M13+
-The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), items med rul, træer der gror igen, musik. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M13 — "Helten i centrum" (oktober 2026)
+- [x] Figurerne følger terrænets højde (ingen arbejdere under sneen)
+- [x] Ordentlig stifinding: fint navigationsgitter med A* rundt om bygninger, træer og sten
+- [x] Holdfarver: man er blå, modstanderen rød, vildmarken rav, The Memory sølv, The Unnamed violet, neutrale lyse
+- [x] Alle evner er heltens egne (tre pr. helt); essensen giver egenskab og retning
+- [x] Items: seks udstyrspladser + rygsæk, rullet udstyr med affikser og navne, mange nye stats (krit, fart, livsstjæl, cdr, evnestyrke, torne, guldfund, XP), nye våben, hjelme, brynjer, støvler og smykker; gem-version 8
+- [x] Helte med personlighed: egne stemmer, synligt udstyr, runecirkel og kappe i holdfarve, vokser med level, bedrifter og tilnavne; heltekort med udstyr, evner og bedrifter
+
+### 📋 Næste: M14+
+The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, musik. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 
@@ -466,6 +481,11 @@ The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt),
 | 2026-10-13 | Mindre bygninger, tre pladser pr. felt | Jon: lidt plads på mobilskærmen; en bygning skal ikke fylde et helt felt |
 | 2026-10-13 | Én begivenhed ad gangen, 7–10 min imellem; kun vigtige tekster på skærmen | Jon: for meget tekst og for mange begivenheder |
 | 2026-10-13 | Tre helte pr. race, én vælges ved start | Jons valg; The Dreaming og The Unmade er designet, men ikke spilbare endnu |
+| 2026-10-14 | Stifinding på et fint navigationsgitter (2×2) uden for hulerne | Jon: units sad fast ved bygninger. Hex-gitteret er for groft til mindre bygninger og træer |
+| 2026-10-14 | Faste holdfarver: spilleren blå, modstanderen rød, andre efter tilhørsforhold | Jon: tydeligt hvem der er hvem. Modstanderen er "den anden spiller" (senere kampagne/person) |
+| 2026-10-14 | Alle evner er heltens egne; essensen giver ikke evner | Jon: alle skills skal være hero specific |
+| 2026-10-14 | Udstyrspladser og rullet udstyr med affikser; gem-version 8 | Jon: heltene skal bygges op med items og stats; items var for simple |
+| 2026-10-14 | Helte vokser med level, viser deres udstyr og får tilnavne for bedrifter | Jon: heltene skal fylde meget mere og have personlighed |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
 | 2026-10-12 | Gem-version 3 (M9) | Kortene og mindesmærkerne ændrer placeringen af lejre og kister |
@@ -534,4 +554,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-10-13*
+*Sidst opdateret: 2026-10-14*
