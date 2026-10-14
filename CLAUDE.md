@@ -486,6 +486,8 @@ The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hva
 | 2026-10-14 | Alle evner er heltens egne; essensen giver ikke evner | Jon: alle skills skal være hero specific |
 | 2026-10-14 | Udstyrspladser og rullet udstyr med affikser; gem-version 8 | Jon: heltene skal bygges op med items og stats; items var for simple |
 | 2026-10-14 | Helte vokser med level, viser deres udstyr og får tilnavne for bedrifter | Jon: heltene skal fylde meget mere og have personlighed |
+| 2026-10-14 | Lærreder der læses/skrives pixelvis (minimappets tåge, orkehud) bruger `willReadFrequently` | putImageData/getImageData på et GPU-lærred ventede på grafikkortet i op til 4 s — Jons frys i lange spil |
+| 2026-10-14 | Gem-version 7 kan stadig fortsættes; items lægges om på de nye pladser | Jons lange spil skal ikke gå tabt |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
 | 2026-10-12 | Gem-version 3 (M9) | Kortene og mindesmærkerne ændrer placeringen af lejre og kister |
