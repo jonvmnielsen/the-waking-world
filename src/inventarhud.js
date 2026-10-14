@@ -1,8 +1,9 @@
-// Inventaret på skærmen: 6 udrustede pladser og en rygsæk med 6 pladser, info-kort for et item og butikken.
-// Tryk på et item = info-kort med "Use" (udrustede eliksirer og stave), "Equip/Unequip", "Drop" og "Close".
+// Inventaret på skærmen: seks udstyrspladser (våben … smykke) og en rygsæk med 6 pladser, info-kort og butikken.
+// Tryk på et item = info-kort med "Use" (eliksirer og stave i rygsækken), "Equip/Unequip", "Drop" og "Close".
 // Butikken (købmanden og egen Marketplace) har fanerne Buy og Sell; kroen sender sine egne varer (kro.js).
 import { ITEMS, SJÆLDENHED, TYPE_NAVN, BUTIK, beskriv, salgsPris } from './itemdata.js';
 import { ikon } from './ikoner.js';
+import { itemInfo, PLADSER_TYPER, PLADS_IKON, PLADS_NAVN } from './udstyr.js';
 import { bus } from './events.js';
 
 const $ = (id) => document.getElementById(id);
@@ -21,7 +22,7 @@ export class InventarHud {
     $('info-luk').addEventListener('click', () => this.lukInfo());
     $('info-smid').addEventListener('click', () => { const v = this.info; if (v) this.inv.smid(v.i, v.hvor); this.lukInfo(); });
     $('info-flyt').addEventListener('click', () => { const v = this.info; if (v) { const f = this.inv.flyt(v.hvor, v.i); if (f) bus.emit('besked', f); } this.lukInfo(); this.tegn(); });
-    $('info-brug').addEventListener('click', () => { const v = this.info; this.lukInfo(); if (v) this.brug(v.i); });
+    $('info-brug').addEventListener('click', () => { const v = this.info; this.lukInfo(); if (v) this.brug(v.i, v.hvor); });
     $('butik-luk').addEventListener('click', () => this.lukButik());
     for (const k of document.querySelectorAll('#butik-faner button')) k.addEventListener('click', () => this.visFane(k.dataset.fane));
     bus.on('inventar_ændret', () => this.tegn());
@@ -40,8 +41,8 @@ export class InventarHud {
     el.addEventListener('contextmenu', (e) => e.preventDefault());
   }
 
-  brug(i) {
-    const fejl = this.inv.brug(i);
+  brug(i, hvor) {
+    const fejl = this.inv.brug(i, hvor);
     if (fejl && fejl !== 'info') bus.emit('besked', fejl);
     this.tegn();
   }
@@ -49,11 +50,12 @@ export class InventarHud {
   tegn() {
     for (const hvor of HVOR) {
       this.felter[hvor].forEach((el, i) => {
-        const p = this.inv.liste(hvor)[i];
+        const p = this.inv.liste(hvor)[i], info = p && itemInfo(p);
         el.classList.toggle('tom', !p);
-        el.style.setProperty('--sjælden', p ? SJÆLDENHED[ITEMS[p.id].sjældenhed].farve : 'transparent');
+        el.style.setProperty('--sjælden', p ? info.sj.farve : 'transparent');
         el.querySelector('img').src = p ? ikon(p.id) : '';
-        el.querySelector('img').alt = p ? ITEMS[p.id].navn : '';
+        el.querySelector('img').alt = p ? info.navn : '';
+        if (hvor === 'udstyr') el.dataset.plads = p ? '' : PLADS_IKON[PLADSER_TYPER[i]];   // tom plads viser hvad der hører til
         el.querySelector('.ladning').textContent = p?.ladninger ?? '';
       });
     }
@@ -63,14 +65,15 @@ export class InventarHud {
   visInfo(hvor, i) {
     const p = this.inv.liste(hvor)[i];
     if (!p) return;
-    const d = ITEMS[p.id], sj = SJÆLDENHED[d.sjældenhed];
+    const d = itemInfo(p), sj = d.sj;
     this.info = { hvor, i };
     $('info-ikon').src = ikon(p.id);
     $('info-navn').textContent = d.navn;
     $('info-navn').style.color = sj.farve;
-    $('info-type').textContent = `${sj.navn} · ${TYPE_NAVN[d.type]}${hvor === 'rygsæk' ? ' · in backpack' : ''}`;
-    $('info-tekst').innerHTML = beskriv(p.id).map((l) => `<li>${l}</li>`).join('');
-    $('info-brug').hidden = !d.brug || hvor === 'rygsæk';
+    $('info-type').textContent = `${sj.navn} · ${d.plads ? PLADS_NAVN[d.plads] : TYPE_NAVN[d.type]}${d.grund ? ' · ' + d.grund : ''}${hvor === 'rygsæk' ? ' · in backpack' : ''}`;
+    $('info-tekst').innerHTML = d.linjer.map((l) => `<li>${l}</li>`).join('');
+    $('info-brug').hidden = !d.brug || hvor !== 'rygsæk';
+    $('info-flyt').hidden = !d.plads;
     $('info-flyt').textContent = hvor === 'rygsæk' ? 'Equip' : 'Unequip';
     $('info').classList.add('vis');
   }
@@ -111,10 +114,10 @@ export class InventarHud {
     for (const hvor of HVOR) {
       this.inv.liste(hvor).forEach((p, i) => {
         if (!p) return;
-        const d = ITEMS[p.id];
+        const d = itemInfo(p);
         ud.push({
-          ikon: ikon(p.id), navn: d.navn, farve: SJÆLDENHED[d.sjældenhed].farve, knap: 'Sell ',
-          tekst: `${hvor === 'rygsæk' ? 'Backpack' : 'Equipped'} · ${beskriv(p.id)[0] ?? ''}`, pris: salgsPris(p.id),
+          ikon: ikon(p.id), navn: d.navn, farve: d.sj.farve, knap: 'Sell ',
+          tekst: `${hvor === 'rygsæk' ? 'Backpack' : 'Equipped'} · ${d.linjer.slice(0, 2).join(' · ')}`, pris: salgsPris(p.id, p.rul),
           kan: () => true, køb: () => { this.inv.sælg(hvor, i); this.tegn(); },
         });
       });

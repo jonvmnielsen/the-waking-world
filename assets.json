@@ -538,6 +538,21 @@
         "Block",
         "2H_Ranged_Shoot"
       ]
-    }
+    },
+    "forge-lowpoly/gear_helm_iron",
+    "forge-lowpoly/gear_helm_horned",
+    "forge-lowpoly/gear_hood",
+    "forge-lowpoly/gear_chest_plate",
+    "forge-lowpoly/gear_chest_leather",
+    "forge-lowpoly/gear_boots_leather",
+    "forge-lowpoly/gear_boots_iron",
+    "forge-lowpoly/gear_amulet",
+    "forge-lowpoly/gear_ring",
+    "kaykit-adventurers-2/bow_withstring",
+    "kaykit-adventurers/crossbow_1handed",
+    "kaykit-adventurers/sword_2handed",
+    "kaykit-adventurers/shield_square",
+    "kaykit-adventurers/shield_round_color",
+    "kaykit-adventurers/shield_spikes"
   ]
 }

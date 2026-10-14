@@ -8,7 +8,7 @@ import { BIOMER, ÅRSTIDER } from './biomdata.js';
 import { nøgle } from './hexgrid.js';
 
 const NØGLE = 'tww-gem-1';
-export const GEM_VERSION = 7;   // 7: AI-modstander med race; The Memory er neutral i Erevoss
+export const GEM_VERSION = 8;   // 8: udstyrspladser og rullet udstyr (M13)
 const r1 = (v) => Math.round(v * 10) / 10;
 
 export function hentGem() {
@@ -58,7 +58,7 @@ function lavGem(spil) {
     miner: base.kilder.miner.map((m) => m.guld),
     brud: base.kilder.brud.map((m) => m.sten),
     lejre: lejre.map((l) => l.creeps.map((c) => (c.død ? -1 : Math.ceil(c.hp)))),
-    items: genstande.liste.map((g) => ({ id: g.id, x: r1(g.x), z: r1(g.z), ladninger: g.ladninger ?? null })),
+    items: genstande.liste.map((g) => ({ id: g.id, x: r1(g.x), z: r1(g.z), ladninger: g.ladninger ?? null, rul: g.rul ?? null })),
     kister: genstande.kister.map((k) => (k.åben ? 1 : 0)),
     udforsket: pak(taage.udforsket),
     stil: stil.score,

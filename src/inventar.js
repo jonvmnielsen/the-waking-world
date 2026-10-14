@@ -1,10 +1,11 @@
-// Heltens inventar (GDD 8.1–8.2): 6 udrustede pladser (giver bonusser og kan bruges) og en rygsæk med 6 pladser
-// til items man bærer uden at have dem udrustet. Samlede bonusser, brug af items og salg.
+// Heltens inventar (GDD 8.1–8.2, M13): seks udstyrspladser — våben, off-hand, hoved, krop, fødder, smykke —
+// og en rygsæk med 6 pladser til eliksirer, stave og ekstra udstyr. Samlede bonusser, brug af items og salg.
 import { ITEMS, salgsPris } from './itemdata.js';
+import { PLADSER_TYPER, itemInfo, erUdstyr } from './udstyr.js';
 import { bus } from './events.js';
 
 export const PLADSER = 6;
-const TOM = { str: 0, agi: 0, int: 0, skade: 0, rustning: 0, hp: 0, mana: 0, angrebsfart: 0, hpRegen: 0, manaRegen: 0, livsstjæl: 0, retur: 0, blok: 0, lynChance: 0, ekko: 0 };
+const TOM = { str: 0, agi: 0, int: 0, skade: 0, rustning: 0, hp: 0, mana: 0, angrebsfart: 0, hpRegen: 0, manaRegen: 0, livsstjæl: 0, retur: 0, blok: 0, lynChance: 0, ekko: 0, krit: 0, kritSkade: 0, fart: 0, cdr: 0, evne: 0, guldFund: 0, xpBonus: 0 };
 
 export class Inventar {
   constructor(helt) {
@@ -21,13 +22,19 @@ export class Inventar {
 
   liste(hvor) { return hvor === 'rygsæk' ? this.rygsæk : this.pladser; }
 
-  // Flyt et item mellem udrustet og rygsækken
+  // Flyt et item mellem udstyrspladsen og rygsækken (udstyr fra rygsækken bytter med det, der sidder på pladsen)
   flyt(hvor, i) {
-    const fra = this.liste(hvor), til = this.liste(hvor === 'rygsæk' ? 'udstyr' : 'rygsæk');
-    const j = til.indexOf(null);
-    if (!fra[i]) return null;
-    if (j < 0) return hvor === 'rygsæk' ? 'No free equipped slot' : 'Your backpack is full';
-    til[j] = fra[i]; fra[i] = null;
+    const fra = this.liste(hvor), p = fra[i];
+    if (!p) return null;
+    if (hvor === 'rygsæk') {
+      if (!erUdstyr(p.id)) return 'Use it from the backpack';
+      const j = PLADSER_TYPER.indexOf(ITEMS[p.id].plads);
+      fra[i] = this.pladser[j]; this.pladser[j] = p;
+    } else {
+      const j = this.rygsæk.indexOf(null);
+      if (j < 0) return 'Your backpack is full';
+      this.rygsæk[j] = p; fra[i] = null;
+    }
     this.beregn();
     const h = this.helt;
     h.hp = Math.min(h.hp, h.maxHp); h.mana = Math.min(h.mana, h.manaMax);
@@ -39,7 +46,7 @@ export class Inventar {
     const l = this.liste(hvor), p = l[i];
     if (!p) return 0;
     l[i] = null;
-    const pris = salgsPris(p.id);
+    const pris = salgsPris(p.id, p.rul);
     this.guld += pris;
     this.beregn();
     const h = this.helt;
@@ -53,14 +60,14 @@ export class Inventar {
   set guld(v) { this.helt.verden.økonomi.guld = v; }
 
   // Læg et item i inventaret. Opsamlinger bruges straks. Returnerer false hvis der ikke er plads.
-  modtag(id, ladninger) {
+  modtag(id, ladninger, rul = null) {
     const d = ITEMS[id];
     if (d.type === 'opsamling') { this.virkning(d.brug, d); bus.emit('item_samlet', { id }); return true; }
-    // Udrustet hvis der er plads, ellers i rygsækken
-    const item = { id, ladninger: ladninger ?? d.ladninger ?? null };
-    const i = this.pladser.indexOf(null), j = this.rygsæk.indexOf(null);
-    if (i >= 0) this.pladser[i] = item;
-    else if (j >= 0) { this.rygsæk[j] = item; bus.emit('besked', `${d.navn} went into your backpack`); }
+    // Udstyr på sin plads, hvis den er ledig; ellers (og eliksirer og stave) i rygsækken
+    const item = { id, ladninger: ladninger ?? d.ladninger ?? null, ...(rul ? { rul } : {}) };
+    const i = erUdstyr(id) ? PLADSER_TYPER.indexOf(d.plads) : -1, j = this.rygsæk.indexOf(null);
+    if (i >= 0 && !this.pladser[i]) this.pladser[i] = item;
+    else if (j >= 0) this.rygsæk[j] = item;
     else return false;
     this.beregn();
     bus.emit('item_samlet', { id });
@@ -75,13 +82,13 @@ export class Inventar {
     this.beregn();
     h.hp = Math.min(h.hp, h.maxHp);
     h.mana = Math.min(h.mana, h.manaMax);
-    bus.emit('item_smidt', { id: p.id, ladninger: p.ladninger, x: h.x, z: h.z });
+    bus.emit('item_smidt', { id: p.id, ladninger: p.ladninger, rul: p.rul, x: h.x, z: h.z });
     return p;
   }
 
   // Brug et item i en plads. Returnerer en fejltekst hvis det ikke kan bruges.
-  brug(i) {
-    const p = this.pladser[i];
+  brug(i, hvor = 'rygsæk') {
+    const l = this.liste(hvor), p = l[i];
     if (!p) return null;
     const d = ITEMS[p.id];
     if (!d.brug) return 'info';
@@ -90,8 +97,8 @@ export class Inventar {
     const fejl = this.virkning(d.brug, d);
     if (fejl) return fejl;
     this.cooldown = 0.6;
-    if (d.type === 'opladning') { p.ladninger -= 1; if (p.ladninger <= 0) this.pladser[i] = null; }
-    else this.pladser[i] = null;
+    if (d.type === 'opladning') { p.ladninger -= 1; if (p.ladninger <= 0) l[i] = null; }
+    else l[i] = null;
     this.beregn();
     return null;
   }
@@ -142,6 +149,7 @@ export class Inventar {
   }
 
   tilføjGuld(n, ved) {
+    n = Math.round(n * (1 + (this.bonus?.guldFund ?? 0)));   // Lucky / of Fortune
     this.guld += n;
     bus.emit('flydetekst', { enhed: ved ?? this.helt, tekst: `+${n} gold`, klasse: 'guld' });
   }
@@ -151,7 +159,7 @@ export class Inventar {
     const b = { ...TOM };
     for (const p of this.pladser) {
       if (!p) continue;
-      for (const [k, v] of Object.entries(ITEMS[p.id].bonus ?? {})) b[k] += v;
+      for (const [k, v] of Object.entries(itemInfo(p).bonus)) b[k] = (b[k] ?? 0) + v;
     }
     b.hp += this.permanent.hp;
     b.skade += this.permanent.skade;

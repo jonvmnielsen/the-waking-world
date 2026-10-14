@@ -5,6 +5,7 @@ import { bus } from './events.js';
 
 export const levelMetoder = {
   fåXp(mængde) {
+    mængde = Math.round(mængde * (1 + (this.inventar?.bonus.xpBonus ?? 0)));   // Learned / of the Sage
     const tabel = LEVELS.xp;
     this.xp += mængde;
     const loft = this.sti?.id ? tabel.length : ASCENSION_LEVEL;

@@ -87,7 +87,7 @@ export function gendanSpil(spil, g) {
   });
 
   // Items på jorden og åbne kister
-  for (const d of g.items) genstande.læg(d.id, d.x, d.z, d.ladninger ?? undefined);
+  for (const d of g.items) genstande.læg(d.id, d.x, d.z, d.ladninger ?? undefined, d.rul ?? null);
   g.kister.forEach((åben, i) => {
     const k = genstande.kister[i];
     if (!åben || !k) return;

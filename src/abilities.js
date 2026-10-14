@@ -93,7 +93,7 @@ export class Evner {
     const fejl = e.sti ? h.sti[e.id]() : this[e.id]();
     if (fejl) return fejl;
     h.mana -= e.mana;
-    this.cooldowns[slot] = e.cdMax;
+    this.cooldowns[slot] = e.cdMax * (1 - Math.min(0.4, h.inventar?.bonus.cdr ?? 0));   // kortere ventetid fra udstyr (højst 40 %)
     h.sidstIKamp = h.tid;
     bus.emit('evne', { helt: h, id: e.id, navn: e.navn });
     return null;

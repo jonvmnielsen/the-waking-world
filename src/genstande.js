@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import { kopi } from './assets.js';
 import { OLDTID_DROP, ITEMS, SJÆLDENHED, DROP, BOSS_DROP, træk } from './itemdata.js';
 import { bus } from './events.js';
+import { rulUdstyr, itemInfo } from './udstyr.js';
+
+const NIVEAU_FRA = { almindelig: 1, sjælden: 2, episk: 3, legendarisk: 5 };
 
 const STRÅLE_GEO = new THREE.CylinderGeometry(0.18, 0.5, 6, 12, 1, true).translate(0, 3, 0);
 
@@ -18,13 +21,13 @@ export function itemModel(id, str = 1.5) {
 }
 
 class GenstandPåJord {
-  constructor(scene, id, x, z, ladninger) {
-    this.id = id; this.ladninger = ladninger; this.x = x; this.z = z;
+  constructor(scene, id, x, z, ladninger, rul) {
+    this.id = id; this.ladninger = ladninger; this.rul = rul; this.x = x; this.z = z;
     this.rod = new THREE.Group();
     this.rod.position.set(x, 0, z);
     this.model = itemModel(id);
     this.rod.add(this.model);
-    const farve = SJÆLDENHED[ITEMS[id].sjældenhed].hex;
+    const farve = itemInfo(this).sj.hex;   // strålen i sjældenhedens farve (også for rullet udstyr)
     this.stråle = new THREE.Mesh(STRÅLE_GEO, new THREE.MeshBasicMaterial({ color: farve, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
     this.rod.add(this.stråle);
     this.fase = Math.random() * 6;
@@ -77,13 +80,15 @@ export class Genstande {
         this.læg(unik, creep.x, creep.z);
         this.læg(this.tilf() < 0.5 ? ekstra : træk(DROP[4]), creep.x + 1.5, creep.z + 1);
         bus.emit('besked', 'The boss is defeated! The chest is unlocked');
-      } else this.læg(træk(DROP[lejr.data.niveau]), creep.x, creep.z);
+      } else this.læg(træk(DROP[lejr.data.niveau]), creep.x, creep.z, undefined, lejr.data.niveau);
     });
-    bus.on('item_smidt', ({ id, ladninger, x, z }) => this.læg(id, x + 1.2, z + 0.8, ladninger));
+    bus.on('item_smidt', ({ id, ladninger, rul, x, z }) => this.læg(id, x + 1.2, z + 0.8, ladninger, rul ?? null));
   }
 
-  læg(id, x, z, ladninger) {
-    const g = new GenstandPåJord(this.verden.scene, id, x, z, ladninger);
+  // rul: et færdigt rul (gemt/smidt udstyr) eller et niveau (1–6), som nyt udstyr rulles fra
+  læg(id, x, z, ladninger, rul) {
+    if (typeof rul !== 'object' || rul === null) rul = rulUdstyr(id, rul ?? NIVEAU_FRA[ITEMS[id]?.sjældenhed] ?? 2);
+    const g = new GenstandPåJord(this.verden.scene, id, x, z, ladninger, rul ?? undefined);
     this.liste.push(g);
     return g;
   }
@@ -91,10 +96,11 @@ export class Genstande {
   samOp(g) {
     const inv = this.verden.helt.inventar;
     if (!this.liste.includes(g)) return;
-    if (!inv.modtag(g.id, g.ladninger)) { bus.emit('besked', 'Your inventory is full'); return; }
+    if (!inv.modtag(g.id, g.ladninger, g.rul)) { bus.emit('besked', 'Your inventory is full'); return; }
     g.fjern();
     this.liste.splice(this.liste.indexOf(g), 1);
-    bus.emit('effekt', { type: 'samlet', x: g.x, z: g.z, farve: SJÆLDENHED[ITEMS[g.id].sjældenhed].hex });
+    bus.emit('effekt', { type: 'samlet', x: g.x, z: g.z, farve: itemInfo(g).sj.hex });
+    if (g.rul && g.rul.sj !== 'almindelig') bus.emit('flydetekst', { enhed: this.verden.helt, tekst: itemInfo(g).navn, klasse: 'level' });
   }
 
   åbn(k) {
@@ -104,7 +110,7 @@ export class Genstande {
     k.åben = true;
     this.verden.helt.inventar.tilføjGuld(k.guld ? 150 : 45 + Math.round(this.tilf() * 30), k);
     const id = træk(DROP[k.niveau ?? 2]);
-    this.læg(id, k.x + 1.6, k.z + 1.2);
+    this.læg(id, k.x + 1.6, k.z + 1.2, undefined, (k.niveau ?? 2) + (k.guld ? 1 : 0));
     bus.emit('effekt', { type: 'kiste', x: k.x, z: k.z });
     // Den åbnede kiste forsvinder lidt efter
     setTimeout(() => this.verden.scene.remove(k.rod), 700);

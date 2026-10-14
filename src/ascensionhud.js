@@ -21,7 +21,7 @@ export class AscensionHud {
   }
 
   titel() {
-    const t = this.spil.helt.sti.data?.titel ?? 'Orc Warrior';
+    const h = this.spil.helt, t = h.sti.data ? `${h.def?.navn ?? 'Hero'} · ${h.sti.data.titel}` : `${h.def?.navn ?? 'Hero'} · ${h.def?.titel ?? ''}`;
     $('hk-titel').textContent = t;
     $('sti-evner').hidden = !this.spil.helt.sti.id;
   }

@@ -5,6 +5,8 @@ import { ESSENSER } from './abilities.js';
 import { ASCENSION_LEVEL } from './ascensiondata.js';
 import { gruppeGå } from './haer.js';
 import { bus } from './events.js';
+import { itemInfo, PLADSER_TYPER, PLADS_NAVN, PLADS_IKON } from './udstyr.js';
+import { EVNER } from './abilities.js';
 
 const $ = (id) => document.getElementById(id);
 const FORKLARING = {
@@ -43,6 +45,7 @@ export class HelteKort {
     $('hk-luk').addEventListener('click', () => this.skift(false));
     const e = ESSENSER[spil.helt.evner.essens];
     $('hk-essens').textContent = `Essence of ${e.navn} — ${e.motto}`;
+    $('hk-titel').textContent = `${spil.helt.def?.navn ?? 'Hero'} · ${spil.helt.def?.titel ?? ''}`;
   }
 
   skift(vis = !$('heltekort').classList.contains('vis')) {
@@ -71,6 +74,16 @@ export class HelteKort {
       ['Armor', h.rustning().toFixed(1)], ['Attack speed', `${(1 / sek).toFixed(2)} / s`],
       ['Ability power', `${Math.round(h.evneStyrke() * 100)}%`], ['Speed', h.fart.toFixed(1)], ['Level', h.level],
     ];
+    const b = h.inventar.bonus, pct = (x) => `${Math.round(x * 100)}%`;
+    for (const [k, n, f] of [['krit', 'Critical chance', pct], ['kritSkade', 'Critical damage', (x) => pct(1.75 + x)], ['livsstjæl', 'Life steal', pct], ['cdr', 'Shorter cooldowns', pct], ['retur', 'Thorns', pct], ['guldFund', 'Gold find', pct], ['xpBonus', 'Extra experience', pct]]) {
+      if (b[k] || (k === 'kritSkade' && b.krit)) v.push([n, f(b[k] ?? 0)]);
+    }
+    // Udstyret: seks pladser med navne i sjældenhedens farve
+    $('hk-udstyr').innerHTML = '<h4>Equipment</h4>' + PLADSER_TYPER.map((t, i) => {
+      const p = h.inventar.pladser[i], d = p && itemInfo(p);
+      return `<div class="hk-plads"><i>${PLADS_IKON[t]}</i><span>${PLADS_NAVN[t]}</span><b style="color:${d ? d.sj.farve : '#7a6e5c'}">${d ? d.navn : 'empty'}</b></div>`;
+    }).join('');
+    $('hk-evner').innerHTML = '<h4>Abilities</h4>' + (h.def?.evner ?? []).map((id, i) => `<div class="hk-plads"><i>${EVNER[id].ikon}</i><span>Lv ${[1, 3, 6][i]}</span><b>${EVNER[id].navn}</b></div>`).join('');
     $('hk-afledt').innerHTML = v.map(([k, t]) => `<span>${k}</span><b>${t}</b>`).join('');
     const sti = h.sti.data;
     $('hk-sti').innerHTML = sti ? `<b>${sti.navn}</b> — ${sti.passiv.navn}: ${sti.passiv.tekst}`

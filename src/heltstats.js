@@ -48,6 +48,6 @@ export const egenskabsMetoder = {
   hpRegen() { return (HELT.hpRegen + this.egenskab('str') * P.hpRegen + this.inventar.bonus.hpRegen) * (this.sti?.hpRegenFaktor() ?? 1); },
   manaRegen() { return (HELT.manaRegen + this.egenskab('int') * P.manaRegen + this.inventar.bonus.manaRegen) * (this.sti?.manaRegenFaktor() ?? 1); },
   egenskabsSkade() { return Math.round(this.egenskab(this.primær ?? 'str') * P.skade); },
-  evneStyrke() { return 1 + this.egenskab('int') * P.evne; },
+  evneStyrke() { return 1 + this.egenskab('int') * P.evne + (this.inventar?.bonus.evne ?? 0); },
   angrebsfartBonus() { return this.egenskab('agi') * P.angrebsfart + this.inventar.bonus.angrebsfart; },
 };

@@ -8,7 +8,8 @@
 import * as THREE from 'three';
 import { bus } from './events.js';
 import { gruppeGå, gruppeAngrib, kanKæmpe, sammeTypePåSkærm } from './haer.js';
-import { ITEMS, SJÆLDENHED } from './itemdata.js';
+
+import { itemInfo, PLADS_NAVN } from './udstyr.js';
 
 export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder }) {
   const { helt, verden, rig, valg, base } = spil;
@@ -163,8 +164,8 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     // Et item på jorden: vis navnet i sjældenhedens farve (med helten valgt samler den det også op)
     const ting = genstande.find(px, py, skærm, 46);
     if (ting?.type === 'item') {
-      const d = ITEMS[ting.ting.id], sj = SJÆLDENHED[d.sjældenhed];
-      overlay.mærkat(ting.ting, `<b>${d.navn}</b><small>${sj.navn}</small>`, sj.farve);
+      const d = itemInfo(ting.ting), sj = d.sj;
+      overlay.mærkat(ting.ting, `<b>${d.navn}</b><small>${sj.navn}${d.plads ? ' · ' + PLADS_NAVN[d.plads] : ''}</small>`, sj.farve);
       if (!valg.erHelt) return;
     }
     if (valg.ingen) { if (!spil.livet?.tryk(px, py, skærm) && !spil.huler?.tryk(px, py, skærm) && !spil.begivenheder?.tryk(px, py, skærm) && !spil.minevisning?.tryk(px, py, skærm)) spil.minder?.tryk(px, py, skærm); return; }   // intet valgt: pilgrimme og sten kan svare; ellers ingenting
