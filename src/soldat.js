@@ -9,6 +9,7 @@ import { reducérSkade, tilfældig } from './config.js';
 import { findTrussel, jagtMetoder } from './trussel.js';
 import { evneMetoder } from './soldatevner.js';
 import { bus } from './events.js';
+import { sætHold } from './holdfarve.js';
 
 export class Soldat extends Unit {
   constructor(verden, base, type, x, z) {
@@ -27,6 +28,7 @@ export class Soldat extends Unit {
     this.rod.position.set(x, 0, z);
     this.spil('Cheer', { loop: false });
     this.timer = 1.2;
+    sætHold(this, 'spiller');
   }
 
   get iKamp() { return this.tid - this.sidstIKamp < 5; }

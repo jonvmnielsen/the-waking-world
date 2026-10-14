@@ -24,7 +24,7 @@ export const MODELLER = [...new Set([
   // Livet i verden (M8)
   'dyr/doe', 'dyr/stag', 'dyr/fox', 'dyr/crow', 'dyr/finch', 'dyr/gull', 'units/pilgrim', 'kaykit-halloween/pillar',
   // Begivenheder (M11)
-  'forge-lowpoly/crystal_star_a', 'forge-lowpoly/crystal_star_b', 'forge-lowpoly/crystal_star_c', 'forge-lowpoly/campfire', 'kaykit-halloween/shrine', 'forge-lowpoly/wagon_covered',
+  'forge-lowpoly/crystal_star_a', 'forge-lowpoly/crystal_star_b', 'forge-lowpoly/crystal_star_c', 'forge-lowpoly/campfire', 'kaykit-halloween/shrine', 'forge-lowpoly/wagon_covered', 'kaykit-hexagon/buildings/yellow/building_castle_yellow',
 ])];
 
 export const EKSTRA_IKONER = [

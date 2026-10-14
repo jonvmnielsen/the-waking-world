@@ -13,6 +13,7 @@ import { DROP, træk } from './itemdata.js';
 import { reducérSkade } from './config.js';
 import { erEgen } from './trussel.js';
 import { KARAVANE as K, TEKST } from './begivenhedsdata.js';
+import { sætHold } from './holdfarve.js';
 
 const vælg = (l) => l[Math.floor(Math.random() * l.length)];
 
@@ -50,7 +51,7 @@ export function karavane(spil, ctl) {
   const vogn = new Vogn(verden, rute[0]);
   const f0 = kort.felt(rute[0].x, rute[0].z);
   const lejr = new Lejr(verden, { id: `karavane-${Math.round(spil.ur.tid)}`, q: f0.q, r: f0.r, niveau: 2, familie: 'plyndrere', creeps: ['lejesoldat', 'skytte', 'slagsbror'] });
-  for (const c of lejr.creeps) { c.fredelig = true; c.tilstand = 'hvile'; c.spil(c.anim.idle); c.fart = K.fart * 1.4; }
+  for (const c of lejr.creeps) { sætHold(c, 'neutral'); c.fredelig = true; c.tilstand = 'hvile'; c.spil(c.anim.idle); c.fart = K.fart * 1.4; }
   const bærere = [0, 1].map((i) => {
     const u = new Unit(verden, 'units/pilgrim', { skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Throwable'] });
     u.model.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.color.lerp(new THREE.Color(0.62, 0.45, 0.3), 0.85); } });
@@ -73,7 +74,7 @@ export function karavane(spil, ctl) {
     if (plyndret) return;
     plyndret = true;
     verden.creeps.push(vogn);   // nu kan vognen angribes
-    for (const c of lejr.creeps) if (!c.død) { c.fredelig = false; c.tilstand = 'jagt'; c.mål = kilde; }
+    for (const c of lejr.creeps) if (!c.død) { sætHold(c, 'vild'); c.fredelig = false; c.tilstand = 'jagt'; c.mål = kilde; }
     bus.emit('krønike', { ...TEKST.karavaneOverfald, x: vogn.x, z: vogn.z });
   }
   const af = bus.on('skade', ({ mål, kilde }) => { if ((mål === vogn || lejr.creeps.includes(mål)) && erEgen(kilde, verden)) plyndr(kilde); });

@@ -7,6 +7,7 @@ import { Creep } from './creeps.js';
 import { Unit } from './unit.js';
 import { gørOrkGrøn, holdSkær } from './orkhud.js';
 import { HOLD_FARVE, FJENDE_FARVE } from './racer.js';
+import { sætHold } from './holdfarve.js';
 
 const SE_UNITS = 11, SE_BYGNINGER = 14;
 
@@ -18,6 +19,7 @@ export class Fjende extends Creep {
     this.fjendeBase = base;
     this.navn = this.data.navn;
     this.side = 'fjende';
+    sætHold(this, 'fjende');
     this.ordre = 'vagt';
     this.post = { x, z };
     this.marchMål = null;

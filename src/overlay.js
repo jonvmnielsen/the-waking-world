@@ -1,6 +1,7 @@
 // HTML-lag oven på 3D: livsbjælker over enheder, flyvende skadetal og korte beskeder.
 import * as THREE from 'three';
 import { bus } from './events.js';
+import { HOLD } from './holdfarve.js';
 
 const v = new THREE.Vector3();
 
@@ -74,6 +75,7 @@ export class Overlay {
         el = document.createElement('div');
         const helt = u === this.verden.helt;
         el.className = `bjælke ${helt ? 'helt' : u.side === 'egen' ? 'egen' : 'fjende'}`;
+        if (u.hold) el.style.setProperty('--hold', HOLD[u.hold].css);   // kanten i holdets farve (holdfarve.js)
         // Helten har også mana, erfaring og level over hovedet
         el.innerHTML = helt ? '<em class="liv"><u></u></em><em class="mana"><u></u></em><em class="xp"><u></u></em><span class="lv"></span>' : '<i></i>';
         this.rod.appendChild(el);

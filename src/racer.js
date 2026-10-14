@@ -26,10 +26,11 @@ export const RACE_IDER = Object.keys(RACER);
 
 export const SPILLER = RACER[AKTIVT_KORT.race] ?? RACER.tide;
 export const FJENDE = RACER[AKTIVT_KORT.fjendeRace] ?? RACER.tide;
-export const SPILLER_FARVE = SPILLER.farve;
-export const FJENDE_FARVE = FJENDE.id === SPILLER.id ? 'red' : FJENDE.farve;
+// Jon: man spiller altid blå, og modstanderen (den anden spiller) er altid rød (holdfarve.js)
+export const SPILLER_FARVE = 'blue';
+export const FJENDE_FARVE = 'red';
 
 // En KayKit-sti i en anden holdfarve (…/green/building_x_green → …/blue/building_x_blue)
 export const iFarve = (sti, farve) => sti.replace('/green/', `/${farve}/`).replace(/_green$/, `_${farve}`);
-export const HOLD_FARVE = { green: 0x5dff6a, blue: 0x5aa8ff, red: 0xff5a4a };
+export const HOLD_FARVE = { green: 0x5dff6a, blue: 0x3a8cff, red: 0xff3a2a };
 

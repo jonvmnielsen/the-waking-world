@@ -12,6 +12,7 @@ import { interaktionMetoder } from './heltinteraktion.js';
 import { findTrussel, jagtMetoder } from './trussel.js';
 import { egenskabsMetoder, EGENSKABER } from './heltstats.js';
 import { Ascension } from './ascension.js';
+import { sætHold } from './holdfarve.js';
 
 
 export class Helt extends Unit {
@@ -45,6 +46,7 @@ export class Helt extends Unit {
     this.gåOrdre = false;         // spilleren har sendt helten et sted hen (ingen auto-angreb undervejs)
     this.rod.position.set(spawn.x, 0, spawn.z);
     this.spil('Idle');
+    sætHold(this, 'spiller');
   }
 
   // Spillerens kommandoer

@@ -2,6 +2,7 @@
 // og angriber alle, der kommer for tæt på De Vågnende Sten (begge spillere). Mørke riddere og hekse med en lilla glød.
 import * as THREE from 'three';
 import { Fjende } from './fjende.js';
+import { sætHold } from './holdfarve.js';
 
 export const TJENERE = {
   lejesoldat: { navn: 'Hollow Knight', level: 9 },
@@ -15,6 +16,7 @@ export class Tjener extends Fjende {
     this.navn = TJENERE[type].navn;
     this.lejr.vågen = true;
     this.side = 'vågen';
+    sætHold(this, 'unnamed');
     this.ordre = 'angreb';
     this.marchMål = mål;
     // Mørk, lilla glød

@@ -6,6 +6,7 @@ import { creepStats, NIVEAUER } from './creepdata.js';
 import { hexTilVerden } from './hexgrid.js';
 import { bus } from './events.js';
 import { åndeLook } from './aand.js';
+import { sætHold } from './holdfarve.js';
 
 export class Creep extends Unit {
   constructor(verden, type, level, lejr, hjem) {
@@ -20,6 +21,7 @@ export class Creep extends Unit {
     if (d.ånd) åndeLook(this.model, { farve: 0x7fe8ff, styrke: 0.5, gennemsigtig: 0.9 });
     this.rod.position.set(hjem.x, 0, hjem.z);
     this.rod.rotation.y = this.vinkelMål = Math.random() * Math.PI * 2;
+    sætHold(this, lejr?.fjende ? 'fjende' : lejr?.data?.id === 'erevoss' ? 'memory' : 'vild');
     this.vågenTid = (this.anim.vågn && this.spil(this.anim.vågn, { loop: false })) || (this.spil(this.anim.idle), 0.3);
   }
 

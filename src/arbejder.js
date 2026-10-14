@@ -8,6 +8,7 @@ import { RES_NAVN } from './okonomi.js';
 import { høstMetoder } from './hoest.js';
 import { bus } from './events.js';
 import { rundtOm } from './byggeplads.js';
+import { sætHold } from './holdfarve.js';
 
 const SKJUL = ['Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Knife', 'Throwable'];
 const BÆRE_MODEL = {
@@ -20,6 +21,7 @@ export class Arbejder extends Unit {
   constructor(verden, base, x, z) {
     super(verden, 'units/arbejder', { skala: 0.85, skjul: SKJUL, våben: { r: 'kaykit-adventurers/axe_1handed' }, radius: 0.55 });
     if (SPILLER.orkhud) gørOrkGrøn(this.model); else holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], 0.25);
+    sætHold(this, 'spiller');
     this.base = base;
     this.maxHp = 220; this.hp = 220; this.fart = 4.4;
     this.side = 'egen';

@@ -14,6 +14,7 @@ import { ikon } from './ikoner.js';
 import { LEVELS } from './config.js';
 import { lysSøjle } from './himmelbegivenheder.js';
 import { TEKST, VELSIGNELSER, RABAT } from './begivenhedsdata.js';
+import { sætHold } from './holdfarve.js';
 
 const vælg = (l) => l[Math.floor(Math.random() * l.length)];
 
@@ -73,7 +74,7 @@ export function lejesvende(spil, ctl) {
     const u = new Unit(verden, d.model, { skjul: d.skjul ?? [] });
     u.rod.position.set(x + Math.cos(v) * 3.4, 0, z + Math.sin(v) * 3.4);
     u.rod.rotation.y = u.vinkelMål = Math.atan2(x - u.x, z - u.z);
-    u.spil('Idle'); u.type = type;
+    u.spil('Idle'); u.type = type; sætHold(u, 'neutral');
     return u;
   });
   bus.emit('krønike', { ...TEKST.lejesvende, x, z, varighed: 18 });

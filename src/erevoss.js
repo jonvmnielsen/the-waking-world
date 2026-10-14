@@ -8,7 +8,6 @@ import { Lejr } from './creeps.js';
 import { hexTilVerden } from './hexgrid.js';
 import { VERDEN } from './config.js';
 import { BYG_SKALA } from './byggeplads.js';
-import { SPILLER_FARVE } from './racer.js';
 import { bus } from './events.js';
 
 const VOGTERE = ['warrior', 'mage', 'warrior'], EKSTRA = ['minion', 'rogue', 'warrior', 'mage', 'minion'], PR_VOGTER = 15;
@@ -34,7 +33,7 @@ export class Memory {
     const p = hexTilVerden(f.q, f.r);
     f.optaget = true; f.gåbar = false;
     // Hallen: en bleg, gennemsigtig borg (Bone Throne)
-    const m = kopi(`kaykit-hexagon/buildings/${SPILLER_FARVE}/building_castle_${SPILLER_FARVE}`, { skygge: true });
+    const m = kopi('kaykit-hexagon/buildings/yellow/building_castle_yellow', { skygge: true });
     m.scale.setScalar(VERDEN.hexSkala * 1.25 * BYG_SKALA);
     m.position.set(p.x, 0, p.z);
     åndeLook(m, { farve: 0xbfe4ff, styrke: 0.45, gennemsigtig: 0.8 });
