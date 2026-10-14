@@ -30,7 +30,7 @@ export class Overlay {
   }
 
   tal(enhed, tekst, klasse, ekstraHøjde = 0) {
-    const s = this.skærm(enhed.x, (enhed.højde ?? 1.4) + 0.6 + ekstraHøjde, enhed.z);
+    const s = this.skærm(enhed.x, (enhed.højde ?? 1.4) + 0.6 + ekstraHøjde + (enhed.rod?.position.y ?? 0), enhed.z);
     const el = document.createElement('div');
     el.className = `tal ${klasse}`;
     el.textContent = tekst;
@@ -81,7 +81,7 @@ export class Overlay {
       }
       // Heltens bjælker står over hovedet (bunden af bjælkerne ved toppen af helten), så de ikke dækker den
       const helt = u === this.verden.helt;
-      const s = this.skærm(u.x, u.højde + (helt ? 0.55 : 0.35), u.z);
+      const s = this.skærm(u.x, u.højde + (helt ? 0.55 : 0.35) + (u.rod?.position.y ?? 0), u.z);
       el.style.transform = `translate(${s.x}px, ${s.y}px) translate(-50%, ${helt ? '-100%' : '-50%'})`;
       el.style.display = s.synlig ? '' : 'none';
       (el.firstChild.firstChild ?? el.firstChild).style.width = `${(u.hp / u.maxHp) * 100}%`;

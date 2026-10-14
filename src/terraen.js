@@ -50,6 +50,16 @@ function højdeOgPrøve(kort, x, z, seed) {
 }
 export const terrænHøjde = (kort, x, z, seed = 3) => højdeOgPrøve(kort, x, z, seed).y;
 
+// Højden under figurerne: et gitter af terrænets punkter (sat, når terrænet bygges), læst blødt mellem punkterne
+let HG = null;
+export function højdeVed(x, z) {
+  if (!HG) return 0;
+  const fx = (x - HG.x0) / TRIN, fz = (z - HG.z0) / TRIN, ix = Math.floor(fx), iz = Math.floor(fz);
+  if (ix < 0 || iz < 0 || ix >= HG.b || iz >= HG.h) return 0;
+  const tx = fx - ix, tz = fz - iz, n = HG.b + 1, y = HG.y, i = iz * n + ix;
+  return (y[i] * (1 - tx) + y[i + 1] * tx) * (1 - tz) + (y[i + n] * (1 - tx) + y[i + n + 1] * tx) * tz;
+}
+
 // Hvor meget bar jord og tørt græs hver region har (M9: hver region sin karakter)
 const REGION_GRUND = {
   askemarken: { jord: 0.5, tør: 0.55 },
@@ -70,6 +80,7 @@ export function lavTerrænMesh(kort, grænser, { miner = [], ødeland = null, st
   const pos = geo.attributes.position;
   const farver = new Float32Array(pos.count * 3), splat = new Float32Array(pos.count * 4), ekstra = new Float32Array(pos.count * 2);
   const c = new THREE.Color();
+  HG = { x0: (grænser.minX + grænser.maxX) / 2 - (b * TRIN) / 2, z0: (grænser.minZ + grænser.maxZ) / 2 - (h * TRIN) / 2, b, h, y: new Float32Array(pos.count) };
   for (let i = 0; i < pos.count; i++) {
     // Lidt forskydning af punkterne giver et håndlavet lav-poly udtryk
     let x = pos.getX(i), z = pos.getZ(i);
@@ -77,6 +88,7 @@ export function lavTerrænMesh(kort, grænser, { miner = [], ødeland = null, st
     z += (støj(z, x, seed + 22, 3) - 0.5) * TRIN * 0.6;
     const { y, L, K, F, tone } = højdeOgPrøve(kort, x, z, seed);
     pos.setXYZ(i, x, y, z);
+    HG.y[i] = y;
     const f = kort.felt(x, z), rg = REGION_GRUND[f?.region] ?? REGION_GRUND.askemarken;
 
     // Jordtyper: jord (pletter, stier, trådt jord), skovbund, klippe, sand

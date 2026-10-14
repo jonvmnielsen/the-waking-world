@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { kopi, animationer } from './assets.js';
 import { bus } from './events.js';
 import { undgåTing } from './hindring.js';
+import { højdeVed } from './terraen.js';
 
 export class Unit {
   constructor(verden, model, { skala = 1, skjul = [], våben = {}, våbenSkala = 1, radius = 0.7 } = {}) {
@@ -106,6 +107,8 @@ export class Unit {
 
   opdater(dt) {
     this.mixer.update(dt);
+    // Stå på terrænet (ved bjergene hæver det sig — ellers forsvinder figurerne i sneen/klippen)
+    if (!this.død && !this.iLuften) this.rod.position.y = Math.max(-0.5, højdeVed(this.x, this.z));
     // Drej blødt mod den ønskede retning
     let diff = this.vinkelMål - this.rod.rotation.y;
     diff = Math.atan2(Math.sin(diff), Math.cos(diff));
