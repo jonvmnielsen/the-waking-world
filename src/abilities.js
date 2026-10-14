@@ -9,24 +9,24 @@ import { HELT_EVNER, heltEvneMetoder } from './heltevner.js';
 export const ESSENSER = {
   vold: {
     navn: 'Violence', motto: 'Strike first. Strike hard.', stil: 'aggression',
-    tekst: 'Raw aggression. High burst and area damage, but little to keep you alive.',
+    tekst: 'Raw aggression. Your hero grows strongest in Strength, and your army learns to charge.',
     ekko: ['Your warriors will learn to charge with you.', 'At level 10, a path paved in blood may open.'],
   },
   tålmodighed: {
     navn: 'Patience', motto: 'Outlast everything.', stil: 'overlevelse',
-    tekst: 'Defensive. You survive long fights and protect what is yours, but your burst is low.',
+    tekst: 'Endurance. Your hero grows strongest in Agility, and your army learns to hold the line.',
     ekko: ['Your warriors will learn to hold the line.', 'At level 10, those who endure may come to lead.'],
   },
   ofring: {
     navn: 'Sacrifice', motto: 'Pay in blood. Win anyway.', stil: 'kaos',
-    tekst: 'Risk and reward. Spend your own health for devastating strikes.',
+    tekst: 'Risk and reward. Your hero grows strongest in Intelligence, and chaos follows in your wake.',
     ekko: ['Chaos will follow in your wake.', 'At level 10, something older may answer your offering.'],
   },
 };
 
 export const EVNER = {
   bruteStrike: { navn: 'Brute Strike', mana: 40, cd: 8, ikon: '🪓', tekst: 'A heavy blow for 1.8× damage on the nearest enemy.' },
-  warCry: { navn: 'War Cry', mana: 60, cd: 20, ikon: '📯', tekst: '+30% attack speed for 5 seconds.' },
+  warCry: { navn: 'War Cry', mana: 60, cd: 20, ikon: '📯', tekst: 'Your hero and soldiers nearby attack 30% faster for 6 seconds.' },
   ironSkin: { navn: 'Iron Skin', mana: 50, cd: 25, ikon: '🛡️', tekst: '+50% armor for 8 seconds.' },
   bloodPrice: { navn: 'Blood Price', mana: 0, cd: 15, ikon: '🩸', tekst: 'Lose 15% health; your next blow deals 3× damage.' },
   earthStomp: { navn: 'Earth Stomp', mana: 100, cd: 30, ikon: '💥', tekst: '120 damage and a 1-second stun around you.' },
@@ -56,7 +56,7 @@ export class Evner {
       const id = STIER[sti].evner[slot - 3], lv = STI_OPLÅS[slot - 3];
       return { id, ...STI_EVNER[id], sti: true, oplåsLevel: lv, oplåst: this.helt.level >= lv, cd: this.cooldowns[slot], cdMax: STI_EVNER[id].cd };
     }
-    const id = slot === 0 ? (this.helt.def?.signatur ?? 'bruteStrike') : SLOTS[this.essens][slot];   // slot 0: heltens signatur
+    const id = this.helt.def?.evner?.[slot] ?? SLOTS[this.essens][slot];   // heltens egne evner (heltedata.js)
     return { id, ...EVNER[id], oplåsLevel: OPLÅS[slot], oplåst: this.helt.level >= OPLÅS[slot], cd: this.cooldowns[slot], cdMax: EVNER[id].cd };
   }
 
@@ -66,14 +66,15 @@ export class Evner {
     this.tIronSkin = Math.max(0, this.tIronSkin - dt);
     this.tUdødelig = Math.max(0, this.tUdødelig - dt);
     this.helt.sti?.opdater(dt);
-    this.opdaterMærker?.(dt);
+    this.opdaterHelteEvner?.(dt);
   }
 
-  angrebsBonus() { return (this.tWarCry > 0 ? 0.3 : 0) + (this.helt.sti?.angrebsBonus() ?? 0); }
+  angrebsBonus() { return (this.tWarCry > 0 ? 0.3 : 0) + (this.tRovdyr > 0 ? 0.6 : 0) + (this.tSkydning > 0 ? 0.8 : 0) + (this.helt.sti?.angrebsBonus() ?? 0); }
   rustningsBonus() { return this.tIronSkin > 0 ? Math.round(this.helt.rustning() * 5) / 10 : 0; }
   erUdødelig() { return this.tUdødelig > 0; }
 
-  slagMultiplikator(skade) {
+  slagMultiplikator(skade, mål) {
+    if (this.tRovdyr > 0 && mål?.mærket > 0) skade *= 2;   // Predator: dobbelt mod mærket bytte
     if (!this.blodAktiv) return skade;
     this.blodAktiv = false;
     bus.emit('effekt', { type: 'blodslag', helt: this.helt });
@@ -119,7 +120,7 @@ export class Evner {
     h.cooldown = h.angrebsTid();
   }
 
-  warCry() { this.tWarCry = 5; this.heltRåb(); }
+  warCry() { this.tWarCry = 6; for (const s of this.soldaterNær(12)) s.buff.rally = 6; this.heltRåb(); }
   ironSkin() { this.tIronSkin = 8; this.heltRåb(); }
   endure() { this.tUdødelig = 2; this.heltRåb(); }
 

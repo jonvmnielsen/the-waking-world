@@ -3,6 +3,8 @@
 // Knight Commander: Shield Bash · Lorewarden: Mending Light · Ranger Captain: Piercing Bolt
 import { bus } from './events.js';
 import { glød } from './aand.js';
+import { TIDE_EVNER, tideMetoder } from './evnertide.js';
+import { ARK_EVNER, arkMetoder } from './evnerark.js';
 
 export const HELT_EVNER = {
   stormlash: { navn: 'Stormlash', mana: 55, cd: 9, ikon: '⚡', tekst: 'Lightning strikes an enemy for 90 damage and leaps to two more.' },
@@ -10,9 +12,31 @@ export const HELT_EVNER = {
   shieldBash: { navn: 'Shield Bash', mana: 45, cd: 10, ikon: '🛡️', tekst: 'A crushing blow for 1.5× damage that stuns for 1.5 seconds.' },
   mendingLight: { navn: 'Mending Light', mana: 70, cd: 18, ikon: '✨', tekst: 'Heals your hero and soldiers nearby for 180.' },
   piercingBolt: { navn: 'Piercing Bolt', mana: 60, cd: 12, ikon: '➶', tekst: 'A bolt that goes through every enemy in a line for 2× damage.' },
+  ...TIDE_EVNER, ...ARK_EVNER,
 };
 
 export const heltEvneMetoder = {
+  ...tideMetoder, ...arkMetoder,
+
+  // Spillerens soldater tæt på helten
+  soldaterNær(r) { const h = this.helt; return (h.verden.egne?.() ?? []).filter((u) => u !== h && u.buff && !u.død && Math.hypot(u.x - h.x, u.z - h.z) < r); },
+
+  // En virkning over tid: gør() hvert 'hver' sekund i 'varighed' sekunder
+  virkning(v) { v.start?.(); (this.virkninger ??= []).push({ ...v, t: 0, næste: 0 }); },
+
+  // Tidsstyrede evner (kaldes fra Evner.opdater): mærker, virkninger og midlertidige bonusser
+  opdaterHelteEvner(dt) {
+    this.opdaterMærker(dt);
+    for (const k of ['tRovdyr', 'tMur', 'tSkydning']) this[k] = Math.max(0, (this[k] ?? 0) - dt);
+    this.virkninger = (this.virkninger ?? []).filter((v) => {
+      v.t += dt; v.næste -= dt;
+      if (v.næste <= 0) { v.næste = v.hver; v.gør(); }
+      return v.t < v.varighed;
+    });
+    const h = this.helt;
+    h.fart = h.stats.fart * (this.tRovdyr > 0 ? 1.3 : 1) * (1 + (h.inventar?.bonus.fart ?? 0));
+  },
+
   // Det nuværende mål eller den nærmeste fjende inden for r
   sigte(r) {
     const h = this.helt, m = h.mål;

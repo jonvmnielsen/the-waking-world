@@ -136,7 +136,7 @@ export class Helt extends Unit {
     if (!s.ramt && s.tid >= s.slagTid) {
       s.ramt = true;
       if (s.mål && !s.mål.død && this.afstand(s.mål) - s.mål.radius <= this.stats.rækkevidde * 1.5) {
-        const skade = reducérSkade(this.evner.slagMultiplikator(this.slagSkade() * this.sti.skadeFaktor()), s.mål.rustning ?? 0);
+        const skade = reducérSkade(this.evner.slagMultiplikator(this.slagSkade() * this.sti.skadeFaktor(), s.mål), s.mål.rustning ?? 0);
         // Helte på afstand skyder (lyn, spyd, bolt); skaden lander når skuddet rammer
         if (this.def.kamp.type === 'fjern') { const p = this.def.kamp.projektil; bus.emit('projektil', { fra: this, mål: s.mål, skade, farve: p === 'spyd' ? undefined : p, model: p === 'spyd' ? 'spyd' : undefined }); }
         else s.mål.tagSkade(skade, this);
@@ -155,7 +155,7 @@ export class Helt extends Unit {
     if (this.evner.erUdødelig()) mængde = 0;
     this.sidstIKamp = this.tid;
     if (kilde && kilde !== this) this.angribere.set(kilde, this.tid);
-    if (mængde > 0) mængde = this.inventar.vedSkade(mængde, kilde) * this.sti.skadeTagetFaktor();
+    if (mængde > 0) mængde = this.inventar.vedSkade(mængde, kilde) * this.sti.skadeTagetFaktor() * (this.evner.tMur > 0 ? 0.6 : 1);   // Shield Wall
     return super.tagSkade(reducérSkade(mængde, this.rustning() + this.evner.rustningsBonus()), kilde);
   }
 

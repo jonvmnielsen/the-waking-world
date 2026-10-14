@@ -67,14 +67,14 @@ export function vælgEssens(gemt) {
 
 function visDetaljer(id, helt) {
   const e = ESSENSER[id], eg = EGENSKABER.essens[id];
-  const signatur = helteFor(SPILLER.id).find((h) => h.id === helt)?.signatur ?? SLOTS[id][0];
-  const evner = [signatur, ...SLOTS[id].slice(1)].map((ev, i) => `<li><i>${EVNER[ev].ikon}</i><div><b>${EVNER[ev].navn}</b> <small>level ${OPLÅS[i]}</small><span>${EVNER[ev].tekst}</span></div></li>`).join('');
+  const hd = helteFor(SPILLER.id).find((h) => h.id === helt);
+  const evner = (hd?.evner ?? SLOTS[id]).map((ev, i) => `<li><i>${EVNER[ev].ikon}</i><div><b>${EVNER[ev].navn}</b> <small>level ${OPLÅS[i]}</small><span>${EVNER[ev].tekst}</span></div></li>`).join('');
   const d = $('essens-detalje');
   d.className = `vis ${id}`;
   d.innerHTML = `
     <p class="kamp">${e.tekst}</p>
     <h3>Grows in</h3><p class="egenskab ${eg}">${VOKSER[eg]}</p><p class="kamp">Starts higher and grows fastest of your three attributes.</p>
-    <h3>Abilities</h3><ul class="evneliste">${evner}</ul>
+    <h3>${hd ? `${hd.navn}'s abilities` : 'Abilities'}</h3><ul class="evneliste">${evner}</ul>
     <h3>What it may lead to</h3>
     <ul class="ekko">${e.ekko.map((t) => `<li>${t}</li>`).join('')}<li class="skjult">…and more, revealed as you play.</li></ul>`;
   $('essens-start').hidden = false;

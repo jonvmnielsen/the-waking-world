@@ -1,6 +1,6 @@
 // Heltene (Jon: 3 pr. race; man vælger én ved start, og AI-modstanderen får en af sin races). GDD 6.3.
 // Hver helt har sin model, sin hovedegenskab, sin kampform (nær eller på afstand) og sin egen første evne
-// (signatur, slot 0). Slot 1 og 2 kommer fra essensen som før (abilities.js). The Dreaming og The Unmade
+// (signatur, slot 0) og to mere (evner: level 1, 3 og 6 — Jon: alle evner er heltens egne). The Dreaming og The Unmade
 // er designet, men endnu ikke spilbare (ingen racer i spillet endnu).
 
 const ORK_KRIGER = ['1H_Axe', '1H_Axe_Offhand', 'Barbarian_Round_Shield', 'Mug', 'Barbarian_Hat'];
@@ -22,33 +22,33 @@ export const HELTE = {
   // --- The Tide ---
   warchief: {
     race: 'tide', navn: 'Warchief', titel: 'Orc Warrior', rolle: 'Melee · Strength', primær: 'str', start: STR,
-    model: 'units/hero_tide', skjul: ORK_KRIGER, kamp: NÆR_2H, signatur: 'bruteStrike',
+    model: 'units/hero_tide', skjul: ORK_KRIGER, kamp: NÆR_2H, signatur: 'bruteStrike', evner: ['bruteStrike', 'warCry', 'earthStomp'],
     tekst: 'A wall of muscle with a two-handed axe. Leads from the front and hits hardest of all.',
   },
   stormsinger: {
     race: 'tide', navn: 'Stormsinger', titel: 'Orc Shaman', rolle: 'Ranged · Intelligence', primær: 'int', start: INT,
-    model: 'units/hero_tide_shaman', skjul: MAGER, kamp: MAGI(0x7fc8ff), signatur: 'stormlash', hp: -25,
+    model: 'units/hero_tide_shaman', skjul: MAGER, kamp: MAGI(0x7fc8ff), signatur: 'stormlash', evner: ['stormlash', 'squall', 'eyeOfStorm'], hp: -25,
     tekst: 'Sings the sea-storm into lightning. Fragile up close, deadly from afar.',
   },
   wildtrack: {
     race: 'tide', navn: 'Wildtrack', titel: 'Orc Hunter', rolle: 'Ranged · Agility', primær: 'agi', start: AGI,
-    model: 'units/hero_tide_hunter', skjul: KASTER, kamp: KAST, signatur: 'huntersMark', hp: -10, fart: 0.3,
+    model: 'units/hero_tide_hunter', skjul: KASTER, kamp: KAST, signatur: 'huntersMark', evner: ['huntersMark', 'spearVolley', 'predator'], hp: -10, fart: 0.3,
     tekst: 'Throws spears and marks the prey for the whole warband. Quick on her feet.',
   },
   // --- The Architects ---
   knightCommander: {
     race: 'arkitekter', navn: 'Knight Commander', titel: 'Human Knight', rolle: 'Melee · Strength', primær: 'str', start: STR,
-    model: 'units/hero_arkitekt', skjul: RIDDER, kamp: NÆR_2H, signatur: 'shieldBash',
+    model: 'units/hero_arkitekt', skjul: RIDDER, kamp: NÆR_2H, signatur: 'shieldBash', evner: ['shieldBash', 'shieldWall', 'consecration'],
     tekst: 'Plate, a greatsword and an unbending will. Stuns what it cannot kill.',
   },
   lorewarden: {
     race: 'arkitekter', navn: 'Lorewarden', titel: 'Human Mage', rolle: 'Ranged · Intelligence', primær: 'int', start: INT,
-    model: 'units/hero_ark_mage', skjul: MAGER, kamp: MAGI(0xffe7a0), signatur: 'mendingLight', hp: -25,
+    model: 'units/hero_ark_mage', skjul: MAGER, kamp: MAGI(0xffe7a0), signatur: 'mendingLight', evner: ['mendingLight', 'bindingWord', 'oldLight'], hp: -25,
     tekst: 'Keeper of the written names. Heals the army and burns its enemies with old light.',
   },
   rangerCaptain: {
     race: 'arkitekter', navn: 'Ranger Captain', titel: 'Human Marksman', rolle: 'Ranged · Agility', primær: 'agi', start: AGI,
-    model: 'units/hero_ark_ranger', skjul: SKYTTE, kamp: SKUD(0xbfe0ff), signatur: 'piercingBolt', hp: -10, fart: 0.3,
+    model: 'units/hero_ark_ranger', skjul: SKYTTE, kamp: SKUD(0xbfe0ff), signatur: 'piercingBolt', evner: ['piercingBolt', 'rapidFire', 'rainOfBolts'], hp: -10, fart: 0.3,
     tekst: 'A heavy crossbow and a cold eye. Her bolts go through one enemy and into the next.',
   },
   // --- The Dreaming (designet, ikke spilbar endnu) ---
