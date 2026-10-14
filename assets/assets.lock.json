@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
-  "libraryCommit": "e984e32",
-  "synced": "2026-10-12T23:23:37.623Z",
+  "libraryCommit": "785e229",
+  "synced": "2026-10-14T16:44:56.940Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -2970,6 +2970,126 @@
         "Block",
         "2H_Ranged_Shoot"
       ]
+    },
+    "forge-lowpoly/gear_helm_iron": {
+      "id": "forge-lowpoly/gear_helm_iron",
+      "file": "forge-lowpoly/gear_helm_iron.glb",
+      "bytes": 6856,
+      "sha": "59641ba54401",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/gear_helm_horned": {
+      "id": "forge-lowpoly/gear_helm_horned",
+      "file": "forge-lowpoly/gear_helm_horned.glb",
+      "bytes": 9804,
+      "sha": "c06770a83fde",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/gear_hood": {
+      "id": "forge-lowpoly/gear_hood",
+      "file": "forge-lowpoly/gear_hood.glb",
+      "bytes": 6280,
+      "sha": "d23c4a0abb2c",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/gear_chest_plate": {
+      "id": "forge-lowpoly/gear_chest_plate",
+      "file": "forge-lowpoly/gear_chest_plate.glb",
+      "bytes": 8868,
+      "sha": "a0224b6275cc",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/gear_chest_leather": {
+      "id": "forge-lowpoly/gear_chest_leather",
+      "file": "forge-lowpoly/gear_chest_leather.glb",
+      "bytes": 8836,
+      "sha": "34acb671227d",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/gear_boots_leather": {
+      "id": "forge-lowpoly/gear_boots_leather",
+      "file": "forge-lowpoly/gear_boots_leather.glb",
+      "bytes": 7776,
+      "sha": "a64aa427ab67",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/gear_boots_iron": {
+      "id": "forge-lowpoly/gear_boots_iron",
+      "file": "forge-lowpoly/gear_boots_iron.glb",
+      "bytes": 7924,
+      "sha": "e791d4b59205",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/gear_amulet": {
+      "id": "forge-lowpoly/gear_amulet",
+      "file": "forge-lowpoly/gear_amulet.glb",
+      "bytes": 10496,
+      "sha": "e03704b7d78b",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/gear_ring": {
+      "id": "forge-lowpoly/gear_ring",
+      "file": "forge-lowpoly/gear_ring.glb",
+      "bytes": 9956,
+      "sha": "a528b4983661",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-adventurers-2/bow_withstring": {
+      "id": "kaykit-adventurers-2/bow_withstring",
+      "file": "kaykit-adventurers-2/bow_withstring.glb",
+      "bytes": 25224,
+      "sha": "dea4f985526d",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-adventurers/crossbow_1handed": {
+      "id": "kaykit-adventurers/crossbow_1handed",
+      "file": "kaykit-adventurers/crossbow_1handed.glb",
+      "bytes": 19220,
+      "sha": "2db595ffc313",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-adventurers/sword_2handed": {
+      "id": "kaykit-adventurers/sword_2handed",
+      "file": "kaykit-adventurers/sword_2handed.glb",
+      "bytes": 15372,
+      "sha": "61a185d1ff5a",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-adventurers/shield_square": {
+      "id": "kaykit-adventurers/shield_square",
+      "file": "kaykit-adventurers/shield_square.glb",
+      "bytes": 12188,
+      "sha": "2a800aea7e42",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-adventurers/shield_round_color": {
+      "id": "kaykit-adventurers/shield_round_color",
+      "file": "kaykit-adventurers/shield_round_color.glb",
+      "bytes": 12592,
+      "sha": "25414fda87ad",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "kaykit-adventurers/shield_spikes": {
+      "id": "kaykit-adventurers/shield_spikes",
+      "file": "kaykit-adventurers/shield_spikes.glb",
+      "bytes": 16460,
+      "sha": "c4d4fd2dcbea",
+      "license": "CC0-1.0",
+      "kind": "model"
     }
   }
 }
