@@ -3,6 +3,8 @@ import { Bygning } from './bygninger.js';
 import { STADIER } from './bygningsdata.js';
 import { pakUd } from './gem.js';
 import { optag } from './byggeplads.js';
+import { PLADSER_TYPER, erUdstyr } from './udstyr.js';
+import { ITEMS } from './itemdata.js';
 
 export function gendanSpil(spil, g) {
   const { helt, base, verden, lejre, genstande, taage, rig, økonomi: ø } = spil;
@@ -12,8 +14,10 @@ export function gendanSpil(spil, g) {
   while (helt.level < g.helt.level) helt.levelOp(true);
   helt.xp = g.helt.xp;
   const inv = helt.inventar;
-  inv.pladser = g.helt.pladser.map((p) => (p ? { ...p } : null));
-  if (g.helt.rygsæk) inv.rygsæk = g.helt.rygsæk.map((p) => (p ? { ...p } : null));
+  if (g.version >= 8) {
+    inv.pladser = g.helt.pladser.map((p) => (p ? { ...p } : null));
+    if (g.helt.rygsæk) inv.rygsæk = g.helt.rygsæk.map((p) => (p ? { ...p } : null));
+  } else flytGamleItems(spil, g.helt);
   Object.assign(inv.permanent, g.helt.permanent);
   inv.beregn();
   spil.bedrifter?.gendan(g.helt.bedrifter);
@@ -127,4 +131,17 @@ export function gendanSpil(spil, g) {
   rig.følger = false;
   rig.fokus.set(g.kamera.x, 0, g.kamera.z);
   rig.afstand = g.kamera.afstand;
+}
+
+// Gem-version 7 havde seks ens pladser: udstyr lægges på sin nye plads, resten i rygsækken;
+// hvad der ikke er plads til, lægges ved heltens fødder
+function flytGamleItems(spil, gh) {
+  const inv = spil.helt.inventar;
+  for (const p of [...(gh.pladser ?? []), ...(gh.rygsæk ?? [])]) {
+    if (!p || !ITEMS[p.id]) continue;
+    const item = { ...p }, i = erUdstyr(p.id) ? PLADSER_TYPER.indexOf(ITEMS[p.id].plads) : -1, j = inv.rygsæk.indexOf(null);
+    if (i >= 0 && !inv.pladser[i]) inv.pladser[i] = item;
+    else if (j >= 0) inv.rygsæk[j] = item;
+    else spil.genstande.læg(p.id, gh.x + 2, gh.z + 1, p.ladninger ?? undefined, null);
+  }
 }

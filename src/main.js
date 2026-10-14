@@ -190,7 +190,7 @@ async function start() {
 
   // Til test: vis hele kortet uden tåge
   spil.visHeleKortet = () => taage.tilføjKilde(0, 0, 999);
-  window.spil = spil;   // til test og fejlfinding
+  window.spil = spil; spil.renderer = renderer; spil.effekter = effekter;   // til test og fejlfinding
   window.klar = true;
 }
 

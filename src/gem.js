@@ -14,7 +14,9 @@ const r1 = (v) => Math.round(v * 10) / 10;
 export function hentGem() {
   try {
     const g = JSON.parse(localStorage.getItem(NØGLE));
-    return g && g.version === GEM_VERSION ? g : null;   // et gemt spil fra et andet kort skifter kortet (essensvalg.js)
+    // Version 7 kan stadig fortsættes: dens items lægges om på de nye pladser (gendan.js). Et gemt spil fra et
+    // andet kort skifter kortet (essensvalg.js)
+    return g && (g.version === GEM_VERSION || g.version === 7) ? g : null;
   } catch { return null; }
 }
 

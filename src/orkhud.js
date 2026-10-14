@@ -19,7 +19,7 @@ function lavGrøn(kilde) {
   const img = kilde.image;
   const c = document.createElement('canvas');
   c.width = img.width; c.height = img.height;
-  const ctx = c.getContext('2d');
+  const ctx = c.getContext('2d', { willReadFrequently: true });   // ellers venter getImageData på grafikkortet (frys)
   ctx.drawImage(img, 0, 0);
   const data = ctx.getImageData(0, 0, c.width, c.height);
   const p = data.data;
