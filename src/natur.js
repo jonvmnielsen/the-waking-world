@@ -75,6 +75,7 @@ export function lavNatur(scene, kort) {
   // En tom ressource forsvinder; et træ efterlader en stub
   function fjern(r, { stub = true } = {}) {
     r[r.type] = 0;
+    if (r.navStempel) { r.navStempel = false; kort.nav?.stempel(r.x, r.z, r.r * 0.75, -1); }
     if (!r.pynt.ref) return;
     skjul(r.pynt);
     if (stub && r.type === 'træ') {
@@ -92,7 +93,7 @@ export function lavNatur(scene, kort) {
   // Ryd et felt for natur (når der bygges på det)
   function ryd(f) {
     for (const p of f.pynt) skjul(p);
-    for (const r of f.ressourcer ?? []) r[r.type] = 0;
+    for (const r of f.ressourcer ?? []) { r[r.type] = 0; if (r.navStempel) { r.navStempel = false; kort.nav?.stempel(r.x, r.z, r.r * 0.75, -1); } }
   }
 
   return { ressourcer, bygninger, konstruktioner, fjern, ryd };

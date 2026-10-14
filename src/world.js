@@ -10,6 +10,7 @@ import { lavLavasøer } from './lava.js';
 import { lavHulevisning, HULE_MODELLER } from './hulevisning.js';
 import { UDSEENDE } from './kortvalg.js';
 import { lavBunddække, BUNDDÆKKE_MODELLER } from './bunddaekke.js';
+import { NavGitter } from './navgitter.js';
 
 // Alle modelstier kortet bruger (til forudindlæsning)
 export function kortModeller(kort) {
@@ -32,6 +33,9 @@ export function bygVerden(scene, kort, grænser, steder, ødeland, lejre = []) {
   if (UDSEENDE.lava) lavLavasøer(scene, kort, grund, terræn.tid);
   lavBunddække(scene, kort, { stier, pletter, u: UDSEENDE });
   const natur = lavNatur(scene, kort);
+  // Det fine stifindingsgitter (navgitter.js): frie træer og sten er forhindringer, til de er høstet
+  kort.nav = new NavGitter(kort, grænser);
+  for (const r of natur.ressourcer) if (!r.blokerer && r[r.type] > 0) { r.navStempel = true; kort.nav.stempel(r.x, r.z, r.r * 0.75, 1); }
   const guld = lavGuldårer(scene, miner, natur.bygninger);
   const huler = lavHulevisning(scene, kort, kort.huler ?? []);
   return { ...natur, opdater: (dt) => { guld.opdater(dt); huler.opdater(dt); terræn.tid.value += dt; } };

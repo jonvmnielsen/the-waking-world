@@ -86,6 +86,8 @@ export class HexKort {
 
   // A* fra punkt til punkt. Returnerer liste af waypoints {x,z} (glattet).
   findVej(fra, til) {
+    // Det fine gitter først (navgitter.js); hulerne og nødstilfælde bruger hex-felterne
+    if (this.nav && fra.x < 3000 && til.x < 3000) { const v = this.nav.findVej(fra, til); if (v) return v; }
     if (this.friLinje(fra.x, fra.z, til.x, til.z)) return [{ x: til.x, z: til.z }];
     const start = this.felt(fra.x, fra.z);
     if (!start) return [];

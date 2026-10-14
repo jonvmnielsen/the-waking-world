@@ -43,11 +43,14 @@ export function optag(f, i, b) {
   f.optaget = true;
   if (i < 0) { f.stor = b; f.gåbar = false; return; }
   (f.pladser ??= [null, null, null])[i] = b;
+  b.verden?.kort.nav?.stempel(b.x, b.z, b.fod ?? 2.3, 1);   // stifindingen går uden om (navgitter.js)
   f.gåbar = f.pladser.some((p) => !p);
 }
 
 export function frigør(f, i) {
   if (i < 0) { f.stor = null; f.optaget = false; f.gåbar = !f.blok; return; }
+  const b = f.pladser?.[i];
+  if (b) b.verden?.kort.nav?.stempel(b.x, b.z, b.fod ?? 2.3, -1);
   if (f.pladser) f.pladser[i] = null;
   f.optaget = !!f.pladser?.some(Boolean);
   f.gåbar = !f.blok;
