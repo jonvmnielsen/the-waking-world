@@ -14,6 +14,7 @@ import { Fortælling } from './fortaelling.js';
 import { LejrSkilte } from './lejrskilt.js';
 import { Mindesmærker } from './mindesmaerker.js';
 import { HeltReplikker } from './heltreplik.js';
+import { Stemmer } from './stemmer.js';
 import { Vejr } from './vejr.js';
 import { MineVisning } from './minevisning.js';
 import { lavFund } from './fund.js';
@@ -30,6 +31,7 @@ export function lavVerdensliv(spil, steder, minder = []) {
   spil.livet = new Livet(spil, steder);
   spil.champions = new Champions(spil);   // før skiltene, så de kan vise championerne
   const fortælling = new Fortælling(spil), skilte = new LejrSkilte(spil), replikker = new HeltReplikker(spil);
+  spil.stemmer = new Stemmer(spil);   // alle enheders stemmer (M14)
   const vejr = new Vejr(spil.verden.scene, UDSEENDE.vejr);
   spil.vejr = vejr;
   spil.minevisning = new MineVisning(spil);

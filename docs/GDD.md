@@ -648,15 +648,56 @@ Hvor RNG kan gøre hvert spil anderledes. ✅ = bygget i M10.
 
 **Gro igen?** Fordele: lange spil løber ikke tør for træ, verden ser levende ud. Ulemper: mindre grund til at ekspandere, ryddede veje lukker til igen. Forslag: kun træer gror igen, langsomt, fra stubbe ved siden af levende skov (og hurtigere om foråret); sten gror ikke — ny sten kommer fra prospektering og Deep Quarry.
 
-## 17b. WC3-følelsen — uden at kopiere (forslag)
+## 17b. Hvad gjorde WC3 til WC3? (analyse, M14)
 
-Det der gør WC3 til WC3, og hvordan vi tager det:
-- **Helten bærer spillet**: creeping, items og levels — har vi. Næste: flere helte (kroen), heltens stemme.
-- **Neutralt land at kæmpe om**: lejre med drops, kroer, butikker, miner med vogtere — har vi; Motherlode og Deep Quarry giver nu et naturligt kampområde.
-- **Tempo og timing**: upkeep, tiers, ekspansioner, dag/nat hvor creeps sover — har vi.
-- **Læsbarhed og lyd**: tydelige silhuetter, holdfarver og korte replikker. Næste: enhedernes egne stemmelinjer ("job's done"-øjeblikke) med vores egne ord.
-- **Racer med hver deres økonomi**: The Memory høster ekkoer — originalt for os.
-- **Det vi gør anderledes**: verden vågner (faser, ekkoer, Navnesten), veteraner specialiseres efter spillestil, biomer, årstider og nye verdener hver gang.
+Jon: *"Undersøg i dybden hvad der gjorde WC3 til det det var … Det er dét vi skal fange."* Kilderne står nederst. Pointen er ikke at kopiere, men at forstå *hvorfor* det virkede, og bygge vores egen udgave af hver søjle.
+
+### Hvorfor det føltes, som det gjorde — ni søjler
+
+**1. Et rollespil gemt inde i et strategispil.** WC3 begyndte som *Warcraft Legends* — tæt kamera, få enheder, ingen base. Det "føltes aldrig strategisk", så holdet vendte tilbage til RTS, men **heltene overlevede fra første skitse** (Rob Pardo). Målet var "et sjovt Warcraft-RTS plus helte, quests, items og en mere levende verden". Resultatet: helten er "omdrejningspunktet" — den vinder eller taber kampen. Helten får kun erfaring af at kæmpe, så starten af hvert spil er en lille rollespilsrejse: man vælger en rute gennem lejrene, får levels og items, og ultimatet ved level 6 er et vendepunkt man mærker.
+
+**2. Få enheder — hver enkelt tæller.** Upkeep (70 % guld ved 50+ forsyning, 40 % ved 80+) gjorde, at hære typisk var 6–24 enheder. Det var delvist et teknisk valg (3D i 2002), men holdet beholdt det, fordi "det gjorde WC3 så anderledes end StarCraft" (Rob McNaughton). Makro er enkel, så opmærksomheden går til mikro: trække en såret enhed tilbage, fokusere ild, time en evne. Man lærer sine enheder at kende.
+
+**3. Creeping — det neutrale land er spillets puls.** Lejre vogter miner, butikker og kilder. Deres farve (grøn/orange/rød) siger, hvor farlige de er; deres drop følger sværhedsgraden; stærke vogtere "kræver en helt". Kortene er bygget om det: *Lost Temple* har en helende kilde i midten, ringet af guldminer, vogtet af kortets stærkeste lejr. Det giver steder, man kæmper om, uden at nogen ejer dem. Neutrale bygninger kan ikke erobres — man holder dem ved at stå der.
+
+**4. Personlighed i hver eneste enhed.** Hver enhed svarer, når man vælger den, sender den af sted eller angriber — og bliver irriteret, hvis man bliver ved med at trykke ("piss lines", en Blizzard-tradition fra WC2). Bønder brokker sig, krigere praler, helte har attitude. GameSpot: stemmerne "formidler hver personlighed tydeligt og levende". Selv dyrene har en vits: tryk nok gange på et får, og det eksploderer. Det er småting, men det er dem, folk husker 20 år efter.
+
+**5. Animerede portrætter.** Øverst/nederst sidder et levende 3D-portræt af den valgte enhed, som bevæger sig og taler. Helten har altid sit portræt i hjørnet. Man ser hele tiden sin helts ansigt — det binder én til figuren.
+
+**6. Læsbarhed: store former, overdrevne proportioner.** Samwise Didier: man ser alt skråt ovenfra, så holdet fokuserede på silhuetten fra den vinkel — "større former, ikke så mange små prikker, møtrikker og bolte", og figurerne er "lidt større og overproportionerede", fordi vinklen "kræver det lille ekstra". Holdfarver, tydelige effekter (gylden søjle ved level-op, glød om helten) og et ur, der viser døgnet.
+
+**7. Dag og nat som taktik.** 8 minutters døgn. Om natten sover de fleste creeps, udsynet er kortere, og designerne forventede "flere bagholdsangreb og snigangreb om natten". Racerne mærker natten forskelligt (natelvere heler og gemmer sig om natten). Rytmen giver beslutninger: creep om natten, angrib om dagen — eller omvendt.
+
+**8. Racer der føles forskellige hele vejen igennem.** Ikke kun tal: hver race har egen musik, egen brugerflade, egne stemmer, egen måde at bygge på og egne fordele (natelvere om natten, de udøde på deres smittede jord). Man *er* orkerne, når man spiller dem.
+
+**9. Fortælling i spillet — og en editor, der gav spillet videre.** Historien blev fortalt inde i missionerne med motorens egne mellemsekvenser (ingen briefing-skærme), med figurer med en bue (Arthas, Thrall). Og World Editor var stærk nok til at bygge helt nye spil: DotA (og dermed hele MOBA-genren), tower defense og tusindvis af kort. Det er nok hovedgrunden til, at WC3 stadig nævnes: spillerne fik værktøjet til at gøre det til deres eget.
+
+### Hvorfor det stadig er skelsættende
+
+Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombination — en helt du bygger op, en lille hær du kender, et levende neutralt land og figurer med stemme og humor — blev aldrig gjort bedre i genren, og den levede videre i World of Warcraft, MOBA'erne og Hearthstone. Editoren gjorde det til en platform. Følelsen kommer ikke fra én mekanik, men fra at *alt* har personlighed: hver enhed, hvert sted, hver race.
+
+### Hvor står The Waking World?
+
+| Søjle | Har vi | Mangler / næste |
+|---|---|---|
+| 1. Helten bærer spillet | Tre helte pr. race med egne evner, items med rul, bedrifter, Ascension | Ultimatet ved level 6 skal *føles* som et ultimatum; Ascension-evner pr. helt |
+| 2. Få enheder | Upkeep (41/71), veteraner, grene | Flere aktive evner på soldater (mikro), autocast |
+| 3. Creeping | Lejre i 5 farver, drops, vogtede miner, kilder, butikker, kro | Neutrale steder der *altid* er vogtet; en kilde i midten at kæmpe om |
+| 4. Personlighed i enheder | ✅ Heltene og alle enheder svarer med egne ord (valg, gå, angrib, høst, byg, færdig, klar) og bliver irriterede ved fire tryk i træk; dyr snøfter og sprænges ved femte prik (M14a) | Lyd til stemmerne |
+| 5. Portrætter | ✅ Levende 3D-portræt af helten i helteknappen: trækker vejret, nikker når den taler, kryber sammen når den rammes, jubler ved level-op, gråt når den er faldet; bærer sin hjelm (M14a) | Portræt af den valgte enhed |
+| 6. Læsbarhed | Holdfarver, runecirkel, større helte, synligt udstyr | Tydeligere slag og effekter ("juice") |
+| 7. Dag og nat | Ja, creeps sover, kortere udsyn | Racer der mærker natten forskelligt |
+| 8. Racer | To racer, egne modeller og farver | Egne stemmer, egen brugerflade-tone, egen musik, egen måde at bygge på |
+| 9. Fortælling og editor | Krønike, lore, Navnesten, verden der vågner | Kampagne med mellemsekvenser; kort-editor i spillet (visionen) |
+
+### Plan
+
+- **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
+- **M14b:** ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; en vogtet kilde midt på kortet.
+- **M14c:** musik pr. race og døgn; racernes egen brugerflade-tone; natten pr. race.
+- **Senere:** kampagne med mellemsekvenser i motoren; kort-editor i spillet.
+
+**Kilder:** [Wikipedia: Warcraft III](https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos) · [Corerunner: Warcraft III Review](https://corerunner.substack.com/p/warcraft-iii-review) · [PCGamesN: upkeep (Rob McNaughton)](https://www.pcgamesn.com/warcraft-3/upkeep) · [Game Informer: Warcraft Legends (Rob Pardo)](https://gameinformer.com/b/news/archive/2014/11/03/warcraft-iii-was-almost-a-non-traditional-rts-called-warcraft-legends) · [Blue's News: Warcraft III Revisited](https://www.bluesnews.com/s/10992/warcraft-iii-revisited) · [Strategy Planet-preview (creeps, neutrale bygninger, nat)](https://gamespy-archives.quaddicted.com/sites/www.strategyplanet.com/features/previews/warcraft3/index3.shtml.html) · [Eurogamer/Blizzplanet: Samwise Didier](https://www.blizzplanet.com/blog/comments/eurogamer_interviews_samwise_didier) · [Liquipedia: Daytime](https://liquipedia.net/warcraft/Daytime) · [Giant Bomb: Piss Lines](https://giantbomb.com/wiki/Concepts/Piss_Lines) · [Warcraft Wiki: Critters](https://warcraft.wiki.gg/wiki/Critters) · [Warcraft Wiki: Lost Temple](https://warcraft.wiki.gg/wiki/Lost_Temple_(Warcraft_III)) · [GamesBeat: mod-værktøjer](https://gamesbeat.com/warcraft-iii-reforged-reminds-us-why-mod-toolsets-should-matter/) · [Den of Geek: Warcraft's influence](https://www.denofgeek.com/games/warcraft-the-most-influential-game-franchise-of-all-time) · [Wayward Strategy: iconic characters](https://waywardstrategy.com/2015/08/12/rts-games-need-more-iconic-characters/)
 
 ## 17. Åbne beslutninger (Jon)
 

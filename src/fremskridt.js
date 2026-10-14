@@ -7,6 +7,7 @@ import { Skærm } from './skaerm.js';
 import { Advarsel } from './advarsel.js';
 import { lavKonstruktioner } from './konstruktion.js';
 import { Bedrifter } from './bedrifter.js';
+import { HeltPortræt } from './heltportraet.js';
 
 // Kaldes før gem/gendan og før kommandopanelet bygges (forskningen skal findes, når bygningerne gendannes)
 export function lavUdvikling(spil) {
@@ -22,5 +23,6 @@ export function lavFremskridtsHud(spil, overlay) {
   spil.advarsel = new Advarsel(spil, overlay);
   const asc = new AscensionHud(spil);
   const upkeep = new UpkeepVisning(spil);
-  return { opdater() { asc.opdater(); upkeep.opdater(); } };
+  const portræt = new HeltPortræt(spil);   // heltens levende portræt i helteknappen (M14)
+  return { opdater() { asc.opdater(); upkeep.opdater(); portræt.tegn(); } };
 }

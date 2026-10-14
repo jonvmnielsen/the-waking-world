@@ -105,6 +105,9 @@ the-waking-world/
 │   ├── helteaura.js / heltudstyr.js # Runecirkel, kappe i holdfarve og vækst med level; synligt våben, skjold og hjelm
 │   ├── heltreplik.js / heltreplikdata.js # Heltenes egne stemmer (replikker) og hvornår de siges
 │   ├── bedrifter.js          # Heltens bedrifter og tilnavne ("the Giantslayer") med varige bonusser
+│   ├── stemmer.js / stemmedata.js # Alle enheders stemmer: valg, ordrer, klar, færdig, irriterede svar; racens advarsler
+│   ├── dyreprik.js           # Prik til dyrene — det femte prik sprænger dem (blod og pels)
+│   ├── heltportraet.js       # Heltens levende 3D-portræt i helteknappen (eget lille lærred)
 │   ├── ascension.js / ascensiondata.js / ascensionhud.js # Ascension ved level 10: stier, passiver, evner, valget
 │   ├── udvikling.js / udviklingdata.js / udviklinghud.js # Forskning, bygningsopgraderinger, upkeep-visning
 │   ├── fremskridt.js         # Sætter M7-systemerne, skærmen og advarslerne op
@@ -435,7 +438,14 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Items: seks udstyrspladser + rygsæk, rullet udstyr med affikser og navne, mange nye stats (krit, fart, livsstjæl, cdr, evnestyrke, torne, guldfund, XP), nye våben, hjelme, brynjer, støvler og smykker; gem-version 8
 - [x] Helte med personlighed: egne stemmer, synligt udstyr, runecirkel og kappe i holdfarve, vokser med level, bedrifter og tilnavne; heltekort med udstyr, evner og bedrifter
 
-### 📋 Næste: M14+
+### ✅ M14a — "WC3-følelsen: personlighed" (oktober 2026)
+- [x] Analyse af hvad der gjorde WC3 til WC3 (GDD 17b, ni søjler, kilder) og plan
+- [x] Alle enheder svarer med egne ord (valg, gå, angrib, høst, byg, færdig, klar); irriterede svar fra fjerde tryk i træk; heltene har egne gå- og irriterede replikker
+- [x] Dyrene snøfter, når man prikker til dem, og sprænges ved femte prik
+- [x] Levende 3D-portræt af helten i helteknappen; level som mærke
+- [x] Advarsler i racens egen stemme
+
+### 📋 Næste: M14b+
 The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, musik. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
 
 ---
@@ -488,6 +498,8 @@ The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hva
 | 2026-10-14 | Helte vokser med level, viser deres udstyr og får tilnavne for bedrifter | Jon: heltene skal fylde meget mere og have personlighed |
 | 2026-10-14 | Lærreder der læses/skrives pixelvis (minimappets tåge, orkehud) bruger `willReadFrequently` | putImageData/getImageData på et GPU-lærred ventede på grafikkortet i op til 4 s — Jons frys i lange spil |
 | 2026-10-14 | Gem-version 7 kan stadig fortsættes; items lægges om på de nye pladser | Jons lange spil skal ikke gå tabt |
+| 2026-10-14 | WC3-følelsen kommer fra personlighed i alt: enheder svarer, portræt, dyr med vits (GDD 17b) | Jon: "Undersøg i dybden hvad der gjorde WC3 til det det var … Det er dét vi skal fange" |
+| 2026-10-14 | Stemmer vises som korte bobler kun når spilleren selv gør noget | Personlighed uden at fylde skærmen (Jon: for meget tekst) |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
 | 2026-10-12 | Gem-version 3 (M9) | Kortene og mindesmærkerne ændrer placeringen af lejre og kister |

@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { bus } from './events.js';
 import { kopi } from './assets.js';
 import { SPYD_MODEL } from './soldatdata.js';
+import { sprængEffekt } from './dyreprik.js';
 
 // Blød radial glød-tekstur (genbruges af alle effekter)
 function glødTekstur(ring) {
@@ -104,6 +105,7 @@ export class Effekter {
     else if (e.type === 'evne') this.bølge(e.x, e.z, 5, e.farve ?? 0xffffff, 0.5);
     else if (e.type === 'ascension') { this.bølge(e.x, e.z, 9, e.farve, 1.2); this.søjle({ x: e.x, z: e.z }, e.farve, 2.4, 14); }
     else if (e.type === 'veteran') { this.bølge(e.x, e.z, 3, 0xffd36b, 0.7); this.søjle({ x: e.x, z: e.z }, 0xffd36b, 1.2, 5); }
+    else if (e.type === 'sprængt') sprængEffekt(this, e);   // et dyr der blev prikket for meget (dyreprik.js)
     else if (e.type === 'røg') { this.bølge(e.x, e.z, 6, 0x9a9a9a, 1.4); this.søjle({ x: e.x, z: e.z }, 0x777777, 1.6, 4); }
   }
 

@@ -5,6 +5,7 @@
 // - med en gruppe valgt: angrib sammen, gå i formation (arbejdere: høst)
 // - med en krigerlejr valgt: sæt samlingspunkt for nye soldater
 // - med helten valgt: angrib, saml op, åbn kiste, handl eller gå
+import { prikDyr } from './dyreprik.js';
 import * as THREE from 'three';
 import { bus } from './events.js';
 import { gruppeGå, gruppeAngrib, kanKæmpe, sammeTypePåSkærm } from './haer.js';
@@ -44,8 +45,8 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
   function arbejderTryk(a, px, py) {
     const p = jordpunkt(px, py);
     const k = kildeVed(px, py, p);
-    if (k) { a.kommandoHøst(k); effekter.markør(k.x, k.z, 0xffd36b); return; }
-    if (p && a.kommandoGå(p.x, p.z)) effekter.markør(p.x, p.z);
+    if (k) { a.kommandoHøst(k); bus.emit('ordre', { enheder: [a], type: 'høst' }); effekter.markør(k.x, k.z, 0xffd36b); return; }
+    if (p && a.kommandoGå(p.x, p.z)) { bus.emit('ordre', { enheder: [a], type: 'gå' }); effekter.markør(p.x, p.z); }
     else bus.emit('besked', 'The worker cannot go there');
   }
 
@@ -63,13 +64,13 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
   function gruppeTryk(gruppe, px, py) {
     const kæmpere = gruppe.filter(kanKæmpe);
     const [fjende] = fjendeVed(px, py);
-    if (fjende && kæmpere.length) { gruppeAngrib(kæmpere, fjende); return effekter.markør(fjende.x, fjende.z, 0xff5a4a); }
+    if (fjende && kæmpere.length) { gruppeAngrib(kæmpere, fjende); bus.emit('ordre', { enheder: kæmpere, type: 'angrib' }); return effekter.markør(fjende.x, fjende.z, 0xff5a4a); }
     const p = jordpunkt(px, py);
     if (kæmpere.length < gruppe.length) {
       const k = kildeVed(px, py, p);
       if (k) { for (const a of gruppe) if (!kanKæmpe(a)) a.kommandoHøst(k); return effekter.markør(k.x, k.z, 0xffd36b); }
     }
-    if (p && gruppeGå(gruppe, p.x, p.z, verden.kort)) effekter.markør(p.x, p.z);
+    if (p && gruppeGå(gruppe, p.x, p.z, verden.kort)) { bus.emit('ordre', { enheder: gruppe, type: 'gå' }); effekter.markør(p.x, p.z); }
     else bus.emit('besked', 'They cannot go there');
   }
 
@@ -98,7 +99,7 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
       return spil.handlVed(s);
     }
     const p = jordpunkt(px, py);
-    if (p && helt.kommandoGå(p.x, p.z)) effekter.markør(p.x, p.z);
+    if (p && helt.kommandoGå(p.x, p.z)) { bus.emit('ordre', { enheder: [helt], type: 'gå' }); effekter.markør(p.x, p.z); }
     else overlay.toast('Your hero cannot go there');
   }
 
@@ -128,21 +129,24 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     // Egen helt, arbejder eller bygning. Er noget allerede valgt, vælges intet andet ved et tryk (Jons ønske):
     // trykket bliver en ordre i stedet, og man fravælger med "Deselect" for at vælge noget nyt.
     const låst = !valg.ingen;
-    if (!helt.død && !låst) {
+    if (prikDyr(spil, px, py, skærm)) return;   // dyrene (dyreprik.js)
+    if (!helt.død) {
       const s = skærm(helt.x, 1.2, helt.z);
-      if (Math.hypot(s.x - px, s.y - py) < 40) return valg.vælg(null);
+      if (Math.hypot(s.x - px, s.y - py) < 40 && (!låst || valg.erHelt)) return låst ? bus.emit('prik', { enhed: helt }) : valg.vælg(null);
     }
     const egen = base.find(px, py, skærm);
+    if (egen && egen.ting === valg.valgt) return bus.emit('prik', { enhed: egen.ting });   // tryk på den valgte arbejder
     // Soldat: vælg den; dobbelttryk på en af de valgte vælger alle af samme slags på skærmen
     if (egen?.type === 'soldat' && (!låst || valg.gruppe.includes(egen.ting))) {
       const s = egen.ting, nu = performance.now();
+      if (låst) bus.emit('prik', { enhed: s });
       if (!låst || (forrige.s === s && nu - forrige.t < 420)) valg.vælg(låst ? sammeTypePåSkærm(spil, s, skærm) : [s]);
       forrige.s = s; forrige.t = nu;
       return;
     }
     if (egen && valg.erArbejder && egen.type === 'bygning') {
       const a = valg.valgt, byg = egen.ting;
-      if (!byg.færdig || byg.skadet) { a.kommandoByg(byg); return effekter.markør(byg.x, byg.z, 0x7dff6a); }
+      if (!byg.færdig || byg.skadet) { a.kommandoByg(byg); bus.emit('ordre', { enheder: [a], type: 'byg' }); return effekter.markør(byg.x, byg.z, 0x7dff6a); }
       if (a.bærer && byg.data.aflevering?.includes(a.bærer.type)) return a.gåHjem();
     }
     // Helten ved egen markedsplads: handl

@@ -1,6 +1,8 @@
 // Angrebsadvarsel (Jons ønske): bliver noget af dit angrebet, blinker skærmens kant rødt,
 // og minimappet viser en rød, blinkende plet der hvor det sker.
 // Kanten blinker når angrebet sker uden for skærmen, rammer en bygning, eller helten er i fare.
+import { ADVARSEL } from './stemmedata.js';
+import { SPILLER } from './racer.js';
 import { bus } from './events.js';
 
 const LIVSTID = 8;        // sekunder en plet blinker på kortet
@@ -34,8 +36,10 @@ export class Advarsel {
   blink(mål) {
     this.sidstKant = this.nu;
     this.el.classList.remove('vis'); void this.el.offsetWidth; this.el.classList.add('vis');
-    if (mål.felter) bus.emit('besked', `Your ${mål.data.navn} is under attack!`);
-    else if (mål !== this.spil.helt && mål.side === 'egen') bus.emit('besked', 'Your units are under attack!');
+    const st = ADVARSEL[SPILLER.id] ?? ADVARSEL.tide;   // i racens egen stemme (stemmedata.js)
+    if (mål.felter) bus.emit('besked', st.bygning(mål.data.navn));
+    else if (mål === this.spil.helt) bus.emit('besked', st.helt);
+    else if (mål.side === 'egen') bus.emit('besked', st.enheder);
   }
 
   // Til minimappet: aktive pletter med blink (0–1)

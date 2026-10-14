@@ -15,6 +15,8 @@ export const STEMMER = {
     legendarisk: ['This one sings in my hand.', 'Worthy. Finally.'],
     ascension: ['I am more than I was.'],
     epitet: ['A name to fear. Good.'],
+    gå: ['Moving.', 'Out of my way.', 'Fine. Walking.'],
+    irriteret: ['I am the Warchief. Not a toy.', 'Do that again. See what happens.', 'My patience is short. Like you.', 'Enough!', 'You poke like a peasant.'],
   },
   stormsinger: {
     valgt: ['The wind hears you.', 'Speak, and the sky answers.', 'I hear thunder far off.', 'The waves are restless.'],
@@ -27,6 +29,8 @@ export const STEMMER = {
     legendarisk: ['It hums like a coming storm.'],
     ascension: ['I am the storm now.'],
     epitet: ['The wind carries my name.'],
+    gå: ['The wind carries me.', 'As the current flows.', 'I go.'],
+    irriteret: ['The storm does not like to be prodded.', 'I hear thunder. It is me. Being annoyed.', 'Shall I rain on you?', 'Even the sea needs rest.'],
   },
   wildtrack: {
     valgt: ['Tracks everywhere.', 'Quiet. I hear prey.', 'Where to, chief?', 'My spears are ready.'],
@@ -39,6 +43,8 @@ export const STEMMER = {
     legendarisk: ['Now that is a find.'],
     ascension: ['The hunt has changed me.'],
     epitet: ['They will tell stories of this hunt.'],
+    gå: ['On the trail.', 'Quietly now.', 'Following.'],
+    irriteret: ['You scare the prey.', 'Poke me and I mark you.', 'Every hunter knows: never poke the hunter.', 'Shh! Stop it.'],
   },
   knightCommander: {
     valgt: ['At your command.', 'Orders?', 'Steel and resolve.', 'The line holds.'],
@@ -51,6 +57,8 @@ export const STEMMER = {
     legendarisk: ['A blade from the old forges.'],
     ascension: ['I am sworn anew.'],
     epitet: ['I will bear the name with honour.'],
+    gå: ['Advancing.', 'By your command.', 'Onward.'],
+    irriteret: ['This is most irregular.', 'Commander, please.', 'My oath does not cover this.', 'I shall write a formal complaint.'],
   },
   lorewarden: {
     valgt: ['Every name is a story.', 'I was reading. Yes?', 'Knowledge is a lamp.', 'Quickly, please.'],
@@ -63,6 +71,8 @@ export const STEMMER = {
     legendarisk: ['Ancient. Remarkable. Mine.'],
     ascension: ['I read the final page — and turned it.'],
     epitet: ['Write it down. Carefully.'],
+    gå: ['Very well.', 'Mind the footnotes.', 'Walking, reading.'],
+    irriteret: ['You made me lose my page.', 'There is a chapter on patience. Read it.', 'I am cataloguing your pokes.', 'Fascinating. Stop.'],
   },
   rangerCaptain: {
     valgt: ['Eyes open.', 'I see it.', 'Name the target.', 'Bolts loaded.'],
@@ -75,6 +85,8 @@ export const STEMMER = {
     legendarisk: ['Perfect balance.'],
     ascension: ['I see further now.'],
     epitet: ['Fine. Just keep it short.'],
+    gå: ['Moving.', 'Changing position.', 'Got it.'],
+    irriteret: ['You are in my line of fire.', 'Breathe. Aim. Stop poking me.', 'I never miss. Remember that.', 'Seriously?'],
   },
 };
 
