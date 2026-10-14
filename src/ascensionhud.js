@@ -1,5 +1,6 @@
 // Ascension på skærmen: knappen der lyser op ved level 10, valget mellem de tre stier,
 // stiens evneknapper (slot 3 og 4) og heltens titel.
+import { heltTitel } from './bedrifter.js';
 import { STIER, STI_EVNER, STI_OPLÅS, ASCENSION_LEVEL } from './ascensiondata.js';
 import { RES_NAVN } from './okonomi.js';
 import { bus } from './events.js';
@@ -21,8 +22,7 @@ export class AscensionHud {
   }
 
   titel() {
-    const h = this.spil.helt, t = h.sti.data ? `${h.def?.navn ?? 'Hero'} · ${h.sti.data.titel}` : `${h.def?.navn ?? 'Hero'} · ${h.def?.titel ?? ''}`;
-    $('hk-titel').textContent = t;
+    $('hk-titel').textContent = heltTitel(this.spil);
     $('sti-evner').hidden = !this.spil.helt.sti.id;
   }
 

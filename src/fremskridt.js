@@ -6,12 +6,14 @@ import { UpkeepVisning } from './udviklinghud.js';
 import { Skærm } from './skaerm.js';
 import { Advarsel } from './advarsel.js';
 import { lavKonstruktioner } from './konstruktion.js';
+import { Bedrifter } from './bedrifter.js';
 
 // Kaldes før gem/gendan og før kommandopanelet bygges (forskningen skal findes, når bygningerne gendannes)
 export function lavUdvikling(spil) {
   spil.udvikling = new Udvikling(spil);
   spil.verden.udvikling = spil.udvikling;
   spil.konstruktioner = lavKonstruktioner(spil);   // ruiner og lejrtelte man kan angribe
+  spil.bedrifter = new Bedrifter(spil);              // heltens bedrifter og tilnavne
 }
 
 // Skærmdelene; opdater() kaldes hver frame

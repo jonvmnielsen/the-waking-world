@@ -16,6 +16,7 @@ export function gendanSpil(spil, g) {
   if (g.helt.rygsæk) inv.rygsæk = g.helt.rygsæk.map((p) => (p ? { ...p } : null));
   Object.assign(inv.permanent, g.helt.permanent);
   inv.beregn();
+  spil.bedrifter?.gendan(g.helt.bedrifter);
   if (g.helt.sti) helt.sti.stig(g.helt.sti, true);
   helt.rod.position.set(g.helt.x, 0, g.helt.z);
   helt.hp = Math.min(helt.maxHp, g.helt.hp);

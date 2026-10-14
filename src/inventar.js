@@ -70,7 +70,7 @@ export class Inventar {
     else if (j >= 0) this.rygsæk[j] = item;
     else return false;
     this.beregn();
-    bus.emit('item_samlet', { id });
+    bus.emit('item_samlet', { id, sj: rul?.sj ?? d.sjældenhed, rul });
     return true;
   }
 

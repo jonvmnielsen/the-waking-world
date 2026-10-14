@@ -1,7 +1,6 @@
 // AI-modstanderens helt (Jon: AI'en får en af sin races tre helte, heltedata.js). En stærk figur med en ring
 // og et skær i holdfarven, der følger hæren i bølgerne, bruger sin signatur-evne og rejser sig i hallen igen,
 // når den falder. Hvilken helt det bliver, følger verdens frø (så gemte spil passer).
-import * as THREE from 'three';
 import { Fjende } from './fjende.js';
 import { CREEP_TYPER } from './creepdata.js';
 import { HELTE, helteFor } from './heltedata.js';
@@ -9,6 +8,7 @@ import { FJENDE, FJENDE_FARVE, HOLD_FARVE } from './racer.js';
 import { KORT } from './config.js';
 import { glød } from './aand.js';
 import { bus } from './events.js';
+import { heltePræg, opdaterPræg } from './helteaura.js';
 
 const ANIM = { idle: 'Idle', løb: 'Running_A', ramt: 'Hit_A', død: 'Death_A', vågn: null, råb: 'Cheer' };
 
@@ -31,14 +31,14 @@ export class FjendeHelt extends Fjende {
     this.heltId = id; this.def = HELTE[id]; this.erHelt = true; this.evneCd = 6;
     this.data = { ...this.data, xp: this.data.xp * 4 };   // en helt giver meget erfaring
     const farve = HOLD_FARVE[FJENDE_FARVE];
-    const ring = new THREE.Mesh(new THREE.RingGeometry(1.1, 1.45, 28), new THREE.MeshBasicMaterial({ color: farve, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, fog: false }));
-    ring.rotation.x = -Math.PI / 2; ring.position.y = 0.1;
-    const skær = glød(farve, 2.2, 0.6); skær.position.y = this.højde + 0.6;
-    this.rod.add(ring, skær);
+    heltePræg(this, farve);   // runecirkel og kappe i modstanderens farve (helteaura.js)
+    const skær = glød(farve, 2.2, 0.6); skær.position.y = this.højde + 0.9;
+    this.rod.add(skær);
   }
 
   opdater(dt) {
     super.opdater(dt);
+    opdaterPræg(this, dt);
     if (this.død) return;
     if (!this.set && this.rod.visible) {
       this.set = true;

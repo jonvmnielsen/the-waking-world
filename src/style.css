@@ -58,8 +58,14 @@ body:not(.i-spil) #hud, body:not(.i-spil) #lag { opacity: 0; pointer-events: non
 .hk-eg small { grid-column: span 2; color: var(--dæmpet); font-size: 11px; }
 .hk-eg.str em { color: #ffb39a; } .hk-eg.agi em { color: #a9eea4; } .hk-eg.int em { color: #a9cfff; }
 .hk-eg.primær b::after { content: ' ★'; color: var(--messing-lys); font-size: 11px; }
-#hk-udstyr, #hk-evner { margin-top: 10px; display: grid; gap: 3px; }
-#hk-udstyr h4, #hk-evner h4 { margin: 0 0 2px; font-family: var(--display); font-size: 13px; color: var(--messing-lys); letter-spacing: 0.04em; }
+#hk-udstyr, #hk-evner, #hk-bedrifter { margin-top: 10px; display: grid; gap: 3px; }
+.hk-tal { display: grid; grid-template-columns: 1fr auto 1fr auto; gap: 2px 10px; font-size: 12px; color: var(--dæmpet); }
+.hk-tal b { color: var(--tekst); }
+.hk-epitet { font-size: 12px; line-height: 1.35; color: var(--dæmpet); }
+.hk-epitet b { color: #ffd27a; font-family: var(--display); }
+.hk-epitet.næste { font-style: italic; }
+.hk-epitet.næste b { color: var(--tekst); }
+#hk-udstyr h4, #hk-evner h4, #hk-bedrifter h4 { margin: 0 0 2px; font-family: var(--display); font-size: 13px; color: var(--messing-lys); letter-spacing: 0.04em; }
 .hk-plads { display: grid; grid-template-columns: 22px 64px 1fr; align-items: center; gap: 6px; font-size: 12px; }
 .hk-plads span { color: var(--dæmpet); }
 .hk-plads b { font-size: 12.5px; }

@@ -7,6 +7,7 @@ import { gruppeGå } from './haer.js';
 import { bus } from './events.js';
 import { itemInfo, PLADSER_TYPER, PLADS_NAVN, PLADS_IKON } from './udstyr.js';
 import { EVNER } from './abilities.js';
+import { heltTitel, EPITETER, BEDRIFT_NAVN } from './bedrifter.js';
 
 const $ = (id) => document.getElementById(id);
 const FORKLARING = {
@@ -45,7 +46,7 @@ export class HelteKort {
     $('hk-luk').addEventListener('click', () => this.skift(false));
     const e = ESSENSER[spil.helt.evner.essens];
     $('hk-essens').textContent = `Essence of ${e.navn} — ${e.motto}`;
-    $('hk-titel').textContent = `${spil.helt.def?.navn ?? 'Hero'} · ${spil.helt.def?.titel ?? ''}`;
+    $('hk-titel').textContent = heltTitel(spil);
   }
 
   skift(vis = !$('heltekort').classList.contains('vis')) {
@@ -84,6 +85,15 @@ export class HelteKort {
       return `<div class="hk-plads"><i>${PLADS_IKON[t]}</i><span>${PLADS_NAVN[t]}</span><b style="color:${d ? d.sj.farve : '#7a6e5c'}">${d ? d.navn : 'empty'}</b></div>`;
     }).join('');
     $('hk-evner').innerHTML = '<h4>Abilities</h4>' + (h.def?.evner ?? []).map((id, i) => `<div class="hk-plads"><i>${EVNER[id].ikon}</i><span>Lv ${[1, 3, 6][i]}</span><b>${EVNER[id].navn}</b></div>`).join('');
+    // Bedrifter og tilnavne
+    const bd = this.spil.bedrifter;
+    if (bd) {
+      const tal = Object.entries(bd.tal).filter(([k, n]) => n || k === 'drab').map(([k, n]) => `<span>${BEDRIFT_NAVN[k]}</span><b>${n}</b>`).join('');
+      const navne = bd.epiteter.map((id) => EPITETER.find((e) => e.id === id)).map((e) => `<div class="hk-epitet"><b>${e.navn}</b> — ${e.tekst}</div>`).join('');
+      const næste = EPITETER.find((e) => !bd.epiteter.includes(e.id));
+      $('hk-bedrifter').innerHTML = `<h4>Deeds</h4><div class="hk-tal">${tal}</div>${navne}${næste ? `<div class="hk-epitet næste">Next name: <b>${næste.navn}</b> — ${bd.tal[næste.tal]} / ${næste.krav}</div>` : ''}`;
+      $('hk-titel').textContent = heltTitel(this.spil);
+    }
     $('hk-afledt').innerHTML = v.map(([k, t]) => `<span>${k}</span><b>${t}</b>`).join('');
     const sti = h.sti.data;
     $('hk-sti').innerHTML = sti ? `<b>${sti.navn}</b> — ${sti.passiv.navn}: ${sti.passiv.tekst}`

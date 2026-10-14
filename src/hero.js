@@ -13,6 +13,8 @@ import { findTrussel, jagtMetoder } from './trussel.js';
 import { egenskabsMetoder, EGENSKABER } from './heltstats.js';
 import { Ascension } from './ascension.js';
 import { sætHold } from './holdfarve.js';
+import { heltePræg, opdaterPræg } from './helteaura.js';
+import { HeltUdstyr } from './heltudstyr.js';
 
 
 export class Helt extends Unit {
@@ -47,6 +49,8 @@ export class Helt extends Unit {
     this.rod.position.set(spawn.x, 0, spawn.z);
     this.spil('Idle');
     sætHold(this, 'spiller');
+    heltePræg(this, HOLD_FARVE[SPILLER_FARVE]);   // runecirkel, kappe i holdfarven og vækst med level
+    this.udstyrVisning = new HeltUdstyr(this);    // våben, skjold og hjelm kan ses
   }
 
   // Spillerens kommandoer
@@ -62,6 +66,7 @@ export class Helt extends Unit {
     this.mål = creep; this.jagt = null;
     this.gåOrdre = false;
     this.handling = null;
+    bus.emit('helt_ordre', { type: 'angrib', mål: creep });
   }
 
   // Liv og mana inkl. bonusser fra items
@@ -78,6 +83,7 @@ export class Helt extends Unit {
   opdater(dt) {
     this.tid += dt;
     super.opdater(dt);
+    opdaterPræg(this, dt);
     if (this.død) {
       this.genopliv -= dt;
       if (this.genopliv <= 0) this.rejsDig();
