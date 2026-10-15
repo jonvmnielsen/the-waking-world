@@ -73,14 +73,14 @@ export class Effekter {
   }
 
   // Lyn fra himlen ned i et mål
-  lyn(mål) {
+  lyn(mål, farve = 0xbfe4ff) {
     const g = new THREE.Group();
     let y = 16, x = 0, z = 0;
     while (y > 0.6) {
       const ny = Math.max(0.6, y - 2 - Math.random() * 2), nx = (Math.random() - 0.5) * 1.6, nz = (Math.random() - 0.5) * 1.6;
       const a = new THREE.Vector3(x, y, z), b = new THREE.Vector3(nx, ny, nz);
       const led = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, a.distanceTo(b), 5),
-        new THREE.MeshBasicMaterial({ color: 0xbfe4ff, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+        new THREE.MeshBasicMaterial({ color: farve, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
       led.position.copy(a).add(b).multiplyScalar(0.5);
       led.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
       g.add(led);
@@ -88,7 +88,7 @@ export class Effekter {
     }
     g.position.set(mål.x, 0, mål.z);
     this.tilføj(g, 0.3, (t) => g.children.forEach((c) => { c.material.opacity = 1 - t; }), () => g.children.forEach((c) => { c.geometry.dispose(); c.material.dispose(); }));
-    this.bølge(mål.x, mål.z, 2.2, 0x9fd4ff, 0.4);
+    this.bølge(mål.x, mål.z, 2.2, farve, 0.4);
   }
 
   vedEffekt(e) {
@@ -98,11 +98,12 @@ export class Effekter {
     else if (e.type === 'blodslag') this.bølge(e.helt.x, e.helt.z, 2.2, 0xff1010, 0.45);
     else if (e.type === 'heal') this.bølge(e.mål.x, e.mål.z, 2.4, 0x6dff8a, 0.7);
     else if (e.type === 'mana') this.bølge(e.mål.x, e.mål.z, 2.4, 0x5aa2ff, 0.7);
-    else if (e.type === 'lyn') this.lyn(e.mål);
+    else if (e.type === 'lyn') this.lyn(e.mål, e.farve);
     else if (e.type === 'portal') this.søjle({ x: e.x, z: e.z }, 0xb46bff, 2.2, 9);
     else if (e.type === 'samlet') this.bølge(e.x, e.z, 1.6, e.farve ?? 0xffe08a, 0.4);
     else if (e.type === 'kiste') { this.bølge(e.x, e.z, 3.5, 0xffd36b, 0.8); this.søjle({ x: e.x, z: e.z }, 0xffd36b, 0.9, 5); }
-    else if (e.type === 'evne') this.bølge(e.x, e.z, 5, e.farve ?? 0xffffff, 0.5);
+    else if (e.type === 'evne') this.bølge(e.x, e.z, e.radius ?? 5, e.farve ?? 0xffffff, 0.5);
+    else if (e.type === 'søjle') this.søjle({ x: e.x, z: e.z }, e.farve ?? 0xffffff, e.varighed ?? 1, e.højde ?? 7);
     else if (e.type === 'ascension') { this.bølge(e.x, e.z, 9, e.farve, 1.2); this.søjle({ x: e.x, z: e.z }, e.farve, 2.4, 14); }
     else if (e.type === 'veteran') { this.bølge(e.x, e.z, 3, 0xffd36b, 0.7); this.søjle({ x: e.x, z: e.z }, 0xffd36b, 1.2, 5); }
     else if (e.type === 'sprængt') sprængEffekt(this, e);   // et dyr der blev prikket for meget (dyreprik.js)

@@ -1,7 +1,7 @@
 // Ascension på skærmen: knappen der lyser op ved level 10, valget mellem de tre stier,
 // stiens evneknapper (slot 3 og 4) og heltens titel.
 import { heltTitel } from './bedrifter.js';
-import { STIER, STI_EVNER, STI_OPLÅS, ASCENSION_LEVEL } from './ascensiondata.js';
+import { STIER, STI_EVNER, STI_OPLÅS, ASCENSION_LEVEL, stiData } from './ascensiondata.js';
 import { RES_NAVN } from './okonomi.js';
 import { bus } from './events.js';
 
@@ -36,7 +36,8 @@ export class AscensionHud {
     const { helt, stil } = this.spil, sti = helt.sti;
     if (!sti.kanStige()) return;
     this.valgt = null;
-    $('asc-stier').innerHTML = Object.entries(STIER).map(([id, d]) => {
+    $('asc-stier').innerHTML = Object.keys(STIER).map((id) => {
+      const d = stiData(helt.type, id);   // heltens egen udgave af stien
       const pris = sti.pris(id, stil);
       const evner = d.evner.map((e, i) => `<li><i>${STI_EVNER[e].ikon}</i><div><b>${STI_EVNER[e].navn}</b> <small>level ${STI_OPLÅS[i]}</small><span>${STI_EVNER[e].tekst}</span></div></li>`).join('');
       const egenskaber = Object.entries(d.egenskaber).map(([n, v]) => `+${v} ${n.toUpperCase()}`).join(' ');
@@ -62,7 +63,7 @@ export class AscensionHud {
     for (const k of $('asc-stier').children) k.classList.toggle('valgt', k.dataset.id === id);
     const pris = this.spil.helt.sti.pris(id, this.spil.stil);
     $('asc-stig').disabled = false;
-    $('asc-stig').textContent = `Ascend as ${STIER[id].navn}${pris ? ` · ${prisTekst(pris)}` : ''}`;
+    $('asc-stig').textContent = `Ascend as ${stiData(this.spil.helt.type, id).navn}${pris ? ` · ${prisTekst(pris)}` : ''}`;
   }
 
   stig() {

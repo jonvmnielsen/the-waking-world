@@ -306,7 +306,18 @@ Ved level 10 lyser knappen **Ascend** op. Spilleren vælger én af tre stier; va
 | **Avatar** (+6 INT, +2 AGI) | 25 % chance for lyn på målet og to nære fjender; +50 % mana-regeneration | **Chain Lightning:** 140 skade, springer til fire mere | **Tempest:** storm om helten i 6 s, 45 skade pr. sekund |
 | **Bloodbound** (+6 STR, +2 AGI) | Op til +60 % skade jo lavere liv, 10 % livsstjæl; −2 rustning, halv heling | **Crimson Leap:** koster 12 % liv, spring på en fjende, 2× skade hvor den lander | **Bloodrage:** koster 20 % liv, +60 % angrebsfart og +30 % livsstjæl i 10 s, men 20 % mere skade |
 
-Stiens to evner ligger i en ekstra række over de tre essens-evner.
+Stiens to evner ligger i en ekstra række over de tre essens-evner. Tabellen viser grundstien (Warchief).
+
+**Hver helt sin Ascension (M14e).** Stierne er de samme tre slags og følger spillestilen som før, men hver helt har sit eget navn, sin titel, sin udgave af den passive evne og sine egne to evner (`stiheltdata.js`, `stievnedata.js`). Egenskaberne følger heltens hovedegenskab (Warlord +5/+3, Avatar +4/+4, Bloodbound +6/+2). Evnerne bygges af otte motorer (`stievner.js`): hær, kæde, zone, linje, nova, spring, raseri og mærk.
+
+| Helt | Warlord-slags | Avatar-slags (proc) | Bloodbound-slags |
+|---|---|---|---|
+| **Warchief** | Warlord: Rally, Hold the Line | Earthshaker (skælv om målet): Fissure, Aftershock | Bloodbound: Crimson Leap, Bloodrage |
+| **Stormsinger** | Tidecaller: Healing Rain, Tidal Ward | Storm Avatar (lyn): Chain Lightning, Tempest | Thunderborn: Ball Lightning, Overload |
+| **Wildtrack** | Packmaster: Call of the Pack, Pack Hunt (alle nær er bytte) | Wild Spirit (åndespyd): Spirit Spears, Thornstorm | Apex Predator: Pounce, Frenzy |
+| **Knight Commander** | Lord Marshal: Banner of Kings, Shield of the Realm | Paladin (helligt lys, heler): Judgement, Sanctuary | Crusader: Charge (lammer), Zeal |
+| **Lorewarden** | High Archivist: Word of Courage, Ward of Ages | Sunscribe (solild): Sunfire, Solar Flare (på målet) | Burning Scholar: Blink of Fire, Ink of Blood |
+| **Ranger Captain** | Captain of the Watch: Volley Command, Drill Formation | Windrunner (vindstød): Ricochet, Gale (skubber) | Deadeye: Tumble Shot (rul væk og skyd 3×), Bloodsight |
 
 ### 6.3 Heltene — tre pr. race
 
@@ -642,7 +653,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M11 ✅** | **Huler, begivenheder og championer** | Huler med rum, lejre, boss og kister; syv tilfældige begivenheder med synlige tegn; champion-creeps med fire egenskaber. Desuden: kaktusser fra vores generator, lavasøer inde i landet, minernes stadier kun som synlige tegn |
 | **M12 ✅** | **Racer, modstander og helte** | Ro på skærmen (én begivenhed ad gangen, færre tekster); karavanen; mindre bygninger med tre pladser pr. felt; racevalg og The Architects spilbar; AI-modstander med tilfældig race, arbejdere og helt; The Memory og The Unnamed neutrale; tre helte pr. race; prospektering |
 | **M13 ✅** | **Helten i centrum** | Figurerne følger terrænet (ingen arbejdere under sneen); ordentlig stifinding på et fint gitter rundt om bygninger, træer og sten; holdfarver (blå spiller, rød modstander, rav vildmark, sølv The Memory, violet The Unnamed, lyse neutrale); alle evner er heltens egne; udstyrspladser og rullet udstyr med affikser og mange nye stats; helte med egen stemme, synligt udstyr, runecirkel, kappe i holdfarve, vækst med level, bedrifter og tilnavne |
-| M14+ | The Dreaming, Ascension-evner pr. helt, træer der gror igen, hvad Opvågningen betyder, kampagne | |
+| M14+ | The Dreaming, træer der gror igen, hvad Opvågningen betyder, kampagne | |
 
 ---
 
@@ -697,7 +708,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 
 | Søjle | Har vi | Mangler / næste |
 |---|---|---|
-| 1. Helten bærer spillet | ✅ Tre helte pr. race med egne evner, items med rul, bedrifter, Ascension; ultimatet ved level 6 er et øjeblik (M14b) | Ascension-evner pr. helt |
+| 1. Helten bærer spillet | ✅ Tre helte pr. race med egne evner, items med rul, bedrifter, Ascension; ultimatet ved level 6 er et øjeblik (M14b) | ✅ Ascension pr. helt (M14e) |
 | 2. Få enheder | ✅ Højst 100 forsyning inkl. helten (5), upkeep fra 40/80, soldater koster 1–2 efter styrke; veteraner og grene; hver soldat har sin egen evne med autocast (M14b) | Slå autocast til/fra |
 | 3. Creeping | ✅ Lejre i 5 farver, drops, vogtede miner, kilder, butikker, kro; **The Old Wellspring** midt mellem baserne, vogtet af to lejre (M14b) | Flere neutrale steder der altid er vogtet |
 | 4. Personlighed i enheder | ✅ Heltene og alle enheder svarer med egne ord (valg, gå, angrib, høst, byg, færdig, klar) og bliver irriterede ved fire tryk i træk; dyr snøfter og sprænges ved femte prik (M14a) | Lyd til stemmerne |
@@ -712,6 +723,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
 - **M14b ✅:** store, overdrevne figurer; forsyning efter styrke (100 i alt, upkeep 40/80); ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
 - **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
+- **M14e ✅:** Ascension pr. helt (navn, titel, passiv og to evner for hver af de seks helte).
 - **M14d ✅:** helten og tre arbejdere ved start; genoplivning kun ved alteret; skill points; ånder og alterets velsignelser (afsnit 6.6).
 
 ### M14b–c i detaljer

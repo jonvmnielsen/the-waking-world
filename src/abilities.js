@@ -2,7 +2,7 @@
 // Værdier fra docs/balance/ability_values_v1.md
 import { rangMetoder, RANG_KRAV, RANG_MAKS, RANG_STYRKE, RANG_VENTETID } from './evnerang.js';
 import { bus } from './events.js';
-import { STI_EVNER, STIER, STI_OPLÅS } from './ascensiondata.js';
+import { STI_EVNER, STI_OPLÅS } from './ascensiondata.js';
 import { HELT_EVNER, heltEvneMetoder } from './heltevner.js';
 import { gaveMetoder } from './velsignelser.js';
 
@@ -55,9 +55,8 @@ export class Evner {
   info(slot) {
     if (slot === 5) return this.helt.velsignelser?.gaveInfo(this.cooldowns[5]) ?? null;
     if (slot >= 3) {
-      const sti = this.helt.sti?.id;
-      if (!sti) return null;
-      const id = STIER[sti].evner[slot - 3], lv = STI_OPLÅS[slot - 3];
+      if (!this.helt.sti?.id) return null;
+      const id = this.helt.sti.evner[slot - 3], lv = STI_OPLÅS[slot - 3];   // heltens egne stievner (stiheltdata.js)
       return { id, ...STI_EVNER[id], sti: true, oplåsLevel: lv, oplåst: this.helt.level >= lv, cd: this.cooldowns[slot], cdMax: STI_EVNER[id].cd };
     }
     const id = this.helt.def?.evner?.[slot] ?? SLOTS[this.essens][slot];   // heltens egne evner (heltedata.js)
@@ -95,7 +94,7 @@ export class Evner {
     if (!e.oplåst) return e.sti ? `Unlocks at level ${e.oplåsLevel}` : this.kanLære(slot) ? `Learn ${e.navn} with a skill point (level ${e.oplåsLevel})` : this.lær(slot);   // tryk på en ulært evne lærer den
     if (e.cd > 0) return `${e.navn} is ready in ${Math.ceil(e.cd)}s`;
     if (h.mana < e.mana) return 'Not enough mana';
-    const fejl = e.sti ? h.sti[e.id]() : this[e.id]();
+    const fejl = e.sti ? h.sti.brugEvne(e.id) : this[e.id]();
     if (fejl) return fejl;
     h.mana -= e.mana;
     this.cooldowns[slot] = e.cdMax * (1 - Math.min(0.4, h.inventar?.bonus.cdr ?? 0));   // kortere ventetid fra udstyr (højst 40 %)

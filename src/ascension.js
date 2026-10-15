@@ -1,9 +1,11 @@
-// Heltens Ascension (ascensiondata.js): den valgte sti, dens passive evne, de to nye evner og udseendet.
-// Ligger på helten som helt.sti; Evner kalder stiens evner for slot 3 og 4.
+// Heltens Ascension (ascensiondata.js + stiheltdata.js): den valgte sti i heltens egen udgave, dens passive
+// evne, de to nye evner (motorer i stievner.js) og udseendet. Ligger på helten som helt.sti; Evner kalder
+// brugEvne for slot 3 og 4.
 import * as THREE from 'three';
 import { bus } from './events.js';
 import { kopi } from './assets.js';
-import { STIER, ASCENSION_LEVEL, MOD_NATUREN, stiForStil } from './ascensiondata.js';
+import { ASCENSION_LEVEL, MOD_NATUREN, stiForStil, stiData } from './ascensiondata.js';
+import { motorMetoder } from './stievner.js';
 import { SPILLER_FARVE } from './racer.js';
 
 const AURA = 16, RÆKKE = 18;
@@ -12,18 +14,20 @@ export class Ascension {
   constructor(helt) {
     this.helt = helt;
     this.id = null;
-    this.tRaseri = 0; this.tLinje = 0; this.tStorm = 0; this.stormTik = 0;
-    this.hop = null;
+    this.tRaseri = 0; this.raseri = null; this.tLinje = 0;
+    this.zoner = []; this.hop = null;
   }
 
-  get data() { return STIER[this.id]; }
+  get data() { return this.id ? stiData(this.helt.type, this.id) : undefined; }
+  stiFor(id) { return stiData(this.helt.type, id); }
+  get evner() { return this.data?.evner ?? []; }
   kanStige() { return !this.id && this.helt.level >= ASCENSION_LEVEL; }
   passer(id, stil) { return stiForStil(stil.dominant()) === id; }
   pris(id, stil) { return this.passer(id, stil) ? null : MOD_NATUREN; }
 
   // Vælg stien. gendan = fra et gemt spil (egenskaberne er allerede gemt, ingen fanfare)
   stig(id, gendan = false) {
-    const h = this.helt, d = STIER[id];
+    const h = this.helt, d = stiData(h.type, id);
     this.id = id;
     h.vækst = 1.12;   // helten vokser (helteaura.js sætter størrelsen)
     h.model.traverse((o) => {
@@ -55,8 +59,8 @@ export class Ascension {
   rustning() { return this.id === 'warlord' ? 2 : this.id === 'bloodbound' ? -2 : 0; }
   hpRegenFaktor() { return this.id === 'bloodbound' ? 0.5 : 1; }
   manaRegenFaktor() { return this.id === 'avatar' ? 1.5 : 1; }
-  angrebsBonus() { return this.tRaseri > 0 ? 0.6 : 0; }
-  skadeTagetFaktor() { return (this.tRaseri > 0 ? 1.2 : 1) * (this.tLinje > 0 ? 0.6 : 1); }
+  angrebsBonus() { return this.tRaseri > 0 ? this.raseri.fart : 0; }
+  skadeTagetFaktor() { return (this.tRaseri > 0 ? this.raseri.taget : 1) * (this.tLinje > 0 ? 0.6 : 1); }
   skadeFaktor() {
     if (this.id !== 'bloodbound') return 1;
     const h = this.helt;
@@ -70,19 +74,25 @@ export class Ascension {
     return h.level >= 16 ? { skade: 0.25, rustning: 3 } : { skade: 0.15, rustning: 2 };
   }
 
-  // Når heltens slag rammer: livsstjæl og Stormcaller-lyn
+  // Når heltens slag rammer: livsstjæl og avatar-stiens proc (heltens egen: lyn, skælv eller lys)
   vedSlag(mål, skade) {
     const h = this.helt;
-    const stjæl = (this.id === 'bloodbound' ? 0.1 : 0) + (this.tRaseri > 0 ? 0.3 : 0);
+    const stjæl = (this.id === 'bloodbound' ? 0.1 : 0) + (this.tRaseri > 0 ? this.raseri.stjæl : 0);
     if (stjæl) h.hp = Math.min(h.maxHp, h.hp + skade * stjæl);
-    if (this.id === 'avatar' && Math.random() < 0.25) {
-      const lyn = Math.round((50 + 3 * h.egenskab('int')) * h.evneStyrke());
-      for (const c of [mål, ...this.fjender(7, mål).filter((c) => c !== mål).slice(0, 2)]) {
-        if (c.død) continue;
-        bus.emit('effekt', { type: 'lyn', mål: c });
-        c.tagSkade(lyn, h);
-      }
+    if (this.id !== 'avatar' || Math.random() >= 0.25) return;
+    const p = (this.procData ??= this.data.proc), kraft = Math.round((50 + 3 * h.egenskab(h.primær ?? 'int')) * h.evneStyrke());
+    if (p.form === 'skælv') {
+      bus.emit('effekt', { type: 'evne', x: mål.x, z: mål.z, radius: 3.5, farve: p.farve });
+      for (const c of this.fjender(3.5, mål)) { c.tagSkade(kraft, h); c.lam?.(0.5); }
+      return;
     }
+    const ofre = p.form === 'lys' ? [mål] : [mål, ...this.fjender(7, mål).filter((c) => c !== mål).slice(0, 2)];
+    for (const c of ofre) {
+      if (c.død) continue;
+      bus.emit('effekt', { type: 'lyn', mål: c, farve: p.farve });
+      c.tagSkade(kraft, h);
+    }
+    if (p.form === 'lys') h.hp = Math.min(h.maxHp, h.hp + kraft * 0.5);
   }
 
   fjender(r, fra = this.helt) {
@@ -95,93 +105,10 @@ export class Ascension {
   opdater(dt) {
     this.tRaseri = Math.max(0, this.tRaseri - dt);
     this.tLinje = Math.max(0, this.tLinje - dt);
-    if (this.tStorm > 0) this.opdaterStorm(dt);
+    if (this.zoner.length) this.opdaterZoner(dt);
     if (this.hop) this.opdaterSpring(dt);
   }
-
-  // --- Warlord ---
-  rally() {
-    const h = this.helt;
-    h.hp = Math.min(h.maxHp, h.hp + h.maxHp * 0.25);
-    for (const s of this.soldaterNær(RÆKKE)) {
-      s.hp = Math.min(s.maxHp, s.hp + s.maxHp * 0.25);
-      s.buff.rally = 8;
-      bus.emit('effekt', { type: 'heal', mål: s });
-    }
-    bus.emit('effekt', { type: 'evne', x: h.x, z: h.z, farve: 0xffc94a });
-    h.evner.heltRåb();
-  }
-
-  holdLinjen() {
-    const h = this.helt;
-    this.tLinje = 8;
-    for (const s of this.soldaterNær(RÆKKE)) { s.buff.linje = 8; bus.emit('effekt', { type: 'samlet', x: s.x, z: s.z, farve: 0x9fc3ff }); }
-    bus.emit('effekt', { type: 'evne', x: h.x, z: h.z, farve: 0x9fc3ff });
-    h.evner.heltRåb();
-  }
-
-  // --- Avatar ---
-  kædelyn() {
-    const h = this.helt;
-    let mål = this.fjender(14)[0];
-    if (!mål) return 'No enemy close enough';
-    const ramt = new Set();
-    let skade = 140 * h.evneStyrke();
-    for (let i = 0; i < 5 && mål; i++) {
-      ramt.add(mål);
-      bus.emit('effekt', { type: 'lyn', mål });
-      mål.tagSkade(Math.round(skade), h);
-      skade *= 0.85;
-      mål = this.fjender(9, mål).find((c) => !ramt.has(c));
-    }
-    h.evner.heltRåb('Spellcast_Shoot');
-  }
-
-  storm() { this.tStorm = 6; this.stormTik = 0; this.helt.evner.heltRåb(); }
-
-  opdaterStorm(dt) {
-    const h = this.helt;
-    this.tStorm -= dt; this.stormTik -= dt;
-    if (this.stormTik > 0) return;
-    this.stormTik = 0.5;
-    bus.emit('effekt', { type: 'evne', x: h.x, z: h.z, farve: 0x7cc8ff });
-    const ofre = this.fjender(8);
-    if (ofre.length) bus.emit('effekt', { type: 'lyn', mål: ofre[Math.floor(Math.random() * ofre.length)] });
-    for (const c of ofre) c.tagSkade(Math.round(22.5 * h.evneStyrke()), h);
-  }
-
-  // --- Bloodbound ---
-  spring() {
-    const h = this.helt;
-    const mål = h.mål && !h.mål.død && h.afstand(h.mål) < 16 ? h.mål : this.fjender(16)[0];
-    if (!mål) return 'No enemy close enough';
-    if (h.sving) return 'Your hero is busy';
-    h.hp = Math.max(1, h.hp - Math.floor(h.maxHp * 0.12));
-    const d = Math.max(0.01, h.afstand(mål)), afs = (mål.radius ?? 0.7) + 1;
-    const til = { x: mål.x - ((mål.x - h.x) / d) * afs, z: mål.z - ((mål.z - h.z) / d) * afs };
-    h.stop(); h.mål = mål; h.gåOrdre = false;
-    h.vend(mål.x, mål.z);
-    h.spil('Jump_Full_Long', { loop: false, gentag: true, fart: 1.6, fade: 0.05 });
-    h.sving = { tid: 0, varighed: 0.75, slagTid: 99, ramt: true };
-    this.hop = { fra: { x: h.x, z: h.z }, til, t: 0 };
-  }
-
-  opdaterSpring(dt) {
-    const h = this.helt, s = this.hop;
-    s.t = Math.min(1, s.t + dt / 0.55);
-    h.rod.position.set(s.fra.x + (s.til.x - s.fra.x) * s.t, Math.sin(Math.PI * s.t) * 2.5, s.fra.z + (s.til.z - s.fra.z) * s.t);
-    if (s.t < 1) return;
-    this.hop = null;
-    h.rod.position.y = 0;
-    bus.emit('effekt', { type: 'spin', x: h.x, z: h.z, radius: 4 });
-    for (const c of this.fjender(4)) c.tagSkade(Math.round(h.slagSkade() * 2 * this.skadeFaktor()), h);
-  }
-
-  blodraseri() {
-    const h = this.helt;
-    h.hp = Math.max(1, h.hp - Math.floor(h.maxHp * 0.2));
-    this.tRaseri = 10;
-    bus.emit('effekt', { type: 'blodslag', helt: h });
-    h.evner.heltRåb();
-  }
 }
+
+// Evnerne bygges af motorerne i stievner.js
+Object.assign(Ascension.prototype, motorMetoder);

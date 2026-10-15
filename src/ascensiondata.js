@@ -1,7 +1,11 @@
-// Ascension ved level 10 (GDD 6.3, CLAUDE.md afsnit 6): tre stier for Orc Warrior.
+// Ascension ved level 10 (GDD 6.3, CLAUDE.md afsnit 6): tre slags stier. Hver helt har sin egen udgave
+// af dem (stiheltdata.js: navn, titel, passiv og to evner); her står grundstien (Orc Warrior).
 // Den sti der passer til spillestilen (spillerstil.js) er gratis; de andre koster ressourcer,
 // fordi de går imod heltens hidtidige udvikling. Valget kan ikke fortrydes.
 // Efter Ascension kan helten stige til level 20, og stien giver en passiv evne og to nye evner (level 10 og 14).
+
+import { HELT_STIER } from './stiheltdata.js';
+import { HELTE } from './heltedata.js';
 
 export const ASCENSION_LEVEL = 10;
 export const STI_OPLÅS = [10, 14];
@@ -37,15 +41,22 @@ export const STIER = {
   },
 };
 
-// Stiernes evner (bruges via Evner, slot 3 og 4)
-export const STI_EVNER = {
-  rally: { navn: 'Rally', mana: 75, cd: 35, ikon: '🚩', tekst: 'You and soldiers near you heal 25% health; soldiers attack 35% faster for 8 seconds.' },
-  holdLinjen: { navn: 'Hold the Line', mana: 110, cd: 50, ikon: '🛡️', tekst: 'You and soldiers near you take 40% less damage for 8 seconds.' },
-  kædelyn: { navn: 'Chain Lightning', mana: 80, cd: 10, ikon: '⚡', tekst: '140 damage to the nearest enemy, jumping to four more.' },
-  storm: { navn: 'Tempest', mana: 150, cd: 45, ikon: '🌪️', tekst: 'A storm rages around you for 6 seconds: 45 damage per second to every enemy close by.' },
-  spring: { navn: 'Crimson Leap', mana: 0, cd: 12, ikon: '🩸', tekst: 'Costs 12% health. Leap onto an enemy and strike everything where you land for 2× damage.' },
-  blodraseri: { navn: 'Bloodrage', mana: 0, cd: 40, ikon: '🔥', tekst: 'Costs 20% health. For 10 seconds: +60% attack speed and +30% life steal, but you take 20% more damage.' },
-};
+// Stiernes evner og heltenes egne udgaver af stierne (M14e)
+export { STI_EVNER } from './stievnedata.js';
+
+// Stien som den ser ud for en bestemt helt: grundstien med heltens navn, titel, proc og evner lagt ovenpå
+export function stiData(heltType, id) {
+  const grund = STIER[id], egen = HELT_STIER[heltType]?.[id] ?? {};
+  const d = { ...grund, ...egen };
+  if (egen.proc) d.passiv = { navn: egen.proc.navn, tekst: egen.proc.tekst };
+  // Egenskaber: stiens egen + heltens hovedegenskab (en Paladin får ikke mest INT, fordi grundstien gør)
+  const p = HELTE[heltType]?.primær ?? 'str', ekstra = { warlord: ['str', 3, 5], avatar: ['int', 4, 4], bloodbound: ['str', 2, 6] }[id];
+  d.egenskaber = { [ekstra[0]]: ekstra[1] };
+  d.egenskaber[p] = (d.egenskaber[p] ?? 0) + ekstra[2];
+  if (egen.passivNavn) d.passiv = { ...grund.passiv, navn: egen.passivNavn };
+  d.proc = egen.proc ?? (id === 'avatar' ? { form: 'kæde', farve: 0xbfe4ff } : null);
+  return d;
+}
 
 // Hvilken sti passer til spillestilen? Blandet stil passer til Avatar.
 export function stiForStil(dominant) {

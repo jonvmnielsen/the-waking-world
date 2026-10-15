@@ -116,6 +116,7 @@ the-waking-world/
 │   ├── storkilde.js          # The Old Wellspring: stor kilde midt mellem baserne, vogtet; heler alle
 │   ├── musik.js / musikdata.js # Racens musik syntetiseret med WebAudio; nat, kamp og pauser
 │   ├── ascension.js / ascensiondata.js / ascensionhud.js # Ascension ved level 10: stier, passiver, evner, valget
+│   ├── stiheltdata.js / stievnedata.js / stievner.js # Hver helts egen udgave af stierne; deres evner; evnernes motorer
 │   ├── udvikling.js / udviklingdata.js / udviklinghud.js # Forskning, bygningsopgraderinger, upkeep-visning
 │   ├── fremskridt.js         # Sætter M7-systemerne, skærmen og advarslerne op
 │   ├── skaerm.js / indstillinger.js # Skærmens opbygning efter valg; menu og indstillinger (zoom, altid-vis)
@@ -467,8 +468,12 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Ånder fra faldne fjender: helten bærer dem hjem, taber dem ved død (fjenden kan æde dem)
 - [x] Velsignelser ved alteret: auraer, træk, åndegaver og egenskaber (tre at vælge imellem)
 
-### 📋 Næste: M14e+
-The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M14e — "Ascension pr. helt" (oktober 2026)
+- [x] Hver af de seks helte har sine egne tre stier: navn, titel, passiv (avatar-procs: lyn, skælv, lys) og to evner
+- [x] Evnerne bygget af otte motorer; stiens egenskaber følger heltens hovedegenskab
+
+### 📋 Næste: M14f+
+Kampfølelse (treffere, rystelser, lyde), The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 
@@ -527,6 +532,7 @@ The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hva
 | 2026-10-15 | Start med helten og 3 arbejdere; helten genoplives kun ved alteret | Jons ønske (som WC3) |
 | 2026-10-15 | Skill points: ét pr. level til evnernes rang (1–3) eller +2 til alle egenskaber | Jon: normal leveling med lidt stats og et frit skill point |
 | 2026-10-15 | Ånder bæres hjem og ofres ved alteret for velsignelser (auraer, træk, åndegaver, egenskaber); guld-ofringen er fjernet | Jon valgte B (ånder fra fjender, tabes ved død) og bad Claude vælge belønningen: en udvidelse af helten, ikke heltens evner |
+| 2026-10-15 | Ascension pr. helt: samme tre slags stier (spillestilen afgør stadig hvilken der er gratis), men heltens egne navne og evner | Jon: alle skills skal være hero specific |
 | 2026-10-15 | Musik syntetiseres med WebAudio indtil der findes CC0-numre | Ingen musik i asset-biblioteket; virker uden downloads |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
