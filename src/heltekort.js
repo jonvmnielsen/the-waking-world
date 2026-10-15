@@ -8,6 +8,8 @@ import { bus } from './events.js';
 import { itemInfo, PLADSER_TYPER, PLADS_NAVN, PLADS_IKON } from './udstyr.js';
 import { EVNER } from './abilities.js';
 import { heltTitel, EPITETER, BEDRIFT_NAVN } from './bedrifter.js';
+import { RANG_KRAV, RANG_MAKS, EGENSKAB_MAKS } from './evnerang.js';
+import { VELSIGNELSER } from './velsignelsedata.js';
 
 const $ = (id) => document.getElementById(id);
 const FORKLARING = {
@@ -31,6 +33,7 @@ export class HelteKort {
     $('helteknap').addEventListener('click', (e) => {
       e.stopPropagation();
       if ($('heltekort').classList.contains('vis')) return this.skift(false);
+      if (spil.helt.død) return spil.alter.vis();   // en død helt venter ved alteret
       // Med soldater valgt: send dem hen til helten
       const kæmpere = spil.valg.gruppe.filter((u) => u.vet && !u.død);
       if (kæmpere.length && !spil.helt.død) {
@@ -44,6 +47,14 @@ export class HelteKort {
       if (dobbelt || fremme) this.skift(true);
     });
     $('hk-luk').addEventListener('click', () => this.skift(false));
+    // "+2 all": et skill point på egenskaberne (evnerang.js); kortet tegnes om hvert kvarte sekund, så tryk fanges på beholderen
+    $('hk-evner').addEventListener('pointerdown', (e) => {
+      if (!e.target.closest('#hk-egenskabspoint')) return;
+      e.stopPropagation();
+      const f = spil.helt.evner.lærEgenskaber();
+      if (f) bus.emit('besked', f);
+      this.tegnKort();
+    });
     const e = ESSENSER[spil.helt.evner.essens];
     $('hk-essens').textContent = `Essence of ${e.navn} — ${e.motto}`;
     $('hk-titel').textContent = heltTitel(spil);
@@ -84,7 +95,17 @@ export class HelteKort {
       const p = h.inventar.pladser[i], d = p && itemInfo(p);
       return `<div class="hk-plads"><i>${PLADS_IKON[t]}</i><span>${PLADS_NAVN[t]}</span><b style="color:${d ? d.sj.farve : '#7a6e5c'}">${d ? d.navn : 'empty'}</b></div>`;
     }).join('');
-    $('hk-evner').innerHTML = '<h4>Abilities</h4>' + (h.def?.evner ?? []).map((id, i) => `<div class="hk-plads"><i>${EVNER[id].ikon}</i><span>Lv ${[1, 3, 6][i]}</span><b>${EVNER[id].navn}</b></div>`).join('');
+    // Evner med rang og skill points
+    const ev = h.evner, punkter = h.skillpunkter ?? 0, egR = ev.egenskabsRang ?? 0;
+    $('hk-evner').innerHTML = '<h4>Abilities</h4>' + (h.def?.evner ?? []).map((id, i) => {
+      const r = ev.rangAf(i), næste = r < RANG_MAKS ? `next at Lv ${RANG_KRAV[i][r]}` : 'max';
+      return `<div class="hk-plads"><i>${EVNER[id].ikon}</i><span>${r ? `<em>${'●'.repeat(r)}${'○'.repeat(RANG_MAKS - r)}</em>` : 'not learned'}</span><b>${EVNER[id].navn} <small style="display:inline;color:var(--dæmpet)">${næste}</small></b></div>`;
+    }).join('') + `<div class="hk-point">Skill points: <b>${punkter}</b> · Attributes ${egR}/${EGENSKAB_MAKS}<button id="hk-egenskabspoint" type="button" ${punkter > 0 && egR < EGENSKAB_MAKS ? '' : 'disabled'}>+2 all attributes</button></div>`;
+    // Alterets velsignelser
+    const vs = h.velsignelser, å = this.spil.ånder, ids = Object.keys(vs.r);
+    $('hk-velsignelser').innerHTML = `<h4>Blessings</h4><div class="hk-vel">Spirits: <b>${å.båret}</b> carried, <b>${å.ofret}</b> offered — next blessing costs <b>${vs.pris}</b>.</div>`
+      + (ids.length ? ids.map((id) => { const d = VELSIGNELSER[id], r = vs.r[id]; return `<div class="hk-plads"><i>${d.ikon}</i><span>${d.maks > 1 ? `<em>${'●'.repeat(r)}${'○'.repeat(d.maks - r)}</em>` : d.type === 'gave' ? 'gift' : 'trait'}</span><b>${d.navn} <small style="display:inline;color:var(--dæmpet)">${d.tekst(r)}</small></b></div>`; }).join('')
+        : '<div class="hk-vel">Slay foes and carry their spirits home to your Spirit Altar.</div>');
     // Bedrifter og tilnavne
     const bd = this.spil.bedrifter;
     if (bd) {

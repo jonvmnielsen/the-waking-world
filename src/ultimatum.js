@@ -1,5 +1,5 @@
 // Ultimatet (M14b, GDD 17b søjle 1 — WC3's level-6-øjeblik). Heltens tredje evne er dens ultimatum:
-// - Når helten når level 6, er det et øjeblik: gylden søjle, banner med evnens navn, heltens egen replik.
+// - Når ultimatet læres (et skill point fra level 6), er det et øjeblik: gylden søjle, banner, heltens replik.
 // - Knappen har en gylden ramme, der pulserer, når ultimatet er klar.
 // - Når det bruges: lyset blinker, kameraet ryster, helten råber, og evnen er 60 % stærkere end en
 //   almindelig evne (heltens evnestyrke løftes, mens ultimatet virker — tælles ned i heltevner.js).
@@ -28,7 +28,7 @@ export class Ultimatum {
   constructor(spil) {
     this.spil = spil;
     this.flash = document.getElementById('ult-blink');
-    bus.on('level_op', ({ helt, level }) => { if (level === ULT_LEVEL && helt === spil.helt) this.oplåst(); });
+    bus.on('evne_lært', ({ helt, slot, rang }) => { if (slot === ULT_SLOT && rang === 1 && helt === spil.helt) this.oplåst(); });   // ultimatet læres med et skill point fra level 6
     bus.on('evne', ({ helt, id }) => { if (helt === spil.helt && EVNER[id]?.ultimatum) this.brugt(helt, id); });
   }
 
@@ -41,7 +41,7 @@ export class Ultimatum {
     const h = this.spil.helt, id = h.def?.evner?.[ULT_SLOT], e = EVNER[id];
     if (!e) return;
     bus.emit('effekt', { type: 'ascension', x: h.x, z: h.z, farve: 0xffc94a });
-    setTimeout(() => bus.emit('banner', { titel: `Ultimate: ${e.navn}`, tekst: e.tekst.replace('ULTIMATE. ', ''), lang: true }), 2600);   // efter level-banneret
+    bus.emit('banner', { titel: `Ultimate: ${e.navn}`, tekst: e.tekst.replace('ULTIMATE. ', ''), lang: true });
     const r = this.linje('ultimatum');
     if (r) bus.emit('replik', { enhed: h, tekst: r });
   }

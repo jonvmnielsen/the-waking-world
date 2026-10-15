@@ -157,6 +157,6 @@ export class Bygning {
   // Projektiler fra tårnet starter oppe i tårnet
   skytte() {
     const b = this;
-    return { x: b.x, z: b.z, højde: 5.5, afstand: (m) => Math.hypot(m.x - b.x, m.z - b.z) };
+    return { x: b.x, z: b.z, højde: 5.5, side: 'egen', afstand: (m) => Math.hypot(m.x - b.x, m.z - b.z) };
   }
 }

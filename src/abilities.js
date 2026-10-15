@@ -1,8 +1,10 @@
 // Heltens tre evner. Slot 0 er heltens egen (signatur, heltedata.js), slot 1 og 2 afhænger af valgt essens.
 // Værdier fra docs/balance/ability_values_v1.md
+import { rangMetoder, RANG_KRAV, RANG_MAKS, RANG_STYRKE, RANG_VENTETID } from './evnerang.js';
 import { bus } from './events.js';
 import { STI_EVNER, STIER, STI_OPLÅS } from './ascensiondata.js';
 import { HELT_EVNER, heltEvneMetoder } from './heltevner.js';
+import { gaveMetoder } from './velsignelser.js';
 
 // Essenserne (GDD 6): hvordan helten kæmper nu, hvilken egenskab der vokser mest, og et vink om hvad valget
 // kan betyde senere (Ascension ved level 10 og hærens veteran-grene) — uden at afsløre det hele.
@@ -45,11 +47,13 @@ export class Evner {
   constructor(helt, essens) {
     this.helt = helt;
     this.essens = essens;
-    this.cooldowns = [0, 0, 0, 0, 0];   // slot 3 og 4: Ascension-stiens evner
+    this.cooldowns = [0, 0, 0, 0, 0, 0];   // slot 3 og 4: Ascension-stiens evner, slot 5: åndegaven (velsignelser.js)
+    this.rang = [0, 0, 0];                  // skill points (evnerang.js)
     this.tWarCry = 0; this.tIronSkin = 0; this.tUdødelig = 0; this.blodAktiv = false;
   }
 
   info(slot) {
+    if (slot === 5) return this.helt.velsignelser?.gaveInfo(this.cooldowns[5]) ?? null;
     if (slot >= 3) {
       const sti = this.helt.sti?.id;
       if (!sti) return null;
@@ -57,11 +61,12 @@ export class Evner {
       return { id, ...STI_EVNER[id], sti: true, oplåsLevel: lv, oplåst: this.helt.level >= lv, cd: this.cooldowns[slot], cdMax: STI_EVNER[id].cd };
     }
     const id = this.helt.def?.evner?.[slot] ?? SLOTS[this.essens][slot];   // heltens egne evner (heltedata.js)
-    return { id, ...EVNER[id], oplåsLevel: OPLÅS[slot], oplåst: this.helt.level >= OPLÅS[slot], cd: this.cooldowns[slot], cdMax: EVNER[id].cd };
+    const r = this.rangAf(slot);
+    return { id, ...EVNER[id], rang: r, oplåsLevel: RANG_KRAV[slot][Math.min(r, RANG_MAKS - 1)], oplåst: r > 0, kanLære: !this.kanLære(slot), cd: this.cooldowns[slot], cdMax: EVNER[id].cd * RANG_VENTETID[r] };
   }
 
   opdater(dt) {
-    for (let i = 0; i < 5; i++) this.cooldowns[i] = Math.max(0, this.cooldowns[i] - dt);
+    for (let i = 0; i < 6; i++) this.cooldowns[i] = Math.max(0, this.cooldowns[i] - dt);
     this.tWarCry = Math.max(0, this.tWarCry - dt);
     this.tIronSkin = Math.max(0, this.tIronSkin - dt);
     this.tUdødelig = Math.max(0, this.tUdødelig - dt);
@@ -69,7 +74,7 @@ export class Evner {
     this.opdaterHelteEvner?.(dt);
   }
 
-  angrebsBonus() { return (this.tWarCry > 0 ? 0.3 : 0) + (this.tRovdyr > 0 ? 0.6 : 0) + (this.tSkydning > 0 ? 0.8 : 0) + (this.helt.sti?.angrebsBonus() ?? 0); }
+  angrebsBonus() { return (this.tWarCry > 0 ? 0.3 : 0) + (this.tRovdyr > 0 ? 0.6 : 0) + (this.tSkydning > 0 ? 0.8 : 0) + (this.helt.sti?.angrebsBonus() ?? 0) + (this.helt.velsignelser?.angrebsBonus() ?? 0); }
   rustningsBonus() { return this.tIronSkin > 0 ? Math.round(this.helt.rustning() * 5) / 10 : 0; }
   erUdødelig() { return this.tUdødelig > 0; }
 
@@ -87,7 +92,7 @@ export class Evner {
     const e = this.info(slot);
     if (!e) return null;
     if (h.død) return 'Your hero has fallen';
-    if (!e.oplåst) return `Unlocks at level ${e.oplåsLevel}`;
+    if (!e.oplåst) return e.sti ? `Unlocks at level ${e.oplåsLevel}` : this.kanLære(slot) ? `Learn ${e.navn} with a skill point (level ${e.oplåsLevel})` : this.lær(slot);   // tryk på en ulært evne lærer den
     if (e.cd > 0) return `${e.navn} is ready in ${Math.ceil(e.cd)}s`;
     if (h.mana < e.mana) return 'Not enough mana';
     const fejl = e.sti ? h.sti[e.id]() : this[e.id]();
@@ -95,6 +100,7 @@ export class Evner {
     h.mana -= e.mana;
     this.cooldowns[slot] = e.cdMax * (1 - Math.min(0.4, h.inventar?.bonus.cdr ?? 0));   // kortere ventetid fra udstyr (højst 40 %)
     h.sidstIKamp = h.tid;
+    if (slot < 3) { h.rangFaktor = RANG_STYRKE[e.rang]; h.rangTid = 10; }   // højere rang, mere kraft (evnerang.js)
     bus.emit('evne', { helt: h, id: e.id, navn: e.navn });
     return null;
   }
@@ -164,4 +170,4 @@ export class Evner {
 
 // Heltenes signatur-evner (heltevner.js)
 Object.assign(EVNER, HELT_EVNER);
-Object.assign(Evner.prototype, heltEvneMetoder);
+Object.assign(Evner.prototype, heltEvneMetoder, rangMetoder, gaveMetoder);

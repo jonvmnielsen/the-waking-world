@@ -49,7 +49,7 @@ const SKABELON = {
     hp: 1000,
     navn: 'Spirit Altar', kort: 'Altar', model: G + 'building_church_green', skala: 1.35,
     pris: { guld: 160, træ: 60, sten: 80 }, tid: 50, syn: 18, alter: true,
-    tekst: 'Your hero is revived here and healed nearby. Make offerings to raise your hero\'s attributes.',
+    tekst: 'Your hero can only be revived here. Spirits your hero carries home are offered here for blessings.',
   },
   smedje: {
     hp: 900,

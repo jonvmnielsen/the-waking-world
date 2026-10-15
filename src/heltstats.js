@@ -18,9 +18,6 @@ export const EGENSKABER = {
 };
 const P = EGENSKABER.pr;
 
-// Ofring ved Ånde-alteret: +1 i en egenskab; prisen stiger for hver ofring
-export const ofringsPris = (n) => ({ guld: 120 + 40 * n, sten: 30 + 15 * n });
-export const OFRINGS_IKON = { str: 'styrkensSkrift', agi: 'smidighedensSkrift', int: 'klogskabensSkrift' };
 
 export const egenskabsMetoder = {
   // Heltens egne startværdier og hovedegenskab (heltedata.js); hovedegenskaben giver skaden og vokser mest
@@ -48,6 +45,6 @@ export const egenskabsMetoder = {
   hpRegen() { return (HELT.hpRegen + this.egenskab('str') * P.hpRegen + this.inventar.bonus.hpRegen) * (this.sti?.hpRegenFaktor() ?? 1); },
   manaRegen() { return (HELT.manaRegen + this.egenskab('int') * P.manaRegen + this.inventar.bonus.manaRegen) * (this.sti?.manaRegenFaktor() ?? 1); },
   egenskabsSkade() { return Math.round(this.egenskab(this.primær ?? 'str') * P.skade); },
-  evneStyrke() { return (1 + this.egenskab('int') * P.evne + (this.inventar?.bonus.evne ?? 0)) * (this.ultimaTid > 0 ? 1.6 : 1); },   // ultimatum: ultimatum.js
+  evneStyrke() { return (1 + this.egenskab('int') * P.evne + (this.inventar?.bonus.evne ?? 0)) * (this.ultimaTid > 0 ? 1.6 : 1) * (this.rangTid > 0 ? this.rangFaktor : 1); },   // ultimatum.js; evnens rang (evnerang.js)
   angrebsfartBonus() { return this.egenskab('agi') * P.angrebsfart + this.inventar.bonus.angrebsfart; },
 };

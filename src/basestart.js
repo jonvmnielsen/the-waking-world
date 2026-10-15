@@ -1,10 +1,10 @@
-// Sætter spillerens økonomi og base op: Storlejren, fem arbejdere og ressourcekilderne.
+// Sætter spillerens økonomi og base op: Storlejren, tre arbejdere og ressourcekilderne.
 import { Økonomi, Kilder } from './okonomi.js';
 import { Base } from './base.js';
 import { bus } from './events.js';
 
 export const HELT_FORSYNING = 5;   // helten fylder også i hæren (Jon)
-const START_OPGAVER = ['guld', 'guld', 'guld', 'træ', 'sten'];
+const START_OPGAVER = ['guld', 'guld', 'træ'];   // Jon: helten og tre arbejdere
 
 export function startBase(verden, { storlejr, steder, verdensObj }) {
   const økonomi = new Økonomi();
@@ -14,7 +14,7 @@ export function startBase(verden, { storlejr, steder, verdensObj }) {
   const lejr = base.startBygning(storlejr);
   økonomi.forsyning = HELT_FORSYNING;
 
-  // Fem arbejdere går straks i gang
+  // Tre arbejdere går straks i gang
   START_OPGAVER.forEach((opgave, i) => {
     const a = base.nyArbejder(lejr.x - 4 + i * 2, lejr.z + lejr.radius + 2, null);
     a.høstNærmeste(opgave);

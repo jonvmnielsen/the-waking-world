@@ -17,7 +17,7 @@ export const RACER = {
     bygninger: { storlejr: 'Town Hall', borg: 'Keep', hytte: 'Farm', savværk: 'Lumber Yard', tårn: 'Scout Tower', marked: 'Market Square', alter: 'Chapel of Kings', smedje: 'Blacksmith', krigerlejr: 'Barracks' },
     korte: { hytte: 'Farm', tårn: 'Tower', marked: 'Market', alter: 'Chapel' },
     modeller: { hytte: 'building_windmill', savværk: 'building_watermill' },
-    tekster: { hytte: '+10 supply, so you can feed more peasants and soldiers.', krigerlejr: 'Trains footmen and crossbowmen. Veteran footmen are specialised here.', alter: 'Your hero is revived here and healed nearby. Make offerings to raise your hero\'s attributes.' },
+    tekster: { hytte: '+10 supply, so you can feed more peasants and soldiers.', krigerlejr: 'Trains footmen and crossbowmen. Veteran footmen are specialised here.', alter: 'Your hero can only be revived here. Spirits your hero carries home are offered here for blessings.' },
     grene: { ironhide: 'Bulwark', ravager: 'Lancer', berserker: 'Zealot' },
     forskning: { våben: 'Tempered Blades', spyd: 'Steel Bolts', rustning: 'Plate Armor' },
   },

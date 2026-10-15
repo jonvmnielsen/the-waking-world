@@ -43,7 +43,7 @@ function lavGem(spil) {
     økonomi: { guld: ø.guld, træ: ø.træ, sten: ø.sten, forsyning: ø.forsyning, forsyningMaks: ø.forsyningMaks },
     helt: {
       essens: helt.evner.essens, type: helt.type, x: r1(helt.x), z: r1(helt.z), hp: Math.ceil(helt.død ? helt.maxHp : helt.hp), mana: Math.floor(helt.mana),
-      level: helt.level, xp: helt.xp, spawn: helt.spawn, pladser: inv.pladser, rygsæk: inv.rygsæk, permanent: inv.permanent, sti: helt.sti.id, bedrifter: spil.bedrifter?.gem(),
+      level: helt.level, xp: helt.xp, spawn: helt.spawn, pladser: inv.pladser, rygsæk: inv.rygsæk, permanent: inv.permanent, sti: helt.sti.id, bedrifter: spil.bedrifter?.gem(), rang: helt.evner.gemRang(), velsignelser: helt.velsignelser.gem(),
     },
     bygninger: base.bygninger.map((b) => ({
       type: b.type, felter: b.felter.map((f) => nøgle(f.q, f.r)), plads: b.plads, x: r1(b.x), z: r1(b.z), rot: b.rot,
@@ -70,6 +70,8 @@ function lavGem(spil) {
     verden: { tid: Math.round(spil.ur.tid), ...spil.verdenstilstand.gem(), ekko: spil.ekkoer?.gem(), minder: spil.minder?.gem(), huler: spil.huler?.gem(), begivenheder: spil.begivenheder?.gem() },
     erevoss: spil.memory?.gem(),
     prospekt: spil.prospekt?.gem(),
+    ånder: spil.ånder.gem(),
+    alter: spil.alter.gem(),
     modstander: {
       arbejdere: m.arbejdere.filter((a) => !a.død).length,
       sværhed: m.sværhed, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,

@@ -114,6 +114,12 @@ export class Minimap {
       ctx.fillStyle = '#6dd8ff'; ctx.beginPath(); ctx.arc(x, y, 3.2 * this.k, 0, Math.PI * 2); ctx.fill();
       ctx.strokeStyle = '#d8f6ff'; ctx.lineWidth = this.k; ctx.beginPath(); ctx.arc(x, y, 5.2 * this.k, 0, Math.PI * 2); ctx.stroke();
     }
+    // Tabte ånder (aander.js): en gylden ring der pulserer
+    for (const k of spil.ånder?.kugler ?? []) {
+      if (!k.tabt) continue;
+      const [x, y] = this.px(k.x, k.z);
+      ctx.strokeStyle = '#ffe7a0'; ctx.lineWidth = 1.4 * this.k; ctx.beginPath(); ctx.arc(x, y, (4 + Math.sin(performance.now() / 250) * 1.2) * this.k, 0, Math.PI * 2); ctx.stroke();
+    }
     // Bygninger og figurer: egne i grønt, The Memory i rødt (bygninger når de er set, figurer når de ses)
     const prik = (x, z, farve, r, firkant) => {
       const [px, py] = this.px(x, z);

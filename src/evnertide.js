@@ -36,7 +36,7 @@ export const tideMetoder = {
     h.vend(mål[0].x, mål[0].z);
     h.spil('Throw', { loop: false, fart: 1.4, gentag: true, fade: 0.05 });
     h.sving = { tid: 0, varighed: 0.7, slagTid: 99, ramt: true };
-    const skade = Math.round(h.slagSkade() * 1.3);
+    const skade = Math.round(h.slagSkade() * 1.3 * h.evneStyrke());
     mål.forEach((m, i) => setTimeout(() => !m.død && bus.emit('projektil', { fra: h, mål: m, skade, model: 'spyd' }), 150 + i * 90));
   },
 

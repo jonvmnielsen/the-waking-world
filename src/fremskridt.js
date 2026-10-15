@@ -9,6 +9,8 @@ import { lavKonstruktioner } from './konstruktion.js';
 import { Bedrifter } from './bedrifter.js';
 import { HeltPortræt } from './heltportraet.js';
 import { Ultimatum } from './ultimatum.js';
+import { Ånder } from './aander.js';
+import { Alter } from './alter.js';
 
 // Kaldes før gem/gendan og før kommandopanelet bygges (forskningen skal findes, når bygningerne gendannes)
 export function lavUdvikling(spil) {
@@ -16,6 +18,8 @@ export function lavUdvikling(spil) {
   spil.verden.udvikling = spil.udvikling;
   spil.konstruktioner = lavKonstruktioner(spil);   // ruiner og lejrtelte man kan angribe
   spil.bedrifter = new Bedrifter(spil);              // heltens bedrifter og tilnavne
+  spil.ånder = new Ånder(spil);                      // ånder fra faldne fjender (M14d)
+  spil.alter = new Alter(spil);                      // genoplivning og velsignelser ved alteret
 }
 
 // Skærmdelene; opdater() kaldes hver frame
@@ -25,6 +29,6 @@ export function lavFremskridtsHud(spil, overlay) {
   const asc = new AscensionHud(spil);
   const upkeep = new UpkeepVisning(spil);
   const portræt = new HeltPortræt(spil);
-  spil.ultimatum = new Ultimatum(spil);   // level-6-øjeblikket og ultimatets kraft (M14b)   // heltens levende portræt i helteknappen (M14)
+  spil.ultimatum = new Ultimatum(spil);   // level-6-øjeblikket og ultimatets kraft (M14b)
   return { opdater() { asc.opdater(); upkeep.opdater(); portræt.tegn(); } };
 }

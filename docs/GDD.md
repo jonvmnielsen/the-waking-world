@@ -32,7 +32,7 @@ Tre ting adskiller spillet fra WC3:
 ## 3. Kerneloop (skirmish)
 
 ```
-Start: Storlejr + 5 bærere (3 på guld, 1 på træ, 1 på sten) + guldmine, skov og stenbjerg tæt ved
+Start: Storlejr + helten + 3 bærere (2 på guld, 1 på træ) + guldmine, skov og stenbjerg tæt ved
   ↓
 Bærere samler guld, træ og sten  →  byg hytter, savværk og tårne
   ↓
@@ -266,8 +266,8 @@ Man vælger selv sin race på startskærmen. Modstanderen er en tilfældig race 
 
 - **Op til 3 helte** pr. spiller. Den første er gratis fra alteret, de næste koster mere.
 - Helte fra **kroen** er neutrale, og alle racer kan hyre dem.
-- **Død:** Helten kan genoplives ved alteret for guld og tid. Items bliver liggende, hvor helten døde, i 60 sekunder.
-- Level 1–10 med tre evner (låst op ved level 1, 3 og 6), og ved level 10 kommer **Ascension** (afsnit 6.4). Level 11–20 kræver Ascension; erfaringen gemmes imens.
+- **Død (M14d):** Helten genopstår *kun* ved Spirit Altar — for guld (100 + 30 × level) og tid (12 + 2,5 × level s). Uden alter må det bygges først. Ånderne, helten bærer, falder til jorden, hvor den faldt (afsnit 6.6).
+- Level 1–10 med tre evner (rang 1 ved level 1, 3 og 6; se skill points i 6.6), og ved level 10 kommer **Ascension** (afsnit 6.4). Level 11–20 kræver Ascension; erfaringen gemmes imens.
 - **XP efter level-forskel (Jons beslutning, intet loft):** man kan altid få XP, men fjender under heltens level giver 15 % mindre pr. level (mindst 10 %), og fjender over giver 10 % mere pr. level (højst 150 %).
 
 ### 6.1 Essens — valget ved start
@@ -293,7 +293,8 @@ Essensens egenskab starter 2 højere og vokser +1 ekstra pr. level. Helten løbe
 **Flere egenskaber ud over levels:**
 - **Bøger** (Tome of Strength/Agility/Intelligence +2, Tome of Power +2 til alle): fra kister og stærke lejre, og købmanden sælger de tre første.
 - **Udstyr** med egenskaber (fx Iron Sword +2 STR, Hunter's Quiver +5 AGI, Mage's Tome +6 INT).
-- **Ofringer ved Spirit Altar** (Ånde-alteret): +1 i en valgfri egenskab for guld og sten; prisen stiger for hver ofring.
+- **Skill point på "Attributes":** +2 til alle egenskaber (højst 10 gange), se 6.6.
+- **Velsignelser ved Spirit Altar** (Tempered, Vigor, Clarity), se 6.6. Den gamle ofring for guld og sten er fjernet.
 
 ### 6.4 Ascension (M7)
 
@@ -353,6 +354,22 @@ Jon: *heltene skal fylde meget mere, og spillet skal centreres om at bygge dem o
 - **Heltekortet** viser titel, egenskaber, afledte værdier (inkl. kritisk, livsstjæl, kortere cooldowns, torne, guldfund, ekstra XP), udstyret, evnerne og bedrifterne.
 
 ---
+
+### 6.6 Skill points, ånder og alteret (M14d)
+
+Jon: *normal leveling skal køre, hvor helten stiger i levels, får lidt stats og et enkelt skill point, som man frit fordeler på sine skills. Ofringen skal være noget ekstra, en udvidelse af helten.*
+
+**Skill points (`evnerang.js`).** Hvert level giver lidt egenskaber og ét skill point. Hver af heltens tre evner har rang 1–3: rang n kræver level 1/3/5, ultimatet level 6/11/16. Højere rang: evnestyrke ×1 / ×1,35 / ×1,7 og ventetid ×1 / ×0,88 / ×0,76. Et point kan også gå til **Attributes** (+2 til alle egenskaber, højst 10 gange). "+" på evneknappen lærer; et tryk på en ulært evne lærer den også. Helteknappen lyser, når der er et point. Gamle gemte spil får rang 1 i de evner, helten havde, og resten som frie point.
+
+**Ånder (`aander.js`).** Fjender, der falder for spillerens side (helt, soldater, tårne), efterlader en lyseblå ånd: 1 pr. level, boss 12, fjendens helt 15, champion ×2. Helten samler dem op ved at gå forbi (5,5) og *bærer* dem — tælleren under helteknappen viser dem. Kommer helten tæt på et færdigt alter (11), ofres de dér. Dør helten, falder alt, den bærer, som én gylden ånd (gylden ring på minimappet, en post i krøniken). Den kan hentes igen i 3 minutter, men fjendens soldater, der kommer forbi, æder den. Almindelige ånder forsvinder efter 90 s.
+
+**Velsignelser (`velsignelser.js`, `velsignelsedata.js`).** Alteret byder på tre (helst af forskellig slags); tryk = læs, tryk igen = vælg. Pris 8 + 4 × antal købte; "New offers" koster 3.
+- *Auraer* (højst to forskellige, rang 1–3, inden for 14 af helten): Command +12 % skade, Haste +10 % angrebsfart, Warding +2 rustning og 1 % liv/s — pr. rang.
+- *Træk:* Thick Hide +3 rustning (×3), Vampiric Soul 7 % livsstjæl (×2), Bloodthirst (+8 % angrebsfart pr. drab i 6 s, op til 5), Second Wind (heler 35 % under 25 % liv, hvert minut), Spirit Hunger +50 % ånder (×2).
+- *Åndegaver* (én ad gangen, plads 5, tast G): Spirit Shield (absorberer 250 i 8 s), Spirit Step (hop til nærmeste fjend inden for 14, 2 × slag), Spirits' Wrath (160 til alle inden for 7).
+- *Egenskaber* (×5): Tempered +4 hovedegenskab, Vigor +180 liv, Clarity +100 mana og +1 mana/s.
+
+Alt gemmes med (gem-version 8 som før; gamle spil fortsætter med 0 ånder). En død helt forbliver død, når spillet fortsættes.
 
 ## 7. Creeps
 
@@ -695,6 +712,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
 - **M14b ✅:** store, overdrevne figurer; forsyning efter styrke (100 i alt, upkeep 40/80); ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
 - **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
+- **M14d ✅:** helten og tre arbejdere ved start; genoplivning kun ved alteret; skill points; ånder og alterets velsignelser (afsnit 6.6).
 
 ### M14b–c i detaljer
 

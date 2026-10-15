@@ -136,6 +136,7 @@ async function start() {
   spil.invHud = invHud;
   spil.veteraner = new Veteraner(spil, stil);
   const kmdHud = new KommandoHud(spil);
+  spil.kommandoHud = kmdHud;
   const helteKort = new HelteKort(spil);
   const fremskridt = lavFremskridtsHud(spil, overlay);
   rig.onBoks = lavBoksValg(spil, (x, y, z) => overlay.skærm(x, y, z));

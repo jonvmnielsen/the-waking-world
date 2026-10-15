@@ -115,14 +115,14 @@ export class Soldat extends Unit {
     const klip = this.handlinger.get(anim)?.getClip().duration ?? 1;
     this.spil(anim, { loop: false, fart: klip / varighed, gentag: true, fade: 0.08 });
     this.sving = { tid: 0, varighed, slagTid: varighed * this.data.slag, mål: this.mål, ramt: false };
-    this.cooldown = this.data.angrebsTid / (this.buff.rally > 0 ? 1.35 : 1);
+    this.cooldown = this.data.angrebsTid / ((this.buff.rally > 0 ? 1.35 : 1) * (1 + (this.bonus().hast ?? 0)));
     this.sidstIKamp = this.tid;
   }
 
-  // Bonusser fra forskning (udvikling.js) og heltens Warlord-aura
+  // Bonusser fra forskning (udvikling.js), heltens Warlord-aura og alterets auraer (velsignelser.js)
   bonus() {
-    const a = this.verden.helt?.sti?.aura(this), u = this.verden.udvikling;
-    return { skade: u?.skade(this) ?? 0, faktor: 1 + (a?.skade ?? 0), rustning: (a?.rustning ?? 0) + (u?.rustning(this) ?? 0) };
+    const h = this.verden.helt, a = h?.sti?.aura(this), v = h?.velsignelser?.aura(this), u = this.verden.udvikling;
+    return { skade: u?.skade(this) ?? 0, faktor: (1 + (a?.skade ?? 0)) * (1 + (v?.skade ?? 0)), rustning: (a?.rustning ?? 0) + (v?.rustning ?? 0) + (u?.rustning(this) ?? 0), hast: v?.hast ?? 0 };
   }
 
   slagSkade() {

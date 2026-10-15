@@ -109,6 +109,9 @@ the-waking-world/
 │   ├── dyreprik.js           # Prik til dyrene — det femte prik sprænger dem (blod og pels)
 │   ├── heltportraet.js       # Heltens levende 3D-portræt i helteknappen (eget lille lærred)
 │   ├── ultimatum.js          # Ultimatet: level-6-øjeblikket, gylden knap, blink og rystelse, ×1,6 evnestyrke
+│   ├── evnerang.js           # Skill points: evnernes rang 1–3 og "+2 all attributes"
+│   ├── aander.js / alter.js  # Ånder fra faldne fjender (bæres, tabes, ofres); Spirit Altar: genoplivning og velsignelsespanel
+│   ├── velsignelser.js / velsignelsedata.js # Alterets velsignelser: auraer, træk, åndegaver (plads 5), egenskaber
 │   ├── grundevner.js         # Soldaternes egne evner med autocast (Brutal Swing, Pinning Spear, Defend, Aimed Shot)
 │   ├── storkilde.js          # The Old Wellspring: stor kilde midt mellem baserne, vogtet; heler alle
 │   ├── musik.js / musikdata.js # Racens musik syntetiseret med WebAudio; nat, kamp og pauser
@@ -457,7 +460,14 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] The Old Wellspring midt mellem baserne (egen model fra generatoren), vogtet, heler alle
 - [x] Musik pr. race, nat og kamp (syntetiseret); "Music" i menuen
 
-### 📋 Næste: M14d+
+### ✅ M14d — "Alteret og skill points" (oktober 2026)
+- [x] Man starter med helten og 3 arbejdere
+- [x] Helten genoplives kun ved alteret (guld og tid); en død helt forbliver død i gemte spil
+- [x] Skill points: ét pr. level, evnerne har rang 1–3, eller +2 til alle egenskaber
+- [x] Ånder fra faldne fjender: helten bærer dem hjem, taber dem ved død (fjenden kan æde dem)
+- [x] Velsignelser ved alteret: auraer, træk, åndegaver og egenskaber (tre at vælge imellem)
+
+### 📋 Næste: M14e+
 The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
 
 ---
@@ -514,6 +524,9 @@ The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hva
 | 2026-10-14 | Stemmer vises som korte bobler kun når spilleren selv gør noget | Personlighed uden at fylde skærmen (Jon: for meget tekst) |
 | 2026-10-15 | Figurerne er overdrevent store (×1,6) som i WC3 | Jon: store og overdrevne enheder, så de nemmere kan læses |
 | 2026-10-15 | Højst 100 forsyning inkl. helten (5), upkeep fra 40/80, soldater 1–2 forsyning efter styrke | Jons tal: jo stærkere enhed, jo mere forsyning. Forsyningen tælles op igen, når et gemt spil fortsættes |
+| 2026-10-15 | Start med helten og 3 arbejdere; helten genoplives kun ved alteret | Jons ønske (som WC3) |
+| 2026-10-15 | Skill points: ét pr. level til evnernes rang (1–3) eller +2 til alle egenskaber | Jon: normal leveling med lidt stats og et frit skill point |
+| 2026-10-15 | Ånder bæres hjem og ofres ved alteret for velsignelser (auraer, træk, åndegaver, egenskaber); guld-ofringen er fjernet | Jon valgte B (ånder fra fjender, tabes ved død) og bad Claude vælge belønningen: en udvidelse af helten, ikke heltens evner |
 | 2026-10-15 | Musik syntetiseres med WebAudio indtil der findes CC0-numre | Ingen musik i asset-biblioteket; virker uden downloads |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
@@ -583,4 +596,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-10-14*
+*Sidst opdateret: 2026-10-15*

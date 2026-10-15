@@ -29,6 +29,7 @@ export const heltEvneMetoder = {
     this.opdaterMærker(dt);
     for (const k of ['tRovdyr', 'tMur', 'tSkydning']) this[k] = Math.max(0, (this[k] ?? 0) - dt);
     if (this.helt.ultimaTid > 0) this.helt.ultimaTid -= dt;   // ultimatets ekstra kraft (ultimatum.js)
+    if (this.helt.rangTid > 0) this.helt.rangTid -= dt;       // evnens rang (evnerang.js)
     this.virkninger = (this.virkninger ?? []).filter((v) => {
       v.t += dt; v.næste -= dt;
       if (v.næste <= 0) { v.næste = v.hver; v.gør(); }

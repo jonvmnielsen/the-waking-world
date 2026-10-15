@@ -15,6 +15,7 @@ import { Ascension } from './ascension.js';
 import { sætHold } from './holdfarve.js';
 import { heltePræg, opdaterPræg } from './helteaura.js';
 import { HeltUdstyr } from './heltudstyr.js';
+import { Velsignelser } from './velsignelser.js';
 
 
 export class Helt extends Unit {
@@ -35,9 +36,11 @@ export class Helt extends Unit {
     this.mana = this.manaMax;
     this.fart = this.stats.fart;
     this.level = 1;
+    this.skillpunkter = 1;   // det første point bruges på den første evne (evnerang.js)
     this.xp = 0;
     this.evner = new Evner(this, essens);
     this.sti = new Ascension(this);   // Ascension ved level 10
+    this.velsignelser = new Velsignelser(this);   // alterets velsignelser for ofrede ånder
     this.mål = null;
     this.cooldown = 0;
     this.sving = null;        // igangværende slag { tid, slagTid, mål, ramt }
@@ -164,6 +167,7 @@ export class Helt extends Unit {
     this.sidstIKamp = this.tid;
     if (kilde && kilde !== this) this.angribere.set(kilde, this.tid);
     if (mængde > 0) mængde = this.inventar.vedSkade(mængde, kilde) * this.sti.skadeTagetFaktor() * (this.evner.tMur > 0 ? 0.6 : 1);   // Shield Wall
+    mængde = this.velsignelser.vedSkade(mængde);   // Spirit Shield
     return super.tagSkade(reducérSkade(mængde, this.rustning() + this.evner.rustningsBonus()), kilde);
   }
 
@@ -172,7 +176,7 @@ export class Helt extends Unit {
     this.mål = null; this.sving = null; this.gåOrdre = false; this.handling = null; this.angribere.clear();
     this.sti.hop = null; this.rod.position.y = 0; this.jagt = null;
     this.spil('Death_A', { loop: false, fade: 0.1 });
-    this.genopliv = this.stats.genopliv;
+    this.genopliv = Infinity;   // kun alteret kan genoplive helten (alter.js)
     bus.emit('helt_død', { helt: this });
   }
 

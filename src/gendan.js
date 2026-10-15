@@ -13,6 +13,7 @@ export function gendanSpil(spil, g) {
 
   // Helten: level-bonusser lægges på uden fanfare
   while (helt.level < g.helt.level) helt.levelOp(true);
+  helt.evner.gendanRang(g.helt.rang);   // skill points (evnerang.js); ældre spil får rang efter level
   helt.xp = g.helt.xp;
   const inv = helt.inventar;
   if (g.version >= 8) {
@@ -21,6 +22,7 @@ export function gendanSpil(spil, g) {
   } else flytGamleItems(spil, g.helt);
   Object.assign(inv.permanent, g.helt.permanent);
   inv.beregn();
+  helt.velsignelser.gendan(g.helt.velsignelser);   // alterets velsignelser (M14d)
   spil.bedrifter?.gendan(g.helt.bedrifter);
   if (g.helt.sti) helt.sti.stig(g.helt.sti, true);
   helt.rod.position.set(g.helt.x, 0, g.helt.z);
@@ -132,6 +134,9 @@ export function gendanSpil(spil, g) {
   // Forsyningen tælles op igen (enhedernes pris i forsyning kan have ændret sig siden spillet blev gemt)
   ø.forsyning = HELT_FORSYNING + base.arbejdere.filter((a) => !a.død).length + base.soldater.filter((s) => !s.død).reduce((n, s) => n + (ENHEDER[s.type]?.forsyning ?? 1), 0)
     + base.bygninger.flatMap((b) => b.kø ?? []).reduce((n, k) => n + (ENHEDER[k.type]?.forsyning ?? 0), 0);
+  // Død helt og genoplivning ved alteret, så ånderne (død først: den bærer intet, når den falder)
+  spil.alter.gendan(g.alter);
+  spil.ånder.gendan(g.ånder);
   rig.følger = false;
   rig.fokus.set(g.kamera.x, 0, g.kamera.z);
   rig.afstand = g.kamera.afstand;

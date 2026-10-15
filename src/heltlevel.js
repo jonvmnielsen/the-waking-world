@@ -22,6 +22,7 @@ export const levelMetoder = {
     this.stats.skadeMax += LEVELS.skadeBonus[i];
     this.stats.rustning += LEVELS.rustBonus[i];
     this.vækstEgenskaber();
+    this.skillpunkter = (this.skillpunkter ?? 0) + 1;   // ét frit skill point pr. level (evnerang.js)
     this.hp = Math.min(this.maxHp, this.hp + this.maxHp - førHp);
     if (!stille) bus.emit('level_op', { helt: this, level: this.level });
   },

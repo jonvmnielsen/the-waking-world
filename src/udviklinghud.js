@@ -1,6 +1,5 @@
-// Knapper og status for forskning og opgraderinger i kommandopanelet, ofringer ved alteret,
+// Knapper og status for forskning og opgraderinger i kommandopanelet
 // og upkeep i ressourcebjælken.
-import { EGENSKABER, ofringsPris, OFRINGS_IKON } from './heltstats.js';
 import { ikon } from './ikoner.js';
 import { bus } from './events.js';
 
@@ -36,24 +35,6 @@ export function markérUdvikling(spil, b) {
     const id = k.dataset.id.slice(4);
     if (id === 'annuller') continue;
     k.classList.toggle('dyr', !!spil.udvikling.fejl(b, id));
-  }
-}
-
-// Ånde-alteret: ofr ressourcer for +1 i en af heltens egenskaber
-export function ofringsKnapper(hud, knapper) {
-  const spil = hud.spil, inv = spil.helt.inventar;
-  for (const n of ['str', 'agi', 'int']) {
-    hud.knap(knapper, ikon(OFRINGS_IKON[n]), `+1 ${EGENSKABER.kort[n]}`, prisHtml(ofringsPris(inv.permanent.ofringer)), () => {
-      const pris = ofringsPris(inv.permanent.ofringer), øko = spil.økonomi;
-      const mangler = øko.mangler(pris);
-      if (mangler) return bus.emit('besked', mangler);
-      øko.betal(pris);
-      inv.permanent.ofringer += 1;
-      inv.øgEgenskaber({ [n]: 1 });
-      bus.emit('effekt', { type: 'veteran', x: spil.helt.x, z: spil.helt.z });
-      bus.emit('besked', `Your offering is accepted: +1 ${EGENSKABER.navn[n]}`);
-      hud.byg();
-    }, `ofr-${n}`);
   }
 }
 
