@@ -8,8 +8,8 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E🪓%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Nunito+Sans:wght@600;800&display=swap" />
-  <script type="module" crossorigin src="./assets/index-BORsV_eT.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Q7GKAlUw.css">
+  <script type="module" crossorigin src="./assets/index-aglJC-OF.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CWYy6IGy.css">
 </head>
 <body>
   <canvas id="spil"></canvas>
@@ -35,6 +35,7 @@
     <div id="tælle-knapper">
       <button id="ledige" class="skjult" type="button" aria-label="Select an idle worker"><img id="ledige-ikon" alt="" src="" /><b id="ledige-tal">0</b><small>idle</small></button>
       <button id="hær" class="skjult" type="button" aria-label="Select the whole army"><img id="hær-ikon" alt="" src="" /><b id="hær-tal">0</b><small> army</small></button>
+      <button id="ånder-knap" class="skjult" type="button" aria-label="Spirits — show your altar"><i>👻</i><b id="ånder-tal">0</b><small id="ånder-tekst">spirits</small></button>
     </div>
 
     <div id="kommando" hidden>
@@ -75,9 +76,10 @@
     <button id="handling-knap" type="button" aria-label="Abilities and backpack"><span>⚔️</span><small>Hero</small></button>
 
     <div id="evner">
-      <button id="evne0" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>Q</kbd></button>
-      <button id="evne1" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>W</kbd></button>
-      <button id="evne2" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>E</kbd></button>
+      <button id="evne0" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><span class="rang"></span><span class="lær" data-slot="0">+</span><kbd>Q</kbd></button>
+      <button id="evne1" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><span class="rang"></span><span class="lær" data-slot="1">+</span><kbd>W</kbd></button>
+      <button id="evne2" class="evne"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><span class="rang"></span><span class="lær" data-slot="2">+</span><kbd>E</kbd></button>
+      <button id="evne5" class="evne gave" hidden><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>G</kbd></button>
     </div>
     <div id="sti-evner" hidden>
       <button id="evne3" class="evne sti"><span class="ikon"></span><span class="cd"></span><span class="lås"></span><span class="navn"></span><kbd>R</kbd></button>
@@ -138,8 +140,9 @@
     <div id="hk-afledt"></div>
     <div id="hk-udstyr"></div>
     <div id="hk-evner"></div>
+    <div id="hk-velsignelser"></div>
     <div id="hk-bedrifter"></div>
-    <p class="hk-vækst">Attributes grow every level — most in your essence's attribute. You can raise them further with <b>tomes</b> (found in chests, dropped by strong camps or sold at the merchant), <b>equipment</b>, and <b>offerings</b> at your Spirit Altar.</p>
+    <p class="hk-vækst">Attributes grow every level — most in your essence's attribute. You can raise them further with <b>tomes</b> (found in chests, dropped by strong camps or sold at the merchant), <b>equipment</b>, and the <b>Attributes</b> skill point. Each level gives one <b>skill point</b> for your abilities. Spirits of the foes you slay, carried home to your Spirit Altar, buy <b>blessings</b>: auras, traits and spirit gifts.</p>
     <p id="hk-sti"></p>
     <p id="hk-stil"></p>
   </div>
@@ -166,7 +169,7 @@
 
   <div id="toast"></div>
   <div id="banner"></div>
-  <div id="dødsskærm"><b>Your hero has fallen</b><span>Rises again in <em id="genopliv-tid">6</em> s</span></div>
+  <div id="dødsskærm"><b>Your hero has fallen</b><span id="genopliv-tekst">Revive your hero at your Spirit Altar</span></div>
 
   <div id="essensvalg">
     <div class="essens-indhold">
