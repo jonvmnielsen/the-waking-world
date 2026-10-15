@@ -189,7 +189,7 @@ Et døgn varer 8 minutter: 5 min dag, 3 min nat med skumring og daggry. Om natte
 | **Sten** | Hver eneste sten: små sten i landskabet og store grå klippeblokke i stenbrud | Tårne, større bygninger, opgraderinger |
 | **Forsyning** | Forsyningsbygninger (max 100) | Loft over hærens størrelse |
 
-**Arbejdere** går hen til minen eller skoven, arbejder et øjeblik og bærer ressourcerne hjem til hovedhallen. Det er ikke øjeblikkelig indsamling. **Upkeep (M7, skærpet i M14b — Jon: hæren skal ikke kunne blive så stor, så fokus kommer på helten):** forsyningen kan højst være **60**. Op til 30 brugt forsyning er der intet upkeep; fra 31 giver minerne 30 % mindre guld (*Low upkeep*), fra 46 giver de 60 % mindre (*High upkeep*). Soldater koster 3 forsyning (Sellsword 4), arbejdere 1, så en fuld hær er cirka 15–17 soldater, og de fleste spil kæmpes med 6–12. AI-modstanderens hær er tilsvarende mindre (loft 9/14/19 efter sværhedsgrad). Forsyningstælleren skifter farve og viser fradraget, og et tryk på den forklarer det. Det belønner en lille hær med stærke helte og veteraner.
+**Arbejdere** går hen til minen eller skoven, arbejder et øjeblik og bærer ressourcerne hjem til hovedhallen. Det er ikke øjeblikkelig indsamling. **Upkeep (M7, Jons tal fra M14b):** hæren kan højst fylde **100 forsyning**, og helten tæller med (5). Fra 40 brugt forsyning giver minerne 30 % mindre guld (*Low upkeep*), fra 80 giver de 60 % mindre (*High upkeep*). Forsyningen følger styrken: lette soldater (Spear Thrower, Marksman, Crossbowman) koster 1, almindelige (Grunt, Footman, Brawler) 2, og de stærkeste (Sellsword) 3; arbejdere 1. AI-modstanderens hær har loft 12/22/30 efter sværhedsgrad. Forsyningstælleren skifter farve og viser fradraget, og et tryk på den forklarer det. Det belønner en lille hær med stærke helte og veteraner.
 
 **Startressourcer:** 300 guld, 150 træ, 80 sten. En tur giver 10 guld, 10 træ eller 8 sten. En guldmine rummer 8.000 guld (startminen 12.000). Et træ i skoven giver 40 træ, et frit træ 30, en klippeblok i et stenbrud 150 sten og en lille sten 25. Når alle træer i et skovfelt er fældet, kan man gå igennem. Guldminer har lysende guldårer og glimt, så de er lette at kende. Storlejren giver 12 forsyning, en hytte 10, helten koster 5 og en bærer 1.
 
@@ -681,7 +681,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 | Søjle | Har vi | Mangler / næste |
 |---|---|---|
 | 1. Helten bærer spillet | ✅ Tre helte pr. race med egne evner, items med rul, bedrifter, Ascension; ultimatet ved level 6 er et øjeblik (M14b) | Ascension-evner pr. helt |
-| 2. Få enheder | ✅ Højst 60 forsyning, upkeep fra 31/46, soldater koster 3; veteraner og grene; hver soldat har sin egen evne med autocast (M14b) | Slå autocast til/fra |
+| 2. Få enheder | ✅ Højst 100 forsyning inkl. helten (5), upkeep fra 40/80, soldater koster 1–2 efter styrke; veteraner og grene; hver soldat har sin egen evne med autocast (M14b) | Slå autocast til/fra |
 | 3. Creeping | ✅ Lejre i 5 farver, drops, vogtede miner, kilder, butikker, kro; **The Old Wellspring** midt mellem baserne, vogtet af to lejre (M14b) | Flere neutrale steder der altid er vogtet |
 | 4. Personlighed i enheder | ✅ Heltene og alle enheder svarer med egne ord (valg, gå, angrib, høst, byg, færdig, klar) og bliver irriterede ved fire tryk i træk; dyr snøfter og sprænges ved femte prik (M14a) | Lyd til stemmerne |
 | 5. Portrætter | ✅ Levende 3D-portræt af helten i helteknappen: trækker vejret, nikker når den taler, kryber sammen når den rammes, jubler ved level-op, gråt når den er faldet; bærer sin hjelm (M14a) | Portræt af den valgte enhed |
@@ -693,7 +693,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 ### Plan
 
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
-- **M14b ✅:** store, overdrevne figurer; en mindre hær; ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
+- **M14b ✅:** store, overdrevne figurer; forsyning efter styrke (100 i alt, upkeep 40/80); ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
 - **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
 
 ### M14b–c i detaljer

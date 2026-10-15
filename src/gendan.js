@@ -1,6 +1,7 @@
 // Gendan et gemt spil (se gem.js) oven på et nyt spil bygget med samme frø.
 import { Bygning } from './bygninger.js';
-import { STADIER } from './bygningsdata.js';
+import { STADIER, ENHEDER } from './bygningsdata.js';
+import { HELT_FORSYNING } from './basestart.js';
 import { pakUd } from './gem.js';
 import { optag } from './byggeplads.js';
 import { PLADSER_TYPER, erUdstyr } from './udstyr.js';
@@ -128,6 +129,9 @@ export function gendanSpil(spil, g) {
   pakUd(g.udforsket, taage.udforsket);
   Object.assign(spil.stil.score, g.stil);
   Object.assign(ø, g.økonomi);
+  // Forsyningen tælles op igen (enhedernes pris i forsyning kan have ændret sig siden spillet blev gemt)
+  ø.forsyning = HELT_FORSYNING + base.arbejdere.filter((a) => !a.død).length + base.soldater.filter((s) => !s.død).reduce((n, s) => n + (ENHEDER[s.type]?.forsyning ?? 1), 0)
+    + base.bygninger.flatMap((b) => b.kø ?? []).reduce((n, k) => n + (ENHEDER[k.type]?.forsyning ?? 0), 0);
   rig.følger = false;
   rig.fokus.set(g.kamera.x, 0, g.kamera.z);
   rig.afstand = g.kamera.afstand;

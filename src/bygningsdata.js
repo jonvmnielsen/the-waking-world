@@ -82,13 +82,13 @@ export const BYGGEMENU = ['hytte', 'savværk', 'tårn', 'krigerlejr', 'smedje', 
 
 export const ENHEDER = {
   arbejder: { navn: SPILLER.arbejder, pris: { guld: 50 }, tid: 12, forsyning: 1, tekst: 'Gathers gold, wood and stone and builds your base.' },
-  grunt: { navn: 'Grunt', pris: { guld: 120, træ: 20 }, tid: 18, forsyning: 3, ikon: 'enhed-grunt', tekst: 'Melee. The backbone of your army. Brutal Swing: every 9 s a crushing blow (2× damage, brief stun).' },
-  slagsbror: { navn: 'Brawler', pris: { guld: 130 }, tid: 0, forsyning: 3, kro: true, ikon: 'rustenDolk', tekst: 'A tough brawler for hire. Fights up close.' },
-  skytte: { navn: 'Crossbowman', pris: { guld: 150 }, tid: 0, forsyning: 3, kro: true, ikon: 'lynstav', tekst: 'Shoots from range. Fragile up close.' },
-  lejesoldat: { navn: 'Sellsword', pris: { guld: 220 }, tid: 0, forsyning: 4, kro: true, ikon: 'ridderskjold', tekst: 'Heavy armor and a long sword. Holds the line.' },
-  fodsoldat: { navn: 'Footman', pris: { guld: 120, træ: 20 }, tid: 18, forsyning: 3, ikon: 'enhed-fodsoldat', tekst: 'Melee. Shield and sword — the backbone of your army. Defend: raises the shield when wounded (half damage).' },
-  armbrøst: { navn: 'Marksman', pris: { guld: 110, træ: 40 }, tid: 18, forsyning: 3, ikon: 'enhed-armbrøst', tekst: 'Shoots crossbow bolts from range. Aimed Shot: every 10 s a shot for 2.2× damage.' },
-  spydkaster: { navn: 'Spear Thrower', pris: { guld: 100, træ: 40 }, tid: 18, forsyning: 3, ikon: 'enhed-spydkaster', tekst: 'Throws spears from range. Pinning Spear: every 12 s pins the target in place.' },
+  grunt: { navn: 'Grunt', pris: { guld: 120, træ: 20 }, tid: 18, forsyning: 2, ikon: 'enhed-grunt', tekst: 'Melee. The backbone of your army. Brutal Swing: every 9 s a crushing blow (2× damage, brief stun).' },
+  slagsbror: { navn: 'Brawler', pris: { guld: 130 }, tid: 0, forsyning: 2, kro: true, ikon: 'rustenDolk', tekst: 'A tough brawler for hire. Fights up close.' },
+  skytte: { navn: 'Crossbowman', pris: { guld: 150 }, tid: 0, forsyning: 1, kro: true, ikon: 'lynstav', tekst: 'Shoots from range. Fragile up close.' },
+  lejesoldat: { navn: 'Sellsword', pris: { guld: 220 }, tid: 0, forsyning: 3, kro: true, ikon: 'ridderskjold', tekst: 'Heavy armor and a long sword. Holds the line.' },
+  fodsoldat: { navn: 'Footman', pris: { guld: 120, træ: 20 }, tid: 18, forsyning: 2, ikon: 'enhed-fodsoldat', tekst: 'Melee. Shield and sword — the backbone of your army. Defend: raises the shield when wounded (half damage).' },
+  armbrøst: { navn: 'Marksman', pris: { guld: 110, træ: 40 }, tid: 18, forsyning: 1, ikon: 'enhed-armbrøst', tekst: 'Shoots crossbow bolts from range. Aimed Shot: every 10 s a shot for 2.2× damage.' },
+  spydkaster: { navn: 'Spear Thrower', pris: { guld: 100, træ: 40 }, tid: 18, forsyning: 1, ikon: 'enhed-spydkaster', tekst: 'Throws spears from range. Pinning Spear: every 12 s pins the target in place.' },
 };
 
 // Byggestadier, der vises mens bygningen rejser sig

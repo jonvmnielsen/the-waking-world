@@ -3,7 +3,7 @@ import { Økonomi, Kilder } from './okonomi.js';
 import { Base } from './base.js';
 import { bus } from './events.js';
 
-const HELT_FORSYNING = 5;
+export const HELT_FORSYNING = 5;   // helten fylder også i hæren (Jon)
 const START_OPGAVER = ['guld', 'guld', 'guld', 'træ', 'sten'];
 
 export function startBase(verden, { storlejr, steder, verdensObj }) {
