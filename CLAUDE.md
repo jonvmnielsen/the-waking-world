@@ -109,6 +109,7 @@ the-waking-world/
 │   ├── dyreprik.js           # Prik til dyrene — det femte prik sprænger dem (blod og pels)
 │   ├── heltportraet.js       # Heltens levende 3D-portræt i helteknappen (eget lille lærred)
 │   ├── ultimatum.js          # Ultimatet: level-6-øjeblikket, gylden knap, blink og rystelse, ×1,6 evnestyrke
+│   ├── kampfoelelse.js       # Kampfølelse: blink ved slag, gnister/blod, hitstop, kamerarystelser, støv ved fald
 │   ├── evnerang.js           # Skill points: evnernes rang 1–3 og "+2 all attributes"
 │   ├── aander.js / alter.js  # Ånder fra faldne fjender (bæres, tabes, ofres); Spirit Altar: genoplivning og velsignelsespanel
 │   ├── velsignelser.js / velsignelsedata.js # Alterets velsignelser: auraer, træk, åndegaver (plads 5), egenskaber
@@ -472,8 +473,11 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Hver af de seks helte har sine egne tre stier: navn, titel, passiv (avatar-procs: lyn, skælv, lys) og to evner
 - [x] Evnerne bygget af otte motorer; stiens egenskaber følger heltens hovedegenskab
 
-### 📋 Næste: M14f+
-Kampfølelse (treffere, rystelser, lyde), The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M14f — "Kampfølelse" (oktober 2026)
+- [x] Blink ved slag, blod/knoglestøv, kort stop og kamerarystelse ved heltens store slag, store tal der popper, støv og rystelse ved fald
+
+### 📋 Næste: M14g+
+The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 

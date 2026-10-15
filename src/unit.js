@@ -108,7 +108,8 @@ export class Unit {
   }
 
   opdater(dt) {
-    this.mixer.update(dt);
+    this.mixer.update(this.hitstop > 0 ? dt * 0.08 : dt);   // et kort stop ved store slag (kampfoelelse.js)
+    if (this.hitstop > 0) this.hitstop -= dt;
     // Stå på terrænet (ved bjergene hæver det sig — ellers forsvinder figurerne i sneen/klippen)
     if (!this.død && !this.iLuften) this.rod.position.y = Math.max(-0.5, højdeVed(this.x, this.z));
     // Drej blødt mod den ønskede retning

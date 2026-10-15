@@ -15,7 +15,8 @@ export class Overlay {
     bus.on('skade', ({ mål, mængde, kilde }) => {
       if (mængde <= 0) return this.tal(mål, 'Immune', 'immun');
       const fraHelt = kilde === this.verden.helt;
-      this.tal(mål, mængde, fraHelt ? (mængde > this.verden.helt.stats.skadeMax * 1.2 ? 'krit' : 'helt') : 'fjende');
+      const stor = fraHelt && mængde > this.verden.helt.stats.skadeMax * 1.2;
+      this.tal(mål, stor ? `${mængde}!` : mængde, fraHelt ? (stor ? 'krit' : 'helt') : 'fjende');
     });
     bus.on('creep_død', ({ creep, xp }) => this.tal(creep, `+${xp} XP`, 'xp', 0.6));
     bus.on('level_op', ({ helt, level }) => this.tal(helt, `Level ${level}!`, 'level', 1.2));

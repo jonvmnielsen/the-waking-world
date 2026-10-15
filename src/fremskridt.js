@@ -12,6 +12,7 @@ import { Ultimatum } from './ultimatum.js';
 import { Ånder } from './aander.js';
 import { Alter } from './alter.js';
 import { bus } from './events.js';
+import { KampFølelse } from './kampfoelelse.js';
 
 // Kaldes før gem/gendan og før kommandopanelet bygges (forskningen skal findes, når bygningerne gendannes)
 export function lavUdvikling(spil) {
@@ -26,6 +27,7 @@ export function lavUdvikling(spil) {
 // Skærmdelene; opdater() kaldes hver frame
 export function lavFremskridtsHud(spil, overlay) {
   spil.skærm = new Skærm(spil);
+  spil.kampFølelse = new KampFølelse(spil);   // blink, gnister, stop og rystelser i kampen (M14f)
   bus.on('ryst', ({ styrke, tid }) => spil.rig.ryst(styrke, tid));   // kameraet ryster (store slag, evner)
   spil.advarsel = new Advarsel(spil, overlay);
   const asc = new AscensionHud(spil);

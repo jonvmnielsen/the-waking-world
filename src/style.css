@@ -32,11 +32,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bjælke.helt i { background: linear-gradient(var(--hp), #2f9a2b); }
 .tal { position: absolute; transform: translate(-50%, -50%); font-family: var(--display); font-weight: 800; font-size: 17px; text-shadow: 0 2px 0 #000, 0 0 6px rgba(0, 0, 0, 0.8); animation: stig 1.05s ease-out forwards; white-space: nowrap; }
 .tal.helt { color: #fff3c8; }
-.tal.krit { color: #ffb43b; font-size: 22px; }
+.tal.krit { color: #ffb43b; font-size: 24px; animation: pop 1.1s ease-out forwards; }
 .tal.fjende { color: #ff6a5a; font-size: 15px; }
 .tal.xp { color: #d7b3ff; font-size: 14px; font-family: var(--ui); }
 .tal.level { color: var(--messing-lys); font-size: 24px; }
 .tal.immun { color: #ffe27a; font-size: 14px; }
+@keyframes pop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(2.1); } 10% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 22% { transform: translate(-50%, -50%) scale(1.15); } 35% { transform: translate(-50%, -50%) scale(1); margin-top: -4px; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); margin-top: -50px; } }
 @keyframes stig { 0% { opacity: 0; margin-top: 6px; } 12% { opacity: 1; } 100% { opacity: 0; margin-top: -46px; } }
 
 /* ---------- HUD ---------- */

@@ -44,6 +44,7 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
     stedLiv.opdater(dt, helt, spil);
     spil.genstande.opdater(dt);
     effekter.opdater(dt);
+    spil.kampFølelse?.opdater(dt);
     verdensObj.opdater(dt);
     valg.opdater();
     rig.opdater(dt, helt.død ? null : helt);

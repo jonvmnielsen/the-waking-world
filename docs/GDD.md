@@ -723,6 +723,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
 - **M14b ✅:** store, overdrevne figurer; forsyning efter styrke (100 i alt, upkeep 40/80); ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
 - **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
+- **M14f ✅:** kampfølelse — den, der rammes, blinker (hvid fjende, rød egen); blod, knoglestøv eller støv sprøjter væk fra slaget; heltens store slag giver et kort stop i animationen og et ryk i kameraet; store tal popper med "!"; støvsky når nogen falder, og bosser og helte ryster kameraet (`kampfoelelse.js`).
 - **M14e ✅:** Ascension pr. helt (navn, titel, passiv og to evner for hver af de seks helte).
 - **M14d ✅:** helten og tre arbejdere ved start; genoplivning kun ved alteret; skill points; ånder og alterets velsignelser (afsnit 6.6).
 
