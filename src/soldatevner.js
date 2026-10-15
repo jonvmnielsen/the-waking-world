@@ -12,6 +12,7 @@ const fjenderNær = (u, r) => u.verden.creeps.filter((c) => !c.død && c.tilstan
 
 export const evneMetoder = {
   opdaterEvner(dt) {
+    this.opdaterGrundEvne(dt);   // soldatens egen evne (grundevner.js)
     const e = this.evne, gren = this.vet.gren?.id;
     e.cd = Math.max(0, e.cd - dt);
     if (e.storm > 0) { e.storm -= dt; if (e.storm <= 0) this.fart = this.basisFart; }
@@ -42,12 +43,15 @@ export const evneMetoder = {
 
   // Skadefaktor på næste slag
   slagFaktor() {
-    if (this.stormSlag) { this.stormSlag = false; return 1.5; }
-    return 1;
+    const lam = this.kraftLam, k = this.grundKraft();   // Brutal Swing / Aimed Shot
+    if (k > 1 && lam) { this.lamNu = lam; this.kraftLam = 0; }
+    if (this.stormSlag) { this.stormSlag = false; return 1.5 * k; }
+    return k;
   },
 
   // Raseri: slaget rammer også de andre fjender tæt på
   vedSlag(mål, skade) {
+    if (this.lamNu) { mål.lam?.(this.lamNu); this.lamNu = 0; bus.emit('effekt', { type: 'tungtSlag', mål }); }   // Brutal Swing
     if (!(this.evne.raseri > 0)) return;
     for (const c of fjenderNær(this, this.data.rækkevidde + 1.6)) {
       if (c !== mål) c.tagSkade(reducérSkade(Math.round(skade * 0.8), 0), this);

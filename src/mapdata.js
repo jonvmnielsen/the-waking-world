@@ -5,6 +5,7 @@ import { placérSteder } from './steder.js';
 import { blokPynt, friPynt, vandPynt } from './pynt.js';
 import { rng } from './stoej.js';
 import { KORT } from './config.js';
+import { placérStorkilde } from './storkilde.js';
 
 export function lavKort(seed = KORT.seed) {
   const tilf = rng(seed);
@@ -16,5 +17,6 @@ export function lavKort(seed = KORT.seed) {
     else if (f.blok) blokPynt(f, tilf);
     else if (f.type === 'græs' && !f.optaget) friPynt(f, tilf);
   }
+  placérStorkilde(kort, steder, lejre, seed);   // den store kilde midt mellem baserne (storkilde.js)
   return { kort, heltSpawn, steder, lejre, kister, storlejr, fjende, minder, tilf, grænser: kortGrænser() };
 }

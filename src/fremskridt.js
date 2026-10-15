@@ -8,6 +8,7 @@ import { Advarsel } from './advarsel.js';
 import { lavKonstruktioner } from './konstruktion.js';
 import { Bedrifter } from './bedrifter.js';
 import { HeltPortræt } from './heltportraet.js';
+import { Ultimatum } from './ultimatum.js';
 
 // Kaldes før gem/gendan og før kommandopanelet bygges (forskningen skal findes, når bygningerne gendannes)
 export function lavUdvikling(spil) {
@@ -23,6 +24,7 @@ export function lavFremskridtsHud(spil, overlay) {
   spil.advarsel = new Advarsel(spil, overlay);
   const asc = new AscensionHud(spil);
   const upkeep = new UpkeepVisning(spil);
-  const portræt = new HeltPortræt(spil);   // heltens levende portræt i helteknappen (M14)
+  const portræt = new HeltPortræt(spil);
+  spil.ultimatum = new Ultimatum(spil);   // level-6-øjeblikket og ultimatets kraft (M14b)   // heltens levende portræt i helteknappen (M14)
   return { opdater() { asc.opdater(); upkeep.opdater(); portræt.tegn(); } };
 }

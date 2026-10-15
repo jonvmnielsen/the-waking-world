@@ -42,7 +42,7 @@ export const tideMetoder = {
 
   predator() {
     this.heltRåb('Spellcast_Raise');
-    this.tRovdyr = 8;
+    this.tRovdyr = 10;
     bus.emit('effekt', { type: 'evne', x: this.helt.x, z: this.helt.z, farve: 0xff9a4a });
   },
 };

@@ -29,9 +29,9 @@ export const ARBEJDERE = 5;   // indtægten følger hvor mange arbejdere der lev
 // Sværhedsgrader: indtægt pr. sekund (med alle arbejdere), første angreb (min), tid mellem angreb (min), start-level,
 // hærens loft, hvor mange der bliver hjemme, og bølgernes størrelse (første bølge + vækst pr. bølge)
 export const SVÆRHED = {
-  easy: { navn: 'Easy', indtægt: 2.4, førsteAngreb: 10, mellemrum: 4.5, level: 2, loft: 12, hjemme: 1, bølge: [3, 2] },
-  normal: { navn: 'Normal', indtægt: 3.4, førsteAngreb: 7, mellemrum: 3.5, level: 3, loft: 22, hjemme: 2, bølge: [5, 2] },
-  hard: { navn: 'Hard', indtægt: 4.8, førsteAngreb: 5, mellemrum: 2.5, level: 4, loft: 30, hjemme: 3, bølge: [6, 3] },
+  easy: { navn: 'Easy', indtægt: 2.4, førsteAngreb: 10, mellemrum: 4.5, level: 2, loft: 9, hjemme: 1, bølge: [3, 1] },
+  normal: { navn: 'Normal', indtægt: 3.4, førsteAngreb: 7, mellemrum: 3.5, level: 3, loft: 14, hjemme: 2, bølge: [4, 2] },
+  hard: { navn: 'Hard', indtægt: 4.8, førsteAngreb: 5, mellemrum: 2.5, level: 4, loft: 19, hjemme: 2, bølge: [5, 2] },
 };
 
 // Senere bygninger: [minut, type]. Mod en aggressiv spiller kommer tårnene tidligere.

@@ -17,6 +17,8 @@ export const STEMMER = {
     epitet: ['A name to fear. Good.'],
     gå: ['Moving.', 'Out of my way.', 'Fine. Walking.'],
     irriteret: ['I am the Warchief. Not a toy.', 'Do that again. See what happens.', 'My patience is short. Like you.', 'Enough!', 'You poke like a peasant.'],
+    ultimatum: ['Now the ground itself fears me.', 'I feel the mountain in my feet.'],
+    ult: ['THE EARTH BREAKS!', 'KNEEL!', 'FALL!'],
   },
   stormsinger: {
     valgt: ['The wind hears you.', 'Speak, and the sky answers.', 'I hear thunder far off.', 'The waves are restless.'],
@@ -31,6 +33,8 @@ export const STEMMER = {
     epitet: ['The wind carries my name.'],
     gå: ['The wind carries me.', 'As the current flows.', 'I go.'],
     irriteret: ['The storm does not like to be prodded.', 'I hear thunder. It is me. Being annoyed.', 'Shall I rain on you?', 'Even the sea needs rest.'],
+    ultimatum: ['The storm has chosen me.', 'I hold the sky in my hands.'],
+    ult: ['STORM, COME!', 'THE SKY ANSWERS!', 'BURN IN THE THUNDER!'],
   },
   wildtrack: {
     valgt: ['Tracks everywhere.', 'Quiet. I hear prey.', 'Where to, chief?', 'My spears are ready.'],
@@ -45,6 +49,8 @@ export const STEMMER = {
     epitet: ['They will tell stories of this hunt.'],
     gå: ['On the trail.', 'Quietly now.', 'Following.'],
     irriteret: ['You scare the prey.', 'Poke me and I mark you.', 'Every hunter knows: never poke the hunter.', 'Shh! Stop it.'],
+    ultimatum: ['Now I hunt like the wolf.', 'The wild runs in my blood.'],
+    ult: ['THE HUNT BEGINS!', 'RUN, LITTLE PREY!', 'NOTHING ESCAPES!'],
   },
   knightCommander: {
     valgt: ['At your command.', 'Orders?', 'Steel and resolve.', 'The line holds.'],
@@ -59,6 +65,8 @@ export const STEMMER = {
     epitet: ['I will bear the name with honour.'],
     gå: ['Advancing.', 'By your command.', 'Onward.'],
     irriteret: ['This is most irregular.', 'Commander, please.', 'My oath does not cover this.', 'I shall write a formal complaint.'],
+    ultimatum: ['The light walks with me now.', 'My oath has teeth.'],
+    ult: ['BY THE LIGHT!', 'THIS GROUND IS HOLY!', 'STAND FIRM!'],
   },
   lorewarden: {
     valgt: ['Every name is a story.', 'I was reading. Yes?', 'Knowledge is a lamp.', 'Quickly, please.'],
@@ -73,6 +81,8 @@ export const STEMMER = {
     epitet: ['Write it down. Carefully.'],
     gå: ['Very well.', 'Mind the footnotes.', 'Walking, reading.'],
     irriteret: ['You made me lose my page.', 'There is a chapter on patience. Read it.', 'I am cataloguing your pokes.', 'Fascinating. Stop.'],
+    ultimatum: ['I have found the oldest word.', 'The last page is written in light.'],
+    ult: ['OLD LIGHT, FALL!', 'BE UNWRITTEN!', 'READ THIS!'],
   },
   rangerCaptain: {
     valgt: ['Eyes open.', 'I see it.', 'Name the target.', 'Bolts loaded.'],
@@ -87,6 +97,8 @@ export const STEMMER = {
     epitet: ['Fine. Just keep it short.'],
     gå: ['Moving.', 'Changing position.', 'Got it.'],
     irriteret: ['You are in my line of fire.', 'Breathe. Aim. Stop poking me.', 'I never miss. Remember that.', 'Seriously?'],
+    ultimatum: ['Now I see every heart at once.', 'More bolts. Many more.'],
+    ult: ['ALL VOLLEYS — LOOSE!', 'RAIN!', 'COVER THEM!'],
   },
 };
 

@@ -189,7 +189,7 @@ Et døgn varer 8 minutter: 5 min dag, 3 min nat med skumring og daggry. Om natte
 | **Sten** | Hver eneste sten: små sten i landskabet og store grå klippeblokke i stenbrud | Tårne, større bygninger, opgraderinger |
 | **Forsyning** | Forsyningsbygninger (max 100) | Loft over hærens størrelse |
 
-**Arbejdere** går hen til minen eller skoven, arbejder et øjeblik og bærer ressourcerne hjem til hovedhallen. Det er ikke øjeblikkelig indsamling. **Upkeep (M7, Jons beslutning):** en stor hær koster. Op til 40 brugt forsyning er der intet upkeep; fra 41 giver minerne 30 % mindre guld (*Low upkeep*), fra 71 giver de 60 % mindre (*High upkeep*). Forsyningstælleren skifter farve og viser fradraget, og et tryk på den forklarer det. Det belønner en lille hær med stærke helte og veteraner.
+**Arbejdere** går hen til minen eller skoven, arbejder et øjeblik og bærer ressourcerne hjem til hovedhallen. Det er ikke øjeblikkelig indsamling. **Upkeep (M7, skærpet i M14b — Jon: hæren skal ikke kunne blive så stor, så fokus kommer på helten):** forsyningen kan højst være **60**. Op til 30 brugt forsyning er der intet upkeep; fra 31 giver minerne 30 % mindre guld (*Low upkeep*), fra 46 giver de 60 % mindre (*High upkeep*). Soldater koster 3 forsyning (Sellsword 4), arbejdere 1, så en fuld hær er cirka 15–17 soldater, og de fleste spil kæmpes med 6–12. AI-modstanderens hær er tilsvarende mindre (loft 9/14/19 efter sværhedsgrad). Forsyningstælleren skifter farve og viser fradraget, og et tryk på den forklarer det. Det belønner en lille hær med stærke helte og veteraner.
 
 **Startressourcer:** 300 guld, 150 træ, 80 sten. En tur giver 10 guld, 10 træ eller 8 sten. En guldmine rummer 8.000 guld (startminen 12.000). Et træ i skoven giver 40 træ, et frit træ 30, en klippeblok i et stenbrud 150 sten og en lille sten 25. Når alle træer i et skovfelt er fældet, kan man gå igennem. Guldminer har lysende guldårer og glimt, så de er lette at kende. Storlejren giver 12 forsyning, en hytte 10, helten koster 5 og en bærer 1.
 
@@ -680,21 +680,29 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 
 | Søjle | Har vi | Mangler / næste |
 |---|---|---|
-| 1. Helten bærer spillet | Tre helte pr. race med egne evner, items med rul, bedrifter, Ascension | Ultimatet ved level 6 skal *føles* som et ultimatum; Ascension-evner pr. helt |
-| 2. Få enheder | Upkeep (41/71), veteraner, grene | Flere aktive evner på soldater (mikro), autocast |
-| 3. Creeping | Lejre i 5 farver, drops, vogtede miner, kilder, butikker, kro | Neutrale steder der *altid* er vogtet; en kilde i midten at kæmpe om |
+| 1. Helten bærer spillet | ✅ Tre helte pr. race med egne evner, items med rul, bedrifter, Ascension; ultimatet ved level 6 er et øjeblik (M14b) | Ascension-evner pr. helt |
+| 2. Få enheder | ✅ Højst 60 forsyning, upkeep fra 31/46, soldater koster 3; veteraner og grene; hver soldat har sin egen evne med autocast (M14b) | Slå autocast til/fra |
+| 3. Creeping | ✅ Lejre i 5 farver, drops, vogtede miner, kilder, butikker, kro; **The Old Wellspring** midt mellem baserne, vogtet af to lejre (M14b) | Flere neutrale steder der altid er vogtet |
 | 4. Personlighed i enheder | ✅ Heltene og alle enheder svarer med egne ord (valg, gå, angrib, høst, byg, færdig, klar) og bliver irriterede ved fire tryk i træk; dyr snøfter og sprænges ved femte prik (M14a) | Lyd til stemmerne |
 | 5. Portrætter | ✅ Levende 3D-portræt af helten i helteknappen: trækker vejret, nikker når den taler, kryber sammen når den rammes, jubler ved level-op, gråt når den er faldet; bærer sin hjelm (M14a) | Portræt af den valgte enhed |
-| 6. Læsbarhed | Holdfarver, runecirkel, større helte, synligt udstyr | Tydeligere slag og effekter ("juice") |
+| 6. Læsbarhed | ✅ Alle figurer er overdrevent store (×1,6, helte endnu større), holdfarver, runecirkel, synligt udstyr (M14b) | Tydeligere slag og effekter ("juice") |
 | 7. Dag og nat | Ja, creeps sover, kortere udsyn | Racer der mærker natten forskelligt |
-| 8. Racer | To racer, egne modeller og farver | Egne stemmer, egen brugerflade-tone, egen musik, egen måde at bygge på |
+| 8. Racer | ✅ To racer med egne modeller, farver, stemmer, advarsler og **musik** (M14a–c) | Egen brugerflade-tone, egen måde at bygge på |
 | 9. Fortælling og editor | Krønike, lore, Navnesten, verden der vågner | Kampagne med mellemsekvenser; kort-editor i spillet (visionen) |
 
 ### Plan
 
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
-- **M14b:** ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; en vogtet kilde midt på kortet.
-- **M14c:** musik pr. race og døgn; racernes egen brugerflade-tone; natten pr. race.
+- **M14b ✅:** store, overdrevne figurer; en mindre hær; ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
+- **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
+
+### M14b–c i detaljer
+
+- **Store figurer:** alle figurer skaleres ×1,6 og fylder ×1,25 mere, når de står tæt (`VERDEN.enhedSkala`, `enhedRadius`). Helte er 1,18–1,4 × det igen (vokser med level, ×1,12 ved Ascension). Bygninger og natur er uændrede.
+- **Ultimatet (`ultimatum.js`):** heltens tredje evne er dens ultimatum. Level 6: gylden søjle, banneret "ULTIMATE UNLOCKED!", et banner med evnens navn og heltens egen replik. Knappen har en gylden ramme, der pulserer, når den er klar. Når det bruges: gyldent blink, kameraet ryster, helten råber, og evnestyrken er ×1,6 i 11 sekunder. Ventetid 70–80 s, mana 120–170. Tallene: Earth Stomp 190 + 1,5 s lammelse; Eye of the Storm 72 pr. halve sekund; Predator 10 s; Consecration 64/s og heling 40/s; Old Light 385; Rain of Bolts 3 × 112.
+- **Soldaternes evner (`grundevner.js`, autocast):** Grunt *Brutal Swing* (hvert 9. s dobbelt skade og kort lammelse), Spear Thrower *Pinning Spear* (hvert 12. s et ekstra spyd, der nagler målet 1,5 s), Footman *Defend* (når såret: halv skade i 5 s), Marksman *Aimed Shot* (hvert 10. s 2,2 × skade). Veteranernes grene kommer oven i.
+- **The Old Wellspring (`storkilde.js`):** en stor stenkilde fra vores generator midt mellem baserne, vogtet af en stærk (orange) og en mellemsvær lejr. Heler alle inden for 14 — også fjenden — 3 % liv og mana i sekundet, og vandet glitrer. Lyseblå ring på minimappet. Placeres efter kortets pynt med sit eget frø, så gemte spil stadig passer.
+- **Musik (`musik.js`, `musikdata.js`):** syntetiseret med WebAudio, ingen filer. The Tide: krigstrommer, drone og horn i mol-pentatonik; om natten fløjte og hjerteslag. The Architects: strygere (Dm–Bb–F–C), harpe og horn; en march, når der kæmpes. Flere trommer under kamp. 16 takter, så 6–10 takters stilhed. "Music" kan slås fra i menuen. Kan senere skiftes til rigtige CC0-numre.
 - **Senere:** kampagne med mellemsekvenser i motoren; kort-editor i spillet.
 
 **Kilder:** [Wikipedia: Warcraft III](https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos) · [Corerunner: Warcraft III Review](https://corerunner.substack.com/p/warcraft-iii-review) · [PCGamesN: upkeep (Rob McNaughton)](https://www.pcgamesn.com/warcraft-3/upkeep) · [Game Informer: Warcraft Legends (Rob Pardo)](https://gameinformer.com/b/news/archive/2014/11/03/warcraft-iii-was-almost-a-non-traditional-rts-called-warcraft-legends) · [Blue's News: Warcraft III Revisited](https://www.bluesnews.com/s/10992/warcraft-iii-revisited) · [Strategy Planet-preview (creeps, neutrale bygninger, nat)](https://gamespy-archives.quaddicted.com/sites/www.strategyplanet.com/features/previews/warcraft3/index3.shtml.html) · [Eurogamer/Blizzplanet: Samwise Didier](https://www.blizzplanet.com/blog/comments/eurogamer_interviews_samwise_didier) · [Liquipedia: Daytime](https://liquipedia.net/warcraft/Daytime) · [Giant Bomb: Piss Lines](https://giantbomb.com/wiki/Concepts/Piss_Lines) · [Warcraft Wiki: Critters](https://warcraft.wiki.gg/wiki/Critters) · [Warcraft Wiki: Lost Temple](https://warcraft.wiki.gg/wiki/Lost_Temple_(Warcraft_III)) · [GamesBeat: mod-værktøjer](https://gamesbeat.com/warcraft-iii-reforged-reminds-us-why-mod-toolsets-should-matter/) · [Den of Geek: Warcraft's influence](https://www.denofgeek.com/games/warcraft-the-most-influential-game-franchise-of-all-time) · [Wayward Strategy: iconic characters](https://waywardstrategy.com/2015/08/12/rts-games-need-more-iconic-characters/)

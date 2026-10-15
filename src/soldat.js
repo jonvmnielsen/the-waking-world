@@ -8,6 +8,7 @@ import { ENHEDER } from './bygningsdata.js';
 import { reducérSkade, tilfældig } from './config.js';
 import { findTrussel, jagtMetoder } from './trussel.js';
 import { evneMetoder } from './soldatevner.js';
+import { grundMetoder } from './grundevner.js';
 import { bus } from './events.js';
 import { sætHold } from './holdfarve.js';
 
@@ -152,6 +153,7 @@ export class Soldat extends Unit {
     this.sidstIKamp = this.tid;
     if (kilde && kilde !== this) this.angribere.set(kilde, this.tid);
     if (this.buff.linje > 0) mængde *= 0.6;
+    mængde *= this.grundForsvar();   // Defend (grundevner.js)
     return super.tagSkade(reducérSkade(mængde, this.rustning + this.bonus().rustning), kilde);
   }
 
@@ -171,7 +173,7 @@ export class Soldat extends Unit {
   }
 }
 
-Object.assign(Soldat.prototype, evneMetoder, jagtMetoder);
+Object.assign(Soldat.prototype, evneMetoder, grundMetoder, jagtMetoder);
 
 // Hvor langt en soldat kan se (krigens tåge)
 export const SOLDAT_SYN = 16;

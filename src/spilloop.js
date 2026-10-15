@@ -38,7 +38,7 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
     adskil([helt, ...verden.creeps.filter((c) => !c.død && !c.erBygning && c.rod.visible), ...base.arbejdere.filter((a) => a.rod.visible && !a.død), ...base.soldater.filter((s) => !s.død)], verden.kort);
     stil.opdater(dt, base.soldater);
     spil.veteraner.opdater();
-    stedLiv.opdater(dt, helt);
+    stedLiv.opdater(dt, helt, spil);
     spil.genstande.opdater(dt);
     effekter.opdater(dt);
     verdensObj.opdater(dt);

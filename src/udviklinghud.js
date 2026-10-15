@@ -69,7 +69,7 @@ export class UpkeepVisning {
 
   forklar() {
     const u = this.spil.økonomi.upkeep();
-    bus.emit('besked', `Supply ${this.spil.økonomi.forsyning}: ${u.navn}${u.faktor < 1 ? ` — mines give ${Math.round((1 - u.faktor) * 100)}% less gold` : ''}. Upkeep starts at 41 supply and grows at 71.`);
+    bus.emit('besked', `Supply ${this.spil.økonomi.forsyning}: ${u.navn}${u.faktor < 1 ? ` — mines give ${Math.round((1 - u.faktor) * 100)}% less gold` : ''}. Upkeep starts at 31 supply and grows at 46. Your army can never pass 60 supply.`);
   }
 
   opdater() {

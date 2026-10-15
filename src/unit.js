@@ -4,10 +4,12 @@ import { kopi, animationer } from './assets.js';
 import { bus } from './events.js';
 import { undgåTing } from './hindring.js';
 import { højdeVed } from './terraen.js';
+import { VERDEN } from './config.js';
 
 export class Unit {
   constructor(verden, model, { skala = 1, skjul = [], våben = {}, våbenSkala = 1, radius = 0.7 } = {}) {
     this.verden = verden;
+    skala *= VERDEN.enhedSkala; radius *= VERDEN.enhedRadius;   // overdrevne figurer (config.js)
     this.rod = new THREE.Group();
     this.model = kopi(model, { skygge: true });
     this.model.traverse((o) => { if (o.isMesh) o.material.userData.sne = false; });   // ingen sne på figurerne

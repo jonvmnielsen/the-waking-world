@@ -107,6 +107,13 @@ export class Minimap {
       ctx.beginPath(); ctx.moveTo(x, y - r); ctx.lineTo(x + r, y); ctx.lineTo(x, y + r); ctx.lineTo(x - r, y); ctx.closePath(); ctx.fill();
       if (stor && !tom) { ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = this.k; ctx.beginPath(); ctx.arc(x, y, r * 1.9, 0, Math.PI * 2); ctx.stroke(); }
     }
+    // Den store kilde: en lyseblå ring, når den er set (storkilde.js)
+    for (const k of spil.steder ?? []) {
+      if (k.type !== 'storkilde' || !t.erUdforsket(k.x, k.z)) continue;
+      const [x, y] = this.px(k.x, k.z);
+      ctx.fillStyle = '#6dd8ff'; ctx.beginPath(); ctx.arc(x, y, 3.2 * this.k, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#d8f6ff'; ctx.lineWidth = this.k; ctx.beginPath(); ctx.arc(x, y, 5.2 * this.k, 0, Math.PI * 2); ctx.stroke();
+    }
     // Bygninger og figurer: egne i grønt, The Memory i rødt (bygninger når de er set, figurer når de ses)
     const prik = (x, z, farve, r, firkant) => {
       const [px, py] = this.px(x, z);

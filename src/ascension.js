@@ -25,7 +25,7 @@ export class Ascension {
   stig(id, gendan = false) {
     const h = this.helt, d = STIER[id];
     this.id = id;
-    h.model.scale.multiplyScalar(1.12);
+    h.vækst = 1.12;   // helten vokser (helteaura.js sætter størrelsen)
     h.model.traverse((o) => {
       if (!o.isMesh) return;
       o.material = o.material.clone();

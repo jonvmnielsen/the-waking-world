@@ -6,12 +6,12 @@ export const START = { guld: 300, træ: 150, sten: 80 };
 export const MÆNGDE = { mine: 15000 };   // reserve; minerne har hver sin mængde (minedata.js)   // træer og sten: se RESSOURCE i pynt.js
 export const BÆR = { guld: 10, træ: 10, sten: 8 };          // pr. tur
 export const HØST_TID = { guld: 1.6, træ: 4.5, sten: 5.5 }; // sekunder pr. tur
-export const MAKS_FORSYNING = 100;
+export const MAKS_FORSYNING = 60;   // en lille hær, så helten fylder mere (Jon, M14b — som WC3)
 // Upkeep (Jons ønske): en stor hær koster. Jo mere forsyning der er brugt, jo mindre af minernes guld når frem.
 export const UPKEEP = [
   { fra: 0, navn: 'No upkeep', faktor: 1 },
-  { fra: 41, navn: 'Low upkeep', faktor: 0.7 },
-  { fra: 71, navn: 'High upkeep', faktor: 0.4 },
+  { fra: 31, navn: 'Low upkeep', faktor: 0.7 },
+  { fra: 46, navn: 'High upkeep', faktor: 0.4 },
 ];
 // Ressourcernes navne på skærmen
 export const RES_NAVN = { guld: 'gold', træ: 'wood', sten: 'stone' };
@@ -34,7 +34,7 @@ export class Økonomi {
     if ((pris.træ ?? 0) > this.træ) m.push(`${pris.træ - this.træ} wood`);
     if ((pris.sten ?? 0) > this.sten) m.push(`${pris.sten - this.sten} stone`);
     if (m.length) return `Not enough: ${m.join(', ')}`;
-    if (forsyning && this.forsyning + forsyning > Math.min(this.forsyningMaks, MAKS_FORSYNING)) return 'Build a Supply Hut to get more supply';
+    if (forsyning && this.forsyning + forsyning > Math.min(this.forsyningMaks, MAKS_FORSYNING)) return this.forsyningMaks >= MAKS_FORSYNING ? `Your army is at its limit (${MAKS_FORSYNING} supply)` : 'Build a Supply Hut to get more supply';
     return null;
   }
 

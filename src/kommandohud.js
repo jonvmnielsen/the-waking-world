@@ -3,7 +3,7 @@
 import { BYGNINGER, BYGGEMENU, ENHEDER } from './bygningsdata.js';
 import { GRENE } from './soldatdata.js';
 import { kanKæmpe, gruppeStatus } from './haer.js';
-import { RES_NAVN } from './okonomi.js';
+import { RES_NAVN, MAKS_FORSYNING } from './okonomi.js';
 import { prisHtml, udviklingsKnapper, udviklingsStatus, markérUdvikling, ofringsKnapper } from './udviklinghud.js';
 import { ikon } from './ikoner.js';
 import { bus } from './events.js';
@@ -142,8 +142,8 @@ export class KommandoHud {
     $('res-guld').textContent = øko.guld;
     $('res-træ').textContent = øko.træ;
     $('res-sten').textContent = øko.sten;
-    $('res-forsyning').textContent = `${øko.forsyning}/${Math.min(øko.forsyningMaks, 100)}`;
-    $('res-forsyning').parentElement.classList.toggle('fuld', øko.forsyning >= øko.forsyningMaks);
+    $('res-forsyning').textContent = `${øko.forsyning}/${Math.min(øko.forsyningMaks, MAKS_FORSYNING)}`;
+    $('res-forsyning').parentElement.classList.toggle('fuld', øko.forsyning >= Math.min(øko.forsyningMaks, MAKS_FORSYNING));
     const hær = this.spil.base.hær.length;
     $('hær').classList.toggle('skjult', !hær);
     $('hær-tal').textContent = hær;

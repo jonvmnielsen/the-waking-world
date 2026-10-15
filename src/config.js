@@ -4,6 +4,8 @@ import { AKTIVT_KORT } from './kortvalg.js';
 
 export const VERDEN = {
   hexSkala: 5,          // KayKit hex-fliser er 2 enheder brede — skaleres så bygninger og natur er meget større end helten
+  enhedSkala: 1.6,      // alle figurer er overdrevent store, så de kan læses skråt ovenfra (Jon, M14b — som WC3)
+  enhedRadius: 1.25,    // og fylder lidt mere, når de står tæt
 };
 
 export const KORT = {

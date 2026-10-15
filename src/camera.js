@@ -98,7 +98,16 @@ export class KameraRig {
       this.fokus.z += (mål.z - this.fokus.z) * k;
     }
     const a = this.synsAfstand;
-    this.kamera.position.set(this.fokus.x, Math.sin(HÆLDNING) * a, this.fokus.z + Math.cos(HÆLDNING) * a);
-    this.kamera.lookAt(this.fokus.x, 0.8, this.fokus.z);
+    // Rystelse (ultimatum, store slag): et lille tilfældigt skub, der dør ud
+    let rx = 0, rz = 0;
+    if (this.rystTid > 0) {
+      this.rystTid -= dt;
+      const k = this.rystStyrke * Math.max(0, this.rystTid / this.rystLængde);
+      rx = (Math.random() - 0.5) * 2 * k; rz = (Math.random() - 0.5) * 2 * k;
+    }
+    this.kamera.position.set(this.fokus.x + rx, Math.sin(HÆLDNING) * a, this.fokus.z + Math.cos(HÆLDNING) * a + rz);
+    this.kamera.lookAt(this.fokus.x + rx, 0.8, this.fokus.z + rz);
   }
+
+  ryst(styrke = 0.4, tid = 0.5) { this.rystStyrke = styrke; this.rystTid = this.rystLængde = tid; }
 }

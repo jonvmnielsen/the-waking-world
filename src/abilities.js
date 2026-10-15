@@ -136,8 +136,8 @@ export class Evner {
     h.spil('2H_Melee_Attack_Chop', { loop: false, fart: 1.6, gentag: true, fade: 0.05 });
     h.sving = { tid: 0, varighed: 1.0, slagTid: 99, ramt: true };
     setTimeout(() => {
-      bus.emit('effekt', { type: 'stomp', x: h.x, z: h.z, radius: 5 });
-      for (const c of this.fjenderInden(5)) { c.tagSkade(Math.round(120 * h.evneStyrke()), h); c.lam?.(1); }
+      bus.emit('effekt', { type: 'stomp', x: h.x, z: h.z, radius: 6 });
+      for (const c of this.fjenderInden(5.5)) { c.tagSkade(Math.round(120 * h.evneStyrke()), h); c.lam?.(1.5); }
     }, 450);
   }
 

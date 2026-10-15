@@ -2,6 +2,7 @@
 // soldaterne og vokser lidt for hvert level, bærer en kappe i holdets farve og har en langsomt drejende
 // runecirkel om fødderne. Gælder både spillerens helt og modstanderens.
 import * as THREE from 'three';
+import { VERDEN } from './config.js';
 
 let tekstur = null;
 function runeTekstur() {
@@ -33,7 +34,7 @@ export function heltePræg(u, farve) {
     new THREE.MeshBasicMaterial({ map: runeTekstur(), color: farve, transparent: true, opacity: 0.85, depthWrite: false, fog: false, blending: THREE.AdditiveBlending }),
   );
   ring.position.y = 0.08; ring.renderOrder = 3;
-  ring.scale.setScalar(3.3);
+  ring.scale.setScalar(3.3 * VERDEN.enhedSkala);
   u.rod.add(ring);
   u.runeRing = ring;
   // Kappen i holdets farve (KayKit-figurerne har en *_Cape)
@@ -49,6 +50,6 @@ export function opdaterPræg(u, dt) {
   if (!u.runeRing) return;
   u.runeRing.rotation.y += dt * 0.35;
   u.runeRing.visible = !u.død;
-  const s = 1.18 + Math.min(19, (u.level ?? 1) - 1) * 0.0115;
+  const s = (1.18 + Math.min(19, (u.level ?? 1) - 1) * 0.0115) * VERDEN.enhedSkala * (u.vækst ?? 1);   // vækst: Ascension
   if (Math.abs(u.model.scale.x - s) > 0.001) { u.model.scale.setScalar(s); u.højde = 2.4 * s; }
 }

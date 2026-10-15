@@ -26,7 +26,7 @@ export const arkMetoder = {
     this.virkning({ varighed: 6, hver: 0.5, start: () => bus.emit('effekt', { type: 'portal', x, z }), gør: () => {
       bus.emit('effekt', { type: 'evne', x, z, farve: 0xffe7a0 });
       for (const c of this.fjenderInden(40)) if (Math.hypot(c.x - x, c.z - z) < 6) c.tagSkade(Math.round(20 * h.evneStyrke()), h);
-      for (const u of [h, ...this.soldaterNær(40)]) if (!u.død && Math.hypot(u.x - x, u.z - z) < 6) u.hp = Math.min(u.maxHp, u.hp + 12.5);
+      for (const u of [h, ...this.soldaterNær(40)]) if (!u.død && Math.hypot(u.x - x, u.z - z) < 6) u.hp = Math.min(u.maxHp, u.hp + 12.5 * (h.ultimaTid > 0 ? 1.6 : 1));
     } });
   },
 

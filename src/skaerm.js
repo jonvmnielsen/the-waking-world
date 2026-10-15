@@ -33,6 +33,7 @@ export class Skærm {
       $(id).addEventListener('change', () => sætIndstilling(navn, $(id).checked));
     }
     $('ind-lyd').addEventListener('change', () => { if ((spil.lyd?.til ?? true) !== $('ind-lyd').checked) spil.lyd?.skift(); });
+    $('ind-musik').addEventListener('change', () => { if ((spil.musik?.til ?? true) !== $('ind-musik').checked) spil.musik?.skift(); });
 
     this.anvend();
     this.valgÆndret();
@@ -55,7 +56,7 @@ export class Skærm {
 
   menu(åben) {
     krop.toggle('menu-åben', åben);
-    if (åben) $('ind-lyd').checked = this.spil.lyd?.til ?? true;
+    if (åben) { $('ind-lyd').checked = this.spil.lyd?.til ?? true; $('ind-musik').checked = this.spil.musik?.til ?? true; }
     if (åben) { $('heltekort').classList.remove('vis'); $('helteknap').classList.remove('åben'); }
   }
 }

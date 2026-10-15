@@ -536,3 +536,11 @@ body.altid-evner:not(.altid-rygsæk):not(.rygsæk-åben) #sti-evner { right: cal
 .valgrække button.valgt { border-color: var(--messing-lys); background: linear-gradient(rgba(122, 90, 42, 0.6), rgba(30, 22, 14, 0.9)); color: var(--messing-lys); }
 .valgrække.skift { grid-template-columns: 1fr auto; align-items: center; }
 .denne-verden { margin: 2px 0 0; font-size: 11px; color: var(--dæmpet); }
+
+/* Ultimatet (ultimatum.js): gylden ramme, puls når den er klar, og et gyldent blink når den bruges */
+.evne.ultimate { border: 3px solid #ffc94a; box-shadow: 0 0 12px rgba(255, 201, 74, 0.45), 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 0 0 2px rgba(0, 0, 0, 0.4); }
+.evne.ultimate.klar { animation: ult-puls 1.6s ease-in-out infinite; }
+@keyframes ult-puls { 50% { box-shadow: 0 0 22px rgba(255, 201, 74, 0.9), 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 0 0 2px rgba(0, 0, 0, 0.4); } }
+#ult-blink { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: 0; background: radial-gradient(circle at 50% 50%, rgba(255, 220, 140, 0.55), rgba(255, 170, 40, 0.25) 45%, rgba(0, 0, 0, 0) 75%); }
+#ult-blink.vis { animation: ult-blink 0.7s ease-out; }
+@keyframes ult-blink { 0% { opacity: 1; } 100% { opacity: 0; } }

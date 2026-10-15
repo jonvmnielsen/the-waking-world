@@ -21,7 +21,7 @@ export class Hud {
     bus.on('helt_død', () => $('dødsskærm').classList.add('vis'));
     bus.on('helt_genoplivet', () => $('dødsskærm').classList.remove('vis'));
     bus.on('banner', ({ titel, tekst, lang }) => this.banner(titel, tekst, lang));
-    bus.on('level_op', ({ level }) => this.banner(`Level ${level}`, [3, 6, 14].includes(level) ? 'New ability unlocked!' : level === 10 && !spil.helt.sti.id ? 'Ascension awaits' : 'Your hero grows stronger'));
+    bus.on('level_op', ({ level }) => this.banner(`Level ${level}`, level === 6 ? 'ULTIMATE UNLOCKED!' : [3, 14].includes(level) ? 'New ability unlocked!' : level === 10 && !spil.helt.sti.id ? 'Ascension awaits' : 'Your hero grows stronger'));
   }
 
   banner(titel, under, meget = false) {
@@ -54,6 +54,8 @@ export class Hud {
       k.querySelector('.navn').textContent = e.navn;
       k.classList.toggle('låst', !e.oplåst);
       k.classList.toggle('tom', e.oplåst && h.mana < e.mana);
+      k.classList.toggle('ultimate', !!e.ultimatum);
+      k.classList.toggle('klar', !!e.ultimatum && e.oplåst && e.cd <= 0 && h.mana >= e.mana);
       k.querySelector('.lås').textContent = e.oplåst ? '' : `Lvl ${e.oplåsLevel}`;
       const cd = e.cd > 0 ? e.cd / e.cdMax : 0;
       k.style.setProperty('--cd', `${cd * 360}deg`);

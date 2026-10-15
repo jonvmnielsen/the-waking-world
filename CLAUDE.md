@@ -108,6 +108,10 @@ the-waking-world/
 │   ├── stemmer.js / stemmedata.js # Alle enheders stemmer: valg, ordrer, klar, færdig, irriterede svar; racens advarsler
 │   ├── dyreprik.js           # Prik til dyrene — det femte prik sprænger dem (blod og pels)
 │   ├── heltportraet.js       # Heltens levende 3D-portræt i helteknappen (eget lille lærred)
+│   ├── ultimatum.js          # Ultimatet: level-6-øjeblikket, gylden knap, blink og rystelse, ×1,6 evnestyrke
+│   ├── grundevner.js         # Soldaternes egne evner med autocast (Brutal Swing, Pinning Spear, Defend, Aimed Shot)
+│   ├── storkilde.js          # The Old Wellspring: stor kilde midt mellem baserne, vogtet; heler alle
+│   ├── musik.js / musikdata.js # Racens musik syntetiseret med WebAudio; nat, kamp og pauser
 │   ├── ascension.js / ascensiondata.js / ascensionhud.js # Ascension ved level 10: stier, passiver, evner, valget
 │   ├── udvikling.js / udviklingdata.js / udviklinghud.js # Forskning, bygningsopgraderinger, upkeep-visning
 │   ├── fremskridt.js         # Sætter M7-systemerne, skærmen og advarslerne op
@@ -445,8 +449,16 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Levende 3D-portræt af helten i helteknappen; level som mærke
 - [x] Advarsler i racens egen stemme
 
-### 📋 Næste: M14b+
-The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, musik. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M14b–c — "WC3-følelsen: læsbarhed, fokus på helten, musik" (oktober 2026)
+- [x] Alle figurer overdrevent store (×1,6), helte endnu større
+- [x] Mindre hær: højst 60 forsyning, upkeep fra 31 og 46, soldater koster 3; AI'ens hær tilsvarende mindre
+- [x] Ultimatet ved level 6: øjeblik, gylden knap, blink og rystelse, ×1,6 evnestyrke
+- [x] Soldaternes egne evner med autocast
+- [x] The Old Wellspring midt mellem baserne (egen model fra generatoren), vogtet, heler alle
+- [x] Musik pr. race, nat og kamp (syntetiseret); "Music" i menuen
+
+### 📋 Næste: M14d+
+The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 
@@ -500,6 +512,9 @@ The Dreaming som race, Ascension-evner pr. helt (stierne er stadig fælles), hva
 | 2026-10-14 | Gem-version 7 kan stadig fortsættes; items lægges om på de nye pladser | Jons lange spil skal ikke gå tabt |
 | 2026-10-14 | WC3-følelsen kommer fra personlighed i alt: enheder svarer, portræt, dyr med vits (GDD 17b) | Jon: "Undersøg i dybden hvad der gjorde WC3 til det det var … Det er dét vi skal fange" |
 | 2026-10-14 | Stemmer vises som korte bobler kun når spilleren selv gør noget | Personlighed uden at fylde skærmen (Jon: for meget tekst) |
+| 2026-10-15 | Figurerne er overdrevent store (×1,6) som i WC3 | Jon: store og overdrevne enheder, så de nemmere kan læses |
+| 2026-10-15 | Højst 60 forsyning, upkeep fra 31/46, soldater koster 3 | Jon: hæren skal ikke kunne blive så stor, så fokus kommer på helten |
+| 2026-10-15 | Musik syntetiseres med WebAudio indtil der findes CC0-numre | Ingen musik i asset-biblioteket; virker uden downloads |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
 | 2026-10-12 | Gem-version 3 (M9) | Kortene og mindesmærkerne ændrer placeringen af lejre og kister |

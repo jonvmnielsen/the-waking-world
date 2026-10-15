@@ -17,7 +17,7 @@ export class HeltReplikker {
     const h = () => spil.helt;
     bus.on('valg', (v) => { if (v === h()) this.valgt(); });
     bus.on('helt_ordre', ({ type }) => { if (type === 'angrib' && Math.random() < 0.35) this.sig('angrib'); });
-    bus.on('level_op', ({ level }) => { if (level > 2) this.sig('level'); });
+    bus.on('level_op', ({ level }) => { if (level > 2 && level !== 6) this.sig('level'); });   // level 6: ultimatets replik (ultimatum.js)
     bus.on('creep_død', ({ creep, kilde }) => {
       const egen = kilde === h() || kilde?.side === 'egen';
       if (creep.erHelt && egen) this.sig('fjendehelt', true);

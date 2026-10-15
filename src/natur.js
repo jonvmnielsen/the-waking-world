@@ -45,6 +45,7 @@ export function lavNatur(scene, kort) {
         const obj = kopi(pynt.model, { skygge: pynt.skygge });
         m.decompose(obj.position, obj.quaternion, obj.scale);
         scene.add(obj);
+        pynt.obj = obj;   // fx den store kilde, der får sit vand til at glitre (stedliv.js)
         if (pynt.model.includes('/buildings/')) bygninger.push({ rod: obj, egen: false });
         if (KONSTRUKTION.test(pynt.model)) konstruktioner.push({ obj, f, model: pynt.model });
       }
