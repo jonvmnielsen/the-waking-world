@@ -1,5 +1,6 @@
 // The Tides soldater (M4): grunts og spydkastere. Går, angriber, angriber selv det der truer dem
 // eller deres allierede, og bliver veteraner ved at overleve (veteran.js). Grenenes evner: soldatevner.js.
+import { natFart } from './natpraeg.js';
 import { Unit } from './unit.js';
 import { gørOrkGrøn, holdSkær } from './orkhud.js';
 import { HOLD_FARVE, SPILLER_FARVE } from './racer.js';
@@ -177,3 +178,5 @@ Object.assign(Soldat.prototype, evneMetoder, grundMetoder, jagtMetoder);
 
 // Hvor langt en soldat kan se (krigens tåge)
 export const SOLDAT_SYN = 16;
+
+Soldat.prototype.natFart = function () { return natFart(this.verden); };   // racens nat (natpraeg.js)

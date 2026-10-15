@@ -1,5 +1,6 @@
 // Dag og nat (GDD 4.6): et døgn varer 8 minutter (5 min dag, 3 min nat med skumring og daggry).
 // Om natten falder udsynet, creeps sover tungere (de opdager dig senere), og The Memory slår hårdere.
+import { natBesked } from './natpraeg.js';
 import * as THREE from 'three';
 import { UDSEENDE } from './kortvalg.js';
 import { bus } from './events.js';
@@ -65,7 +66,7 @@ export class DagNat {
     if (erNat !== this.varNat) {
       this.varNat = erNat;
       bus.emit(erNat ? 'nat' : 'dag', { døgn: this.døgn });
-      bus.emit('besked', erNat ? 'Night falls. Creeps sleep deeper, but The Memory grows bolder.' : `Dawn breaks — day ${this.døgn}`);
+      bus.emit('besked', erNat ? natBesked() : `Dawn breaks — day ${this.døgn}`);
     }
     this.tegnUr(t);
   }

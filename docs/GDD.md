@@ -715,7 +715,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 | 5. Portrætter | ✅ Levende 3D-portræt af helten i helteknappen: trækker vejret, nikker når den taler, kryber sammen når den rammes, jubler ved level-op, gråt når den er faldet; bærer sin hjelm (M14a) | Portræt af den valgte enhed |
 | 6. Læsbarhed | ✅ Alle figurer er overdrevent store (×1,6, helte endnu større), holdfarver, runecirkel, synligt udstyr (M14b) | Tydeligere slag og effekter ("juice") |
 | 7. Dag og nat | Ja, creeps sover, kortere udsyn | Racer der mærker natten forskelligt |
-| 8. Racer | ✅ To racer med egne modeller, farver, stemmer, advarsler og **musik** (M14a–c) | Egen brugerflade-tone, egen måde at bygge på |
+| 8. Racer | ✅ To racer med egne modeller, farver, stemmer, advarsler, **musik** (M14a–c), brugerflade-tone og nat (M14g) | Egen måde at bygge på |
 | 9. Fortælling og editor | Krønike, lore, Navnesten, verden der vågner | Kampagne med mellemsekvenser; kort-editor i spillet (visionen) |
 
 ### Plan
@@ -723,7 +723,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
 - **M14b ✅:** store, overdrevne figurer; forsyning efter styrke (100 i alt, upkeep 40/80); ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
 - **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
-- **M14g ✅:** ånderne er ekkoerne; træer gror igen (stub 7–10 min, så en spire, der vokser på 1,5 min; ikke hvor der er bygget eller nogen står); modstanderens helt gemmes.
+- **M14g ✅:** racens brugerflade-tone (Tide: drivtømmer og ben; Architects: blå sten og guld) og racens nat (Tide *Children of the Storm*: fuldt udsyn og +10 % fart om natten; Architects *Lamplight*: tårnene +25 % skade og +4 rækkevidde); ånderne er ekkoerne; træer gror igen (stub 7–10 min, så en spire, der vokser på 1,5 min; ikke hvor der er bygget eller nogen står); modstanderens helt gemmes.
 - **M14f ✅:** kampfølelse — den, der rammes, blinker (hvid fjende, rød egen); blod, knoglestøv eller støv sprøjter væk fra slaget; heltens store slag giver et kort stop i animationen og et ryk i kameraet; store tal popper med "!"; støvsky når nogen falder, og bosser og helte ryster kameraet (`kampfoelelse.js`).
 - **M14e ✅:** Ascension pr. helt (navn, titel, passiv og to evner for hver af de seks helte).
 - **M14d ✅:** helten og tre arbejdere ved start; genoplivning kun ved alteret; skill points; ånder og alterets velsignelser (afsnit 6.6).

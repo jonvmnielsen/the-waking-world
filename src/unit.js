@@ -81,7 +81,7 @@ export class Unit {
     const mål = this.vej[0];
     const dx = mål.x - this.x, dz = mål.z - this.z;
     const d = Math.hypot(dx, dz);
-    const skridt = this.fart * dt;
+    const skridt = this.fart * dt * (this.natFart?.() ?? 1);   // racens nat (natpraeg.js)
     // Et mellempunkt på ruten tæller som nået på et par skridts afstand; ellers kredser en flok om det,
     // når de skubber hinanden væk fra præcis samme sted
     if (this.vej.length > 1 && d < 2.4) { this.vej.shift(); return; }

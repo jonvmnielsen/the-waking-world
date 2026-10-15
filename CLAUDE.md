@@ -70,7 +70,7 @@ the-waking-world/
 │   ├── fjendearbejder.js / fjendehelt.js # Modstanderens arbejdere og helt
 │   ├── erevoss.js            # The Memory (neutral): hallen i Erevoss, åndevogtere, ekkoer
 │   ├── sejr.js / spilloop.js # Sejr/nederlag + slutskærm; ét tidstrin i spillet og omrids-tegningen
-│   ├── dagnat.js             # Dag og nat: lys, himmel, udsyn, ur
+│   ├── dagnat.js / natpraeg.js # Dag og nat: lys, himmel, udsyn, ur; racens egen nat (Children of the Storm, Lamplight)
 │   ├── verdenstilstand.js / tjener.js # Balance → Fald → Opvågning; Den Unavngivnes tjenere
 │   ├── livet.js              # Livet i verden: sætter dyr, fugle, pilgrimme, sten og ekkoer op og følger faserne
 │   ├── dyr.js / fugle.js / pilgrimme.js # Hjorte, hinder og ræve; krager, finker og måger (vingeslag); pilgrimme
@@ -481,9 +481,11 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Ånderne er ekkoerne, der ellers driver til Erevoss (Jon)
 - [x] Fældede træer gror igen: stub i 7–10 min, spire, fuldt træ efter 1,5 min
 - [x] Modstanderens helt gemmes (level, liv, sted — eller død og tiden til den rejser sig)
+- [x] Racens brugerflade-tone: The Tide drivtømmer og ben, The Architects blå sten og guld
+- [x] Natten pr. race: The Tide ser fuldt og løber 10 % hurtigere; The Architects' tårne +25 % skade og +4 rækkevidde
 
 ### 📋 Næste: M14h+
-The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. Begivenheder (også en karavane på vej) gemmes ikke; karavanens virkning på priserne gør. Se `docs/GDD.md` afsnit 16–17.
+The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), rigtige CC0-musiknumre, racernes egen måde at bygge på, AI-modstanderens egen nat. Begivenheder (også en karavane på vej) gemmes ikke; karavanens virkning på priserne gør. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 

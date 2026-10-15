@@ -16,6 +16,7 @@ import { sætHold } from './holdfarve.js';
 import { heltePræg, opdaterPræg } from './helteaura.js';
 import { HeltUdstyr } from './heltudstyr.js';
 import { Velsignelser } from './velsignelser.js';
+import { natFart } from './natpraeg.js';
 
 
 export class Helt extends Unit {
@@ -192,4 +193,5 @@ export class Helt extends Unit {
 }
 
 // Erfaring og level ligger i heltlevel.js; gå-hen-og-gør-noget i heltinteraktion.js
+Helt.prototype.natFart = function () { return natFart(this.verden); };
 Object.assign(Helt.prototype, levelMetoder, interaktionMetoder, egenskabsMetoder, jagtMetoder);

@@ -1,5 +1,6 @@
 // Spillerens bygninger: byggeplads med stadier → færdig bygning med sin funktion
 // (forsyning, aflevering, træning, tårn, alter, butik). Se bygningsdata.js.
+import { natTårn } from './natpraeg.js';
 import { kopi } from './assets.js';
 import { BYGNINGER, ENHEDER, STADIER } from './bygningsdata.js';
 import { VERDEN, tilfældig, reducérSkade } from './config.js';
@@ -140,12 +141,12 @@ export class Bygning {
     if (a) {
       this.cooldown -= dt;
       if (this.cooldown <= 0) {
-        const u = this.verden.udvikling, rk = a.rækkevidde + (u?.tårnRækkevidde() ?? 0);
+        const u = this.verden.udvikling, nt = natTårn(this.verden), rk = a.rækkevidde + (u?.tårnRækkevidde() ?? 0) + nt.rk;   // Lamplight (natpraeg.js)
         const mål = this.verden.creeps.filter((c) => !c.død && !c.erBygning && c.rod.visible && Math.hypot(c.x - this.x, c.z - this.z) < rk)
           .sort((p, q) => Math.hypot(p.x - this.x, p.z - this.z) - Math.hypot(q.x - this.x, q.z - this.z))[0];
         if (mål) {
           this.cooldown = a.tid;
-          bus.emit('projektil', { fra: this.skytte(), mål, skade: Math.round(tilfældig(...a.skade) * (u?.tårnSkade() ?? 1)), farve: a.område ? 0xff8a3a : 0xffd27a, område: a.område });
+          bus.emit('projektil', { fra: this.skytte(), mål, skade: Math.round(tilfældig(...a.skade) * (u?.tårnSkade() ?? 1) * nt.skade), farve: a.område ? 0xff8a3a : 0xffd27a, område: a.område });
         }
       }
     }

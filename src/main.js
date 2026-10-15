@@ -1,4 +1,5 @@
 // The Waking World — opstart og spil-loop.
+import { SPILLER } from './racer.js';
 import * as THREE from 'three';
 import './style.css';
 import { hentAlle } from './assets.js';
@@ -88,7 +89,7 @@ async function start() {
   const essens = fortsæt ? gemt.helt.essens : valgtEssens.essens;
   const sværhed = fortsæt ? (gemt.modstander?.sværhed ?? 'normal') : valgtEssens.sværhed;
   if (!fortsæt) await visIntro();
-  document.body.classList.add('i-spil');
+  document.body.classList.add('i-spil', `race-${SPILLER.id}`);   // racens brugerflade-tone (style.css)
   const helt = new Helt(verden, heltSpawn, essens, fortsæt ? gemt.helt.type : valgtEssens.helt);
   verden.helt = helt;
   const lejre = lejrData.map((d) => new Lejr(verden, d));

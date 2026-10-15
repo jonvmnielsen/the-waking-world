@@ -9,6 +9,7 @@ export const RACER = {
     id: 'tide', navn: 'The Tide', kort: 'Orcs of the storm coast — tough, wild and hard to stop.',
     farve: 'green', orkhud: true, kriger: 'grunt', skytte: 'spydkaster',
     arbejder: 'Worker', bygninger: {}, modeller: {}, grene: {}, forskning: {},
+    nat: { navn: 'Children of the Storm', tekst: 'your hero and soldiers see as far as by day and move 10% faster.', syn: true, fart: 0.1 },
   },
   arkitekter: {
     id: 'arkitekter', navn: 'The Architects', kort: 'Builders of order — stone halls, knights and crossbows.',
@@ -20,6 +21,7 @@ export const RACER = {
     tekster: { hytte: '+10 supply, so you can feed more peasants and soldiers.', krigerlejr: 'Trains footmen and crossbowmen. Veteran footmen are specialised here.', alter: 'Your hero can only be revived here. Spirits your hero carries home are offered here for blessings.' },
     grene: { ironhide: 'Bulwark', ravager: 'Lancer', berserker: 'Zealot' },
     forskning: { våben: 'Tempered Blades', spyd: 'Steel Bolts', rustning: 'Plate Armor' },
+    nat: { navn: 'Lamplight', tekst: 'your towers are lit — +25% damage and +4 range.', tårnSkade: 0.25, tårnRække: 4 },
   },
 };
 export const RACE_IDER = Object.keys(RACER);

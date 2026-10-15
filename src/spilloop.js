@@ -3,6 +3,7 @@ import { adskil } from './unit.js';
 import { ARBEJDER_SYN } from './arbejder.js';
 import { SOLDAT_SYN } from './soldat.js';
 import { Røntgen } from './rontgen.js';
+import { natSyn } from './natpraeg.js';
 
 export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, sætEgne }) {
   const { helt, base, taage, verden, lejre, stil, valg, rig, modstander } = spil;
@@ -16,7 +17,7 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
     sætEgne([helt, ...base.arbejdere, ...base.soldater].filter((u) => !u.død && u.rod.visible && !u.skjult));
     helt.opdater(dt);
     // Om natten ser alle kortere (dagnat.js)
-    const f = spil.dagNat.synsFaktor();
+    const f = natSyn() ? 1 : spil.dagNat.synsFaktor();   // The Tide ser om natten (natpraeg.js)
     heltSyn.x = helt.x; heltSyn.z = helt.z; heltSyn.radius = SYN_HELT * f;
     const syn = [
       ...base.arbejdere.filter((a) => !a.død).map((a) => ({ x: a.x, z: a.z, radius: ARBEJDER_SYN * f })),
