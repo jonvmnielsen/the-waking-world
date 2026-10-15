@@ -111,7 +111,7 @@ the-waking-world/
 │   ├── ultimatum.js          # Ultimatet: level-6-øjeblikket, gylden knap, blink og rystelse, ×1,6 evnestyrke
 │   ├── kampfoelelse.js       # Kampfølelse: blink ved slag, gnister/blod, hitstop, kamerarystelser, støv ved fald
 │   ├── evnerang.js           # Skill points: evnernes rang 1–3 og "+2 all attributes"
-│   ├── aander.js / alter.js  # Ånder fra faldne fjender (bæres, tabes, ofres); Spirit Altar: genoplivning og velsignelsespanel
+│   ├── aander.js / alter.js  # Ånderne = ekkoerne (antal, bæres, tabes, ofres); Spirit Altar: genoplivning og velsignelsespanel
 │   ├── velsignelser.js / velsignelsedata.js # Alterets velsignelser: auraer, træk, åndegaver (plads 5), egenskaber
 │   ├── grundevner.js         # Soldaternes egne evner med autocast (Brutal Swing, Pinning Spear, Defend, Aimed Shot)
 │   ├── storkilde.js          # The Old Wellspring: stor kilde midt mellem baserne, vogtet; heler alle
@@ -466,7 +466,7 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Man starter med helten og 3 arbejdere
 - [x] Helten genoplives kun ved alteret (guld og tid); en død helt forbliver død i gemte spil
 - [x] Skill points: ét pr. level, evnerne har rang 1–3, eller +2 til alle egenskaber
-- [x] Ånder fra faldne fjender: helten bærer dem hjem, taber dem ved død (fjenden kan æde dem)
+- [x] Ånderne er ekkoerne fra de faldne (dem der ellers driver til Erevoss): helten fanger dem, bærer dem hjem, taber dem ved død (fjenden kan æde dem)
 - [x] Velsignelser ved alteret: auraer, træk, åndegaver og egenskaber (tre at vælge imellem)
 
 ### ✅ M14e — "Ascension pr. helt" (oktober 2026)
@@ -536,6 +536,7 @@ The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt),
 | 2026-10-15 | Start med helten og 3 arbejdere; helten genoplives kun ved alteret | Jons ønske (som WC3) |
 | 2026-10-15 | Skill points: ét pr. level til evnernes rang (1–3) eller +2 til alle egenskaber | Jon: normal leveling med lidt stats og et frit skill point |
 | 2026-10-15 | Ånder bæres hjem og ofres ved alteret for velsignelser (auraer, træk, åndegaver, egenskaber); guld-ofringen er fjernet | Jon valgte B (ånder fra fjender, tabes ved død) og bad Claude vælge belønningen: en udvidelse af helten, ikke heltens evner |
+| 2026-10-15 | Ånderne er ekkoerne: de samme lys, der driver mod Erevoss, fanges af helten og ofres ved alteret | Jon: de spirits man samler op, skal være de samme som ellers ville gå mod Erevoss |
 | 2026-10-15 | Ascension pr. helt: samme tre slags stier (spillestilen afgør stadig hvilken der er gratis), men heltens egne navne og evner | Jon: alle skills skal være hero specific |
 | 2026-10-15 | Musik syntetiseres med WebAudio indtil der findes CC0-numre | Ingen musik i asset-biblioteket; virker uden downloads |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
