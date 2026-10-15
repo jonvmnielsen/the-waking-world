@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
-  "libraryCommit": "785e229",
-  "synced": "2026-10-14T16:44:56.940Z",
+  "libraryCommit": "da5468f",
+  "synced": "2026-10-15T08:29:37.813Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -2675,6 +2675,14 @@
       "file": "forge-lowpoly/campfire.glb",
       "bytes": 29824,
       "sha": "4e0754f71af6",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/fountain_great": {
+      "id": "forge-lowpoly/fountain_great",
+      "file": "forge-lowpoly/fountain_great.glb",
+      "bytes": 26448,
+      "sha": "5d2f879da77f",
       "license": "CC0-1.0",
       "kind": "model"
     },
