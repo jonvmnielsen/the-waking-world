@@ -122,6 +122,7 @@ export function gendanSpil(spil, g) {
       e.level = d.level; e.hp = Math.min(e.maxHp, d.hp);
       e.tilstand = 'march'; e.spil(e.anim.idle);
     }
+    gendanFjendeHelt(m, gm.helt);
   }
 
   spil.memory?.gendan(g.erevoss);   // The Memorys ekkoer og vogtere
@@ -153,4 +154,17 @@ function flytGamleItems(spil, gh) {
     else if (j >= 0) inv.rygsæk[j] = item;
     else spil.genstande.læg(p.id, gh.x + 2, gh.z + 1, p.ladninger ?? undefined, null);
   }
+}
+
+// Modstanderens helt: level, liv og sted — eller død, med den tid der er gået, til den rejser sig igen
+function gendanFjendeHelt(m, d) {
+  if (!d) return;
+  const gl = m.helt;
+  gl.død = true; gl.fjernet = true; gl.fjern();
+  m.verden.creeps = m.verden.creeps.filter((c) => c !== gl);
+  if (d.død) { m.helt = gl; m.heltTid = d.tid ?? 0; return; }
+  m.nyHelt(d.level);
+  const h = m.helt;
+  h.rod.position.set(d.x, 0, d.z);
+  h.hp = Math.min(h.maxHp, d.hp);
 }

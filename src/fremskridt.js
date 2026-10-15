@@ -11,6 +11,7 @@ import { HeltPortræt } from './heltportraet.js';
 import { Ultimatum } from './ultimatum.js';
 import { Ånder } from './aander.js';
 import { Alter } from './alter.js';
+import { TræVækst } from './traevaekst.js';
 import { bus } from './events.js';
 import { KampFølelse } from './kampfoelelse.js';
 
@@ -22,6 +23,7 @@ export function lavUdvikling(spil) {
   spil.bedrifter = new Bedrifter(spil);              // heltens bedrifter og tilnavne
   spil.ånder = new Ånder(spil);                      // ånder fra faldne fjender (M14d)
   spil.alter = new Alter(spil);                      // genoplivning og velsignelser ved alteret
+  spil.træVækst = new TræVækst(spil);                // fældede træer gror igen
 }
 
 // Skærmdelene; opdater() kaldes hver frame

@@ -57,6 +57,7 @@ the-waking-world/
 │   ├── world.js              # 3D-verden: samler terræn, natur og guldårer; lys og himmel
 │   ├── terraen.js            # Ét sammenhængende terræn-mesh (ingen synlige hexagoner) + vand
 │   ├── natur.js              # Træer, sten og steder som instanser; hvert træ/sten er en ressource
+│   ├── traevaekst.js         # Fældede træer gror op igen (7–10 min, vokser på 1,5 min)
 │   ├── guldaarer.js          # Lysende guldårer og glimt ved guldminerne
 │   ├── rontgen.js            # Omrids af figurer/bygninger der står bag en bygning
 │   ├── soldat.js / soldatdata.js / soldatevner.js  # Grunts og spydkastere, deres tal og grenenes evner
@@ -138,7 +139,7 @@ the-waking-world/
 │   ├── arbejder.js / hoest.js # Bæreren: bærer hjem, bygger; høst (kilde man kan nå, 2 hex-område, ellers ledig)
 │   ├── hindring.js           # Figurer går uden om frie træer og sten
 │   ├── konstruktion.js       # Ruiner og lejrtelte på kortet, som kan angribes
-│   ├── basestart.js          # Storlejr + 5 bærere ved start
+│   ├── basestart.js          # Storlejr + helten og 3 bærere ved start
 │   ├── valg.js               # Hvad er valgt + placering af nye bygninger
 │   ├── kommandohud.js        # Ressourcebjælke, ledige bærere, kommandopanel, placeringsbjælke
 │   ├── modelliste.js         # Modeller der indlæses ved start + ekstra ikoner
@@ -476,8 +477,13 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 ### ✅ M14f — "Kampfølelse" (oktober 2026)
 - [x] Blink ved slag, blod/knoglestøv, kort stop og kamerarystelse ved heltens store slag, store tal der popper, støv og rystelse ved fald
 
-### 📋 Næste: M14g+
-The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), træer der gror igen, rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. AI-heltens og karavanens tilstand gemmes ikke endnu. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M14g — "Verden lever videre" (oktober 2026)
+- [x] Ånderne er ekkoerne, der ellers driver til Erevoss (Jon)
+- [x] Fældede træer gror igen: stub i 7–10 min, spire, fuldt træ efter 1,5 min
+- [x] Modstanderens helt gemmes (level, liv, sted — eller død og tiden til den rejser sig)
+
+### 📋 Næste: M14h+
+The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), rigtige CC0-musiknumre, racernes brugerflade-tone, natten pr. race. Begivenheder (også en karavane på vej) gemmes ikke; karavanens virkning på priserne gør. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 

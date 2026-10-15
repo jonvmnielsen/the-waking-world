@@ -77,6 +77,7 @@ function lavGem(spil) {
       sværhed: m.sværhed, tid: Math.round(m.tid), guld: Math.round(m.guld), bølge: m.bølge, næsteAngreb: Math.round(m.næsteAngreb), byggePlan: m.byggePlan,
       bygninger: m.bygninger.map((b) => ({ id: b.id, hp: Math.ceil(b.hp), fremskridt: b.fremskridt, død: b.død })),
       enheder: m.levende.map((e) => ({ type: e.type, x: r1(e.x), z: r1(e.z), hp: Math.ceil(e.hp), level: e.level })),
+      helt: { level: m.helt.level, hp: Math.ceil(m.helt.hp), død: m.helt.død, x: r1(m.helt.x), z: r1(m.helt.z), tid: Math.round(m.heltTid ?? 0) },
     },
   };
 }

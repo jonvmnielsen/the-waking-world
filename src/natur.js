@@ -33,7 +33,7 @@ export function lavNatur(scene, kort) {
       const skala = modelSkala(pynt);
       const rotQ = new THREE.Quaternion().setFromAxisAngle(op, THREE.MathUtils.degToRad(pynt.rot ?? 0));
       const m = new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), rotQ, new THREE.Vector3(skala, skala, skala));
-      Object.assign(pynt, { x, y, z });
+      Object.assign(pynt, { x, y, z, matrix: m });
       if (pynt.instans) {
         const nøgle = `${pynt.model}|${Math.floor(f.kol / BID)},${Math.floor(f.ræk / BID)}`;
         if (!grupper.has(nøgle)) grupper.set(nøgle, { sti: pynt.model, matricer: [], farver: [], skygge: pynt.skygge });
@@ -78,9 +78,10 @@ export function lavNatur(scene, kort) {
     r[r.type] = 0;
     if (r.navStempel) { r.navStempel = false; kort.nav?.stempel(r.x, r.z, r.r * 0.75, -1); }
     if (!r.pynt.ref) return;
+    if (r.type === 'træ') r.pynt.gemtRef = r.pynt.ref;   // så træet kan gro op igen (traevaekst.js)
     skjul(r.pynt);
     if (stub && r.type === 'træ') {
-      const s = kopi(STUBBE[r.id % 2], { skygge: false });
+      const s = r.stub = kopi(STUBBE[r.id % 2], { skygge: false });
       s.position.set(r.x, r.y, r.z);
       s.rotation.y = r.id * 1.7;
       s.scale.setScalar(S * 1.2);
@@ -94,8 +95,25 @@ export function lavNatur(scene, kort) {
   // Ryd et felt for natur (når der bygges på det)
   function ryd(f) {
     for (const p of f.pynt) skjul(p);
-    for (const r of f.ressourcer ?? []) { r[r.type] = 0; if (r.navStempel) { r.navStempel = false; kort.nav?.stempel(r.x, r.z, r.r * 0.75, -1); } }
+    for (const r of f.ressourcer ?? []) { r[r.type] = 0; r.ryddet = true; if (r.navStempel) { r.navStempel = false; kort.nav?.stempel(r.x, r.z, r.r * 0.75, -1); } }
   }
 
-  return { ressourcer, bygninger, konstruktioner, fjern, ryd };
+  // Et fældet træ gror op igen (traevaekst.js): stubben forsvinder, og træet vokser fra en spire
+  const p = new THREE.Vector3(), q = new THREE.Quaternion(), sk = new THREE.Vector3(), ny = new THREE.Matrix4();
+  function vækst(r, k) {
+    const ref = r.pynt.gemtRef;
+    if (!ref) return false;
+    if (r.stub) { scene.remove(r.stub); r.stub = null; }
+    r.pynt.ref = ref;
+    r.pynt.matrix.decompose(p, q, sk);
+    ny.compose(p, q, sk.multiplyScalar(Math.max(0.05, k)));
+    for (const im of meshGrupper.get(ref.nøgle)?.children ?? []) { im.setMatrixAt(ref.i, ny); im.instanceMatrix.needsUpdate = true; }
+    if (k >= 1) {
+      r[r.type] = r.start;
+      if (!r.navStempel && !r.f.blok) { r.navStempel = true; kort.nav?.stempel(r.x, r.z, r.r * 0.75, 1); }
+    }
+    return true;
+  }
+
+  return { ressourcer, bygninger, konstruktioner, fjern, ryd, vækst };
 }

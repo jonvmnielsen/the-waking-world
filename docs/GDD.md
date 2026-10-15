@@ -653,7 +653,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M11 ✅** | **Huler, begivenheder og championer** | Huler med rum, lejre, boss og kister; syv tilfældige begivenheder med synlige tegn; champion-creeps med fire egenskaber. Desuden: kaktusser fra vores generator, lavasøer inde i landet, minernes stadier kun som synlige tegn |
 | **M12 ✅** | **Racer, modstander og helte** | Ro på skærmen (én begivenhed ad gangen, færre tekster); karavanen; mindre bygninger med tre pladser pr. felt; racevalg og The Architects spilbar; AI-modstander med tilfældig race, arbejdere og helt; The Memory og The Unnamed neutrale; tre helte pr. race; prospektering |
 | **M13 ✅** | **Helten i centrum** | Figurerne følger terrænet (ingen arbejdere under sneen); ordentlig stifinding på et fint gitter rundt om bygninger, træer og sten; holdfarver (blå spiller, rød modstander, rav vildmark, sølv The Memory, violet The Unnamed, lyse neutrale); alle evner er heltens egne; udstyrspladser og rullet udstyr med affikser og mange nye stats; helte med egen stemme, synligt udstyr, runecirkel, kappe i holdfarve, vækst med level, bedrifter og tilnavne |
-| M14+ | The Dreaming, træer der gror igen, hvad Opvågningen betyder, kampagne | |
+| M14+ | The Dreaming, hvad Opvågningen betyder, kampagne | |
 
 ---
 
@@ -723,6 +723,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
 - **M14b ✅:** store, overdrevne figurer; forsyning efter styrke (100 i alt, upkeep 40/80); ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
 - **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
+- **M14g ✅:** ånderne er ekkoerne; træer gror igen (stub 7–10 min, så en spire, der vokser på 1,5 min; ikke hvor der er bygget eller nogen står); modstanderens helt gemmes.
 - **M14f ✅:** kampfølelse — den, der rammes, blinker (hvid fjende, rød egen); blod, knoglestøv eller støv sprøjter væk fra slaget; heltens store slag giver et kort stop i animationen og et ryk i kameraet; store tal popper med "!"; støvsky når nogen falder, og bosser og helte ryster kameraet (`kampfoelelse.js`).
 - **M14e ✅:** Ascension pr. helt (navn, titel, passiv og to evner for hver af de seks helte).
 - **M14d ✅:** helten og tre arbejdere ved start; genoplivning kun ved alteret; skill points; ånder og alterets velsignelser (afsnit 6.6).

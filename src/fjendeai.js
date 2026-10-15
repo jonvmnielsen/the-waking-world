@@ -45,9 +45,9 @@ export class Modstander {
   }
 
   // Helten rejser sig ved hallen (også når den er faldet: efter 35 sekunder)
-  nyHelt() {
+  nyHelt(level = fjendeLevel(this.sværhed, this.minutter()) + 2) {
     const h = this.hal;
-    this.helt = new FjendeHelt(this.verden, this, this.heltId, fjendeLevel(this.sværhed, this.minutter()) + 2, h.x + 6, h.z + 6);
+    this.helt = new FjendeHelt(this.verden, this, this.heltId, level, h.x + 6, h.z + 6);
     this.helt.post = { ...this.samling }; this.helt.ordre = 'retur';
     this.verden.creeps.push(this.helt);
   }
