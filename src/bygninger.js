@@ -1,6 +1,7 @@
 // Spillerens bygninger: byggeplads med stadier → færdig bygning med sin funktion
 // (forsyning, aflevering, træning, tårn, alter, butik). Se bygningsdata.js.
 import { natTårn } from './natpraeg.js';
+import { byggeFart, bygHpFaktor, racePleje } from './racebyg.js';
 import { kopi } from './assets.js';
 import { BYGNINGER, ENHEDER, STADIER } from './bygningsdata.js';
 import { VERDEN, tilfældig, reducérSkade } from './config.js';
@@ -36,7 +37,7 @@ export class Bygning {
   }
 
   // Liv og rustning inkl. opgraderinger og Masonry (udvikling.js)
-  get maxHp() { return Math.round((this.grundHp + this.ekstraHp) * (1 + (this.verden.udvikling?.bygHp() ?? 0))); }
+  get maxHp() { return Math.round((this.grundHp + this.ekstraHp) * (1 + (this.verden.udvikling?.bygHp() ?? 0)) * bygHpFaktor()); }   // racebyg.js
   get rustning() { return this.grundRustning + (this.verden.udvikling?.bygRustning() ?? 0); }
 
   get skadet() { return this.hp < this.maxHp - 0.5; }
@@ -56,6 +57,7 @@ export class Bygning {
   byg(dt) {
     if (this.død) return;
     if (this.færdig) { this.hp = Math.min(this.maxHp, this.hp + (this.maxHp * dt) / (this.data.tid * 1.5)); return; }
+    dt *= byggeFart(this);   // racens måde at bygge på (racebyg.js)
     this.fremskridt = Math.min(1, this.fremskridt + dt / this.data.tid);
     this.hp = Math.min(this.maxHp, this.hp + (this.maxHp * 0.9 * dt) / this.data.tid);
     const stadie = STADIER[Math.min(2, Math.floor(this.fremskridt * 3))];
@@ -85,6 +87,7 @@ export class Bygning {
     this.hp = Math.max(0, this.hp - skade);
     bus.emit('skade', { mål: this, mængde: skade, kilde });
     bus.emit('bygning_angrebet', { bygning: this, kilde });
+    this.sidstAngrebet = this.verden.ur?.tid ?? 0;
     if (this.hp <= 0) { this.ødelæg(); return true; }
     return false;
   }
@@ -130,6 +133,7 @@ export class Bygning {
 
   opdater(dt) {
     if (!this.færdig || this.død) return;
+    racePleje(this, dt);   // The Tide: bygningerne heler sig selv
     // Træning
     const k = this.kø[0];
     if (k) {

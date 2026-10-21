@@ -145,6 +145,7 @@ async function start() {
   spil.memory = new Memory(spil, spil.modstander.hal, steder.find((s) => s.type === 'kro') ?? { x: 0, z: 0 });   // The Memory: neutral
   const sejr = new Sejr(spil);
   spil.ur = { tid: 0 };
+  verden.ur = spil.ur;   // bygninger og racebyg.js ser tiden
   spil.dagNat = new DagNat(spil, lys);
   spil.verdenstilstand = new Verdenstilstand(spil, steder.find((s) => s.type === 'kro') ?? { x: 0, z: 0 });
   const verdensliv = lavVerdensliv(spil, steder, minder);

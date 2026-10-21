@@ -3,6 +3,7 @@
 //   angreb — marcherer mod spillerens base og angriber alt på vejen (figurer før bygninger)
 //   retur  — trækker sig tilbage til basen
 // Mens en soldat har et mål, er dens tilstand 'jagt', så spillerens figurer forsvarer sig og hinanden.
+import { fjendeNatFart } from './natpraeg.js';
 import { Creep } from './creeps.js';
 import { Unit } from './unit.js';
 import { gørOrkGrøn, holdSkær } from './orkhud.js';
@@ -113,3 +114,5 @@ export class Fjende extends Creep {
     return Unit.prototype.tagSkade.call(this, mængde, kilde);
   }
 }
+
+Fjende.prototype.natFart = function () { return fjendeNatFart(this.verden); };   // Children of the Storm, hvis modstanderen er The Tide

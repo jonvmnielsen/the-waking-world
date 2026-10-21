@@ -27,6 +27,11 @@ export function visVerdensvalg() {
     boks.appendChild(r);
   };
   række('Your race', 'race', RACER, false);
+  // Racens særpræg: hvordan den bygger og møder natten (racebyg.js, natpraeg.js)
+  const r = RACER[AKTIVT_KORT.race] ?? RACER.tide, om = document.createElement('p');
+  om.className = 'denne-verden';
+  om.textContent = `${r.kort} Builds — ${r.byg?.navn}. Night — ${r.nat?.navn}.`;
+  boks.appendChild(om);
   række('Biome', 'biom', BIOMER);
   række('Season', 'årstid', ÅRSTIDER);
   række('Size', 'størrelse', STØRRELSER, false);

@@ -1,8 +1,8 @@
 // Natten pr. race (M14g, GDD 17b søjle 8): hver race har sin egen måde at møde natten på.
 // The Tide — Children of the Storm: helten og soldaterne ser lige så langt som om dagen og løber 10 % hurtigere.
 // The Architects — Lamplight: tårnene tændes: +25 % skade og +4 rækkevidde.
-// Kun spillerens race (AI-modstanderen har endnu ikke sine egne nætter).
-import { SPILLER } from './racer.js';
+// Modstanderen har sin egen races nat: Tide-soldater løber hurtigere, Architects-tårne er tændt.
+import { SPILLER, FJENDE } from './racer.js';
 
 const N = () => SPILLER.nat ?? {};
 
@@ -12,6 +12,11 @@ export function natFart(verden) { return 1 + (N().fart ?? 0) * (verden.nat ?? 0)
 export const natSyn = () => !!N().syn;
 // Tårnenes skade og rækkevidde om natten
 export function natTårn(verden) { const n = verden.nat ?? 0; return { skade: 1 + (N().tårnSkade ?? 0) * n, rk: (N().tårnRække ?? 0) * n }; }
+
+// Modstanderens nat (fjende.js, fjendebygning.js)
+const F = () => FJENDE.nat ?? {};
+export function fjendeNatFart(verden) { return 1 + (F().fart ?? 0) * (verden.nat ?? 0); }
+export function fjendeNatTårn(verden) { const n = verden.nat ?? 0; return { skade: 1 + (F().tårnSkade ?? 0) * n, rk: (F().tårnRække ?? 0) * n }; }
 
 // Beskeden når natten falder: første nat med forklaring, siden kun navnet
 let første = true;

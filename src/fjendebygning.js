@@ -1,5 +1,6 @@
 // Modstanderens bygninger (racens egne i holdfarve). De ligger i verden.creeps, så helten, soldaterne og evnerne kan angribe dem
 // som alle andre fjender. Spiret skyder spillerens figurer; en ødelagt bygning efterlader en ruin.
+import { fjendeNatTårn } from './natpraeg.js';
 import { kopi } from './assets.js';
 import { FJENDE_BYGNINGER } from './fjendedata.js';
 import { STADIER } from './bygningsdata.js';
@@ -57,10 +58,11 @@ export class FjendeBygning {
     if (!a || this.model !== this.data.model) return;   // kun en færdig, synlig bygning skyder
     this.cooldown -= dt;
     if (this.cooldown > 0) return;
-    const mål = this.verden.egne().filter((u) => this.afstand(u) < a.rækkevidde).sort((p, q) => this.afstand(p) - this.afstand(q))[0];
+    const nt = fjendeNatTårn(this.verden);   // Lamplight, hvis modstanderen er The Architects
+    const mål = this.verden.egne().filter((u) => this.afstand(u) < a.rækkevidde + nt.rk).sort((p, q) => this.afstand(p) - this.afstand(q))[0];
     if (!mål) return;
     this.cooldown = a.tid;
-    bus.emit('projektil', { fra: this, mål, skade: tilfældig(...a.skade), farve: 0xffd27a });
+    bus.emit('projektil', { fra: this, mål, skade: Math.round(tilfældig(...a.skade) * nt.skade), farve: 0xffd27a });
   }
 
   tagSkade(mængde, kilde) {

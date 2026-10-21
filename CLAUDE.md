@@ -94,6 +94,7 @@ the-waking-world/
 │   ├── champion.js           # Champion-creeps: egenskaber, ring og skær, ekstra drop
 │   ├── karavane.js           # Karavanen: vogn, bærere og vagter; eskorte eller plyndring, priser
 │   ├── prospekt.js           # Arbejdere leder efter skjulte guldårer ved bjergene
+│   ├── racebyg.js            # Racens måde at bygge på: Driftwood (Tide) og Many Hands (Architects)
 │   ├── byggeplads.js         # Mindre bygninger: tre pladser pr. felt, figurer går uden om
 │   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
 │   ├── hexgrid.js            # Hex-koordinater og A*-stifinding (hex bruges kun i logikken, tegnes ikke)
@@ -484,8 +485,12 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Racens brugerflade-tone: The Tide drivtømmer og ben, The Architects blå sten og guld
 - [x] Natten pr. race: The Tide ser fuldt og løber 10 % hurtigere; The Architects' tårne +25 % skade og +4 rækkevidde
 
-### 📋 Næste: M14h+
-The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), rigtige CC0-musiknumre, racernes egen måde at bygge på, AI-modstanderens egen nat. Begivenheder (også en karavane på vej) gemmes ikke; karavanens virkning på priserne gør. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M14h — "Racernes særpræg" (oktober 2026)
+- [x] Racens måde at bygge på: The Tide *Driftwood* (én arbejder +25 %, flere hjælper halvt, bygninger heler sig selv); The Architects *Many Hands* (hver ekstra bonde +110 %, 25 % mere liv)
+- [x] AI-modstanderen har sin races nat; startskærmen viser racens byggemåde og nat
+
+### 📋 Næste: M14i+
+The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), rigtige CC0-musiknumre. Begivenheder (også en karavane på vej) gemmes ikke; karavanens virkning på priserne gør. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 
@@ -546,6 +551,7 @@ The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt),
 | 2026-10-15 | Ånder bæres hjem og ofres ved alteret for velsignelser (auraer, træk, åndegaver, egenskaber); guld-ofringen er fjernet | Jon valgte B (ånder fra fjender, tabes ved død) og bad Claude vælge belønningen: en udvidelse af helten, ikke heltens evner |
 | 2026-10-15 | Ånderne er ekkoerne: de samme lys, der driver mod Erevoss, fanges af helten og ofres ved alteret | Jon: de spirits man samler op, skal være de samme som ellers ville gå mod Erevoss |
 | 2026-10-15 | Ascension pr. helt: samme tre slags stier (spillestilen afgør stadig hvilken der er gratis), men heltens egne navne og evner | Jon: alle skills skal være hero specific |
+| 2026-10-21 | Racerne bygger forskelligt: Tide hurtigt alene og selvhelende, Architects mange hænder og stenbygninger | WC3-søjle 8: hver race sin egen måde at bygge på (GDD 17b) |
 | 2026-10-15 | Musik syntetiseres med WebAudio indtil der findes CC0-numre | Ingen musik i asset-biblioteket; virker uden downloads |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
 | 2026-10-12 | Gem-version 4 (M10) | Gemmet husker biom, årstid, størrelse og frø |
