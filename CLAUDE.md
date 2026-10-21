@@ -152,6 +152,7 @@ the-waking-world/
 ├── tools/
 │   ├── lyde.mjs              # Henter lydene i lyde.json fra game-assets til public/audio (OGG → MP3)
 │   ├── smoke-test.mjs        # Headless test i mobilstørrelse med skærmbilleder
+│   ├── bot-test.mjs          # En bot spiller et helt spil pr. race mod AI-'en (sene fejl, grov balance)
 │   ├── visning.mjs           # Skærmbilleder fra bestemte steder på kortet (SKUD='[...]')
 │   └── byg-artefakt.mjs      # Bygger spillet som privat Claude-side
 ├── docs/GDD.md               # Samlet spildesign
