@@ -561,6 +561,7 @@ Hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), The Unmade, rigtige CC
 | 2026-10-15 | Ascension pr. helt: samme tre slags stier (spillestilen afgør stadig hvilken der er gratis), men heltens egne navne og evner | Jon: alle skills skal være hero specific |
 | 2026-10-21 | The Dreaming får egne figurer fra vores generator, bundet til KayKits skelet, så alle KayKits animationer virker | Jon valgte "egne figurer" frem for farvede KayKit-figurer; game-assets D-015 |
 | 2026-10-21 | The Dreaming: træer og Ancients kan gå; træ høstes uden at fælde; Dreamtime-heling om natten | GDD 5.5 (Jon: "ja, som designet") |
+| 2026-10-21 | Ingen championer i de lette lejre; heltens grundheling uden for kamp 1,5 liv/s (før 0,9) | Test: en helt i level 1 døde ofte alene mod en let lejr med champion |
 | 2026-10-21 | Racerne bygger forskelligt: Tide hurtigt alene og selvhelende, Architects mange hænder og stenbygninger | WC3-søjle 8: hver race sin egen måde at bygge på (GDD 17b) |
 | 2026-10-15 | Musik syntetiseres med WebAudio indtil der findes CC0-numre | Ingen musik i asset-biblioteket; virker uden downloads |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |

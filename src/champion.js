@@ -1,4 +1,4 @@
-// Champion-creeps (GDD 17a punkt 8): omkring hver syvende lejr (sværhedsgrad 1–4) føres af en champion med en
+// Champion-creeps (GDD 17a punkt 8): omkring hver syvende lejr (sværhedsgrad 2–4) føres af en champion med en
 // egenskab — Fiery, Swift, Vampiric eller Shielded. Man ser det før man læser det: championen er større,
 // har en glødende ring om fødderne i egenskabens farve og et skær over sig; lejrens skilt får to ruder.
 // Championen giver mere XP, mere guld og et ekstra item. Trækkes med lejrens eget frø, så gemte spil passer.
@@ -19,7 +19,7 @@ export const AFFIKSER = {
 
 // Har lejren en champion, og hvilken egenskab? (eget frø pr. lejr, så resten af kortet ikke ændres)
 export function trækChampion(data) {
-  if (!(data.niveau >= 1 && data.niveau <= 4)) return null;
+  if (!(data.niveau >= 2 && data.niveau <= 4)) return null;   // ikke de lette lejre: en helt i level 1 skal kunne klare dem
   let h = 7;
   for (const ch of String(data.id)) h = (h * 31 + ch.charCodeAt(0)) | 0;
   const t = rng(((KORT.seed ?? 1) * 7919) ^ h);

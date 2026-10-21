@@ -26,7 +26,7 @@ export const HELT = {
   skadeMax: 22,
   angrebsTid: 2.3,      // sekunder mellem angreb, før Agility (+2 % angrebsfart pr. point)
   rustning: 0.9,        // + 0,15 pr. Agility
-  hpRegen: 0.9,         // + 0,05 pr. Strength, kun uden for kamp
+  hpRegen: 1.5,         // + 0,05 pr. Strength, kun uden for kamp (1,5: helten kan creepe alene i starten)
   manaRegen: 0.4,       // + 0,05 pr. Intelligence
   genopliv: 6,          // sekunder til helten rejser sig igen
 };

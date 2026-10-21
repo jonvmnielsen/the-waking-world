@@ -130,7 +130,7 @@ Man ser på selve minen hvor meget der er tilbage (Jon: visuelle tegn frem for t
 
 Lyssøjler og bål ses også gennem tågen; selve tingene ses først, når stedet er udforsket. Tryk på et begivenhedssted med helten valgt, og han går derhen.
 
-**Championer.** Omkring hver syvende lejr (sværhedsgrad 1–4) føres af en champion: større, 80 % mere liv, 25 % mere skade og en egenskab — *Fiery* (brænder figurer tæt på), *Swift* (hurtig og slår ofte), *Vampiric* (heler af den skade den gør) eller *Shielded* (+5 rustning). Den har en drejende ring om fødderne og et skær i egenskabens farve, og lejrens skilt får to ruder i samme farve. En champion giver 2½ gange XP, ekstra guld og et ekstra item én sværhedsgrad højere.
+**Championer.** Omkring hver syvende lejr (sværhedsgrad 2–4; de lette lejre aldrig, så en helt i level 1 kan klare dem) føres af en champion: større, 80 % mere liv, 25 % mere skade og en egenskab — *Fiery* (brænder figurer tæt på), *Swift* (hurtig og slår ofte), *Vampiric* (heler af den skade den gør) eller *Shielded* (+5 rustning). Den har en drejende ring om fødderne og et skær i egenskabens farve, og lejrens skilt får to ruder i samme farve. En champion giver 2½ gange XP, ekstra guld og et ekstra item én sværhedsgrad højere.
 
 ### 4.2.2 Jorden og detaljerne (M9)
 
@@ -732,6 +732,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
 - **M14b ✅:** store, overdrevne figurer; forsyning efter styrke (100 i alt, upkeep 40/80); ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
 - **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
+- **Rettelse (M15):** et slag på modstanderens bygninger fik spillet til at gå i stå (kampfølelsens blink); lette lejre har ingen championer; heltens grundheling 1,5 liv/s.
 - **M15 ✅:** The Dreaming spilbar — egne figurer og bygninger fra generatoren på KayKits skelet (game-assets D-015), tre helte med egne evner og Ascension, træer der går, høst uden fældning, Dreamtime, stemmer, musik og brugerflade; AI-modstanderen kan også være The Dreaming.
 - **M14h ✅:** racens måde at bygge på — The Tide *Driftwood*: én arbejder bygger 25 % hurtigere, flere hjælper kun halvt, og bygningerne heler 1 %/s, når de ikke er angrebet i 8 s; The Architects *Many Hands*: hver ekstra bonde bygger fuldt med +10 %, og bygningerne har 25 % mere liv. AI-modstanderen har sin races nat. Startskærmen viser racens byggemåde og nat.
 - **M14g ✅:** racens brugerflade-tone (Tide: drivtømmer og ben; Architects: blå sten og guld) og racens nat (Tide *Children of the Storm*: fuldt udsyn og +10 % fart om natten; Architects *Lamplight*: tårnene +25 % skade og +4 rækkevidde); ånderne er ekkoerne; træer gror igen (stub 7–10 min, så en spire, der vokser på 1,5 min; ikke hvor der er bygget eller nogen står); modstanderens helt gemmes.

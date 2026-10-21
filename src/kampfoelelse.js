@@ -25,7 +25,7 @@ export class KampFølelse {
   synlig(u) { return u?.rod?.visible !== false && this.spil.taage?.erSynlig?.(u.x, u.z) !== false; }
 
   vedSkade({ mål, mængde, kilde }) {
-    if (!(mængde > 0) || !mål?.model || !this.synlig(mål)) return;
+    if (!(mængde > 0) || !(mål?.model?.traverse || mål?.rod?.traverse) || !this.synlig(mål)) return;
     const h = this.spil.helt, egen = mål === h || mål.side === 'egen';
     this.blink(mål, egen ? 0xff3020 : 0xffffff);
     const andel = mængde / Math.max(1, mål.maxHp ?? 100);
@@ -51,7 +51,7 @@ export class KampFølelse {
     let b = this.blinker.get(u);
     if (!b || b.tid <= 0) {   // materialerne samles hver gang (helten kan have fået nye ved Ascension)
       const mats = [];
-      u.model.traverse((o) => {
+      (u.model?.traverse ? u.model : u.rod).traverse((o) => {   // bygninger har kun rod (model er en sti)
         if (!o.isMesh || !o.material?.emissive) return;
         if (!o.material.userData.blink) { o.material = o.material.clone(); o.material.userData.blink = true; }
         mats.push([o.material, o.material.emissive.clone(), o.material.emissiveIntensity]);
