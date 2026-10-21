@@ -7,6 +7,7 @@ import { BYGNINGER, ENHEDER, STADIER } from './bygningsdata.js';
 import { VERDEN, tilfældig, reducérSkade } from './config.js';
 import { bus } from './events.js';
 import { BYG_SKALA, frigør } from './byggeplads.js';
+import { vandreMetoder } from './vandring.js';
 
 const S = VERDEN.hexSkala;
 
@@ -132,6 +133,7 @@ export class Bygning {
   }
 
   opdater(dt) {
+    if (this.oprykket && !this.død) return this.vandreTrin(dt);   // The Dreaming: træet går (vandring.js)
     if (!this.færdig || this.død) return;
     racePleje(this, dt);   // The Tide: bygningerne heler sig selv
     // Træning
@@ -165,3 +167,5 @@ export class Bygning {
     return { x: b.x, z: b.z, højde: 5.5, side: 'egen', afstand: (m) => Math.hypot(m.x - b.x, m.z - b.z) };
   }
 }
+
+Object.assign(Bygning.prototype, vandreMetoder);   // træer der går (vandring.js)

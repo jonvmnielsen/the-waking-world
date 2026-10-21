@@ -18,7 +18,7 @@ export class Soldat extends Unit {
     const d = SOLDATER[type];
     super(verden, d.model, { skala: d.skala, skjul: d.skjul, våben: d.våben ?? {}, våbenSkala: d.våbenSkala ?? 1, radius: d.radius });
     if (!d.menneske) gørOrkGrøn(this.model);
-    else if (d.hold) holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], 0.42);
+    else if (d.hold) holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], d.holdStyrke ?? 0.42);
     Object.assign(this, { base, type, data: d, navn: d.navn, side: 'egen' });
     this.maxHp = this.hp = d.hp;
     this.fart = d.fart; this.rustning = d.rustning; this.skadeBonus = 0;

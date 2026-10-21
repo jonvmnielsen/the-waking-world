@@ -1,10 +1,12 @@
 // Heltenes signatur-evner (slot 0, heltedata.js). Blandes ind i Evner (abilities.js).
 // Warchief: Brute Strike (abilities.js) · Stormsinger: Stormlash · Wildtrack: Hunter's Mark
 // Knight Commander: Shield Bash · Lorewarden: Mending Light · Ranger Captain: Piercing Bolt
+// The Dreaming: alle tre evner i evnerdream.js
 import { bus } from './events.js';
 import { glød } from './aand.js';
 import { TIDE_EVNER, tideMetoder } from './evnertide.js';
 import { ARK_EVNER, arkMetoder } from './evnerark.js';
+import { DREAM_EVNER, dreamMetoder } from './evnerdream.js';
 
 export const HELT_EVNER = {
   stormlash: { navn: 'Stormlash', mana: 55, cd: 9, ikon: '⚡', tekst: 'Lightning strikes an enemy for 90 damage and leaps to two more.' },
@@ -12,11 +14,11 @@ export const HELT_EVNER = {
   shieldBash: { navn: 'Shield Bash', mana: 45, cd: 10, ikon: '🛡️', tekst: 'A crushing blow for 1.5× damage that stuns for 1.5 seconds.' },
   mendingLight: { navn: 'Mending Light', mana: 70, cd: 18, ikon: '✨', tekst: 'Heals your hero and soldiers nearby for 180.' },
   piercingBolt: { navn: 'Piercing Bolt', mana: 60, cd: 12, ikon: '➶', tekst: 'A bolt that goes through every enemy in a line for 2× damage.' },
-  ...TIDE_EVNER, ...ARK_EVNER,
+  ...TIDE_EVNER, ...ARK_EVNER, ...DREAM_EVNER,
 };
 
 export const heltEvneMetoder = {
-  ...tideMetoder, ...arkMetoder,
+  ...tideMetoder, ...arkMetoder, ...dreamMetoder,
 
   // Spillerens soldater tæt på helten
   soldaterNær(r) { const h = this.helt; return (h.verden.egne?.() ?? []).filter((u) => u !== h && u.buff && !u.død && Math.hypot(u.x - h.x, u.z - h.z) < r); },
@@ -27,7 +29,7 @@ export const heltEvneMetoder = {
   // Tidsstyrede evner (kaldes fra Evner.opdater): mærker, virkninger og midlertidige bonusser
   opdaterHelteEvner(dt) {
     this.opdaterMærker(dt);
-    for (const k of ['tRovdyr', 'tMur', 'tSkydning']) this[k] = Math.max(0, (this[k] ?? 0) - dt);
+    for (const k of ['tRovdyr', 'tMur', 'tSkydning', 'tTorn', 'tDans']) this[k] = Math.max(0, (this[k] ?? 0) - dt);
     if (this.helt.ultimaTid > 0) this.helt.ultimaTid -= dt;   // ultimatets ekstra kraft (ultimatum.js)
     if (this.helt.rangTid > 0) this.helt.rangTid -= dt;       // evnens rang (evnerang.js)
     this.virkninger = (this.virkninger ?? []).filter((v) => {

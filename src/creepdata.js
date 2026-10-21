@@ -28,6 +28,8 @@ export const CREEP_TYPER = {
   m_spydkaster: { navn: 'Spear Thrower', model: 'spydkaster', anim: MENNESKE_ANIM, hp: 105, skade: [13, 18], angrebsTid: 2.0, fart: 4.3, rækkevidde: 11, rustning: 0, skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Throwable'], angreb: 'Throw', projektil: 0xd8c8a0, orkhud: true, skala: 0.88 },
   m_fodsoldat: { navn: 'Footman', model: 'bandit_lejesoldat', anim: MENNESKE_ANIM, hp: 155, skade: [13, 18], angrebsTid: 1.6, fart: 4.1, rækkevidde: 2.1, rustning: 2, skjul: ['1H_Sword_Offhand', 'Rectangle_Shield', 'Spike_Shield', '2H_Sword'], angreb: '1H_Melee_Attack_Slice_Diagonal', skala: 0.95 },
   m_armbrøst: { navn: 'Marksman', model: 'bandit_skytte', anim: MENNESKE_ANIM, hp: 100, skade: [14, 19], angrebsTid: 2.1, fart: 4.3, rækkevidde: 12, rustning: 0, skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', 'Throwable'], angreb: '2H_Ranged_Shoot', projektil: 0xbfe0ff, skala: 0.92 },
+  m_tornvagt: { navn: 'Thornguard', model: 'dream_thornguard', anim: MENNESKE_ANIM, hp: 160, skade: [13, 18], angrebsTid: 1.6, fart: 4.1, rækkevidde: 2.1, rustning: 2, skjul: [], angreb: '1H_Melee_Attack_Chop' },
+  m_lygtemand: { navn: 'Lanternkin', model: 'dream_lanternkin', anim: MENNESKE_ANIM, hp: 100, skade: [13, 18], angrebsTid: 2.0, fart: 4.3, rækkevidde: 11, rustning: 0, skjul: [], angreb: 'Spellcast_Shoot', projektil: 0xfff0b0 },
   m_arbejder: { navn: 'Worker', model: 'arbejder', anim: MENNESKE_ANIM, hp: 110, skade: [4, 6], angrebsTid: 2.0, fart: 3.8, rækkevidde: 1.8, rustning: 0, skjul: ['Knife', 'Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Throwable'], angreb: '1H_Melee_Attack_Chop' },
 };
 

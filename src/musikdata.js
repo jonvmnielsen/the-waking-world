@@ -2,6 +2,7 @@
 // musik.js med syntetiske instrumenter. Toner er halvtonetrin over grundtonen (D). Mønstre er 16 trin pr. takt.
 // The Tide: krigstrommer, en dyb drone og et horn i mol-pentatonik — om natten en fløjte og et hjerteslag.
 // The Architects: strygere i akkorder, harpe-arpeggioer og et ædelt horn — om natten kun strygere og harpe.
+// The Dreaming: lydisk harpe og fløjte over en svævende flade.
 
 export const GRUNDTONE = 38;   // MIDI-tone for D2
 
@@ -24,6 +25,17 @@ export const TEMAER = {
     motiver: [[0, 2, 4, 5, 4], [4, 3, 2, 0], [0, 4, 7, 6, 4], [7, 6, 4, 5, 2], [2, 4, 5, 7, 4, 2]],
     melodi: 'horn', natMelodi: 'harpe',
     trommer: { stor: [], lille: [], ekstra: [0, 4, 8, 12, 14] },   // kun en march, når der kæmpes
+    natTrommer: { stor: [], lille: [], ekstra: [] },
+    flade: 'strygere', harpe: true,
+  },
+  // The Dreaming: lydisk og blødt — harpe, fløjte og en svævende flade; kun en sagte tromme, når der kæmpes
+  dreaming: {
+    tempo: 64,
+    akkorder: [[0, 4, 7, 11], [2, 6, 9, 14], [-1, 2, 6, 9], [4, 7, 11, 14]],
+    skala: [0, 2, 4, 6, 7, 9, 11, 12, 14],      // lydisk
+    motiver: [[4, 5, 7, 5, 4], [7, 6, 4, 2], [0, 2, 4, 6, 7], [8, 7, 5, 4, 2], [2, 4, 3, 1, 0]],
+    melodi: 'fløjte', natMelodi: 'harpe',
+    trommer: { stor: [0], lille: [], ekstra: [6, 14] },
     natTrommer: { stor: [], lille: [], ekstra: [] },
     flade: 'strygere', harpe: true,
   },

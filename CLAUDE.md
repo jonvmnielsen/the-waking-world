@@ -94,6 +94,7 @@ the-waking-world/
 │   ├── champion.js           # Champion-creeps: egenskaber, ring og skær, ekstra drop
 │   ├── karavane.js           # Karavanen: vogn, bærere og vagter; eskorte eller plyndring, priser
 │   ├── prospekt.js           # Arbejdere leder efter skjulte guldårer ved bjergene
+│   ├── vandring.js           # The Dreaming: træer og Ancients rykker op, går og slår rod
 │   ├── racebyg.js            # Racens måde at bygge på: Driftwood (Tide) og Many Hands (Architects)
 │   ├── byggeplads.js         # Mindre bygninger: tre pladser pr. felt, figurer går uden om
 │   ├── lyd.js / lydbank.js   # Lydeffekter (filer fra game-assets, syntetisk reserve) og stemning efter døgnet
@@ -103,7 +104,7 @@ the-waking-world/
 │   ├── unit.js               # Grundklasse: model, animation, bevægelse, liv
 │   ├── hero.js / abilities.js / orkhud.js   # Helten, essenser og evner, grøn ork-hud og holdfarve
 │   ├── heltedata.js / heltevner.js # Tre helte pr. race (model, egenskab, kampform, tre evner); signatur-evnerne
-│   ├── evnertide.js / evnerark.js  # Heltenes anden og tredje evne (The Tide / The Architects)
+│   ├── evnertide.js / evnerark.js / evnerdream.js # Heltenes evner (The Tide / The Architects: anden og tredje; The Dreaming: alle tre)
 │   ├── helteaura.js / heltudstyr.js # Runecirkel, kappe i holdfarve og vækst med level; synligt våben, skjold og hjelm
 │   ├── heltreplik.js / heltreplikdata.js # Heltenes egne stemmer (replikker) og hvornår de siges
 │   ├── bedrifter.js          # Heltens bedrifter og tilnavne ("the Giantslayer") med varige bonusser
@@ -215,10 +216,10 @@ I praksis åbnes separate CC-sessioner per agent. Arkitekt-agenten producerer pr
 | **The Architects** | Humans | Bygmestre af orden | Stærke strukturer, stive men ubrydelige |
 | **The Tide** | Orcs | Naturkraft med intelligens | Tilpasningsdygtige, vokser med kaos |
 | **The Memory** | *(neutral entitet)* | De dødes ånder i Erevoss | Ikke en race: samler ekkoer, forsvarer kun sig selv (M12) |
-| **The Dreaming** | Night Elves | Halvt i verden, halvt udenfor | Indirekte påvirkning, høj kompleksitet |
+| **The Dreaming** | Night Elves | Halvt i verden, halvt udenfor | Træer der går, høst uden fældning, Dreamtime (spilbar fra M15) |
 | **The Unmade** | *(ny)* | Spillerdefineret faction | Saml fragmenter fra faldne — udskydes |
 
-**Spilbare nu:** The Tide og The Architects (M12). Man vælger race og helt ved start; AI-modstanderen får en tilfældig race. **The Memory og The Unnamed er ikke racer, men neutrale entiteter på kortet** (Jon, M12). Orkerne er KayKit-figurer med grøn hud.
+**Spilbare nu:** The Tide, The Architects (M12) og The Dreaming (M15, egne figurer fra generatoren). Man vælger race og helt ved start; AI-modstanderen får en tilfældig race. **The Memory og The Unnamed er ikke racer, men neutrale entiteter på kortet** (Jon, M12). Orkerne er KayKit-figurer med grøn hud.
 
 ---
 
@@ -489,8 +490,15 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Racens måde at bygge på: The Tide *Driftwood* (én arbejder +25 %, flere hjælper halvt, bygninger heler sig selv); The Architects *Many Hands* (hver ekstra bonde bygger med 110 %, 25 % mere liv)
 - [x] AI-modstanderen har sin races nat; startskærmen viser racens byggemåde og nat
 
-### 📋 Næste: M14i+
-The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), rigtige CC0-musiknumre. Begivenheder (også en karavane på vej) gemmes ikke; karavanens virkning på priserne gør. Se `docs/GDD.md` afsnit 16–17.
+### ✅ M15 — "The Dreaming" (oktober 2026)
+- [x] Egne figurer fra generatoren på KayKits skelet (game-assets D-015): Sprigling, Thornguard, Lanternkin, Thornwarden, Moonblade, Dreamweaver — med alle KayKits animationer
+- [x] Egne bygninger i blå og rød: Tree of Dreams, Moonwell, Hollow, Thorn Spire, Ancient of War/Lore, Moonmarket, Moon Altar
+- [x] Tre helte med ni evner (tre ultimater) og ni Ascension-stier; stemmer, musik, advarsler og brugerflade
+- [x] Rooted: træer og Ancients går og slår rod; høst uden fældning; Dreamtime om natten
+- [x] AI-modstanderen kan være The Dreaming
+
+### 📋 Næste: M15+
+Hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt), The Unmade, rigtige CC0-musiknumre. Begivenheder (også en karavane på vej) gemmes ikke; karavanens virkning på priserne gør. Se `docs/GDD.md` afsnit 16–17.
 
 ---
 
@@ -551,6 +559,8 @@ The Dreaming som race, hvad Opvågningen betyder (Jon: ikke nødvendigvis ondt),
 | 2026-10-15 | Ånder bæres hjem og ofres ved alteret for velsignelser (auraer, træk, åndegaver, egenskaber); guld-ofringen er fjernet | Jon valgte B (ånder fra fjender, tabes ved død) og bad Claude vælge belønningen: en udvidelse af helten, ikke heltens evner |
 | 2026-10-15 | Ånderne er ekkoerne: de samme lys, der driver mod Erevoss, fanges af helten og ofres ved alteret | Jon: de spirits man samler op, skal være de samme som ellers ville gå mod Erevoss |
 | 2026-10-15 | Ascension pr. helt: samme tre slags stier (spillestilen afgør stadig hvilken der er gratis), men heltens egne navne og evner | Jon: alle skills skal være hero specific |
+| 2026-10-21 | The Dreaming får egne figurer fra vores generator, bundet til KayKits skelet, så alle KayKits animationer virker | Jon valgte "egne figurer" frem for farvede KayKit-figurer; game-assets D-015 |
+| 2026-10-21 | The Dreaming: træer og Ancients kan gå; træ høstes uden at fælde; Dreamtime-heling om natten | GDD 5.5 (Jon: "ja, som designet") |
 | 2026-10-21 | Racerne bygger forskelligt: Tide hurtigt alene og selvhelende, Architects mange hænder og stenbygninger | WC3-søjle 8: hver race sin egen måde at bygge på (GDD 17b) |
 | 2026-10-15 | Musik syntetiseres med WebAudio indtil der findes CC0-numre | Ingen musik i asset-biblioteket; virker uden downloads |
 | 2026-10-13 | Gem-version 7 | Modstanderen har race, arbejdere og helt; Erevoss flytter |
@@ -621,4 +631,4 @@ Hvis noget er flyttet til `_trash/` ved en fejl:
 
 ---
 
-*Sidst opdateret: 2026-10-15*
+*Sidst opdateret: 2026-10-21*

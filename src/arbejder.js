@@ -19,8 +19,9 @@ const BÆRE_MODEL = {
 
 export class Arbejder extends Unit {
   constructor(verden, base, x, z) {
-    super(verden, 'units/arbejder', { skala: 0.85, skjul: SKJUL, våben: { r: 'kaykit-adventurers/axe_1handed' }, radius: 0.55 });
-    if (SPILLER.orkhud) gørOrkGrøn(this.model); else holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], 0.25);
+    const egen = SPILLER.arbejderModel;   // The Dreaming: en Sprigling med egen stav (racer.js)
+    super(verden, egen ?? 'units/arbejder', { skala: 0.85, skjul: egen ? [] : SKJUL, våben: egen ? {} : { r: 'kaykit-adventurers/axe_1handed' }, radius: 0.55 });
+    if (SPILLER.orkhud) gørOrkGrøn(this.model); else holdSkær(this.model, HOLD_FARVE[SPILLER_FARVE], egen ? 0.12 : 0.25);
     sætHold(this, 'spiller');
     this.base = base;
     this.maxHp = 220; this.hp = 220; this.fart = 4.4;

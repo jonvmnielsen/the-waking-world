@@ -25,6 +25,13 @@ export const TÅRN_TRIN = [
     tekst: 'Upgrade to a Cannon Tower: heavy shots that also hit every enemy close to the target. Needs a Fortress.',
   },
 ];
+// The Dreaming: spiret vokser i stedet for at blive skiftet ud (egne modeller, racer.js), og træets trin har egne navne
+if (SPILLER.modeller?.tårn?.includes('/')) {
+  Object.assign(HAL[0], { navn: 'Tree of Dreams' }); Object.assign(HAL[1], { navn: 'Elder Tree' }); Object.assign(HAL[2], { navn: 'World Tree' });
+  const m = `${SPILLER.modeller.tårn}_${SPILLER_FARVE}`;
+  Object.assign(TÅRN_TRIN[0], { navn: 'Elder Spire', model: m, skala: 1.15, tekst: 'The spire grows into an Elder Spire: more damage, range and health. Needs an Elder Tree.' });
+  Object.assign(TÅRN_TRIN[1], { navn: 'Moonfire Spire', model: m, skala: 1.3, tekst: 'The spire burns with moonfire: heavy shots that also hit every enemy close to the target. Needs the third tier.' });
+}
 export const VAGTTÅRN = TÅRN_TRIN[0];
 
 // Forskning: hvor den foregår, hvad hvert level koster, og hvad det giver
@@ -81,7 +88,7 @@ export const UDVIKLINGER = {
 export const UDVIKLINGS_IKONER = [
   { id: 'udv-våben', sti: 'kaykit-adventurers/axe_2handed', vinkel: [0.2, -0.6, -0.6] },
   { id: 'udv-mur', sti: G + `building_tower_base_${SPILLER_FARVE}` },
-  { id: 'udv-hal', sti: G + `building_castle_${SPILLER_FARVE}` },
+  { id: 'udv-hal', sti: SPILLER.modeller?.storlejr?.includes('/') ? `${SPILLER.modeller.storlejr}_${SPILLER_FARVE}` : G + `building_castle_${SPILLER_FARVE}` },
   { id: 'udv-vagttårn', sti: TÅRN_TRIN[0].model },
   { id: 'udv-kanontårn', sti: TÅRN_TRIN[1].model },
 ];

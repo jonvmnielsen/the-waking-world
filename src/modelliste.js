@@ -10,7 +10,7 @@ import { SPILLER, FJENDE, SPILLER_FARVE } from './racer.js';
 import { helteFor } from './heltedata.js';
 
 export const MODELLER = [...new Set([
-  ...helteFor(SPILLER.id).map((h) => h.model), ...helteFor(FJENDE.id).map((h) => h.model), 'units/arbejder', ...Object.values(SOLDATER).map((s) => s.model), SPYD_MODEL,
+  ...helteFor(SPILLER.id).map((h) => h.model), ...helteFor(FJENDE.id).map((h) => h.model), 'units/arbejder', SPILLER.arbejderModel, FJENDE.arbejderModel, ...Object.values(SOLDATER).map((s) => s.model), SPYD_MODEL,
   'kaykit-adventurers/shield_round_barbarian', 'kaykit-adventurers/axe_2handed', 'kaykit-adventurers/shield_badge', 'kaykit-adventurers/crossbow_2handed',
   ...Object.values(CREEP_TYPER).map((t) => `units/${t.model}`),
   ...Object.values(CREEP_TYPER).flatMap((t) => Object.values(t.våben ?? {}).map((v) => `kaykit-skeletons/${v}`)),
@@ -25,7 +25,7 @@ export const MODELLER = [...new Set([
   'dyr/doe', 'dyr/stag', 'dyr/fox', 'dyr/crow', 'dyr/finch', 'dyr/gull', 'units/pilgrim', 'kaykit-halloween/pillar',
   // Begivenheder (M11)
   'forge-lowpoly/crystal_star_a', 'forge-lowpoly/crystal_star_b', 'forge-lowpoly/crystal_star_c', 'forge-lowpoly/campfire', 'forge-lowpoly/fountain_great', 'kaykit-halloween/shrine', 'forge-lowpoly/wagon_covered', 'kaykit-hexagon/buildings/yellow/building_castle_yellow',
-])];
+].filter(Boolean))];
 
 export const EKSTRA_IKONER = [
   { id: 'res-guld', sti: 'kaykit-dungeon/coin_stack_small_gltf' },
@@ -37,6 +37,9 @@ export const EKSTRA_IKONER = [
   { id: 'enhed-spydkaster', sti: SPYD_MODEL, vinkel: [0.5, 0, 0.8] },
   { id: 'enhed-fodsoldat', sti: 'kaykit-adventurers/shield_badge' },
   { id: 'enhed-armbrøst', sti: 'kaykit-adventurers/crossbow_2handed', vinkel: [0.3, -0.6, 0] },
+  ...(SPILLER.arbejderModel ? [{ id: 'enhed-arbejder', sti: SPILLER.arbejderModel, vinkel: [0.1, 0.3, 0] }] : []),
+  { id: 'enhed-tornvagt', sti: 'units/dream_thornguard', vinkel: [0.1, 0.3, 0] },
+  { id: 'enhed-lygtemand', sti: 'units/dream_lanternkin', vinkel: [0.1, 0.3, 0] },
   { id: 'hær', sti: 'kaykit-adventurers/axe_2handed', vinkel: [0.2, -0.6, -0.6] },
   ...Object.entries(BYGNINGER).map(([type, b]) => ({ id: 'byg-' + type, sti: b.model })),
   ...UDVIKLINGS_IKONER,

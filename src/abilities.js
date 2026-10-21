@@ -73,8 +73,8 @@ export class Evner {
     this.opdaterHelteEvner?.(dt);
   }
 
-  angrebsBonus() { return (this.tWarCry > 0 ? 0.3 : 0) + (this.tRovdyr > 0 ? 0.6 : 0) + (this.tSkydning > 0 ? 0.8 : 0) + (this.helt.sti?.angrebsBonus() ?? 0) + (this.helt.velsignelser?.angrebsBonus() ?? 0); }
-  rustningsBonus() { return this.tIronSkin > 0 ? Math.round(this.helt.rustning() * 5) / 10 : 0; }
+  angrebsBonus() { return (this.tWarCry > 0 ? 0.3 : 0) + (this.tRovdyr > 0 ? 0.6 : 0) + (this.tSkydning > 0 ? 0.8 : 0) + (this.dreamAngreb?.() ?? 0) + (this.helt.sti?.angrebsBonus() ?? 0) + (this.helt.velsignelser?.angrebsBonus() ?? 0); }
+  rustningsBonus() { return (this.tIronSkin > 0 ? Math.round(this.helt.rustning() * 5) / 10 : 0) + (this.dreamRustning?.() ?? 0); }
   erUdødelig() { return this.tUdødelig > 0; }
 
   slagMultiplikator(skade, mål) {

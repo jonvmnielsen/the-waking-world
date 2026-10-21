@@ -48,7 +48,7 @@ const NØGLE = 'tww-kort', VALG = 'tww-verden';
 // Verdensvalget (M10): kort, biom, årstid, størrelse og om verden skal være ny hver gang.
 // 'tilfældig' trækkes, når siden indlæses (så baggrunden bag menuen allerede viser det trukne).
 export const VALG_STD = { kort: 'askeø', biom: 'tilfældig', årstid: 'tilfældig', størrelse: 'normal', nyVerden: true, race: 'tide' };
-const RACER_IDER = ['tide', 'arkitekter'];   // racer.js
+const RACER_IDER = ['tide', 'arkitekter', 'dreaming'];   // racer.js
 
 function læsValg() {
   let v = { ...VALG_STD };

@@ -136,16 +136,14 @@ async function start() {
   lavUdvikling(spil);
   spil.invHud = invHud;
   spil.veteraner = new Veteraner(spil, stil);
-  const kmdHud = new KommandoHud(spil);
-  spil.kommandoHud = kmdHud;
+  const kmdHud = spil.kommandoHud = new KommandoHud(spil);
   const helteKort = new HelteKort(spil);
   const fremskridt = lavFremskridtsHud(spil, overlay);
   rig.onBoks = lavBoksValg(spil, (x, y, z) => overlay.skærm(x, y, z));
   spil.modstander = new Modstander(spil, fjende, sværhed);   // AI-modstanderen (en tilfældig race)
   spil.memory = new Memory(spil, spil.modstander.hal, steder.find((s) => s.type === 'kro') ?? { x: 0, z: 0 });   // The Memory: neutral
   const sejr = new Sejr(spil);
-  spil.ur = { tid: 0 };
-  verden.ur = spil.ur;   // bygninger og racebyg.js ser tiden
+  spil.ur = verden.ur = { tid: 0 };   // bygninger og racebyg.js ser også tiden
   spil.dagNat = new DagNat(spil, lys);
   spil.verdenstilstand = new Verdenstilstand(spil, steder.find((s) => s.type === 'kro') ?? { x: 0, z: 0 });
   const verdensliv = lavVerdensliv(spil, steder, minder);

@@ -1,5 +1,6 @@
 // Ressourcebjælke, "ledige arbejdere"-knap, kommandopanel for arbejdere og bygninger,
 // og bjælken der vises mens en bygning placeres.
+import { kanVandre } from './vandring.js';
 import { BYGNINGER, BYGGEMENU, ENHEDER } from './bygningsdata.js';
 import { GRENE } from './soldatdata.js';
 import { kanKæmpe, gruppeStatus } from './haer.js';
@@ -90,6 +91,8 @@ export class KommandoHud {
       if (v.data.butik) this.knap(knapper, ikon('livseliksir'), 'Shop', '', () => this.spil.handlVed(v));
       if (v.data.alter && v.færdig) this.spil.alter.knapper(this, knapper, v);
       udviklingsKnapper(this, v, knapper);
+      // The Dreaming: træet kan rykke op og gå (vandring.js)
+      if (kanVandre(v)) this.knap(knapper, ikon('byg-' + v.type), v.oprykket ? 'Take root' : 'Uproot', '', () => { const f = v.oprykket ? v.slåRod() : v.rykOp(); if (f) bus.emit('besked', f); this.byg(); }, 'vandre');
     }
     this.opdater(1);
   }
@@ -166,6 +169,8 @@ export class KommandoHud {
         s = `Under construction ${Math.floor(v.fremskridt * 100)}%${bygges ? '' : ' · Select a worker and tap the site to keep building'}`;
       } else if (v.skadet) {
         s = `Health ${Math.ceil(v.hp)}/${v.maxHp} · Select a worker and tap the building to repair it`;
+      } else if (v.oprykket) {
+        s = v.vej?.length ? 'Walking… tap the ground to send it elsewhere, or Take root' : 'Uprooted — tap the ground to send it walking, then Take root';
       } else if (v.data.alter) {
         s = this.spil.alter.panelStatus();
       } else if (udviklingsStatus(v) && !v.kø.length) {

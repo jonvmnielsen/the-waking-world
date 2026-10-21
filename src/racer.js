@@ -25,6 +25,28 @@ export const RACER = {
     byg: { navn: 'Many Hands', tekst: 'Every extra peasant on a site builds at full speed and a little more. Your buildings are stone: 25% more health.', ekstra: 1.1, hp: 1.25 },
     nat: { navn: 'Lamplight', tekst: 'your towers are lit — +25% damage and +4 range.', tårnSkade: 0.25, tårnRække: 4 },
   },
+  // The Dreaming (M15, Jon: egne figurer fra vores generator, game-assets D-015): skovens drømmefolk.
+  // Bygningerne er levende træer og sten (forge-lowpoly/dreamb_*), og de gamle træer kan gå (racebyg.js).
+  dreaming: {
+    id: 'dreaming', navn: 'The Dreaming', kort: 'Folk of the dreaming wood — trees that walk and lanterns that think.',
+    farve: 'purple', orkhud: false, kriger: 'tornvagt', skytte: 'lygtemand',
+    arbejder: 'Sprigling', arbejderModel: 'units/dream_sprigling', arbejderVåben: null,
+    bygninger: { storlejr: 'Tree of Dreams', borg: 'Tree of Waking', hytte: 'Moonwell', savværk: 'Hollow of Gathering', tårn: 'Thorn Spire', marked: 'Moonmarket', alter: 'Moon Altar', smedje: 'Ancient of Lore', krigerlejr: 'Ancient of War' },
+    korte: { hytte: 'Moonwell', savværk: 'Hollow', tårn: 'Spire', marked: 'Market', alter: 'Altar', smedje: 'Lore', krigerlejr: 'War' },
+    modeller: { storlejr: 'forge-lowpoly/dreamb_dream_hall', borg: 'forge-lowpoly/dreamb_dream_hall', hytte: 'forge-lowpoly/dreamb_moonwell', savværk: 'forge-lowpoly/dreamb_hollow', tårn: 'forge-lowpoly/dreamb_thorn_spire', marked: 'forge-lowpoly/dreamb_moonmarket', alter: 'forge-lowpoly/dreamb_moon_altar', smedje: 'forge-lowpoly/dreamb_ancient_lore', krigerlejr: 'forge-lowpoly/dreamb_ancient_war' },
+    skalaer: { storlejr: 1.05, borg: 0.95, hytte: 1.1, savværk: 0.95, tårn: 1.0, marked: 0.9, alter: 1.1, smedje: 0.9, krigerlejr: 0.9 },
+    tekster: {
+      storlejr: 'Your great tree. Sings Spriglings awake and receives all resources.',
+      hytte: '+10 supply. Moonlit water feeds the Dreaming.',
+      krigerlejr: 'An Ancient that wakes Thornguards and Lanternkin. Veteran Thornguards are specialised here. Can uproot and walk.',
+      smedje: 'An Ancient that remembers better thorns, lanterns and bark. Can uproot and walk.',
+      alter: 'Your hero can only be revived here. Spirits your hero carries home are offered here for blessings.',
+    },
+    grene: { ironhide: 'Barkhide', ravager: 'Thornrage', berserker: 'Wildgrowth' },
+    forskning: { våben: 'Sharpened Thorns', spyd: 'Brighter Lanterns', rustning: 'Ironbark' },
+    byg: { navn: 'Rooted', tekst: 'Your trees and Ancients can uproot and walk to a new place. Spriglings sing wood out of the trees without felling them.', vandrer: ['storlejr', 'borg', 'krigerlejr', 'smedje'], sang: true },
+    nat: { navn: 'Dreamtime', tekst: 'your hero and soldiers see as far as by day and heal 1% a second.', syn: true, regen: 0.01 },
+  },
 };
 export const RACE_IDER = Object.keys(RACER);
 

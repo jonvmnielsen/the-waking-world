@@ -52,5 +52,26 @@ export const STI_EVNER = {
   ricochet: { navn: 'Ricochet', mana: 80, cd: 10, ikon: '↩️', motor: 'kæde', skade: 140, hop: 5, farve: 0xd8f0ff, tekst: 'A bolt that bounces: 140 damage to the nearest enemy and four more.' },
   gale: { navn: 'Gale', mana: 110, cd: 18, ikon: '🌬️', motor: 'linje', skade: 150, længde: 16, bredde: 3, skub: 4, farve: 0xd8f0ff, tekst: 'A howling wind toward the nearest enemy: 150 damage and everything in its path is thrown back.' },
   tumbleShot: { navn: 'Tumble Shot', mana: 0, cd: 10, ikon: '🏹', motor: 'spring', bagud: true, hpPris: 0.06, mult: 3, farve: 0xbfe0ff, tekst: 'Costs 6% health. Roll away from the nearest enemy and shoot it for 3× damage.' },
+  // --- The Dreaming: Thornwarden ---
+  callOfTheGrove: { navn: 'Call of the Grove', mana: 80, cd: 35, ikon: '🌳', motor: 'hær', heal: 0.25, rally: 8, farve: 0x8fd06a, tekst: 'You and soldiers near you heal 25%; soldiers attack 35% faster for 8 seconds.' },
+  barkwall: { navn: 'Barkwall', mana: 110, cd: 50, ikon: '🪵', motor: 'hær', linje: 10, farve: 0x9a7a4a, tekst: 'Bark grows over you and your soldiers: 40% less damage for 10 seconds.' },
+  rootquake: { navn: 'Rootquake', mana: 90, cd: 14, ikon: '🌱', motor: 'linje', skade: 170, længde: 13, bredde: 2.8, lam: 1.4, farve: 0x7ab04a, tekst: 'Roots tear up the ground toward the nearest enemy: 170 damage and 1.4 seconds held fast along the way.' },
+  bramblestorm: { navn: 'Bramblestorm', mana: 150, cd: 45, ikon: '🌿', motor: 'zone', dps: 48, radius: 7, tid: 5, lam: 0.3, farve: 0x7ab04a, tekst: 'Brambles whip around you for 5 seconds: 48 damage a second, and enemies keep stumbling.' },
+  trample: { navn: 'Trample', mana: 0, cd: 12, ikon: '🦌', motor: 'spring', hpPris: 0.1, mult: 2.2, radius: 4, lam: 1, farve: 0x9a7a4a, tekst: 'Costs 10% health. Charge onto an enemy like a great stag: 2.2× damage and a short stun where you land.' },
+  sapfire: { navn: 'Sapfire', mana: 0, cd: 40, ikon: '🔥', motor: 'raseri', hpPris: 0.2, tid: 10, fart: 0.6, stjæl: 0.3, taget: 1.2, tekst: 'Costs 20% health. For 10 seconds: +60% attack speed and +30% life steal, but you take 20% more damage.' },
+  // --- Moonblade ---
+  moonsong: { navn: 'Moonsong', mana: 75, cd: 35, ikon: '🌙', motor: 'hær', heal: 0.2, rally: 10, farve: 0xd8b8ff, tekst: 'You and soldiers near you heal 20%; soldiers attack 35% faster for 10 seconds.' },
+  veilOfNight: { navn: 'Veil of Night', mana: 110, cd: 50, ikon: '🌫️', motor: 'hær', linje: 8, farve: 0x6a52a0, tekst: 'Night hides you and your soldiers: 40% less damage for 8 seconds.' },
+  moonbeam: { navn: 'Moonbeam', mana: 80, cd: 10, ikon: '✨', motor: 'kæde', skade: 140, hop: 5, farve: 0xd8b8ff, tekst: 'A beam of moonlight: 140 damage to the nearest enemy, leaping to four more.' },
+  starfall: { navn: 'Starfall', mana: 150, cd: 40, ikon: '🌠', motor: 'zone', påMål: true, dps: 58, radius: 6, tid: 4, farve: 0xd8e4ff, tekst: 'Stars fall on the nearest enemy for 4 seconds: 58 damage a second to everything around it.' },
+  shadowstep: { navn: 'Shadowstep', mana: 0, cd: 10, ikon: '🗡️', motor: 'spring', hpPris: 0.08, mult: 2.6, radius: 3, farve: 0x6a52a0, tekst: 'Costs 8% health. Leap through the shadows onto an enemy for 2.6× damage.' },
+  bloodmoon: { navn: 'Blood Moon', mana: 0, cd: 40, ikon: '🔴', motor: 'raseri', hpPris: 0.15, tid: 10, fart: 0.8, stjæl: 0.25, taget: 1.2, tekst: 'Costs 15% health. For 10 seconds: +80% attack speed and +25% life steal, but you take 20% more damage.' },
+  // --- Dreamweaver ---
+  lullaby: { navn: 'Lullaby of Rest', mana: 110, cd: 30, ikon: '🎵', motor: 'zone', dps: 12, heling: 0.045, radius: 9, tid: 8, farve: 0xd8b8ff, tekst: 'A lullaby for 8 seconds: you and your soldiers heal 4.5% a second, enemies take 12 damage a second.' },
+  dreamWard: { navn: 'Dream Ward', mana: 100, cd: 45, ikon: '🛡️', motor: 'hær', heal: 0.1, linje: 8, farve: 0xb8a8ff, tekst: 'A ward of dreams: you and soldiers near you heal 10% and take 40% less damage for 8 seconds.' },
+  mindspark: { navn: 'Mindspark', mana: 80, cd: 10, ikon: '💫', motor: 'kæde', skade: 145, hop: 5, farve: 0xf0d8ff, tekst: 'A spark of thought: 145 damage to the nearest enemy, leaping to four more.' },
+  dreamNova: { navn: 'Dream Nova', mana: 110, cd: 18, ikon: '🌀', motor: 'nova', skade: 200, radius: 6.5, lam: 1.5, helSelv: 0.1, farve: 0xb8a8ff, tekst: 'The dream bursts out of you: 200 damage and 1.5 seconds asleep for every enemy within 6.5, and you heal 10%.' },
+  nightTerror: { navn: 'Night Terror', mana: 60, cd: 12, ikon: '😱', motor: 'spring', hpPris: 0.1, skade: 210, radius: 4.5, lam: 0.8, farve: 0x6a4aa0, tekst: 'Costs 10% health. Step out of a bad dream beside an enemy: 210 damage and a short stun around you.' },
+  badDream: { navn: 'Bad Dream', mana: 0, cd: 40, ikon: '🩸', motor: 'raseri', hpPris: 0.2, tid: 10, fart: 0.6, stjæl: 0.3, taget: 1.2, tekst: 'Costs 20% health. For 10 seconds: +60% attack speed and +30% life steal, but you take 20% more damage.' },
   bloodsight: { navn: 'Bloodsight', mana: 0, cd: 40, ikon: '👁️', motor: 'raseri', hpPris: 0.15, tid: 10, fart: 0.8, stjæl: 0.2, taget: 1.2, tekst: 'Costs 15% health. For 10 seconds: +80% attack speed and +20% life steal, but you take 20% more damage.' },
 };

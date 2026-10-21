@@ -74,7 +74,7 @@ export class Base {
   afleveringssted(type, x, z) {
     let bedst = null, bd = Infinity;
     for (const b of this.bygninger) {
-      if (!b.færdig || !b.data.aflevering?.includes(type)) continue;
+      if (!b.færdig || b.oprykket || !b.data.aflevering?.includes(type)) continue;   // et træ der går, tager ikke imod
       const d = Math.hypot(b.x - x, b.z - z);
       if (d < bd) { bd = d; bedst = b; }
     }

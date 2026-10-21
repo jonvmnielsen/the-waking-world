@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { bus } from './events.js';
 import { kopi } from './assets.js';
 import { FORSKNING, HAL, TÅRN_TRIN, UDVIKLINGER } from './udviklingdata.js';
-import { SPILLER_FARVE } from './racer.js';
+import { SPILLER, SPILLER_FARVE } from './racer.js';
 
 const PROPS = 'kaykit-hexagon/decoration/props/';
 const G = `kaykit-hexagon/buildings/${SPILLER_FARVE}/`;
@@ -75,7 +75,7 @@ export class Udvikling {
     } else if (id === 'vagttårn') {
       const t = TÅRN_TRIN[b.opg ?? 0];
       b.opg = (b.opg ?? 0) + 1;
-      b.data = { ...b.data, navn: t.navn, model: t.model, angreb: t.angreb };
+      b.data = { ...b.data, navn: t.navn, model: t.model, angreb: t.angreb, skala: t.skala ?? b.data.skala };
       b.ekstraHp += t.hp; b.grundRustning += t.rustning;
       b.visModel(b.data.model, b.data.skala);
     } else {
@@ -101,7 +101,7 @@ export class Udvikling {
 
   // Storlejrens tier vises med flag (Citadel) og små tårne (Fortress)
   pynt(b) {
-    if (b.type !== 'storlejr' || this.hal < 2 || !b.rod) return;
+    if (b.type !== 'storlejr' || this.hal < 2 || !b.rod || SPILLER.modeller?.storlejr) return;   // The Dreamings træ får ingen flag
     b.rod.getObjectByName('tier-pynt')?.removeFromParent();
     const g = new THREE.Group();
     g.name = 'tier-pynt';

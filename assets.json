@@ -554,6 +554,128 @@
     "kaykit-adventurers/sword_2handed",
     "kaykit-adventurers/shield_square",
     "kaykit-adventurers/shield_round_color",
-    "kaykit-adventurers/shield_spikes"
+    "kaykit-adventurers/shield_spikes",
+    {
+      "id": "forge-lowpoly/dream_sprigling",
+      "as": "units/dream_sprigling",
+      "animations": [
+        "Idle",
+        "Walking_A",
+        "Running_A",
+        "1H_Melee_Attack_Chop",
+        "Interact",
+        "PickUp",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Spellcast_Raise"
+      ]
+    },
+    {
+      "id": "forge-lowpoly/dream_thornguard",
+      "as": "units/dream_thornguard",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "1H_Melee_Attack_Chop",
+        "1H_Melee_Attack_Slice_Diagonal",
+        "Block"
+      ]
+    },
+    {
+      "id": "forge-lowpoly/dream_lanternkin",
+      "as": "units/dream_lanternkin",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Spellcast_Shoot",
+        "Spellcast_Raise"
+      ]
+    },
+    {
+      "id": "forge-lowpoly/dream_thornwarden",
+      "as": "units/dream_thornwarden",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "Dualwield_Melee_Attack_Slice",
+        "Dualwield_Melee_Attack_Chop"
+      ]
+    },
+    {
+      "id": "forge-lowpoly/dream_moonblade",
+      "as": "units/dream_moonblade",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "Dualwield_Melee_Attack_Slice",
+        "Dualwield_Melee_Attack_Chop"
+      ]
+    },
+    {
+      "id": "forge-lowpoly/dream_dreamweaver",
+      "as": "units/dream_dreamweaver",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "Dualwield_Melee_Attack_Slice",
+        "Dualwield_Melee_Attack_Chop"
+      ]
+    },
+    "forge-lowpoly/dreamb_dream_hall_blue",
+    "forge-lowpoly/dreamb_dream_hall_red",
+    "forge-lowpoly/dreamb_moonwell_blue",
+    "forge-lowpoly/dreamb_moonwell_red",
+    "forge-lowpoly/dreamb_hollow_blue",
+    "forge-lowpoly/dreamb_hollow_red",
+    "forge-lowpoly/dreamb_thorn_spire_blue",
+    "forge-lowpoly/dreamb_thorn_spire_red",
+    "forge-lowpoly/dreamb_ancient_war_blue",
+    "forge-lowpoly/dreamb_ancient_war_red",
+    "forge-lowpoly/dreamb_ancient_lore_blue",
+    "forge-lowpoly/dreamb_ancient_lore_red",
+    "forge-lowpoly/dreamb_moonmarket_blue",
+    "forge-lowpoly/dreamb_moonmarket_red",
+    "forge-lowpoly/dreamb_moon_altar_blue",
+    "forge-lowpoly/dreamb_moon_altar_red"
   ]
 }

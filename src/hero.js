@@ -165,6 +165,8 @@ export class Helt extends Unit {
 
   tagSkade(mængde, kilde) {
     if (this.evner.erUdødelig()) mængde = 0;
+    if (mængde > 0 && this.evner.undvig?.()) { bus.emit('flydetekst', { enhed: this, tekst: 'Dodged', klasse: 'immun' }); return false; }   // Moonlit Dance
+    if (mængde > 0) this.evner.torne?.(mængde, kilde);   // Thornmail
     this.sidstIKamp = this.tid;
     if (kilde && kilde !== this) this.angribere.set(kilde, this.tid);
     if (mængde > 0) mængde = this.inventar.vedSkade(mængde, kilde) * this.sti.skadeTagetFaktor() * (this.evner.tMur > 0 ? 0.6 : 1);   // Shield Wall

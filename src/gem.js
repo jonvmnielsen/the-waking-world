@@ -45,8 +45,8 @@ function lavGem(spil) {
       essens: helt.evner.essens, type: helt.type, x: r1(helt.x), z: r1(helt.z), hp: Math.ceil(helt.død ? helt.maxHp : helt.hp), mana: Math.floor(helt.mana),
       level: helt.level, xp: helt.xp, spawn: helt.spawn, pladser: inv.pladser, rygsæk: inv.rygsæk, permanent: inv.permanent, sti: helt.sti.id, bedrifter: spil.bedrifter?.gem(), rang: helt.evner.gemRang(), velsignelser: helt.velsignelser.gem(),
     },
-    bygninger: base.bygninger.map((b) => ({
-      type: b.type, felter: b.felter.map((f) => nøgle(f.q, f.r)), plads: b.plads, x: r1(b.x), z: r1(b.z), rot: b.rot,
+    bygninger: base.bygninger.map((b, _, __, r = b.oprykket ? b.rodSted : b) => ({   // et træ der går, gemmes hvor det sidst stod
+      type: b.type, felter: r.felter.map((f) => nøgle(f.q, f.r)), plads: r.plads, x: r1(r.x), z: r1(r.z), rot: b.rot,
       fremskridt: b.fremskridt, færdig: b.færdig, kø: b.kø, samling: b.samling ?? null, hp: Math.ceil(b.hp), opg: b.opg ?? 0, udv: b.udv ?? null,
     })),
     arbejdere: base.arbejdere.filter((a) => !a.død).map((a) => ({

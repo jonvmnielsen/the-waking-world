@@ -51,10 +51,22 @@ export const HELTE = {
     model: 'units/hero_ark_ranger', skjul: SKYTTE, kamp: SKUD(0xbfe0ff), signatur: 'piercingBolt', evner: ['piercingBolt', 'rapidFire', 'rainOfBolts'], hp: -10, fart: 0.3,
     tekst: 'A heavy crossbow and a cold eye. Her bolts go through one enemy and into the next.',
   },
-  // --- The Dreaming (designet, ikke spilbar endnu) ---
-  thornwarden: { race: 'dreaming', navn: 'Thornwarden', titel: 'Dream-Keeper', rolle: 'Melee · Strength', primær: 'str', signatur: 'entanglingRoots', spilbar: false, tekst: 'Half tree, half dream. Roots hold the enemy while the forest closes in.' },
-  moonblade: { race: 'dreaming', navn: 'Moonblade', titel: 'Night Dancer', rolle: 'Melee · Agility', primær: 'agi', signatur: 'blinkStrike', spilbar: false, tekst: 'Steps out of the moonlight behind her target — and back again.' },
-  dreamweaver: { race: 'dreaming', navn: 'Dreamweaver', titel: 'Sleep-Singer', rolle: 'Ranged · Intelligence', primær: 'int', signatur: 'sleep', spilbar: false, tekst: 'Sings enemies to sleep and walks through their dreams.' },
+  // --- The Dreaming (M15: vores egne figurer, game-assets D-015) ---
+  thornwarden: {
+    race: 'dreaming', navn: 'Thornwarden', titel: 'Dream-Keeper', rolle: 'Melee · Strength', primær: 'str', start: STR,
+    model: 'units/dream_thornwarden', skjul: [], egetUdstyr: true, kamp: NÆR_2H, signatur: 'entanglingRoots', evner: ['entanglingRoots', 'thornmail', 'wrathOfTheWood'], hp: 20,
+    tekst: 'Half tree, half dream. Roots hold the enemy while the forest closes in.',
+  },
+  moonblade: {
+    race: 'dreaming', navn: 'Moonblade', titel: 'Night Dancer', rolle: 'Melee · Agility', primær: 'agi', start: AGI,
+    model: 'units/dream_moonblade', skjul: [], egetUdstyr: true, kamp: NÆR_DUAL, signatur: 'blinkStrike', evner: ['blinkStrike', 'moonlitDance', 'eclipse'], fart: 0.3,
+    tekst: 'Steps out of the moonlight behind her target — and back again.',
+  },
+  dreamweaver: {
+    race: 'dreaming', navn: 'Dreamweaver', titel: 'Sleep-Singer', rolle: 'Ranged · Intelligence', primær: 'int', start: INT,
+    model: 'units/dream_dreamweaver', skjul: [], egetUdstyr: true, kamp: MAGI(0xd8b8ff), signatur: 'sleep', evner: ['sleep', 'dreamsong', 'nightmare'], hp: -25,
+    tekst: 'Sings enemies to sleep and walks through their dreams.',
+  },
   // --- The Unmade (designet, ikke spilbar endnu) ---
   patchwork: { race: 'unmade', navn: 'Patchwork Champion', titel: 'The Stitched', rolle: 'Melee · Strength', primær: 'str', signatur: 'graft', spilbar: false, tekst: 'Sewn from the fallen. Takes a piece of every enemy it kills.' },
   fragmentSeer: { race: 'unmade', navn: 'Fragment Seer', titel: 'Echo-Eater', rolle: 'Ranged · Intelligence', primær: 'int', signatur: 'echoShards', spilbar: false, tekst: 'Throws caught echoes as shards of memory.' },

@@ -35,6 +35,13 @@ body.race-arkitekter {
   --messing: #d8b85e; --messing-lys: #f6e3a2; --messing-rgb: 214 182 96;
   --dæmpet: #aab1c4;
 }
+body.race-dreaming {
+  /* The Dreaming: mørk violet bark, mos og måneskinssølv */
+  --træ: radial-gradient(circle at 20% 0%, rgba(150, 130, 220, 0.08), transparent 60%), linear-gradient(rgba(30, 24, 40, 0.9), rgba(20, 26, 28, 0.9));
+  --træ-lys: radial-gradient(circle at 20% 0%, rgba(160, 140, 230, 0.1), transparent 60%), linear-gradient(rgba(46, 38, 62, 0.93), rgba(30, 40, 40, 0.93));
+  --messing: #c4c0e8; --messing-lys: #ece8ff; --messing-rgb: 190 186 230;
+  --dæmpet: #b0a8c8;
+}
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; overflow: hidden; background: #1b1712; color: var(--tekst); font-family: var(--ui); user-select: none; -webkit-user-select: none; touch-action: none; }

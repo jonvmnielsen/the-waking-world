@@ -35,6 +35,21 @@ Object.assign(SOLDATER, {
   },
 });
 
+// The Dreaming (racer.js): Thornguard med tornklinge og barkskjold, Lanternkin med en lygte som hoved.
+// Vores egne figurer (game-assets D-015); holdfarven er kun et svagt skær, så træ og lys står frem.
+Object.assign(SOLDATER, {
+  tornvagt: {
+    navn: 'Thornguard', model: 'units/dream_thornguard', skala: 0.95, skjul: [], radius: 0.7, menneske: true, hold: true, holdStyrke: 0.15,
+    hp: 260, skade: [15, 21], rustning: 3, fart: 4.2, rækkevidde: 2.1, angrebsTid: 1.6,
+    angreb: ['1H_Melee_Attack_Chop', '1H_Melee_Attack_Slice_Diagonal'], slag: 0.45, idle: 'Idle', løb: 'Running_A',
+  },
+  lygtemand: {
+    navn: 'Lanternkin', model: 'units/dream_lanternkin', skala: 0.92, skjul: [], radius: 0.6, menneske: true, hold: true, holdStyrke: 0.12,
+    hp: 150, skade: [15, 21], rustning: 0, fart: 4.5, rækkevidde: 11, angrebsTid: 2.0,
+    angreb: ['Spellcast_Shoot'], slag: 0.45, idle: 'Idle', løb: 'Running_A', projektil: 'lys', projektilFarve: 0xfff0b0,
+  },
+});
+
 // Lejesoldater fra kroen (neutrale mennesker, ingen grøn ork-hud)
 const BANDIT = (t) => ({ model: `units/${CREEP_TYPER[t].model}`, skjul: CREEP_TYPER[t].skjul ?? [], angreb: [CREEP_TYPER[t].angreb], idle: 'Idle', løb: 'Running_A', menneske: true });
 Object.assign(SOLDATER, {

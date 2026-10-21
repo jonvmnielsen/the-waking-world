@@ -157,6 +157,8 @@ export function lavTryk({ spil, lærred, overlay, effekter, genstande, steder })
     if (valg.erArbejder) return arbejderTryk(valg.valgt, px, py);
     if (valg.erBygning) {
       const b = valg.valgt, p = jordpunkt(px, py);
+      // The Dreaming: et træ der har rykket rødderne op, går derhen (vandring.js)
+      if (b.oprykket && p) { b.vandreTil(p.x, p.z); return effekter.markør(p.x, p.z); }
       // Krigerlejren: tryk på jorden sætter samlingspunktet for nye soldater
       if (b.færdig && b.data.træner?.some((t) => t !== 'arbejder') && p && verden.kort.erGåbar(p.x, p.z)) {
         b.samling = { x: p.x, z: p.z };

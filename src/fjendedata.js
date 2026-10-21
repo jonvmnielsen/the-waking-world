@@ -2,6 +2,7 @@
 // samler guld med sine arbejdere og angriber i bølger. Bygningerne er racens egne i modstanderens holdfarve.
 import { bygningerFor } from './bygningsdata.js';
 import { FJENDE, FJENDE_FARVE } from './racer.js';
+import { CREEP_TYPER } from './creepdata.js';
 
 const R = bygningerFor(FJENDE, FJENDE_FARVE);
 const byg = (rolle, ekstra) => ({ navn: R[rolle].navn, model: R[rolle].model, skala: R[rolle].skala, ...ekstra });
@@ -24,6 +25,8 @@ export const FJENDE_ENHEDER = {
   [`m_${FJENDE.skytte}`]: { pris: 90, tid: 15, vægt: 2 },
 };
 export const FJENDE_ARBEJDER = 'm_arbejder';
+// Modstanderens arbejder er racens egen (The Dreaming: en Sprigling uden økse)
+if (FJENDE.arbejderModel) Object.assign(CREEP_TYPER.m_arbejder, { navn: FJENDE.arbejder, model: FJENDE.arbejderModel.replace('units/', ''), skjul: [] });
 export const ARBEJDERE = 5;   // indtægten følger hvor mange arbejdere der lever
 
 // Sværhedsgrader: indtægt pr. sekund (med alle arbejdere), første angreb (min), tid mellem angreb (min), start-level,

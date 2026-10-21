@@ -161,8 +161,7 @@ export class Inventar {
       if (!p) continue;
       for (const [k, v] of Object.entries(itemInfo(p).bonus)) b[k] = (b[k] ?? 0) + v;
     }
-    b.hp += this.permanent.hp;
-    b.skade += this.permanent.skade;
+    b.hp += this.permanent.hp; b.skade += this.permanent.skade;
     for (const [k, v] of Object.entries(this.helt.velsignelser?.bonus() ?? {})) b[k] = (b[k] ?? 0) + v;   // alterets velsignelser
     this.bonus = b;
     bus.emit('inventar_ændret', {});

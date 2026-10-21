@@ -2,6 +2,7 @@
 // med samme slags ressource inden for 2 hex af den forrige kilde. Er der ikke mere i området,
 // stopper arbejderen og bliver ledig. En kilde der ikke kan nås, opgives i stedet for at prøve igen og igen.
 // Blandes ind i Arbejder-klassen.
+import { SPILLER } from './racer.js';
 import { bus } from './events.js';
 import { RES_NAVN, BÆR, HØST_TID } from './okonomi.js';
 import { HEX_BREDDE } from './hexgrid.js';
@@ -121,7 +122,7 @@ export const høstMetoder = {
     this.vend(k.x, k.z);
     this.timer = HØST_TID[k.type];
     if (k.type === 'guld') { this.tilstand = 'iMine'; this.rod.visible = false; }
-    else { this.tilstand = 'høster'; this.spil('1H_Melee_Attack_Chop', { fart: k.type === 'sten' ? 0.8 : 1 }); }
+    else { this.tilstand = 'høster'; this.spil(k.type === 'træ' && SPILLER.byg?.sang ? 'Spellcast_Raise' : '1H_Melee_Attack_Chop', { fart: k.type === 'sten' ? 0.8 : 1 }); }   // The Dreaming synger til træet
   },
 
   færdigHøst() {

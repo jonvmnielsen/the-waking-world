@@ -45,6 +45,7 @@ export class HeltUdstyr {
   }
 
   opdater() {
+    if (this.helt.def?.egetUdstyr) return;   // The Dreamings figurer har deres våben bygget ind (game-assets D-015)
     const inv = this.helt.inventar;
     this.vis('våben', inv.pladser[0], this.knogler.r);
     this.vis('skjold', inv.pladser[1], this.knogler.l);

@@ -4,6 +4,7 @@
 // - Spear Thrower · Pinning Spear: et ekstra spyd, der nagler målet fast i 1,5 sek.
 // - Footman · Defend: løfter skjoldet, når han er såret, og tager halv skade i 5 sek.
 // - Marksman · Aimed Shot: næste skud gør 2,2 × skade.
+// - Thornguard · Thornlash: torne pisker alle fjender tæt på (70 % skade). Lanternkin · Mending Wisp: heler den mest sårede.
 // Grenenes evner (veteraner) kommer oven i (soldatevner.js).
 import { bus } from './events.js';
 
@@ -12,6 +13,8 @@ export const GRUNDEVNER = {
   spydkaster: { navn: 'Pinning Spear', cd: 12, farve: 0xd8c8a0, tekst: 'Every 12 s: an extra spear that pins the target in place for 1.5 s.' },
   fodsoldat: { navn: 'Defend', cd: 14, farve: 0x7ab4ff, tekst: 'When wounded: raises the shield and takes half damage for 5 s.' },
   armbrøst: { navn: 'Aimed Shot', cd: 10, farve: 0xffe08a, tekst: 'Every 10 s: a careful shot for 2.2× damage.' },
+  tornvagt: { navn: 'Thornlash', cd: 10, farve: 0x9a7a4a, tekst: 'Every 10 s: thorns lash every enemy within 3.5 for 70% damage.' },
+  lygtemand: { navn: 'Mending Wisp', cd: 12, farve: 0xfff0b0, tekst: 'Every 12 s: heals the most wounded ally within 9 for 18% of its health.' },
 };
 
 export const grundMetoder = {
@@ -33,6 +36,17 @@ export const grundMetoder = {
       bus.emit('projektil', { fra: this, mål: m, skade: Math.round(this.slagSkade() * 0.8), model: 'spyd' });
       m.lam?.(1.5);
       bus.emit('flydetekst', { enhed: m, tekst: 'Pinned!', klasse: 'immun' });
+    } else if (this.type === 'tornvagt') {
+      const ofre = this.verden.creeps.filter((c) => !c.død && !c.erBygning && !c.neutral && this.afstand(c) - (c.radius ?? 0) < 3.5);
+      if (!this.iKamp || !ofre.length) return;
+      for (const c of ofre) c.tagSkade(Math.round(this.slagSkade() * 0.7), this);
+      bus.emit('effekt', { type: 'evne', x: this.x, z: this.z, radius: 3.5, farve: d.farve });
+    } else if (this.type === 'lygtemand') {
+      const venner = [this.verden.helt, ...this.base.soldater].filter((u) => u && !u.død && u.hp < u.maxHp * 0.85 && this.afstand(u) < 9);
+      const s = venner.sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp)[0];
+      if (!s) return;
+      s.hp = Math.min(s.maxHp, s.hp + s.maxHp * 0.18);
+      bus.emit('effekt', { type: 'heal', mål: s, mængde: Math.round(s.maxHp * 0.18) });
     } else if (this.type === 'fodsoldat') {
       if (!this.iKamp || this.hp > this.maxHp * 0.65) return;
       g.forsvar = 5;

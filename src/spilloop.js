@@ -3,7 +3,7 @@ import { adskil } from './unit.js';
 import { ARBEJDER_SYN } from './arbejder.js';
 import { SOLDAT_SYN } from './soldat.js';
 import { Røntgen } from './rontgen.js';
-import { natSyn } from './natpraeg.js';
+import { natSyn, natPleje } from './natpraeg.js';
 
 export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, sætEgne }) {
   const { helt, base, taage, verden, lejre, stil, valg, rig, modstander } = spil;
@@ -39,6 +39,7 @@ export function lavTrin(spil, { stedLiv, effekter, minimap, verdensObj, sejr, s�
     spil.ånder.opdater(dt);
     spil.alter.opdater(dt);
     spil.træVækst.opdater(dt);
+    natPleje(spil, dt);   // Dreamtime
     helt.velsignelser.opdater(dt, spil);
     adskil([helt, ...verden.creeps.filter((c) => !c.død && !c.erBygning && c.rod.visible), ...base.arbejdere.filter((a) => a.rod.visible && !a.død), ...base.soldater.filter((s) => !s.død)], verden.kort);
     stil.opdater(dt, base.soldater);

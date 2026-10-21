@@ -63,6 +63,31 @@ export const STEMMER = {
       irriteret: ["You're blocking my shot.", 'I could hit you from here, you know.', 'One more poke and I miss on purpose.'],
     },
   },
+  dreaming: {
+    arbejder: {
+      valgt: ['Yes, yes?', 'Leaf and root!', 'Sing to what?', 'Here, here.'],
+      gå: ['Rustle, rustle.', 'Off I grow.', 'Going green.'],
+      høst: ['Sing, little tree.', 'Thank you, stone.', 'Shiny! The gold sings too.'],
+      byg: ['Grow, grow!', 'Roots down!'],
+      færdig: ['It grew!', 'Done, and it is blooming.', 'Ready, roots and all.'],
+      klar: ['Sprouted and ready!', 'Hello, sunlight!'],
+      irriteret: ['I am not a dandelion!', 'You will knock my leaves off.', 'Poking makes me grow crooked.', 'I will tell the Ancients.', 'Stop, stop, I am ticklish!'],
+    },
+    tornvagt: {
+      valgt: ['Thorns ready.', 'Bark and blade.', 'Speak, Dreamer.'],
+      gå: ['Rooting out.', 'Moving through the wood.', 'Yes.'],
+      angrib: ['Thorns!', 'Feel the bramble!', 'For the deep wood!'],
+      klar: ['The thorns are awake.'],
+      irriteret: ['Careful. I am all thorns.', 'You will prick your finger.', 'I do not bend.', 'Splinters, all over you.'],
+    },
+    lygtemand: {
+      valgt: ['The light is lit.', 'I see by my own glow.', 'Flicker?'],
+      gå: ['Lighting the way.', 'Drifting.', 'Glowing on.'],
+      angrib: ['Burn bright!', 'A wisp for you!', 'Into the light!'],
+      klar: ['My lantern is lit.'],
+      irriteret: ['You will put my light out.', 'Do not shake the lantern!', 'Flicker, flicker… stop that.', 'Moths poke less than you.'],
+    },
+  },
   lejesvende: { slagsbror: LEJESVEND, skytte: LEJESVEND, lejesoldat: LEJESVEND },
 };
 
@@ -70,6 +95,7 @@ export const STEMMER = {
 export const ADVARSEL = {
   tide: { bygning: (navn) => `The ${navn} is under attack! Defend it!`, enheder: 'Our warriors are under attack!', helt: 'The chief is in danger!' },
   arkitekter: { bygning: (navn) => `Our ${navn} is under attack!`, enheder: 'Our forces are under attack!', helt: 'Our champion is in danger!' },
+  dreaming: { bygning: (navn) => `The ${navn} is crying out!`, enheder: 'Our folk are hurt!', helt: 'The Dreamer is in danger!' },
 };
 
 // Dyrene (søjle 4: selv dyrene har en vits) — hvad de "siger", når man prikker til dem

@@ -20,6 +20,9 @@ export const ULT_TAL = {
   consecration: { mana: 150, cd: 75, tekst: 'ULTIMATE. Hallowed ground for 6 seconds: enemies on it take 64 damage a second, your units heal 40 a second.' },
   oldLight: { mana: 170, cd: 80, tekst: 'ULTIMATE. A pillar of ancient light falls where the enemy stands: 385 damage to all nearby.' },
   rainOfBolts: { mana: 160, cd: 75, tekst: 'ULTIMATE. Three volleys rain on the enemy: 112 damage each to all within 6.' },
+  wrathOfTheWood: { mana: 150, cd: 75, tekst: 'ULTIMATE. The forest wakes around you: 256 damage and 2.5 seconds held fast for every enemy within 8.' },
+  eclipse: { mana: 140, cd: 70, tekst: 'ULTIMATE. Vanish into the dark and strike up to five enemies within 8, each for 4× damage.' },
+  nightmare: { mana: 160, cd: 80, tekst: 'ULTIMATE. A nightmare falls on the enemy: for 6 seconds every enemy within 7 of it takes 72 damage a second and is stunned at the start.' },
 };
 for (const [id, t] of Object.entries(ULT_TAL)) if (EVNER[id]) Object.assign(EVNER[id], t, { ultimatum: true });
 

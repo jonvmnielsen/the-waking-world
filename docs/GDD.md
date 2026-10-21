@@ -255,7 +255,10 @@ Priser og tider står i `src/udviklingdata.js`.
 Hver race får sin egen økonomiske særhed, når de bygges:
 
 - **The Architects** (spilbar fra M12): mennesker i blåt. *Town Hall*, *Farm* (vindmølle), *Lumber Yard* (vandmølle), *Scout Tower*, *Market Square*, *Chapel of Kings*, *Blacksmith*, *Barracks* og *Keep*. Soldater: *Footman* (sværd og skjold) og *Marksman* (armbrøst); arbejderen er en *Peasant*. Veteran-grenene hedder *Bulwark*, *Lancer* og *Zealot*. Senere: mure og opgraderinger på stedet.
-- **The Dreaming:** Bygninger kan gå og flytte sig, og de høster uden at fælde skoven. (Designet)
+- **The Dreaming** (spilbar fra M15): skovens drømmefolk, alle figurer og bygninger fra vores egen generator (game-assets D-015). *Tree of Dreams* (hal, trin *Elder Tree* og *World Tree*), *Tree of Waking* (ekstra hal), *Moonwell* (forsyning), *Hollow of Gathering* (aflevering), *Thorn Spire* (tårn → *Elder Spire* → *Moonfire Spire*), *Moonmarket*, *Moon Altar*, *Ancient of Lore* (forskning) og *Ancient of War* (kaserne). Arbejderen er en *Sprigling* med en syngende stav; soldaterne er *Thornguard* (nærkamp, autocast *Thornlash*: torne pisker alle fjender tæt på) og *Lanternkin* (lygtehoved, kaster lys, autocast *Mending Wisp*: heler den mest sårede). Grenene hedder *Barkhide*, *Thornrage* og *Wildgrowth*.
+  - **Rooted (byggemåde):** træet, den ekstra hal og de to Ancients kan *Uproot* — gå et nyt sted hen (tryk på jorden) og *Take root* på nærmeste ledige plads. Mens de går, virker de ikke (ingen aflevering, træning eller forskning). Spriglings synger træ ud af træerne uden at fælde dem (træerne tømmes ikke).
+  - **Dreamtime (nat):** helten og soldaterne ser lige så langt som om dagen og heler 1 % i sekundet.
+  - Musik: lydisk harpe og fløjte over en svævende flade; brugerfladen i mørk violet og måneskinssølv.
 - **The Unmade:** samler stumper fra de faldne. (Designet)
 
 Man vælger selv sin race på startskærmen. Modstanderen er en tilfældig race og bygger i sin egen farve — eller rødt, hvis den er samme race som spilleren. **The Memory og The Unnamed er ikke racer**, men entiteter på kortet (afsnit 12).
@@ -318,6 +321,9 @@ Stiens to evner ligger i en ekstra række over de tre essens-evner. Tabellen vis
 | **Knight Commander** | Lord Marshal: Banner of Kings, Shield of the Realm | Paladin (helligt lys, heler): Judgement, Sanctuary | Crusader: Charge (lammer), Zeal |
 | **Lorewarden** | High Archivist: Word of Courage, Ward of Ages | Sunscribe (solild): Sunfire, Solar Flare (på målet) | Burning Scholar: Blink of Fire, Ink of Blood |
 | **Ranger Captain** | Captain of the Watch: Volley Command, Drill Formation | Windrunner (vindstød): Ricochet, Gale (skubber) | Deadeye: Tumble Shot (rul væk og skyd 3×), Bloodsight |
+| **Thornwarden** | Grove Warden: Call of the Grove, Barkwall | Wildheart (rødder om målet): Rootquake, Bramblestorm | Thornrage: Trample, Sapfire |
+| **Moonblade** | Night Captain: Moonsong, Veil of Night | Moonfall (måneskin): Moonbeam, Starfall | Shadowstalker: Shadowstep, Blood Moon |
+| **Dreamweaver** | Dreamshepherd: Lullaby of Rest, Dream Ward | Dreamstorm (drømmegnister): Mindspark, Dream Nova | Nightmare Weaver: Night Terror, Bad Dream |
 
 ### 6.3 Heltene — tre pr. race
 
@@ -342,10 +348,13 @@ Man vælger sin race og én af racens tre helte ved start (sammen med essensen).
 | Knight Commander | Shield Bash | Shield Wall — 40 % mindre skade i 8 s, også soldaterne | Consecration — helliget jord i 6 s: skader fjender, heler egne |
 | Lorewarden | Mending Light | Binding Word — 80 skade og 2,5 s lammelse | Old Light — lyssøjle, 240 skade i et område |
 | Ranger Captain | Piercing Bolt | Rapid Fire — 80 % hurtigere skud i 6 s | Rain of Bolts — tre salver, 70 skade hver i et område |
+| Thornwarden | Entangling Roots — 60 skade, alle inden for 3 holdes fast 2 s | Thornmail — 8 s: +5 rustning, halvdelen af nærkampsskaden tilbage | Wrath of the Wood — 160 skade og 2,5 s fastholdt inden for 8 |
+| Moonblade | Blink Strike — træder ind bag et mål og slår 2× | Moonlit Dance — 6 s: +50 % angrebsfart, 35 % undvigelse | Eclipse — forsvinder og rammer op til fem fjender 2,5× |
+| Dreamweaver | Sleep — målet og alle inden for 4 sover 3,5 s | Dreamsong — 5 s: 30 liv/s til helten og soldaterne | Nightmare — 6 s: 45 skade/s inden for 7 af målet, lammelse ved start |
 
 | Race | Helt | Rolle | Signatur |
 |---|---|---|---|
-| **The Dreaming** *(designet)* | **Thornwarden** | Nærkamp · Strength | *Entangling Roots* — rødder holder fjenderne fast |
+| **The Dreaming** (M15) | **Thornwarden** | Nærkamp · Strength | *Entangling Roots* — rødder holder fjenderne fast |
 | | **Moonblade** | Nærkamp · Agility | *Blink Strike* — træder ud af måneskinnet bag målet |
 | | **Dreamweaver** | Afstand · Intelligence | *Sleep* — synger fjender i søvn |
 | **The Unmade** *(designet)* | **Patchwork Champion** | Nærkamp · Strength | *Graft* — tager en stump af hver fjende den dræber |
@@ -653,7 +662,7 @@ Hver milepæl ender med en spilbar version på GitHub Pages.
 | **M11 ✅** | **Huler, begivenheder og championer** | Huler med rum, lejre, boss og kister; syv tilfældige begivenheder med synlige tegn; champion-creeps med fire egenskaber. Desuden: kaktusser fra vores generator, lavasøer inde i landet, minernes stadier kun som synlige tegn |
 | **M12 ✅** | **Racer, modstander og helte** | Ro på skærmen (én begivenhed ad gangen, færre tekster); karavanen; mindre bygninger med tre pladser pr. felt; racevalg og The Architects spilbar; AI-modstander med tilfældig race, arbejdere og helt; The Memory og The Unnamed neutrale; tre helte pr. race; prospektering |
 | **M13 ✅** | **Helten i centrum** | Figurerne følger terrænet (ingen arbejdere under sneen); ordentlig stifinding på et fint gitter rundt om bygninger, træer og sten; holdfarver (blå spiller, rød modstander, rav vildmark, sølv The Memory, violet The Unnamed, lyse neutrale); alle evner er heltens egne; udstyrspladser og rullet udstyr med affikser og mange nye stats; helte med egen stemme, synligt udstyr, runecirkel, kappe i holdfarve, vækst med level, bedrifter og tilnavne |
-| M14+ | The Dreaming, hvad Opvågningen betyder, kampagne | |
+| M15+ | Hvad Opvågningen betyder, The Unmade, kampagne | |
 
 ---
 
@@ -715,7 +724,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 | 5. Portrætter | ✅ Levende 3D-portræt af helten i helteknappen: trækker vejret, nikker når den taler, kryber sammen når den rammes, jubler ved level-op, gråt når den er faldet; bærer sin hjelm (M14a) | Portræt af den valgte enhed |
 | 6. Læsbarhed | ✅ Alle figurer er overdrevent store (×1,6, helte endnu større), holdfarver, runecirkel, synligt udstyr (M14b) | Tydeligere slag og effekter ("juice") |
 | 7. Dag og nat | Ja, creeps sover, kortere udsyn | Racer der mærker natten forskelligt |
-| 8. Racer | ✅ To racer med egne modeller, farver, stemmer, advarsler, **musik** (M14a–c), brugerflade-tone og nat (M14g) og byggemåde (M14h) | En tredje race (The Dreaming) |
+| 8. Racer | ✅ Tre racer med egne modeller, farver, stemmer, advarsler, **musik**, brugerflade-tone, nat og byggemåde; The Dreaming med egne figurer (M15) | The Unmade |
 | 9. Fortælling og editor | Krønike, lore, Navnesten, verden der vågner | Kampagne med mellemsekvenser; kort-editor i spillet (visionen) |
 
 ### Plan
@@ -723,6 +732,7 @@ Det var det sidste store RTS, der lagde **en person** midt i en hær. Den kombin
 - **M14a ✅:** enhedernes stemmer (alle racer og typer, egne ord), irriterede svar ved mange tryk, dyr der sprænges, levende helteportræt, racens egen advarsel ved angreb.
 - **M14b ✅:** store, overdrevne figurer; forsyning efter styrke (100 i alt, upkeep 40/80); ultimatet ved level 6 som et øjeblik; soldaterevner med autocast; The Old Wellspring midt på kortet.
 - **M14c ✅ (del 1):** musik pr. race og døgn. Næste: racernes egen brugerflade-tone; natten pr. race.
+- **M15 ✅:** The Dreaming spilbar — egne figurer og bygninger fra generatoren på KayKits skelet (game-assets D-015), tre helte med egne evner og Ascension, træer der går, høst uden fældning, Dreamtime, stemmer, musik og brugerflade; AI-modstanderen kan også være The Dreaming.
 - **M14h ✅:** racens måde at bygge på — The Tide *Driftwood*: én arbejder bygger 25 % hurtigere, flere hjælper kun halvt, og bygningerne heler 1 %/s, når de ikke er angrebet i 8 s; The Architects *Many Hands*: hver ekstra bonde bygger fuldt med +10 %, og bygningerne har 25 % mere liv. AI-modstanderen har sin races nat. Startskærmen viser racens byggemåde og nat.
 - **M14g ✅:** racens brugerflade-tone (Tide: drivtømmer og ben; Architects: blå sten og guld) og racens nat (Tide *Children of the Storm*: fuldt udsyn og +10 % fart om natten; Architects *Lamplight*: tårnene +25 % skade og +4 rækkevidde); ånderne er ekkoerne; træer gror igen (stub 7–10 min, så en spire, der vokser på 1,5 min; ikke hvor der er bygget eller nogen står); modstanderens helt gemmes.
 - **M14f ✅:** kampfølelse — den, der rammes, blinker (hvid fjende, rød egen); blod, knoglestøv eller støv sprøjter væk fra slaget; heltens store slag giver et kort stop i animationen og et ryk i kameraet; store tal popper med "!"; støvsky når nogen falder, og bosser og helte ryster kameraet (`kampfoelelse.js`).

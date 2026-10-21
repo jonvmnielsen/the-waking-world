@@ -1,5 +1,6 @@
 // Spillerens økonomi (GDD 5.1): guld, træ, sten og forsyning, og kortets ressourcekilder.
 // Guld kommer fra guldminer, træ fra hvert eneste træ og sten fra hver eneste sten på kortet.
+import { SPILLER } from './racer.js';
 import { bus } from './events.js';
 
 export const START = { guld: 300, træ: 150, sten: 80 };
@@ -90,6 +91,7 @@ export class Kilder {
   // Tag en tur fra kilden. Returnerer hvor meget der blev taget.
   høst(k, type, ønsket) {
     const m = Math.min(ønsket, k.kilde[type] ?? 0);
+    if (type === 'træ' && SPILLER.byg?.sang) return m;   // The Dreaming synger træet ud af træet uden at fælde det
     k.kilde[type] -= m;
     if (m > 0 && k.kilde[type] <= 0) bus.emit('kilde_tom', { type, kilde: k.kilde });
     return m;

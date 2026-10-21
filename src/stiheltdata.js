@@ -43,4 +43,23 @@ export const HELT_STIER = {
       proc: KÆDE('Riding the Wind', 0xd8f0ff, 'a gust of bolts'), evner: ['ricochet', 'gale'] },
     bloodbound: { navn: 'Deadeye', titel: 'Deadeye', ikon: '👁️', motto: 'One shot. Make it bleed.', tekst: 'You fight close, roll away and never miss. The closer to death, the deadlier you are.', evner: ['tumbleShot', 'bloodsight'] },
   },
+  // --- The Dreaming (M15) ---
+  thornwarden: {
+    warlord: { navn: 'Grove Warden', passivNavn: "Warden's Presence", titel: 'Grove Warden', ikon: '🌳', farve: 0x8fd06a, motto: 'The grove stands where I stand.', tekst: 'A keeper of the wood. Your warriors grow strong in your shade.', evner: ['callOfTheGrove', 'barkwall'] },
+    avatar: { navn: 'Wildheart', titel: 'Wildheart', ikon: '🌿', farve: 0x7ab04a, motto: 'The roots answer.', tekst: 'The forest fights with you. Roots break the ground under every blow.',
+      proc: { navn: 'Rooted Blows', form: 'skælv', farve: 0x7ab04a, tekst: 'Each blow has a 25% chance to burst roots around the target: damage and a short stumble. +50% mana regeneration.' }, evner: ['rootquake', 'bramblestorm'] },
+    bloodbound: { navn: 'Thornrage', titel: 'Thornrage', ikon: '🦌', motto: 'Even an oak can charge.', tekst: 'The tree remembers it was once a stag. The closer to death, the deadlier you are.', evner: ['trample', 'sapfire'] },
+  },
+  moonblade: {
+    warlord: { navn: 'Night Captain', passivNavn: "Captain of the Night", titel: 'Night Captain', ikon: '🌙', farve: 0xd8b8ff, motto: 'In the dark we are many.', tekst: 'You lead the night-hunt. Your soldiers fight harder at your side.', evner: ['moonsong', 'veilOfNight'] },
+    avatar: { navn: 'Moonfall', titel: 'Moonfall', ikon: '🌠', farve: 0xd8e4ff, motto: 'The moon falls with my blades.', tekst: 'Moonlight follows your blades and leaps from foe to foe.',
+      proc: KÆDE('Moonlit Blades', 0xd8b8ff, 'moonlight'), evner: ['moonbeam', 'starfall'] },
+    bloodbound: { navn: 'Shadowstalker', titel: 'Shadowstalker', ikon: '🗡️', motto: 'Blood looks black by moonlight.', tekst: 'You hunt from the shadows. The closer to death, the deadlier you are.', evner: ['shadowstep', 'bloodmoon'] },
+  },
+  dreamweaver: {
+    warlord: { navn: 'Dreamshepherd', passivNavn: "Shepherd's Presence", titel: 'Dreamshepherd', ikon: '🎵', farve: 0xd8b8ff, motto: 'Sleep, and be whole.', tekst: 'You keep the army in a good dream. Healing songs and wards.', evner: ['lullaby', 'dreamWard'] },
+    avatar: { navn: 'Dreamstorm', titel: 'Dreamstorm', ikon: '🌀', farve: 0xb8a8ff, motto: 'Every thought a storm.', tekst: 'The dream breaks loose. Sparks of thought leap from foe to foe.',
+      proc: KÆDE('Dreaming Sparks', 0xf0d8ff, 'sparks of dream'), evner: ['mindspark', 'dreamNova'] },
+    bloodbound: { navn: 'Nightmare Weaver', titel: 'Nightmare Weaver', ikon: '😱', motto: 'Every dream turns.', tekst: 'You weave nightmares and walk in them. The closer to death, the deadlier you are.', evner: ['nightTerror', 'badDream'] },
+  },
 };
