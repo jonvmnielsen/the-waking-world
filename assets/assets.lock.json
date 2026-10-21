@@ -1,7 +1,7 @@
 {
   "library": "jonvmnielsen/game-assets",
-  "libraryCommit": "da5468f",
-  "synced": "2026-10-15T08:29:37.813Z",
+  "libraryCommit": "dbe7f9e",
+  "synced": "2026-10-21T15:32:29.274Z",
   "assets": {
     "units/hero_tide": {
       "id": "kaykit-adventurers/characters/barbarian",
@@ -3096,6 +3096,264 @@
       "file": "kaykit-adventurers/shield_spikes.glb",
       "bytes": 16460,
       "sha": "c4d4fd2dcbea",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "units/dream_sprigling": {
+      "id": "forge-lowpoly/dream_sprigling",
+      "file": "units/dream_sprigling.glb",
+      "bytes": 368172,
+      "sha": "63395dd6091e",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "Walking_A",
+        "Running_A",
+        "1H_Melee_Attack_Chop",
+        "Interact",
+        "PickUp",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Spellcast_Raise"
+      ]
+    },
+    "units/dream_thornguard": {
+      "id": "forge-lowpoly/dream_thornguard",
+      "file": "units/dream_thornguard.glb",
+      "bytes": 311256,
+      "sha": "c70d460525e9",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "1H_Melee_Attack_Chop",
+        "1H_Melee_Attack_Slice_Diagonal",
+        "Block"
+      ]
+    },
+    "units/dream_lanternkin": {
+      "id": "forge-lowpoly/dream_lanternkin",
+      "file": "units/dream_lanternkin.glb",
+      "bytes": 280848,
+      "sha": "aa7c18836e3c",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "Running_A",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Spellcast_Shoot",
+        "Spellcast_Raise"
+      ]
+    },
+    "units/dream_thornwarden": {
+      "id": "forge-lowpoly/dream_thornwarden",
+      "file": "units/dream_thornwarden.glb",
+      "bytes": 561288,
+      "sha": "15f9ec08300c",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "Dualwield_Melee_Attack_Slice",
+        "Dualwield_Melee_Attack_Chop"
+      ]
+    },
+    "units/dream_moonblade": {
+      "id": "forge-lowpoly/dream_moonblade",
+      "file": "units/dream_moonblade.glb",
+      "bytes": 544164,
+      "sha": "104cba3958d1",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "Dualwield_Melee_Attack_Slice",
+        "Dualwield_Melee_Attack_Chop"
+      ]
+    },
+    "units/dream_dreamweaver": {
+      "id": "forge-lowpoly/dream_dreamweaver",
+      "file": "units/dream_dreamweaver.glb",
+      "bytes": 553200,
+      "sha": "964b9bff28dc",
+      "license": "CC0-1.0",
+      "kind": "model",
+      "animations": [
+        "Idle",
+        "2H_Melee_Idle",
+        "Running_A",
+        "2H_Melee_Attack_Chop",
+        "2H_Melee_Attack_Slice",
+        "2H_Melee_Attack_Spin",
+        "Cheer",
+        "Death_A",
+        "Hit_A",
+        "Spellcast_Raise",
+        "Spellcast_Shoot",
+        "Jump_Full_Long",
+        "Block",
+        "Dualwield_Melee_Attack_Slice",
+        "Dualwield_Melee_Attack_Chop"
+      ]
+    },
+    "forge-lowpoly/dreamb_dream_hall_blue": {
+      "id": "forge-lowpoly/dreamb_dream_hall_blue",
+      "file": "forge-lowpoly/dreamb_dream_hall_blue.glb",
+      "bytes": 51552,
+      "sha": "7ad7189cec5c",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_dream_hall_red": {
+      "id": "forge-lowpoly/dreamb_dream_hall_red",
+      "file": "forge-lowpoly/dreamb_dream_hall_red.glb",
+      "bytes": 51536,
+      "sha": "658836b387f8",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_moonwell_blue": {
+      "id": "forge-lowpoly/dreamb_moonwell_blue",
+      "file": "forge-lowpoly/dreamb_moonwell_blue.glb",
+      "bytes": 38836,
+      "sha": "b18f66c61551",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_moonwell_red": {
+      "id": "forge-lowpoly/dreamb_moonwell_red",
+      "file": "forge-lowpoly/dreamb_moonwell_red.glb",
+      "bytes": 38832,
+      "sha": "49e694a199ef",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_hollow_blue": {
+      "id": "forge-lowpoly/dreamb_hollow_blue",
+      "file": "forge-lowpoly/dreamb_hollow_blue.glb",
+      "bytes": 36940,
+      "sha": "94590df0816b",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_hollow_red": {
+      "id": "forge-lowpoly/dreamb_hollow_red",
+      "file": "forge-lowpoly/dreamb_hollow_red.glb",
+      "bytes": 36936,
+      "sha": "c539cdd32c1b",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_thorn_spire_blue": {
+      "id": "forge-lowpoly/dreamb_thorn_spire_blue",
+      "file": "forge-lowpoly/dreamb_thorn_spire_blue.glb",
+      "bytes": 19364,
+      "sha": "a2cc6e486e8f",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_thorn_spire_red": {
+      "id": "forge-lowpoly/dreamb_thorn_spire_red",
+      "file": "forge-lowpoly/dreamb_thorn_spire_red.glb",
+      "bytes": 19364,
+      "sha": "24475f6064c0",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_ancient_war_blue": {
+      "id": "forge-lowpoly/dreamb_ancient_war_blue",
+      "file": "forge-lowpoly/dreamb_ancient_war_blue.glb",
+      "bytes": 56228,
+      "sha": "6b8a18c8e352",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_ancient_war_red": {
+      "id": "forge-lowpoly/dreamb_ancient_war_red",
+      "file": "forge-lowpoly/dreamb_ancient_war_red.glb",
+      "bytes": 56216,
+      "sha": "1d0e74d28d35",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_ancient_lore_blue": {
+      "id": "forge-lowpoly/dreamb_ancient_lore_blue",
+      "file": "forge-lowpoly/dreamb_ancient_lore_blue.glb",
+      "bytes": 57592,
+      "sha": "6d2dbc1b9a7f",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_ancient_lore_red": {
+      "id": "forge-lowpoly/dreamb_ancient_lore_red",
+      "file": "forge-lowpoly/dreamb_ancient_lore_red.glb",
+      "bytes": 57588,
+      "sha": "3be84e3567a0",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_moonmarket_blue": {
+      "id": "forge-lowpoly/dreamb_moonmarket_blue",
+      "file": "forge-lowpoly/dreamb_moonmarket_blue.glb",
+      "bytes": 15456,
+      "sha": "9e63f9cfd6b8",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_moonmarket_red": {
+      "id": "forge-lowpoly/dreamb_moonmarket_red",
+      "file": "forge-lowpoly/dreamb_moonmarket_red.glb",
+      "bytes": 15448,
+      "sha": "dc3d4a1ed15c",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_moon_altar_blue": {
+      "id": "forge-lowpoly/dreamb_moon_altar_blue",
+      "file": "forge-lowpoly/dreamb_moon_altar_blue.glb",
+      "bytes": 29244,
+      "sha": "4c0166dbfbe8",
+      "license": "CC0-1.0",
+      "kind": "model"
+    },
+    "forge-lowpoly/dreamb_moon_altar_red": {
+      "id": "forge-lowpoly/dreamb_moon_altar_red",
+      "file": "forge-lowpoly/dreamb_moon_altar_red.glb",
+      "bytes": 29252,
+      "sha": "9cbf1382809a",
       "license": "CC0-1.0",
       "kind": "model"
     }
