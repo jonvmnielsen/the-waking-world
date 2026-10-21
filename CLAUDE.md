@@ -486,7 +486,7 @@ Helt, creeps, kamp, abilities, leveling og en Ollama-AI blev bygget i Godot. Ark
 - [x] Natten pr. race: The Tide ser fuldt og løber 10 % hurtigere; The Architects' tårne +25 % skade og +4 rækkevidde
 
 ### ✅ M14h — "Racernes særpræg" (oktober 2026)
-- [x] Racens måde at bygge på: The Tide *Driftwood* (én arbejder +25 %, flere hjælper halvt, bygninger heler sig selv); The Architects *Many Hands* (hver ekstra bonde +110 %, 25 % mere liv)
+- [x] Racens måde at bygge på: The Tide *Driftwood* (én arbejder +25 %, flere hjælper halvt, bygninger heler sig selv); The Architects *Many Hands* (hver ekstra bonde bygger med 110 %, 25 % mere liv)
 - [x] AI-modstanderen har sin races nat; startskærmen viser racens byggemåde og nat
 
 ### 📋 Næste: M14i+
